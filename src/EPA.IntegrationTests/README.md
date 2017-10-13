@@ -1,1 +1,1 @@
-# TODO
+# This directory holds common classes for  Integration tests classes.
