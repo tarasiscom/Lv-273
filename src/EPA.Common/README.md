@@ -1,0 +1,1 @@
+# This directory holds common classes for sharing information between META-INF and WEB-INF classes.
