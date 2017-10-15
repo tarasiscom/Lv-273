@@ -1,1 +1,3 @@
-# This directory holds common classes for  Integration tests classes.
+# IntegtationTest
+
+This directory contains common classes for Integration tests classes.

@@ -1,3 +1,3 @@
 # SRC
 
-This directory contains source code files.
+This directory contains solution's projects.
