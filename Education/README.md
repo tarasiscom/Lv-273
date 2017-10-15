@@ -1,3 +1,3 @@
 # Education
 
-This directory contains educational materials that needs for project.
+This directory contains educational materials that refers to the project.
