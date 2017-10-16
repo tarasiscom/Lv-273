@@ -5624,11 +5624,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\tmp\\EPA\\EPA.UnitTests\\EPA.UnitTests.csproj",
+      "projectUniqueName": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
       "projectName": "EPA.UnitTests",
-      "projectPath": "E:\\tmp\\EPA\\EPA.UnitTests\\EPA.UnitTests.csproj",
+      "projectPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
       "packagesPath": "C:\\Users\\Taras\\.nuget\\packages\\",
-      "outputPath": "E:\\tmp\\EPA\\EPA.UnitTests\\obj\\",
+      "outputPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

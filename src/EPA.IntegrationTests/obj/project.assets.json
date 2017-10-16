@@ -5624,11 +5624,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\tmp\\EPA\\EPA.IntegrationTests\\EPA.IntegrationTests.csproj",
+      "projectUniqueName": "C:\\Users\\Taras\\Lv-273\\src\\EPA.IntegrationTests\\EPA.IntegrationTests.csproj",
       "projectName": "EPA.IntegrationTests",
-      "projectPath": "E:\\tmp\\EPA\\EPA.IntegrationTests\\EPA.IntegrationTests.csproj",
+      "projectPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.IntegrationTests\\EPA.IntegrationTests.csproj",
       "packagesPath": "C:\\Users\\Taras\\.nuget\\packages\\",
-      "outputPath": "E:\\tmp\\EPA\\EPA.IntegrationTests\\obj\\",
+      "outputPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.IntegrationTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -1,0 +1,14 @@
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netstandard15.dll
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netstandard15.dll
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.deps.json
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.runtimeconfig.json
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.runtimeconfig.dev.json
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.dll
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.pdb
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.csprojResolveAssemblyReference.cache
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.csproj.CoreCompileInputs.cache
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.AssemblyInfoInputs.cache
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.AssemblyInfo.cs
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.dll
+C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.pdb

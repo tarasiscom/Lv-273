@@ -1,0 +1,11 @@
+C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.deps.json
+C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.dll
+C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.pdb
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.csprojResolveAssemblyReference.cache
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.csproj.CoreCompileInputs.cache
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.AssemblyInfoInputs.cache
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.AssemblyInfo.cs
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.dll
+C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.pdb
+C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.dll
+C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.pdb
