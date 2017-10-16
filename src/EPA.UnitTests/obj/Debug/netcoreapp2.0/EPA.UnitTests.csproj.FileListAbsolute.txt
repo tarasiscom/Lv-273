@@ -12,3 +12,17 @@ C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.As
 C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.AssemblyInfo.cs
 C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.dll
 C:\Users\Taras\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netstandard15.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netstandard15.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.deps.json
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.runtimeconfig.json
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.runtimeconfig.dev.json
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\bin\Debug\netcoreapp2.0\EPA.UnitTests.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.csprojResolveAssemblyReference.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.csproj.CoreCompileInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.AssemblyInfoInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.AssemblyInfo.cs
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.UnitTests\obj\Debug\netcoreapp2.0\EPA.UnitTests.pdb

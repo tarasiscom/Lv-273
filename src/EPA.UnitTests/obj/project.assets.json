@@ -5615,7 +5615,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Taras\\.nuget\\packages\\": {},
+    "C:\\Users\\JohnOwl\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -5624,17 +5624,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
+      "projectUniqueName": "D:\\JohnOwl\\Documents\\GitKraken\\EPA\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
       "projectName": "EPA.UnitTests",
-      "projectPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
-      "packagesPath": "C:\\Users\\Taras\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Taras\\Lv-273\\src\\EPA.UnitTests\\obj\\",
+      "projectPath": "D:\\JohnOwl\\Documents\\GitKraken\\EPA\\Lv-273\\src\\EPA.UnitTests\\EPA.UnitTests.csproj",
+      "packagesPath": "C:\\Users\\JohnOwl\\.nuget\\packages\\",
+      "outputPath": "D:\\JohnOwl\\Documents\\GitKraken\\EPA\\Lv-273\\src\\EPA.UnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Taras\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\JohnOwl\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

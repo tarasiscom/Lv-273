@@ -11,7 +11,7 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(DateContext))]
-    [Migration("20171016095830_Initial")]
+    [Migration("20171016103458_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

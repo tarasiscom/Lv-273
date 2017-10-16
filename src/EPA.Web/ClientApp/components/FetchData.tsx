@@ -3,61 +3,57 @@ import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
 interface FetchDataExampleState {
-    forecasts: WeatherForecast[];
+    dates: DateAPI[];
     loading: boolean;
 }
 
 export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDataExampleState> {
     constructor() {
         super();
-        this.state = { forecasts: [], loading: true };
+        this.state = { dates: [], loading: true };
 
-        fetch('api/SampleData/WeatherForecasts')
-            .then(response => response.json() as Promise<WeatherForecast[]>)
+        fetch('api/SampleData/GetDates')
+            .then(response => response.json() as Promise<DateAPI[]>)
             .then(data => {
-                this.setState({ forecasts: data, loading: false });
+                this.setState({ dates: data, loading: false });
             });
     }
 
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
+            : FetchData.renderDatesTable(this.state.dates);
 
         return <div>
-            <h1>Weather forecast</h1>
+            <h1>Dates DataBase Table</h1>
             <p>This component demonstrates fetching data from the server.</p>
-            { contents }
+            {contents}
         </div>;
     }
 
-    private static renderForecastsTable(forecasts: WeatherForecast[]) {
+    private static renderDatesTable(dates: DateAPI[]) {
         return <table className='table'>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
+                    <th>id</th>
+                    <th>date</th>
+
                 </tr>
             </thead>
             <tbody>
-            {forecasts.map(forecast =>
-                <tr key={ forecast.dateFormatted }>
-                    <td>{ forecast.dateFormatted }</td>
-                    <td>{ forecast.temperatureC }</td>
-                    <td>{ forecast.temperatureF }</td>
-                    <td>{ forecast.summary }</td>
-                </tr>
-            )}
+                {dates.map(dates =>
+                    <tr key={dates.id}>
+                        <td>{dates.id}</td>
+                        <td>{dates.dt}</td>
+                    </tr>
+                )}
             </tbody>
         </table>;
     }
 }
 
-interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface DateAPI {
+    id: number;
+    dt: string;
+
 }

@@ -3,42 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using EPA.DB.DataAcess;
 
 namespace EPA.Web.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+        public EPA.DB.Models.DateContext dc = new DB.Models.DateContext();
+        
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        public IEnumerable<DateAPI> GetDates()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            Random rng = new Random();
+            List<DateAPI> temp = new List<DateAPI>();
+            
+            foreach (var v in dc.Dates.ToList())
             {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+                temp.Add(new DateAPI { ID = Convert.ToInt32(v.Id), DT = v.DateValue.ToShortDateString() });
+            }
+            
+
+            return temp.AsEnumerable();
+
+
         }
 
-        public class WeatherForecast
+        public class DateAPI
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            public int ID { get; set; }
+            public string DT { get; set; }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
+
         }
     }
 }

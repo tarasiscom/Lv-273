@@ -9,3 +9,14 @@ C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.dll
 C:\Users\Taras\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.pdb
 C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.dll
 C:\Users\Taras\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.deps.json
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.DB.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\bin\Debug\netcoreapp2.0\EPA.Common.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.csprojResolveAssemblyReference.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.csproj.CoreCompileInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.AssemblyInfoInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.AssemblyInfo.cs
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.DB\obj\Debug\netcoreapp2.0\EPA.DB.pdb

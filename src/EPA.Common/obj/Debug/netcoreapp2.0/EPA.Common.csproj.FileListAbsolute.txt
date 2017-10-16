@@ -7,3 +7,12 @@ C:\Users\Taras\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.Assembly
 C:\Users\Taras\Lv-273\src\EPA.Common\bin\Debug\netcoreapp2.0\EPA.Common.pdb
 C:\Users\Taras\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.dll
 C:\Users\Taras\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\bin\Debug\netcoreapp2.0\EPA.Common.deps.json
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\bin\Debug\netcoreapp2.0\EPA.Common.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\bin\Debug\netcoreapp2.0\EPA.Common.pdb
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.csprojResolveAssemblyReference.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.csproj.CoreCompileInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.AssemblyInfoInputs.cache
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.AssemblyInfo.cs
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.dll
+D:\JohnOwl\Documents\GitKraken\EPA\Lv-273\src\EPA.Common\obj\Debug\netcoreapp2.0\EPA.Common.pdb
