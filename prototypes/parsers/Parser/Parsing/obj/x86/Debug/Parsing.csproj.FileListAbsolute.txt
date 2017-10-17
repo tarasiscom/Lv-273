@@ -10,3 +10,8 @@ C:\Documents and Settings\Я\Рабочий стол\Parser\Parsing\obj\x86\Debu
 C:\Documents and Settings\Я\Рабочий стол\Parser\Parsing\bin\Debug\Parsing.exe
 C:\Documents and Settings\Я\Рабочий стол\Parser\Parsing\bin\Debug\Parsing.pdb
 C:\Documents and Settings\Я\Рабочий стол\Parser\Parsing\bin\Debug\HtmlAgilityPack.dll
+D:\Lv-273\prototypes\parsers\Parser\Parsing\obj\x86\Debug\Parsing.exe
+D:\Lv-273\prototypes\parsers\Parser\Parsing\obj\x86\Debug\Parsing.pdb
+D:\Lv-273\prototypes\parsers\Parser\Parsing\bin\Debug\Parsing.exe
+D:\Lv-273\prototypes\parsers\Parser\Parsing\bin\Debug\Parsing.pdb
+D:\Lv-273\prototypes\parsers\Parser\Parsing\obj\x86\Debug\Parsing.csprojResolveAssemblyReference.cache

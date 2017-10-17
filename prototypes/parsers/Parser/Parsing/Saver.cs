@@ -16,14 +16,15 @@ namespace Parsing
 
     class ShowInConsole: ISaver
     {
-        public void SaveDistrict(District deistrict)
+        public void SaveDistrict(District district)
         {
-            Console.WriteLine(String.Format("{0}", deistrict.Name));
+            Console.WriteLine(String.Format("districtID{0}\n {1}",district.ID, district.Name));
         }
 
         public void SaveUniversity(University university)
         {
-            Console.WriteLine(String.Format("УНІВЕРСИТЕТ: {0}", university.Name));
+            Console.WriteLine(String.Format("ID:{0} \n УНІВЕРСИТЕТ: {1} \n Адреса:{2} \n Сайт:{3}",university.ID, university.Name, university.Adress, university.Site));
+            Console.WriteLine("СПЕЦІАЛЬНОСТІ: \n");
         }
 
         public void SaveFaculties(IEnumerable<Faculty> faculties)
@@ -35,7 +36,7 @@ namespace Parsing
         {
             foreach (Speciality speciality in specialities)
             {
-                string s = String.Format("Галузь: {0}\n Спеціальність{1}\n Факультет{2}", speciality.Name, speciality.MyProperty, speciality.MyProperty2 );
+                string s = String.Format("Галузь: {0}\n Спеціальність{1}\n Факультет{2}", speciality.Name, speciality.DirectionID, speciality.FacultyID );
                 Console.WriteLine(s);
                 Console.WriteLine("_____________________________________________________");
  

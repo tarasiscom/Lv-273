@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Parsing.DataClasses
+﻿namespace Parsing.DataClasses
 {
-    class District
-    {
-        public int ID { get; private set; }
-        public string Name { get; private set; }
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text; 
 
-        public District(string name)
+    public class District
+    {
+        public District(int id, string name)
         {
-            Name = name;
+            this.ID = id;
+            this.Name = name;
         }
+
+        public int ID { get; private set; }
+
+        public string Name { get; private set; }
     }
 }

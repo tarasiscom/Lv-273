@@ -14,20 +14,34 @@ namespace Parsing
         void ChangeUrl(string url);
         HtmlNodeCollection RetreiveNodes(string xPath);
         HtmlNode RetreiveNode(string xPath);
-        HtmlNode RetreiveNode(HtmlNode univNode, string xPath);
-        District GetDistrict(HtmlNode node);
+        //HtmlNode RetreiveNode(HtmlNode univNode, string xPath);
+        District GetDistrict(int ID, string districtName);
 
-        University GetUniversityInfo(HtmlNode node);
+        University GetUniversityInfo(int id, int districtID, string name, string adress, string webSite);
         //IEnumerable<Faculty> RetreiveFaculties(string url, string xPath);
         IEnumerable<Speciality> GetSpecialityInfo(IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
 
+        string Url { get;  set; }
         
     }
+
+    interface IErrorsLog
+    {
+        void StartLog();
+        void EndLog();
+    }
+
     class Parser :IParser
     {
-     
+
         private string url;
-        private string xPath;
+
+        public string Url
+        {
+            get { return url; }
+            set { url = value; }
+        }
+
         HtmlNodeCollection nodes;
 
         public Parser(string url)
@@ -40,9 +54,9 @@ namespace Parsing
             this.url = url; 
         }
 
-        public District GetDistrict(HtmlNode node)
+        public District GetDistrict(int ID, string districtName)
         {
-            return new District(node.InnerText);
+            return new District(ID, districtName);
         }
 
         public string GetDocument()
@@ -62,11 +76,8 @@ namespace Parsing
             }
         }
 
-     
-
         public HtmlNodeCollection RetreiveNodes(string xPath)
         {
-
             HtmlDocument doc = new HtmlDocument();
 
             doc.LoadHtml(GetDocument());
@@ -76,13 +87,13 @@ namespace Parsing
  
 
         
-        //not found
-        public static bool IsAvailable(string link)
+        //404 not found
+        public static bool IsAvailable(string url)
         {
             try
             {
-                WebRequest request = WebRequest.Create(link);
-                using (WebResponse response = request.GetResponse())
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     return true;
                 }
@@ -90,24 +101,19 @@ namespace Parsing
 
             catch (WebException ex)
             {
-                using (StreamWriter sw = new StreamWriter("errorlog.txt"))
+                using (StreamWriter sw = new StreamWriter("errorlog.txt", true) )
                 {
-
-                    sw.WriteLine(String.Format("date:{0}; time{1}; erroe:{2}",
-                                                DateTime.Now.Date, DateTime.Now.TimeOfDay, ex.Status.ToString()));
-
+                    sw.WriteLine(String.Format("date:{0}; time{1}; error:{2} - {3} ",
+                                                DateTime.Now.Date, DateTime.Now.TimeOfDay,  url, (((HttpWebResponse)ex.Response).StatusCode)));
+                    sw.WriteLine();
                 }
                 return false;
             }
         }
 
-
-
-
-        public University GetUniversityInfo(HtmlNode node)
+        public University GetUniversityInfo(int id, int districtID, string name, string adress, string webSite)
         {
-            University university = new University();
-            university.Name = node.InnerText;
+            University university = new University(id, districtID, name, adress, webSite);
             return university;
         }
 
@@ -120,10 +126,10 @@ namespace Parsing
             return node;
         }
 
-        public HtmlNode RetreiveNode(HtmlNode node, string xPath)
-        {
-            return node.SelectSingleNode(xPath);
-        }
+        //public HtmlNode RetreiveNode(HtmlNode node, string xPath)
+        //{
+        //    return node.SelectSingleNode(xPath);
+        //}
 
         public IEnumerable<Speciality> GetSpecialityInfo(IEnumerable<HtmlNode> nodes, Dictionary<string,string> specFields)
         {
@@ -131,20 +137,64 @@ namespace Parsing
 
             foreach (HtmlNode node in nodes)
             {
+                //some fields on website are empty
+                string name,m1,m2;
+                if (node.SelectSingleNode(specFields["SpecDirectionNodes"]) != null)
+                    name = node.SelectSingleNode(specFields["SpecDirectionNodes"]).InnerText;
+                else
+                    name = "NULL";
+
+                if (node.SelectSingleNode(specFields["SpecSpecNode"]) != null)
+                    m1 = node.SelectSingleNode(specFields["SpecSpecNode"]).InnerText;
+                else
+                    m1 = "NULL";
+
+                if (node.SelectSingleNode(specFields["SpecFacNode"]) == null)
+                    m2 = "NULL";
+                else
+                    m2 = node.SelectSingleNode(specFields["SpecFacNode"]).InnerText;
+
                 specialities.Add(new Speciality()
                 {
-                    Name = node.SelectSingleNode(specFields["Галузь"]).InnerText,
-                    MyProperty = node.SelectSingleNode(specFields["Спеціальність"]).InnerText,
-                    MyProperty2 = node.SelectSingleNode(specFields["Факультет"]).InnerText
+                   Name = name,
+                   AvgPoints = m1,
+                   MinPoints = m2
                 }
                     );
                
  
             }
-             return specialities;
-            
+             return specialities;           
         }
 
-       
+     
+    }
+
+    class ErrorsLog: IErrorsLog
+    {
+        DateTime start;
+        DateTime end;
+
+        public void StartLog()
+        {
+            start = DateTime.Now;
+            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
+            {
+                sw.WriteLine(String.Format("Parsing started at . . . date:{0}; time{1};",
+                                            DateTime.Now.Date, DateTime.Now.TimeOfDay));
+                sw.WriteLine();
+            }
+        }
+
+        public void EndLog()
+        {
+            end = DateTime.Now;
+            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
+            {
+                sw.WriteLine(String.Format("Parsing completed at . . . date:{0}; time{1};",
+                                            end.Date, end.TimeOfDay));
+                //sw.WriteLine("Parsing duration: {0}:{1}:{2}");
+            }
+        }        
     }
 }

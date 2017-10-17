@@ -1,86 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using HtmlAgilityPack;
-
-namespace Parsing
+﻿namespace Parsing
 {
-    class ParseController
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Collections;
+    using HtmlAgilityPack;
+
+    internal class ParseController
     {
-        string indexPage = "http://vstup.info";
+        private IParser parser;
+        private ISaver saver;
+        private IErrorsLog errorsLog;
+
+        private int districtID = 1;
+        private int universityID = 1;
+
         string year = "/2017";
+        private string indexPage;
        
-        Dictionary<string, string> specialityFields = new Dictionary<string, string>();
+        private Dictionary<string, string> nodesXpaths = new Dictionary<string, string>();
 
-        IParser parser;
-        ISaver saver;
-        
-        int counter;
-
-        public void Start(ISaver saver, IParser parser)
+        public void Start(ISaver saver, IParser parser, IErrorsLog errorsLog, Dictionary<string, string> nodesXpaths)
         {
             this.parser = parser;
             this.saver = saver;
-
-            specialityFields.Add("Галузь","td/span[@title ='Галузь']");
-            specialityFields.Add("Спеціальність","td/span[@title ='Спеціальність']");
-            specialityFields.Add("Факультет","td/span[@title ='Факультет']");
-            GetData();
+            this.indexPage = parser.Url;
+            this.nodesXpaths = nodesXpaths;
+            this.errorsLog = errorsLog;
+       
+            GetDataFromVstupInfo();
         }
 
-        private void GetData()
+        private void GetDataFromVstupInfo()
         {
-            //Parser parser = new Parser(indexPage);
-            //ISaver saver = new ShowInConsole();
-            HtmlNodeCollection districtNodes = parser.RetreiveNodes("//table[@id='abet']/tbody/tr/td/a");
+            errorsLog.StartLog();
+            HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXpaths["DistricstNode"]);
             foreach (HtmlNode node in districtNodes)
             {
-                if (node.InnerText == "Вінницька область")
-                {
-                    Console.WriteLine(counter.ToString()); 
-                    break;
-                }
-
+                //After "Дніпропетровська" and "Одеcька" node.InnerText == "";
+                //In this places empty node <a></a>
                 if (node.InnerText != string.Empty)
                 {
-                    saver.SaveDistrict(parser.GetDistrict( node));
+                    saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
                     parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
-                    HtmlNodeCollection univercitiesNodes = parser.RetreiveNodes("//table[@id='vnzt0']/tbody/tr/td/a | //table[@id='vnzt1']/tbody/tr/td/a | //table[@id='vnzt2']/tbody/tr/td/a");
+                    StarsProcessUniversities();
+                }
+                districtID++;
+            }
+            errorsLog.EndLog();
+        }
 
-                    if (univercitiesNodes != null)
+        private void StarsProcessUniversities()
+        {
+            HtmlNodeCollection univercitiesNodes = parser.RetreiveNodes(nodesXpaths["UniversitiesTypesNode"]);
+
+            //"АР Крим", "м.Севастополь" is null
+            //These sections doesn't contains any records
+            if (univercitiesNodes != null)
+            {
+                foreach (HtmlNode univ in univercitiesNodes)
+                {                    
+                    //some univercity links return 404 code
+                    if (Parser.IsAvailable(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1)))
                     {
-                        foreach (HtmlNode univ in univercitiesNodes)
-                        {
-                            if (univ.InnerText != string.Empty)
-                            {
-                                //some univercity links return 404 code
-                                if (Parser.IsAvailable(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1)))
-                                {
-                                    parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
+                        parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
+                        HtmlNode universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
+                        saver.SaveUniversity(parser.GetUniversityInfo(universityID, districtID, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
+                                                                        universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
+                                                                        universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
+                        StartProcessSpeciality();
+                    }
+                    universityID++;
+                }
+            }
+        }
 
-                                    //retrieve node with university information
-                                    HtmlNode univNode = parser.RetreiveNode("//div/table[@id='about']");
-                                    DataClasses.University u = parser.GetUniversityInfo(parser.RetreiveNode(univNode, "tr[1]/td[2]"));
-                                    saver.SaveUniversity(u);
-                   
+        private void StartProcessSpeciality()
+        {
+            HtmlNodeCollection specialitiesNodes = parser.RetreiveNodes(nodesXpaths["SpecialitiesNodes"]);
 
-                                    IEnumerable<HtmlNode> specialitiesNodes = parser.RetreiveNodes("//div[@class = 'tab-content']/div/table/tbody/tr");
-
-                                    if (specialitiesNodes != null)
-                                    {
-
-                                        saver.SaveSpecialities(parser.GetSpecialityInfo(specialitiesNodes, specialityFields));
-                                        Console.WriteLine("_______________________________________");
-
-                                    }
-                                }
-                            }
-                        }
-                    }                   
-                }        
-            } 
+            if (specialitiesNodes != null)
+            {
+                saver.SaveSpecialities(parser.GetSpecialityInfo(specialitiesNodes, nodesXpaths));
+                Console.WriteLine("_______________________________________");
+            }
         }
     }
 }
