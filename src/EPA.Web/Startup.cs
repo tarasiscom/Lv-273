@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EPA.DB.Models;
+using EPA.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using EPA.DB.MSSQL.SQLDateAccess;
+
 
 namespace EPA.Web
 {
@@ -25,7 +27,7 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<DateContext>();
+            services.AddSingleton<ILastSyncProvider, DateAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

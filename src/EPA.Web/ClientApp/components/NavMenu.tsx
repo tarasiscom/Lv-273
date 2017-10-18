@@ -28,8 +28,8 @@ export class NavMenu extends React.Component<{}, {}> {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={ '/fetchdata' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Fetch data
+                            <NavLink to={ '/date' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-time'></span> Last date
                             </NavLink>
                         </li>
                     </ul>

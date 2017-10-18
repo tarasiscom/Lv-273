@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using EPA.DB.DataAcess;
+using EPA.DB.MSSQL.Models;
 
 namespace EPA.Web.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        public EPA.DB.Models.DateContext dc = new DB.Models.DateContext();
+        public DateContext dc = new DateContext();
         
         [HttpGet("[action]")]
         public IEnumerable<DateAPI> GetDates()
