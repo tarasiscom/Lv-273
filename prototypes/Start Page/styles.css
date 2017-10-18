@@ -1,0 +1,139 @@
+body
+{
+	background-color: #EFF0F1;
+	margin: 0px;
+}
+
+main 
+{
+	margin: 10px;
+	min-height: 100%
+}
+
+nav
+{
+	background-color: white;
+}
+
+h2, h3
+{
+	 text-align: center;
+}
+
+nav ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;	
+	position: relative;
+	display: inline-block;
+}
+
+nav li 
+{
+    float: left;
+}
+
+#logo
+{
+	float: left;
+	margin-right: 100px;
+}
+
+#reg
+{
+	float: right;
+	display: inline-block;
+    color: black;
+	width:75px;
+    text-align: center;
+	margin-left: 100px;
+    padding: 10px 15px;
+    text-decoration: none;
+	line-height: 50px;
+	background-color: white;
+}
+
+nav li a 
+{
+    display: inline-block;
+    color: black;
+	width:150px;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+	background-color:white;
+}
+
+nav a
+{
+	background-color: #F69C55;
+	height:50px;
+}
+
+a:hover 
+{
+    background-color: #F1F8D0;
+}
+
+#top li a:hover 
+{
+    background-color: #FFF8DC;
+}
+
+
+
+#top ul
+{
+	list-style-type: none;
+    padding: 0;
+    overflow: hidden;  
+	margin: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+
+#top ul li 
+{
+    float: left;
+	display: inline-block;
+}
+
+#top li a 
+{
+    display: inline-block;
+	width: 100px;
+    color: black;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+	background-color: #FF788C;
+	margin: 10px;
+	border: 3px solid black;
+}
+
+footer
+{
+	background-color: black;
+	color: white;
+    text-align: center;
+	position: relative;
+	bottom:0px;
+	height: 50px;
+	
+	
+	 clear: both;
+    position: relative;
+
+
+}
+
+
+
+
+
+
+
+
