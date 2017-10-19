@@ -10,7 +10,7 @@ namespace EPA.Web.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        public DateContext dc = new DateContext();
+        public TestContext dc = new TestContext();
         
         [HttpGet("[action]")]
         public IEnumerable<DateAPI> GetDates()
