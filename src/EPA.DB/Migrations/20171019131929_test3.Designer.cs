@@ -11,9 +11,10 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(DateContext))]
-    partial class DateContextModelSnapshot : ModelSnapshot
+    [Migration("20171019131929_test3")]
+    partial class test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +48,7 @@ namespace EPA.DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tests");
+                    b.ToTable("TestsDetailed");
                 });
 #pragma warning restore 612, 618
         }
