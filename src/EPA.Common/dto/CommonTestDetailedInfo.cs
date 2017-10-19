@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EPA.Common.DTO
+namespace EPA.Common.dto
 {
-    /// <summary>
-    /// Abstact empty class for models class
-    /// </summary>
-    public abstract class CommonTestDetailedInfo :CommonTestInfo
-    { 
+    public class CommonTestDetailedInfo:CommonTestInfo
+    {
+        public virtual string Description { get; set; }
+        public virtual int ApproximatedTime { get; set; }
+        public virtual int QuestionsCount { get; set; }
     }
 }
