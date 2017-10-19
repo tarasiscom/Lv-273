@@ -30,10 +30,8 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/list
         [HttpGet("[action]")]
-        public IEnumerable<CommonTestInfo> GetTests()
-        {
-            return profTestInfoProvider.GetTests();
-        }
+        public IEnumerable<CommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
+        
 
         /// <summary>
         ///  This method retrieves the test info ("testId", "testName", "description", 
@@ -41,9 +39,6 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/{id}/info
         [HttpGet("{id}", Name = "GetTestInfo")]
-        public CommonTestDetailedInfo GetTestInfo(int id)
-        {
-            return profTestInfoProvider.GetTestInfo(id);
-        }
+        public CommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
     }
 }
