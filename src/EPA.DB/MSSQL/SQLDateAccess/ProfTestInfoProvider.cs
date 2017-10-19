@@ -15,11 +15,12 @@ namespace EPA.DB.MSSQL.SQLDateAccess
         {
             context = new DateContext();
         }
-        CommonTestDetailedInfo GetTestInfo(int testId)
+        // Not keeped naming convention with Natalia. It is temp.
+        public TestDetailedInfo GetTestInfo(int testId)
         {
             return context.Tests.Find(testId);
         }
-        IEnumerable<CommonTestInfo> GetTests()
+        public IEnumerable<TestInfo> GetTests()
         {
             return context.Tests.ToList();
         }

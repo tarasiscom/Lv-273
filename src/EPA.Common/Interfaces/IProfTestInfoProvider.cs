@@ -6,6 +6,6 @@ namespace EPA.Common.Interfaces
 {
     public interface IProfTestInfoProvider
     {
-        //Завдання Наталі
+
     }
 }

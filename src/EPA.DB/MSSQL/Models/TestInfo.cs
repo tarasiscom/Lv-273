@@ -6,11 +6,11 @@ using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class TestInfo:CommonTestInfo
+    public class TestInfo
     {
         [Key]
-        public override int Id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public override string Name { get; set; }
+        public string Name { get; set; }
     }
 }
