@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\Footer.tsx" />
+    <None Remove="ClientApp\components\NavigationMenu.tsx" />
+    <None Remove="ClientApp\components\profTest.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
@@ -21,6 +27,12 @@
   <ItemGroup>
     <ProjectReference Include="..\EPA.Common\EPA.Common.csproj" />
     <ProjectReference Include="..\EPA.DB\EPA.DB.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
