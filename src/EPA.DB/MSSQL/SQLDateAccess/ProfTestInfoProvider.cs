@@ -10,10 +10,10 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 {
     public class ProfTestInfoProvider:IProfTestInfoProvider
     {
-        DateContext context;
+        DataContext context;
         public ProfTestInfoProvider()
         {
-            context = new DateContext();
+            context = new DataContext();
         }
         public ICommonTestDetailedInfo GetTestInfo(int testId)
         {

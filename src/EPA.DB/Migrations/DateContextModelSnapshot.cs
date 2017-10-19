@@ -10,7 +10,7 @@ using System;
 
 namespace EPA.DB.Migrations
 {
-    [DbContext(typeof(DateContext))]
+    [DbContext(typeof(DataContext))]
     partial class DateContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
