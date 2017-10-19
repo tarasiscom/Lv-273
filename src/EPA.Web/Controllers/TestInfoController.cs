@@ -10,23 +10,27 @@ using EPA.Common.DTO;
 namespace EPA.Web.Controllers
 {
     [Route("api/profTest/list")]
-    public class TestController : Controller
+    public class TestInfoController : Controller
     {
         private IProfTestInfoProvider profTestInfoProvider;
    
-        public TestController(IProfTestInfoProvider profTestInfoProvider)
+        public TestInfoController(IProfTestInfoProvider profTestInfoProvider)
         {
             this.profTestInfoProvider = profTestInfoProvider;
         }
+
         // GET: api/profTest/list
         [HttpGet("[action]")]
         public IEnumerable<CommonTestInfo> GetTests()
         {
-
-            return profTestInfoProvider.GetDate().DateValue;
-           // return DateTime.Now;
+            return profTestInfoProvider.GetTests();
         }
 
-       
+        // GET: api/profTest/{id}/info
+        [HttpGet("{id}", Name = "GetTestInfo")]
+        public CommonTestDetailedInfo GetTestInfo(int id)
+        {
+            return profTestInfoProvider.GetTestInfo(id);
+        }
     }
 }
