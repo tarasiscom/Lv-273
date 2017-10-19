@@ -9,8 +9,8 @@ namespace EPA.DB.MSSQL.Models
     public class TestInfo: ICommonTestInfo
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; }
     }
 }

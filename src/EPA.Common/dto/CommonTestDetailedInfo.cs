@@ -6,8 +6,8 @@ namespace EPA.Common.dto
 {
     public interface ICommonTestDetailedInfo : ICommonTestInfo
     {
-        string Description { get; set; }
-        int ApproximatedTime { get; set; }
-        int QuestionsCount { get; set; }
+        string Description { get;}
+        int ApproximatedTime { get;}
+        int QuestionsCount { get; }
     }
 }
