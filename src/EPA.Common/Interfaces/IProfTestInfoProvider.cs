@@ -6,6 +6,6 @@ namespace EPA.Common.Interfaces
 {
     public interface IProfTestInfoProvider
     {
-        //object GetTestInfo(int testId);
+
     }
 }

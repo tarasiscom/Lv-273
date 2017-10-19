@@ -15,11 +15,11 @@ namespace EPA.DB.MSSQL.SQLDateAccess
         {
             context = new DateContext();
         }
-        public CommonTestDetailedInfo GetTestInfo(int testId)
+        public ICommonTestDetailedInfo GetTestInfo(int testId)
         {
             return context.Tests.Find(testId);
         }
-        public IEnumerable<CommonTestInfo> GetTests()
+        public IEnumerable<ICommonTestInfo> GetTests()
         {
             return context.Tests.ToList();
         }

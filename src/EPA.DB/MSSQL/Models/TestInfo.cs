@@ -6,7 +6,7 @@ using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class TestInfo: CommonTestInfo
+    public class TestInfo: ICommonTestInfo
     {
         [Key]
         public int Id { get; set; }

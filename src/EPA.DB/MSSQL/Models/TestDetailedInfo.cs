@@ -6,7 +6,7 @@ using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class TestDetailedInfo: TestInfo, CommonTestDetailedInfo
+    public class TestDetailedInfo: TestInfo, ICommonTestDetailedInfo
     {
         public string Description { get; set; }
         public int ApproximatedTime { get; set; }
