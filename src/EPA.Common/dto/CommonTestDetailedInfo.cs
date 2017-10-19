@@ -4,10 +4,10 @@ using System.Text;
 
 namespace EPA.Common.DTO
 {
-    public class CommonTestDetailedInfo :CommonTestInfo
-    {
-        public virtual string Description { get; set; }
-        public virtual int ApproximatedTime { get; set; }
-        public virtual int QuestionsCount { get; set; } 
+    /// <summary>
+    /// Abstact empty class for models class
+    /// </summary>
+    public abstract class CommonTestDetailedInfo :CommonTestInfo
+    { 
     }
 }

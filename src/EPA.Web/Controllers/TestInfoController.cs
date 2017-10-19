@@ -12,13 +12,22 @@ namespace EPA.Web.Controllers
     [Route("api/profTest/list")]
     public class TestInfoController : Controller
     {
+        /// <summary>
+        /// interface IProfTestInfoProvider with methods: 
+        /// IEnumerable<TestInfo> GetTests();
+        /// TestDetailedInfo GetTestInfo(int testId); }
+        /// </summary>
         private IProfTestInfoProvider profTestInfoProvider;
-   
-        public TestInfoController(IProfTestInfoProvider profTestInfoProvider)
+
+       
+    public TestInfoController(IProfTestInfoProvider profTestInfoProvider)
         {
             this.profTestInfoProvider = profTestInfoProvider;
         }
 
+        /// <summary>
+        ///  This method retrieves the list of available tests ("testId", "testName").
+        /// </summary>
         // GET: api/profTest/list
         [HttpGet("[action]")]
         public IEnumerable<CommonTestInfo> GetTests()
@@ -26,6 +35,10 @@ namespace EPA.Web.Controllers
             return profTestInfoProvider.GetTests();
         }
 
+        /// <summary>
+        ///  This method retrieves the test info ("testId", "testName", "description", 
+        ///  "approximatedTime", "questionsCount") for a first test from the list (if any).
+        /// </summary>
         // GET: api/profTest/{id}/info
         [HttpGet("{id}", Name = "GetTestInfo")]
         public CommonTestDetailedInfo GetTestInfo(int id)
