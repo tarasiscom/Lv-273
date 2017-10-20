@@ -10,7 +10,7 @@ using EPA.Common.dto;
 
 namespace EPA.Web.Controllers
 {
-    [Route("api/profTest/list")]
+  
     public class TestInfoController : Controller
     {
         /// <summary>
@@ -20,7 +20,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         private IProfTestInfoProvider profTestInfoProvider;
 
-       
+      
     public TestInfoController(IProfTestInfoProvider profTestInfoProvider)
         {
             this.profTestInfoProvider = profTestInfoProvider;
@@ -29,21 +29,20 @@ namespace EPA.Web.Controllers
         /// <summary>
         ///  This method retrieves the list of available tests ("testId", "testName").
         /// </summary>
-        // GET: api/profTest/list
+         // GET: api/profTest/list
+        [Route("api/profTest/list")]
         [HttpGet("[action]")]
-        public IEnumerable<ICommonTestInfo> GetTests()
-        {
-            
-            return profTestInfoProvider.GetTests();
-        }
-        
+        public IEnumerable<ICommonTestInfo> GetTests()=> profTestInfoProvider.GetTests();
+
+
 
         /// <summary>
         ///  This method retrieves the test info ("testId", "testName", "description", 
         ///  "approximatedTime", "questionsCount") for a first test from the list (if any).
         /// </summary>
         // GET: api/profTest/{id}/info
-        [HttpGet("{id}", Name = "GetTestInfo")]
+        [Route("api/profTest/{id}/info")]
+        [HttpGet("{id}")]
         public ICommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
     }
 }
