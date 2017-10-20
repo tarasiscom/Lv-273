@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using EPA.Common.Interfaces;
-using EPA.Common.DTO;
+using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class TestDetailedInfo: CommonTestDetailedInfo
+    public class TestDetailedInfo: TestInfo, ICommonTestDetailedInfo
     {
-        public string Description { get; set; }
-        public int ApproximatedTime { get; set; }
-        public int QuestionsCount { get; set; }
+        public string Description { get; }
+        public int ApproximatedTime { get; }
+        public int QuestionsCount { get; }
     }
 }

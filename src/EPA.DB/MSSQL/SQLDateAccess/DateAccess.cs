@@ -5,7 +5,6 @@ using EPA.Common.Interfaces;
 using EPA.DB.MSSQL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using EPA.Common.DTO;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
@@ -13,7 +12,7 @@ namespace EPA.DB.MSSQL.SQLDateAccess
     {
         DateContext context = new DateContext();
 
-        public CommonDate GetDate()
+        public EPA.Common.DTO.CommonDate GetDate()
         {
             return context.Dates.ToList().Last();
         }

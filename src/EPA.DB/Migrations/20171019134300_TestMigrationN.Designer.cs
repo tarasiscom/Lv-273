@@ -11,8 +11,8 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(DateContext))]
-    [Migration("20171018115637_Initial")]
-    partial class Initial
+    [Migration("20171019134300_TestMigrationN")]
+    partial class TestMigrationN
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,24 @@ namespace EPA.DB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dates");
+                });
+
+            modelBuilder.Entity("EPA.DB.MSSQL.Models.TestDetailedInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApproximatedTime");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("QuestionsCount");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tests");
                 });
 #pragma warning restore 612, 618
         }

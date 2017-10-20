@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EPA.Common.Interfaces;
 using EPA.Common.DTO;
+using EPA.Common.dto;
 
 namespace EPA.Web.Controllers
 {
@@ -30,7 +31,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/list
         [HttpGet("[action]")]
-        public IEnumerable<CommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
+        public IEnumerable<ICommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
         
 
         /// <summary>
@@ -39,6 +40,6 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/{id}/info
         [HttpGet("{id}", Name = "GetTestInfo")]
-        public CommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
+        public ICommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
     }
 }
