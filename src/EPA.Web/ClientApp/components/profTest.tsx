@@ -22,7 +22,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
         fetch("api/profTest/list/GetTests")
             .then(response => response.json() as Promise<DataAPI[]>)
             .then(data => {
-                this.setState({ tests: data, loading: false });
+                this.setState({ tests: data, loading: false  });
             });
     }
 
