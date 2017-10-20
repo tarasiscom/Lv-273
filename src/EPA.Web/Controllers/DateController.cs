@@ -24,7 +24,7 @@ namespace EPA.Web.Controllers
             return lastSyncProvider.GetDate().DateValue;
            // return DateTime.Now;
         }
-
+          
        
     }
 }
