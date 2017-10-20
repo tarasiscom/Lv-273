@@ -31,7 +31,11 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/list
         [HttpGet("[action]")]
-        public IEnumerable<ICommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
+        public IEnumerable<ICommonTestInfo> GetTests()
+        {
+            
+            return profTestInfoProvider.GetTests();
+        }
         
 
         /// <summary>

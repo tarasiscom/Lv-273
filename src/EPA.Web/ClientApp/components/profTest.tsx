@@ -9,8 +9,8 @@ interface TestsDataState {
 }
 interface DataAPI
 {
-    Id: number;
-    Name: string;
+    id: number;
+    name: string;
 }
 
 
@@ -41,12 +41,30 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
     }
 
     private static renderTestsList(tests: DataAPI[]) {
-        return <div>
-            {tests.map(tests => <p key={tests.Id}> № {tests.Id} {tests.Name} <Link to={'/profTest/${tests.Id}'}>;
+        return <table className='table'>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {tests.map(tests=>
+                    <tr key={tests.id}>
+                        <td>{tests.id}</td>
+                        <td>{tests.name}</td>
+                    </tr>
+                )}
+            </tbody>
+        </table>;
+
+        /*<div>
+            {tests.map(tests => <p key={tests.Id}> # {tests.Id} {tests.Name} <Link to={'/profTest/${tests.Id}'}>;
                 Детальніша інформація
                 </Link>
             </p>)}
-        </div>
+        </div>//*/
 
     }
 }
