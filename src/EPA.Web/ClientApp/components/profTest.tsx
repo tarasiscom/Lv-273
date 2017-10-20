@@ -6,6 +6,7 @@ import { Link, NavLink ,BrowserRouter as Router,
 
 
 
+
 interface TestsDataState {
     tests: DataAPI[];
     loading: boolean;
@@ -28,8 +29,6 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             });
     }
 
-    
-
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
@@ -43,9 +42,8 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
     }
 
     private static renderTestsList(tests: DataAPI[]) {
-    
         return  <div>
-              <table className='table'>
+            <table className="table">
             <thead>
                 <tr>
                     <th>№</th>
@@ -55,8 +53,8 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             <tbody>
                 {tests.map(tests =>
                     <tr key={tests.id}>
-                        <td>{tests.id}</td>
-                        <td><Link to={'/profTest/${tests.id}'}> {tests.name}</Link></td>
+                            <td>{tests.id}</td>
+                            <td><Link to={'/profTest/' + tests.id} > {tests.name}</Link></td>
                     </tr>
                 )}
             </tbody>
