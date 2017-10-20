@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { Link, NavLink } from 'react-router-dom';
 
 interface TestsDataState {
     tests: DataAPI[];
@@ -41,7 +42,10 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
 
     private static renderTestsList(tests: DataAPI[]) {
         return <div>
-            {tests.map(tests => <p key={tests.Id}> № {tests.Id} {tests.Name} ;</p>)}
+            {tests.map(tests => <p key={tests.Id}> № {tests.Id} {tests.Name} <Link to={'/profTest/'+ tests.Id}>;
+                Детальніша інформація
+                </Link>
+            </p>)}
         </div>
 
     }
