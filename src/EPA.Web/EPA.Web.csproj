@@ -11,6 +11,7 @@
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
+    <None Remove="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

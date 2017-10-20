@@ -42,7 +42,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
 
     private static renderTestsList(tests: DataAPI[]) {
         return <div>
-            {tests.map(tests => <p key={tests.Id}> № {tests.Id} {tests.Name} <Link to={'/profTest/'+ tests.Id}>;
+            {tests.map(tests => <p key={tests.Id}> № {tests.Id} {tests.Name} <Link to={'/profTest/${tests.Id}'}>;
                 Детальніша інформація
                 </Link>
             </p>)}
