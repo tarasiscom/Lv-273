@@ -5,10 +5,22 @@ using EPA.Common.dto;
 
 namespace EPA.Common.Interfaces
 {
+    /// <summary>
+    ///  This interface describes methods that are available through the interface for getting the ProfTest data
+    /// </summary>
     public interface IProfTestInfoProvider
     {
-        // ICommonTestInfo GetTests();
+        /// <summary>
+        ///  This method retrives list of accessible ProfTests 
+        ///  <returns> collection of ProfTests </returns>
+        /// </summary>
         IEnumerable<ICommonTestInfo> GetTests();
+
+        /// <summary>
+        ///  This method retrives information about current ProfTest
+        ///  <param> id of ProfTest </param>
+        ///  <returns> ProfTest info </returns>
+        /// </summary>
         ICommonTestDetailedInfo GetTestInfo(int id);
     }
 }
