@@ -4,11 +4,11 @@ import 'isomorphic-fetch';
 
 
 interface TestDetailInformation {
-    Id: number;
-    Name: string;
-    Description: string;
-    ApproximatedTime: number;
-    QuestionCount: number;
+    id: number;
+    name: string;
+    description: string;
+    approximatedtime: number;
+    questioncount: number;
     loading: boolean;
 
 }
@@ -16,7 +16,7 @@ interface TestDetailInformation {
 export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetailInformation> {
     constructor() {
         super();
-        this.state = { loading: true, Id: 0, Name: "", Description: "", ApproximatedTime: 0, QuestionCount:0, };
+        this.state = { loading: true, id: 0, name: "", description: "", approximatedtime: 0, questioncount:0, };
     }
 
     public render() {

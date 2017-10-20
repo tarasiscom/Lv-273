@@ -1,7 +1,10 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink ,BrowserRouter as Router,
+  Route } from 'react-router-dom';
+
+
 
 interface TestsDataState {
     tests: DataAPI[];
@@ -15,11 +18,10 @@ interface DataAPI
 
 
 export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
-    constructor()
-    {
+    constructor(){
         super();
-        this.state = { loading: true, tests :[] }
-        fetch("api/profTest/list/GetTests")
+        this.state = { tests : [], loading: true  }
+        fetch('api/profTest/list/GetTests')
             .then(response => response.json() as Promise<DataAPI[]>)
             .then(data => {
                 this.setState({ tests: data, loading: false  });
@@ -34,38 +36,32 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             : ProfTest.renderTestsList(this.state.tests);
 
         return <div>
-            <h1>Professional Tests</h1>
-            <p>Here you can see a list of professional tests</p>
+            <h1 className="text-center">Профорієнтаційні тести</h1>
+            <p className="text-center">Тут Ви можете переглянути список тестів</p>
             {contents}
         </div>;
     }
 
     private static renderTestsList(tests: DataAPI[]) {
-        return <table className='table'>
+    
+        return  <div>
+              <table className='table'>
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>name</th>
-
+                    <th>№</th>
+                    <th>Ім'я</th>
                 </tr>
             </thead>
             <tbody>
-                {tests.map(tests=>
+                {tests.map(tests =>
                     <tr key={tests.id}>
                         <td>{tests.id}</td>
-                        <td>{tests.name}</td>
+                        <td><Link to={'/profTest/${tests.id}'}> {tests.name}</Link></td>
                     </tr>
                 )}
             </tbody>
-        </table>;
-
-        /*<div>
-            {tests.map(tests => <p key={tests.Id}> # {tests.Id} {tests.Name} <Link to={'/profTest/${tests.Id}'}>;
-                Детальніша інформація
-                </Link>
-            </p>)}
-        </div>//*/
+        </table>
+        </div>
 
     }
 }
-

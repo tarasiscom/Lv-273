@@ -8,7 +8,7 @@ export interface LayoutProps {
 
 export class Layout extends React.Component<LayoutProps, {}> {
     public render() {
-        return <div className='container-fluid'>
+        return <div className='container-fluid remove-all-padding'>
             <NavigationMenu />
             {this.props.children}
             <Footer />

@@ -7,11 +7,6 @@ interface FetchDataExampleState {
     loading: boolean;
 }
 
-interface DateAPI {
-    id: number;
-    dt: string;
-}
-
 export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDataExampleState> {
     constructor() {
         super();
@@ -53,7 +48,12 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDat
                     </tr>
                 )}
             </tbody>
-        </table>;
+        </table>
     }
 }
 
+interface DateAPI {
+    id: number;
+    dt: string;
+
+}

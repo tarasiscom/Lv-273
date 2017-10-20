@@ -3,8 +3,9 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class NavigationMenu extends React.Component<{}, {}> {
     public render() {
-        return <nav className="navbar navbar-inverse ">
-            <div className = "container-fluid">
+        return <div>
+        <nav className="navbar navbar-inverse ">
+            <div className = "container-fluid ">
                 <div className="navbar-header">
                     <a className="navbar-brand" href="#">EPA</a>
                 </div>
@@ -19,5 +20,6 @@ export class NavigationMenu extends React.Component<{}, {}> {
                 </ul>
             </div>
         </nav>
+</div>
     }
 }
