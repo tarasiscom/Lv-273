@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class DateContext : DbContext
+    public class EpaContext : DbContext
     {
         public DbSet<TestDetailedInfo> Tests { get; set; }
         public DbSet<Date> Dates { get; set; }
@@ -18,10 +18,6 @@ namespace EPA.DB.MSSQL.Models
         {
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");
-        }
-        public override void Dispose()
-        {
-            base.Dispose();
         }
     }
 }
