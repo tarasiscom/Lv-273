@@ -11,9 +11,10 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class DateContextModelSnapshot : ModelSnapshot
+    [Migration("20171019165119_InTestNameisRequired")]
+    partial class InTestNameisRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
