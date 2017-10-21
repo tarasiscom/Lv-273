@@ -22,7 +22,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
     constructor(){
         super();
         this.state = { tests : [], loading: true  }
-        fetch('api/profTest/list/GetTests')
+        fetch('api/profTest/list')
             .then(response => response.json() as Promise<DataAPI[]>)
             .then(data => {
                 this.setState({ tests: data, loading: false  });
@@ -54,7 +54,8 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
                 {tests.map(tests =>
                     <tr key={tests.id}>
                             <td>{tests.id}</td>
-                            <td><Link to={'/profTest/' + tests.id} > {tests.name}</Link></td>
+                            <td><Link to={'/testInfo/${tests.id}'} > {tests.name}</Link></td>
+                            
                     </tr>
                 )}
             </tbody>
@@ -63,3 +64,5 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
 
     }
 }
+
+//

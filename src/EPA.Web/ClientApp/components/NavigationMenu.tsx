@@ -6,8 +6,8 @@ export class NavigationMenu extends React.Component<{}, {}> {
         return <div>
         <nav className="navbar navbar-inverse ">
             <div className = "container-fluid ">
-                <div className="navbar-header">
-                    <a className="navbar-brand" href="#">EPA</a>
+                    <div className="navbar-header">
+                        <Link className="navbar-brand" to={'/'}> EPA</Link>
                 </div>
                 <ul className="nav navbar-nav">
                     <li><Link  to={'/'}>Усі Університети</Link></li>
