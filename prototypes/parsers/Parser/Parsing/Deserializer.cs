@@ -21,5 +21,10 @@ namespace Parsing
 
                 return nodesPaths;
             }
+			
+			 public static string GetPath()
+            {
+                return String.Format("{0}\\xPaths.xml", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            }
     }
 }
