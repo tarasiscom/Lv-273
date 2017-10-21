@@ -29,6 +29,7 @@ namespace EPA.Web
             services.AddMvc();
             services.AddSingleton<ILastSyncProvider, DateAccess>();
             services.AddTransient<IProfTestInfoProvider, ProfTestInfoProvider>();
+            services.AddTransient<IAccessToQuestionsByNameTest, AccessToQuestions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
