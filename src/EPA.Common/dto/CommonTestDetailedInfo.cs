@@ -4,10 +4,10 @@ using System.Text;
 
 namespace EPA.Common.dto
 {
-    public interface ICommonTestDetailedInfo : ICommonTestInfo
+    public class CommonTestDetailedInfo : CommonTestInfo
     {
-        string Description { get;}
-        int ApproximatedTime { get;}
-        int QuestionsCount { get; }
+        public string Description { get; set; }
+        public int ApproximatedTime { get; set;  }
+        public int QuestionsCount { get; set; }
     }
 }
