@@ -9,5 +9,6 @@ import { TestInfo } from './components/TestInfo';
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/profTest' component={ProfTest} />
-    <Route path='/testInfo/:id'  component={TestInfo} />
+    <Route path='/testInfo/:id' component={TestInfo} />
 </Layout>;
+
