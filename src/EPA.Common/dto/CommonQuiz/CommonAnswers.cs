@@ -8,6 +8,7 @@ namespace EPA.Common.dto.CommonQuiz
     {
         public int ID { get; set; }
         public string Answer { get; set; }
+        public int Point { get; set; }
         public CommonQuestions Qestion { get; set; }
     }
 }
