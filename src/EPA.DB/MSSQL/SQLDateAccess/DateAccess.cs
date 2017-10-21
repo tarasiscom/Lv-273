@@ -10,7 +10,7 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 {
     public class DateAccess: ILastSyncProvider
     {
-        DataContext context = new DataContext();
+        EpaContext context = new EpaContext();
 
         public EPA.Common.DTO.CommonDate GetDate()
         {

@@ -10,7 +10,7 @@ using System;
 
 namespace EPA.DB.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(EpaContext))]
     [Migration("20171019134300_TestMigrationN")]
     partial class TestMigrationN
     {

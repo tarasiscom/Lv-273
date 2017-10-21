@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class DataContext : DbContext
+    public class EpaContext : DbContext
     {
         public DbSet<TestDetailedInfo> Tests { get; set; }
         public DbSet<Date> Dates { get; set; }
-        //public DateContext() : base("DefaultConnection") { }
+        //public DateContext() : base("some") { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
@@ -19,6 +19,5 @@ namespace EPA.DB.MSSQL.Models
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");
         }
-
     }
 }

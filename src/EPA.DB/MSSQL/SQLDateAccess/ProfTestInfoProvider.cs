@@ -10,18 +10,23 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 {
     public class ProfTestInfoProvider:IProfTestInfoProvider
     {
-        DataContext context;
+        EpaContext context;
         public ProfTestInfoProvider()
         {
-            context = new DataContext();
+            context = new EpaContext();
         }
-        public ICommonTestDetailedInfo GetTestInfo(int testId)
+        public CommonTestDetailedInfo GetTestInfo(int testId)
         {
-            return context.Tests.Find(testId);
+            return context.Tests.Find(testId).ToCommon();
         }
-        public IEnumerable<ICommonTestInfo> GetTests()
+        public IEnumerable<CommonTestInfo> GetTests()
         {
-            return context.Tests.ToList();
+            List<CommonTestInfo> cti = new List<CommonTestInfo>();
+            foreach (var v in context.Tests)
+            {
+                cti.Add((new TestInfo { Id = v.Id, Name = v.Name }).ToCommon());
+            }
+            return cti;
         }
     }
 }

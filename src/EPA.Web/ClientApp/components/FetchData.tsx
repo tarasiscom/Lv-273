@@ -48,7 +48,7 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDat
                     </tr>
                 )}
             </tbody>
-        </table>;
+        </table>
     }
 }
 
