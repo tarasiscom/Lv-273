@@ -17,8 +17,7 @@ namespace EPA.DB.MSSQL.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-FI7EAA8;Database=EPPAtDb;Trusted_Connection=true;");
+            optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

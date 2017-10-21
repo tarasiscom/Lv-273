@@ -4,12 +4,14 @@ using System.Text;
 using EPA.DB.MSSQL.Models;
 using System.Linq;
 using EPA.Common.Interfaces;
-using EPA.Common.dto;
 using EPA.DB.MSSQL.Models.Quiz;
+using EPA.Common.dto.CommonQuiz;
+using AutoMapper;
+
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
-    class AccessToQuestions
+    public class AccessToQuestions:IAccessToQuestionsByNameTest
     {
         EpaContext epaContext;
 
@@ -18,20 +20,49 @@ namespace EPA.DB.MSSQL.SQLDateAccess
             epaContext = new EpaContext();
         }
 
-        public List<TestList> GetTestList()
+        public IEnumerable<CommonTestList> GetTestList()
         {
-            return epaContext.TestLists.ToList<TestList>();
+            
+            List<TestList>tests=epaContext.TestLists.ToList<TestList>();
+            List<CommonTestList> CommTests = new List<CommonTestList>();
+            
+            Mapper.Initialize(cfg =>cfg.CreateMap<TestList, CommonTestList>());
+            if (tests.Count == 0)
+            { return null;}
+
+            foreach (TestList t in tests)
+            {
+                CommTests.Add(Mapper.Map<CommonTestList>(t)); 
+            }
+            
+            return CommTests;
             
         }
 
-        public IEnumerable<Questions> GetQuestionByListID(int testId)
+        public IEnumerable<CommonQuestions> GetQuestionByListID(int testId)
         {
-            return epaContext.Questions.Where(td => td.TestListID.ID == testId).ToList<Questions>();
+            List<Questions>quest=epaContext.Questions.Where(td => td.TestListID.ID == testId).ToList<Questions>();
+            List<CommonQuestions> commQuest = new List<CommonQuestions>();
+
+            Mapper.Initialize(cfg => cfg.CreateMap<Questions, CommonQuestions>());
+            if (quest.Count == 0) { return null; }
+
+            foreach (Questions q in quest)
+                commQuest.Add(Mapper.Map<CommonQuestions>(q));
+            return commQuest;
         }
 
-        public IEnumerable<Answers> GetAnswersByQuestId(int questionId)
+        public IEnumerable<CommonAnswers> GetAnswersByQuestId(int questionId)
         {
-            return epaContext.Answers.Where(td => td.Qestion.ID == questionId).ToList<Answers>();
+            List<Answers>answer=epaContext.Answers.Where(td => td.Qestion.ID == questionId).ToList<Answers>();
+            List<CommonAnswers> commAnswer = new List<CommonAnswers>();
+
+            Mapper.Initialize(cfg => cfg.CreateMap<Answers, CommonAnswers>());
+            if (answer.Count == 0) { return null; }
+
+            foreach (Answers a in answer)
+                commAnswer.Add(Mapper.Map<CommonAnswers>(a));
+            return commAnswer;
         }
     }
 }
