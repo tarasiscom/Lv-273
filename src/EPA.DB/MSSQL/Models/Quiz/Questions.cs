@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using EPA.Common.dto.CommonQuiz;
+using AutoMapper;
 
 namespace EPA.DB.MSSQL.Models.Quiz
 {
@@ -13,5 +15,13 @@ namespace EPA.DB.MSSQL.Models.Quiz
 
         public List<Answers> Answer { get; set; }
         public TestList TestListID { get; set; }
+
+        static Questions()
+        { Mapper.Initialize(cfg => cfg.CreateMap<Questions, CommonQuestions>()); }
+
+        public CommonQuestions ToCommon()
+        {
+            return Mapper.Map<CommonQuestions>(this);
+        }
     }
 }
