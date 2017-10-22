@@ -13,27 +13,38 @@ namespace EPA.Web.Controllers
     public class TestInfoController : Controller
     {
         private IProfTestInfoProvider profTestInfoProvider;
- 
-        public TestInfoController(IProfTestInfoProvider profTestInfoProvider)
-            {
-                this.profTestInfoProvider = profTestInfoProvider;
-            }
+        private IProfTestResultProvider profTestResultProvider;
 
-            /// <summary>
-            ///  This method retrieves the list of available ProfTests
-            /// </summary>
-             // GET: api/profTest/list
-            [Route("api/profTest/list")]
-            public IEnumerable<ICommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
+        public TestInfoController(IProfTestInfoProvider profTestInfoProvider, IProfTestResultProvider profTestResultProvider)
+        {
+            this.profTestInfoProvider = profTestInfoProvider;
+            this.profTestResultProvider = profTestResultProvider;
+        }
+
+        /// <summary>
+        ///  This method retrieves the list of available ProfTests
+        /// </summary>
+        // GET: api/profTest/list
+        [Route("api/profTest/list")]
+        public IEnumerable<ICommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
 
 
-            /// <summary>
-            ///  This method retrieves the testInfo for current ProfTest
-            ///  <param>id of selected ProfTest</param>
-            /// </summary>
-            // GET: api/profTest/{id}/info
-            [Route("api/profTest/{id}/info")]
-            [HttpGet("{id}")]
-            public ICommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
+        /// <summary>
+        ///  This method retrieves the testInfo for current ProfTest
+        ///  <param>id of selected ProfTest</param>
+        /// </summary>
+        // GET: api/profTest/{id}/info
+        [Route("api/profTest/{id}/info")]
+        [HttpGet("{id}")]
+        public ICommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
+
+        /// <summary>
+        ///  This method retrieves the result for current ProfTest
+        ///  <param>id of selected ProfTest</param>
+        /// </summary>
+        // GET: api/profTest/{id}/result
+        [Route("/api/profTest/{id}/result")]
+        [HttpPost("{id}")]
+        public ICommonProfTestResult GetUserResult([FromBody]int points) => profTestResultProvider.GetUserResult(points);
     }
 }
