@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EPA.Common.dto
 {
+    /// <summary>
+    ///  This interface describes general information of Speciality
+    /// </summary>
     public interface ICommonSpecialty
     {
         int Id { get; set; }

@@ -5,11 +5,11 @@ using System.Text;
 namespace EPA.Common.dto
 {
     /// <summary>
-    ///  This interface describes general information of ProfTest
+    ///  This interface describes information about professional direction 
     /// </summary>
     public interface ICommonProfDirection
     {
         int Id { get; }
-        string Profdirection { get; }
+        string ProfDirection { get; }
     }
 }
