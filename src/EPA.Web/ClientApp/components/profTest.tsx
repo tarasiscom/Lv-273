@@ -36,6 +36,8 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             });
     }
 
+    
+
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
@@ -71,5 +73,3 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
 
     }
 }
-
-//
