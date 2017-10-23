@@ -7,9 +7,6 @@ import {
     Route
 } from 'react-router-dom';
 
-
-
-
 interface TestsDataState {
     tests: DataAPI[];
     loading: boolean;
@@ -18,8 +15,6 @@ interface DataAPI {
     id: number;
     name: string;
 }
-
-
 
 export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
     constructor() {
@@ -46,7 +41,6 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             </section>
             {contents}
         </div>;
-       
     }
 
     private static renderTestsList(tests: DataAPI[]) {
@@ -70,6 +64,5 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
                 </tbody>
             </table>
         </div>
-
     }
 }

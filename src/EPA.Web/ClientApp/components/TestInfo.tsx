@@ -19,10 +19,8 @@ interface TestDetailInformation {
 export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetailInformation> {
     constructor() {
         super();
-
         this.state = {
-            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
-        };
+            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true};
         let pathId = window.location.pathname.substr(10, window.location.pathname.length);
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
@@ -52,7 +50,6 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
             </section>
         </div>
     }
-
 }
 
 
