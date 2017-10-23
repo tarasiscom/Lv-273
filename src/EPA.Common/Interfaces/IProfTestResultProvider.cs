@@ -10,14 +10,14 @@ namespace EPA.Common.Interfaces
     ///  This interface describes methods that are available through the interface for getting the result of professional test
     /// </summary>
     /// 
-    /*
+    
     public interface IProfTestResultProvider
     {
         /// <summary>
         ///  This method retrives data about persons professional directory and list of specialities
         ///  <returns>  ProfTestsResult </returns>
         /// </summary>
-        ICommonProfTestResult GetUserResult(int points);
+        ProfTestResult GetUserResult(int points);
     }
-    */
+    
 }

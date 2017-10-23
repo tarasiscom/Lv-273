@@ -7,9 +7,9 @@ namespace EPA.Common.dto
     /// <summary>
     ///  This interface describes general information about professional directory, and list with specialties for person
     /// </summary>
-    public interface ICommonProfTestResult 
+    public class ProfTestResult 
     {
-        ICommonProfDirection ProfDirection { get;}
-        List<ICommonSpecialty> Profspecialties { get; }
+        ProfDirection ProfDirection { get; set; }
+        List<Specialty> Profspecialties { get; set; }
     }
 }

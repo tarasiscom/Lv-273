@@ -7,9 +7,9 @@ namespace EPA.Common.dto
     /// <summary>
     ///  This interface describes information about professional direction 
     /// </summary>
-    public interface ICommonProfDirection
+    public class ProfDirection
     {
-        int Id { get; }
-        string ProfDirection { get; }
+        int Id { get; set; }
+        string Direction { get; set; }
     }
 }
