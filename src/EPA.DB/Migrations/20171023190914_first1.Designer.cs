@@ -11,9 +11,10 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class DateContextModelSnapshot : ModelSnapshot
+    [Migration("20171023190914_first1")]
+    partial class first1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +64,7 @@ namespace EPA.DB.Migrations
 
                     b.HasIndex("TestListIDId");
 
-                    b.ToTable("Qestions");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("EPA.DB.MSSQL.Models.TestDetailedInfo", b =>

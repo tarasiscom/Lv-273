@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace EPA.DB.Migrations
 {
-    public partial class first : Migration
+    public partial class first1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
