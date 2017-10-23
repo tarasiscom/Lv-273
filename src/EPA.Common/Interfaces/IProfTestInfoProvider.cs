@@ -14,13 +14,13 @@ namespace EPA.Common.Interfaces
         ///  This method retrives list of accessible ProfTests 
         ///  <returns> collection of ProfTests </returns>
         /// </summary>
-        IEnumerable<ICommonTestInfo> GetTests();
+        // ICommonTestInfo GetTests();
 
         /// <summary>
         ///  This method retrives information about current ProfTest
         ///  <param> id of ProfTest </param>
         ///  <returns> ProfTest info </returns>
         /// </summary>
-        ICommonTestDetailedInfo GetTestInfo(int id);
+        CommonTestDetailedInfo GetTestInfo(int id);
     }
 }

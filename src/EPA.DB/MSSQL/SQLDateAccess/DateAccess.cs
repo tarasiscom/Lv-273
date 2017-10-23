@@ -16,7 +16,5 @@ namespace EPA.DB.MSSQL.SQLDateAccess
         {
             return context.Dates.ToList().Last();
         }
-
-        
     }
 }
