@@ -10,18 +10,18 @@ import {
 
 interface TestQuestion {
     id: number;
-    name: string;
-    ans: TestAnswer[]
+    question: string;
+    answer: TestAnswer[]
 }
 
 interface TestAnswer {
-    name: string;
-    pts: number;
+    answer: string;
+    point: number;
 }
 
 
 interface TestQuiz {
-    id: number;
+    //id: number;
     que: TestQuestion[];
     loading: boolean;
     selectedValue: number;
@@ -33,7 +33,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         super();
 
         this.state = {
-            id: 0, que: [], loading: true, selectedValue: 0, totalScore: 0
+            que: [], loading: true, selectedValue: 0, totalScore: 0
         };
 
 
@@ -42,9 +42,9 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         let path = 'api/profTest/' + pathId + '/questions';
 
         fetch(path)
-            .then(response => response.json() as Promise<TestQuiz>)
+            .then(response => response.json() as Promise<TestQuestion[]>)
             .then(data => {
-                this.setState({ id: data.id, que: data.que, loading: false });
+                this.setState({ que: data, loading: false });
             });
     }
 
@@ -55,17 +55,18 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     public render() {
         return <div className="container">
+            <div>{this.state.que.length}</div>
             <div className="row">
                 {this.state.que.map(que =>
 
                     <div>
-                        <p>Question #{que.id}: {que.name}</p>
+                        <p>Question #{que.id}: {que.question}</p>
                         <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue} onChange={this.handleChange}>
-                            {que.ans.map(ans => 
+                            {que.answer.map(ans => 
                                 <div className="row" >
                                     <label>
-                                        <Radio value={ans.pts} />
-                                        {ans.name}
+                                        <Radio value={ans.point} />
+                                        {ans.answer}
                                     </label>
                                 </div>
                                 )}

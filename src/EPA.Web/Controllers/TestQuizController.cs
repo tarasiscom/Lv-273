@@ -33,7 +33,20 @@ namespace EPA.Web.Controllers
         /// <param name="testId">id of selected test</param> 
         /// <returns>collection of questions</returns>
         [Route("/api/profTest/{testId}/questions")]
-        public IEnumerable<CommonQuestions> GetQuestions(int testId) => profTestQuestionsProvider.GetQuestionByListID(testId);
+        [HttpGet("{testId}")]
+        public IEnumerable<CommonQuestions> GetQuestions(int testId)
+        {
+
+            List<CommonQuestions> list =  profTestQuestionsProvider.GetQuestionByListID(testId).ToList();
+
+            foreach(var v in list)
+            {
+                v.Answer = this.GetAnswers(v.ID).ToList();
+            }
+
+            return list;
+            
+        }
 
 
         /// <summary>
