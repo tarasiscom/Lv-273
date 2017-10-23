@@ -21,7 +21,7 @@ namespace EPA.DB.MSSQL.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Answers>().ToTable("Answers");
-            modelBuilder.Entity<Questions>().ToTable("Qestions");
+            modelBuilder.Entity<Questions>().ToTable("Questions");
 
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");
