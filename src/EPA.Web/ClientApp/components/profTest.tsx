@@ -19,12 +19,7 @@ interface DataAPI {
     name: string;
 }
 
-var routes = (
-    <Route path="/" >
-        <Route path="/testInfo/:id" component={TestInfo}>
-        </Route>
-    </Route>
-);
+
 
 export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
     constructor() {

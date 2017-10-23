@@ -13,12 +13,12 @@ namespace EPA.Web.Controllers
     public class TestInfoController : Controller
     {
         private IProfTestInfoProvider profTestInfoProvider;
-        private IProfTestResultProvider profTestResultProvider;
+       // private IProfTestResultProvider profTestResultProvider;
 
-        public TestInfoController(IProfTestInfoProvider profTestInfoProvider, IProfTestResultProvider profTestResultProvider)
+        public TestInfoController(IProfTestInfoProvider profTestInfoProvider /*, IProfTestResultProvider profTestResultProvider*/)
         {
             this.profTestInfoProvider = profTestInfoProvider;
-            this.profTestResultProvider = profTestResultProvider;
+          //  this.profTestResultProvider = profTestResultProvider;
         }
 
         /// <summary>
@@ -43,8 +43,11 @@ namespace EPA.Web.Controllers
         ///  <param>id of selected ProfTest</param>
         /// </summary>
         // GET: api/profTest/{id}/result
+
+            /*
         [Route("/api/profTest/{id}/result")]
         [HttpPost("{id}")]
         public ICommonProfTestResult GetUserResult([FromBody]int points) => profTestResultProvider.GetUserResult(points);
+        */
     }
 }

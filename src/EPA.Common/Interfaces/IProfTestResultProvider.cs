@@ -9,6 +9,8 @@ namespace EPA.Common.Interfaces
     /// <summary>
     ///  This interface describes methods that are available through the interface for getting the result of professional test
     /// </summary>
+    /// 
+    /*
     public interface IProfTestResultProvider
     {
         /// <summary>
@@ -17,4 +19,5 @@ namespace EPA.Common.Interfaces
         /// </summary>
         ICommonProfTestResult GetUserResult(int points);
     }
+    */
 }
