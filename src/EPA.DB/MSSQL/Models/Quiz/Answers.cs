@@ -12,6 +12,7 @@ namespace EPA.DB.MSSQL.Models.Quiz
         [Key]
         public int ID { get; set; }
         public string Answer { get; set; }
+        public int Point { get; set; }
 
         public Questions Qestion { get; set; }
 
