@@ -18,6 +18,9 @@ namespace EPA.DB.MSSQL.Models
         {
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");
+            modelBuilder.Entity<University>().ToTable("Universities");
+            modelBuilder.Entity<Direction>().ToTable("Directions");
+            modelBuilder.Entity<Specialty>().ToTable("Specialties");
         }
     }
 }
