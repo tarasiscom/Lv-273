@@ -10,6 +10,6 @@ namespace EPA.Common.dto.CommonQuiz
         public string Question { get; set; }
 
         public List<CommonAnswers> Answer { get; set; }
-        public CommonTestList TestListID { get; set; }
+        public ICommonTestDetailedInfo TestListID { get; set; }
     }
 }

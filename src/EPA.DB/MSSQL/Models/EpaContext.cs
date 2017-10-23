@@ -13,7 +13,6 @@ namespace EPA.DB.MSSQL.Models
 
         public DbSet<Answers> Answers { get; set; }
         public DbSet<Questions> Questions { get; set; }
-        public DbSet<TestList> TestLists { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -23,7 +22,6 @@ namespace EPA.DB.MSSQL.Models
         {
             modelBuilder.Entity<Answers>().ToTable("Answers");
             modelBuilder.Entity<Questions>().ToTable("Qestions");
-            modelBuilder.Entity<TestList>().ToTable("TestLit");
 
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");

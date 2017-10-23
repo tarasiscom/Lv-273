@@ -20,15 +20,9 @@ namespace EPA.DB.MSSQL.SQLDateAccess
             epaContext = new EpaContext();
         }
 
-        public IEnumerable<CommonTestList> GetTestList()
-        {
-            
-            return epaContext.TestLists.Select(item=>item.ToCommon()).ToList<CommonTestList>(); 
-        }
-
         public IEnumerable<CommonQuestions> GetQuestionByListID(int testId)
         {
-            return epaContext.Questions.Where(td => td.TestListID.ID == testId).
+            return epaContext.Questions.Where(td => td.TestListID.Id == testId).
                 Select(item=>item.ToCommon()).ToList<CommonQuestions>();
         }
 

@@ -14,7 +14,7 @@ namespace EPA.DB.MSSQL.Models.Quiz
         public string Question { get; set; }
 
         public List<Answers> Answer { get; set; }
-        public TestList TestListID { get; set; }
+        public TestDetailedInfo TestListID { get; set; }
 
         static Questions()
         { Mapper.Initialize(cfg => cfg.CreateMap<Questions, CommonQuestions>()); }
