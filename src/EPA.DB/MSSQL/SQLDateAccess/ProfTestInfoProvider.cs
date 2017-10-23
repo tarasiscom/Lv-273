@@ -21,12 +21,7 @@ namespace EPA.DB.MSSQL.SQLDateAccess
         }
         public IEnumerable<CommonTestInfo> GetTests()
         {
-            List<CommonTestInfo> cti = new List<CommonTestInfo>();
-            foreach (var v in context.Tests)
-            {
-                cti.Add((new TestInfo { Id = v.Id, Name = v.Name }).ToCommon());
-            }
-            return cti;
+            return context.Tests.Select(item => item.ToCommon());
         }
     }
 }

@@ -7,17 +7,22 @@ using AutoMapper;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class TestDetailedInfo: TestInfo
+    public class TestDetailedInfo
     {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
         public string Description { get; set; }
         public int ApproximatedTime { get; set; }
         public int QuestionsCount { get; set; }
-        public TestDetailedInfo():base()
+
+        static TestDetailedInfo()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>()
-            .IncludeBase<TestInfo,CommonTestInfo>());
+            Mapper.Initialize(cfg => cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>());
         }
-        public new CommonTestDetailedInfo ToCommon()
+
+        public CommonTestDetailedInfo ToCommon()
         {
             return Mapper.Map<CommonTestDetailedInfo>(this);
         }
