@@ -14,7 +14,7 @@ namespace EPA.Common.Interfaces
         ///  This method retrives list of accessible ProfTests 
         ///  <returns> collection of ProfTests </returns>
         /// </summary>
-        // ICommonTestInfo GetTests();
+        IEnumerable<CommonTestInfo> GetTests();
 
         /// <summary>
         ///  This method retrives information about current ProfTest
