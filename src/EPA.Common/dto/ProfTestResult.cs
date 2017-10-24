@@ -5,7 +5,7 @@ using System.Text;
 namespace EPA.Common.dto
 {
     /// <summary>
-    ///  This interface describes general information about professional directory, and list with specialties for person
+    ///  This class describes general information about professional directory, and list with specialties for person
     /// </summary>
     public class ProfTestResult 
     {

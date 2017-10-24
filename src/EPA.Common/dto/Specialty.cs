@@ -5,7 +5,7 @@ using System.Text;
 namespace EPA.Common.dto
 {
     /// <summary>
-    ///  This interface describes general information of Speciality
+    ///  This class describes general information of Speciality
     /// </summary>
     public class Specialty
     {

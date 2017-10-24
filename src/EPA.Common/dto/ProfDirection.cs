@@ -5,7 +5,7 @@ using System.Text;
 namespace EPA.Common.dto
 {
     /// <summary>
-    ///  This interface describes information about professional direction 
+    ///  This class describes information about professional direction 
     /// </summary>
     public class ProfDirection
     {
