@@ -9,13 +9,10 @@ namespace EPA.Common.dto
     /// </summary>
     public class Specialty
     {
-        int Id { get; set; }
-        string SpecialtyName { get; set; }
-        string Faculty { get; set; }
-        string University { get; set; }
-        string District { get; set; }
-        string City { get; set; }
-        string Address { get; set; }
-        string Site { get; set; }
+        public string SpecialtyName { get; set; }
+        public string University { get; set; }
+        public string District { get; set; }
+        public string Address { get; set; }
+        public string Site { get; set; }
     }
 }

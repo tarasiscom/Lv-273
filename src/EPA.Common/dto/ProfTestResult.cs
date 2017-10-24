@@ -9,7 +9,7 @@ namespace EPA.Common.dto
     /// </summary>
     public class ProfTestResult 
     {
-        ProfDirection ProfDirection { get; set; }
-        List<Specialty> Profspecialties { get; set; }
+        public string ProfDirection { get; set; }
+        public List<Specialty> ProfSpecialties { get; set; }
     }
 }
