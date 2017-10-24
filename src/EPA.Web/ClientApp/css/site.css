@@ -1,4 +1,118 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Fira+Sans+Condensed|Fjalla+One');
 
+.uni-recom {
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.logo1 {
+    background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.title {
+    font-size: 4rem;
+    font-family: 'Fjalla One', sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.recom-to-rows {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 30px;
+    background-color: gainsboro;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-color: maroon;
+}
+
+.rec-table {
+    width: 50px;
+}
+
+.main-settings {
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.recom-display {
+    display: flex;
+    flex-direction: row;
+}
+
+.recom-padding {
+    padding-top: 30px;
+    padding-bottom: 15px;
+    font-family: 'EB Garamond', sans-serif;
+}
+
+.second-title {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-weight: 600;
+    padding-bottom: 22px;
+    padding-top: 5px;
+}
+
+.text-description {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    padding-bottom: 15px;
+}
+
+.caption {
+    padding: 15px;
+}
+
+.main-block {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: darkgrey;
+}
+
+.uni-padding {
+    padding-right: 45px;
+}
+
+.img-univer {
+    width: 160px;
+}
+
+.img-round {
+    border-radius: 70%;
+}
+
+.text-univer {
+    padding-top: 15px;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 16px;
+    width: 160px;
+}
+
+.univer-in-row {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.top-univer {
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
 .remove-all-padding {
     padding: 0 !important;
 }
@@ -27,6 +141,9 @@
     z-index: 1;
 }
 
+.rec-pad-left{
+padding-left:50px;
+}
 footer {
     background: #ffab62;
     width: 100%;
@@ -35,8 +152,8 @@ footer {
     bottom: 0;
     left: 0;
 }
-
-
+.table{width: 70%; 
+}
 
 .footer-distributed {
     background-color: #292c2f;
