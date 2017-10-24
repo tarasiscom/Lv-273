@@ -21,7 +21,6 @@ interface TestAnswer {
 
 
 interface TestQuiz {
-    //id: number;
     que: TestQuestion[];
     loading: boolean;
     selectedValue: number;
@@ -37,26 +36,37 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         };
 
 
-        //это не будет работать после 10
-        let pathId = window.location.pathname.substr(window.location.pathname.length - 1, window.location.pathname.length);
-        let path = 'api/profTest/' + pathId + '/questions';
+        this.fetchData();
 
-        fetch(path)
-            .then(response => response.json() as Promise<TestQuestion[]>)
-            .then(data => {
-                this.setState({ que: data, loading: false });
-            });
     }
+
+    componentWillReceiveProps(nextProps) {
+        
+        console.log("lalalallala");
+    }
+
 
     handleChange(value) {
         this.setState({ selectedValue: value });
     }
 
+    fetchData() {
+
+        let pathId = 1;//this.props.match.params['id'];
+        let path = 'api/profTest/' + pathId + '/questions';
+        fetch(path)
+            .then(response => response.json() as Promise<TestQuestion[]>)
+            .then(data => {
+                this.setState({ que: data, loading: false });
+            });
+
+    }
 
     public render() {
+        
+        
         return <div className="container">
-            <div>{this.state.que.length}</div>
-            <div className="row">
+            <div className="row" id="testsubmit">
                 {this.state.que.map(que =>
 
                     <div>
@@ -77,8 +87,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             <button onClick={() => this.submitScore()}>
                 Submit
             </button>
-
-            {console.log(this.state.selectedValue )}
+            
 
             {/*
 
@@ -97,11 +106,14 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
 
     submitScore() {
-        
+
+        let parent = document.getElementById('testsubmit');
+
 
         this.setState({
             totalScore: 1
         });
+
     }
 
 }

@@ -28,8 +28,11 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 
         public IEnumerable<CommonQuestions> GetQuestionByListID(int testId)
         {
+            
             return epaContext.Questions.Where(td => td.TestListID.ID == testId).
                 Select(item=>item.ToCommon()).ToList<CommonQuestions>();
+
+            
         }
 
         public IEnumerable<CommonAnswers> GetAnswersByQuestId(int questionId)

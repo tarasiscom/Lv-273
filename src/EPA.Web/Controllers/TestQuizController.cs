@@ -37,15 +37,27 @@ namespace EPA.Web.Controllers
         public IEnumerable<CommonQuestions> GetQuestions(int testId)
         {
 
+            return new[] { new CommonQuestions { ID = 1, Question="que1",
+                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
+                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
+
+                    new CommonQuestions { ID = 2, Question="que2",
+                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
+                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} }
+
+            };
+
+            /*
             List<CommonQuestions> list =  profTestQuestionsProvider.GetQuestionByListID(testId).ToList();
 
+            
             foreach(var v in list)
             {
                 v.Answer = this.GetAnswers(v.ID).ToList();
             }
 
-            return list;
-            
+            return list;*/
+
         }
 
 
