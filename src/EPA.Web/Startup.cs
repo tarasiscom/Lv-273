@@ -28,7 +28,7 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<IProfTestInfoProvider, ProfTestInfoProvider>();
-        //  services.AddTransient<IProfTestResultProvider, ProfTestResultProvider>();
+            services.AddTransient<IProfTestResultProvider, ProfTestResultProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

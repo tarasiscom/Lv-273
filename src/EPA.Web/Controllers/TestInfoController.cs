@@ -46,7 +46,7 @@ namespace EPA.Web.Controllers
     
         [Route("/api/profTest/{id}/result")]
         [HttpPost("{id}")]
-        public ProfTestResult GetUserResult([FromBody]int points, int id) => profTestResultProvider.GetUserResult(points,id);
+        public ProfTestResult GetUserResult([FromBody]int points, [FromBody]int id) => profTestResultProvider.GetUserResult(points,id);
         
     }
 }
