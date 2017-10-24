@@ -21,13 +21,20 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
         super();
         this.state = {
             id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true};
-        let pathId = window.location.pathname.substr(10, window.location.pathname.length);
+    }
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData() {
+        let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
             .then(response => response.json() as Promise<TestDetailInformation>)
             .then(data => {
                 this.setState({ id: data.id, name: data.name, description: data.description, approximatedTime: data.approximatedTime, questionsCount: data.questionsCount, loading: false });
             });
+
     }
 
     public render() {
