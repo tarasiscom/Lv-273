@@ -41,7 +41,7 @@ namespace EPA.Web.Controllers
                 Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
                     new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
 
-                    new CommonQuestions { ID = 2, Question="que2",
+                           new CommonQuestions { ID = 2, Question="que2",
                 Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
                     new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} }
 
