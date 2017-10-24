@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EPA.DB.MSSQL.Models
 {
-    class ProfDirection
+    public class ProfDirection
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +14,7 @@ namespace EPA.DB.MSSQL.Models
 
         // foreign keys
         public int Id_test { get; set; }
-        public TestInfo TestInfo { get; set; } // public Test і в Test додати List<Profdirection>
+        public TestDetailedInfo TestDetailedInfo { get; set; }
         public int Id_direction { get; set; }
         public Direction Direction { get; set; }
     }

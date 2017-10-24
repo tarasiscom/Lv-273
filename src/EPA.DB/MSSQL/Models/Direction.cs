@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EPA.DB.MSSQL.Models
 {
-    class Direction
+    public class Direction
     {
         [Key]
         public int Id { get; set; }

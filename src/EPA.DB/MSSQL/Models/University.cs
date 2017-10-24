@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace EPA.DB.MSSQL.Models
 {
-    class University
+    public class University
     {
         [Key]
         public int Id { get; set; }

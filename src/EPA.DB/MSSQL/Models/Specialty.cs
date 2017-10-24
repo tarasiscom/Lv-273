@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EPA.DB.MSSQL.Models
 {
-    class Specialty
+    public class Specialty
     {
         [Key]
         public int Id { get; set; }

@@ -26,7 +26,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         // GET: api/profTest/list
         [Route("api/profTest/list")]
-        public IEnumerable<ICommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
+        public IEnumerable<CommonTestInfo> GetTests() => profTestInfoProvider.GetTests();
 
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace EPA.Web.Controllers
         // GET: api/profTest/{id}/info
         [Route("api/profTest/{id}/info")]
         [HttpGet("{id}")]
-        public ICommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
+        public CommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
 
         /// <summary>
         ///  This method retrieves the result for current ProfTest
