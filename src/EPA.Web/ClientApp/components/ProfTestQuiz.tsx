@@ -23,7 +23,8 @@ interface TestAnswer {
 interface TestQuiz {
     que: TestQuestion[];
     loading: boolean;
-    selectedValue: string;
+    submitted: boolean;
+    selectedValue: number[];
     totalScore: number;
 }
 
@@ -32,7 +33,9 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         super();
 
         this.state = {
-            que: [], loading: true, selectedValue: '1', totalScore: 0
+            que: [], loading: true, submitted: false, selectedValue: [
+                1, 1
+            ], totalScore: 0
         };
 
 
@@ -40,21 +43,20 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        
-        console.log("lalalallala");
-    }
-
     componentDidMount() {
         this.fetchData()
     }
 
 
-    handleChange(value) {
+    handleChange(value, curid) {
+        
+        let selval = this.state.selectedValue;
+        selval[curid] = value;
+        
+        this.setState({
+            selectedValue: selval
+        }); 
 
-        console.log("New value: ", value);
-
-        this.setState({ selectedValue: value });
     }
 
     fetchData() {
@@ -69,56 +71,67 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     }
 
-    public render() {
-        
-        
-        return <div className="container">
-            <div className="row" id="testsubmit">
-                {this.state.que.map(que =>
+    renderTestResults()
+    {
+        return <div>
 
-                    <div>
-                        <p>Question #{que.id}: {que.question}</p>
-                        <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue} onChange={this.handleChange}>
-                            {que.answer.map(ans => 
-                                <div className="row" >
-                                    <label>
-                                        <Radio value={ans.point.toString()} />
-                                        {ans.answer}
-                                    </label>
-                                </div>
-                                )}
-                        </RadioGroup>
-                    </div>
-                )}
+            <p>{this.state.totalScore}</p>
+
             </div>
+
+    }
+
+    renderTestQuiz() {
+        return <div className="row" id="testsubmit">
+            {this.state.que.map(que =>
+
+                <div>
+                    <p>Question #{que.id}: {que.question}</p>
+                    <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue[que.id - 1]} onChange={(e) => this.handleChange(e, que.id - 1)}>
+                        {que.answer.map(ans =>
+                            <div className="row" >
+                                <label>
+                                    <Radio value={ans.point} />
+                                    {ans.answer}
+                                </label>
+                            </div>
+                        )}
+                    </RadioGroup>
+                </div>
+            )}
             <button onClick={() => this.submitScore()}>
                 Submit
             </button>
+            </div>
+
+    }
+
+
+    public render() {
+
+        let content = this.state.loading 
+            ?<p><em>Loading...</em></p>
+            : !this.state.submitted
+                ? this.renderTestQuiz()
+                : this.renderTestResults()
             
+        
+        return <div className="container">
 
-            {/*
-
-                нужно сделать submitScore (
-                понять как добраться до значения нажатого радиобокса(видимо как-то через селектед вэлью )
-                и походу ка краз с ним и все проблемы
-                )
-
-                и переназначить получаемые данные 
-
-            */}
-
-
+            { content }
+            
         </div>
     }
 
 
     submitScore() {
-
-        let parent = document.getElementById('testsubmit');
         
-
+        let score = 0;
+        this.state.selectedValue.map(scr => score += scr);
+        console.log("score: " + score);
         this.setState({
-            totalScore: 1
+            submitted: true,
+            totalScore: score
         });
 
     }
