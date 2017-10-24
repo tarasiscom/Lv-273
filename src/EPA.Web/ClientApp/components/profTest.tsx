@@ -1,8 +1,10 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { TestInfo } from './TestInfo'
 import { Link, NavLink ,BrowserRouter as Router,
   Route } from 'react-router-dom';
+
 
 
 
@@ -16,12 +18,18 @@ interface DataAPI
     name: string;
 }
 
+var routes = (
+    <Route path="/" >
+        <Route path="/testInfo/:id"  component={TestInfo}>
+        </Route>
+    </Route>
+);
 
 export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
     constructor(){
         super();
         this.state = { tests : [], loading: true  }
-        fetch('api/profTest/list/GetTests')
+        fetch('api/profTest/list')
             .then(response => response.json() as Promise<DataAPI[]>)
             .then(data => {
                 this.setState({ tests: data, loading: false  });
@@ -43,9 +51,8 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
     }
 
     private static renderTestsList(tests: DataAPI[]) {
-    
-        return  <div>
-              <table className='table'>
+        return <div className="container">
+            <table className="table">
             <thead>
                 <tr>
                     <th>№</th>
@@ -55,8 +62,9 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             <tbody>
                 {tests.map(tests =>
                     <tr key={tests.id}>
-                        <td>{tests.id}</td>
-                        <td><Link to={'/profTest/${tests.id}'}> {tests.name}</Link></td>
+                            <td>{tests.id}</td>
+                            <td><Link to={'/testInfo/' + tests.id} > {tests.name}</Link></td>
+                            
                     </tr>
                 )}
             </tbody>
