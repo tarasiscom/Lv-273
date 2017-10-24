@@ -1,20 +1,21 @@
 ﻿namespace Parsing.DataClasses
 {
-    class Speciality
+    public class Speciality
     {
-        public Speciality(int id, int facID, string name)
+        public Speciality(int id, int directionID, int universityID, string name)
         {
             this.ID = id;
-            this.FacultyID = facID;
+            this.DirectionID = directionID;
+            this.UniversityID = universityID;
             this.Name = name;
  
         }
 
         public int ID { get; set; }
 
-        public int FacultyID { get; set; }
+        public int UniversityID { get; set; }
 
-        //public int DirectionID { get; set; }
+        public int DirectionID { get; set; }
 
         public string Name { get; set; }
 

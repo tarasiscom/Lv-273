@@ -7,15 +7,12 @@ using System.Text;
 
 namespace Parsing
 {
-
-
-    class ShowInConsole: ISaver
+    public class ShowInConsole: ISaver
     {
         public void SaveAll()
         {
             throw new NotImplementedException();
         }
-
 
         public void SaveDistrict(District district)
         {
@@ -38,7 +35,7 @@ namespace Parsing
         {
             foreach (Direction direction in directions)
             {
-                Console.WriteLine(String.Format("Галузь:{0} ID:{1} UninerID:{2}",direction.Name, direction.ID, direction.UniversityID));
+                Console.WriteLine(String.Format("Галузь:{0} ID:{1} ",direction.Name, direction.ID));
             }
         }
 
@@ -46,21 +43,25 @@ namespace Parsing
         {
             foreach (Speciality speciality in specialities)
             {
-                string s = String.Format("Spes: {0}\n ID{1}\n Галузь{2}", speciality.Name, speciality.ID, speciality.FacultyID );
+                string s = String.Format("Spes: {0}\n ID{1}\n Галузь{2}", speciality.Name, speciality.ID, speciality.DirectionID );
                 Console.WriteLine(s);
                 Console.WriteLine("_____________________________________________________");
  
             }
         }
 
+        public void SaveUniversities(IEnumerable<University> universities)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    class DatabaseSaver : ISaver
+    public class DatabaseSaver : ISaver
     {
-        string connectionString = "data source = .\\SQLEXPRESS; initial catalog = EPA2; integrated security = true";
+        string connectionString = "data source = .\\SQLEXPRESS; initial catalog = EPA; integrated security = true";
         string formUniversity = "({0},'{1}','{2}','{3}','{4}')";
-        string formDirection = "({0},{1},'{2}')";
-        string formSpeciality = "({0},{1},'{2}')";
+        string formDirection = "({0},'{1}')";
+        string formSpeciality = "({0},{1},{2},'{3}')";
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
         SqlCommand commandSpeciality = new SqlCommand();
@@ -71,7 +72,7 @@ namespace Parsing
 
             foreach(Direction direction in directions)
             {
-                queryDirections.Append(String.Format(formDirection, direction.ID, direction.UniversityID, direction.Name.Replace("'", "`")));
+                queryDirections.Append(String.Format(formDirection, direction.ID, direction.Name.Replace("'", "`")));
                 queryDirections.Append(",");
             }
 
@@ -85,7 +86,7 @@ namespace Parsing
 
             foreach (Speciality speciality in specialities)
             {
-                querySpecialities.Append(String.Format(formSpeciality, speciality.ID, speciality.FacultyID, speciality.Name.Replace("'", "`")));
+                querySpecialities.Append(String.Format(formSpeciality, speciality.ID, speciality.DirectionID, speciality.UniversityID, speciality.Name.Replace("'", "`")));
                 querySpecialities.Append(",");
             }
 
@@ -93,16 +94,6 @@ namespace Parsing
             commandSpeciality.CommandText = querySpecialities.ToString();
         }
 
-        public void SaveUniversity(University university)
-        {
-
-            StringBuilder queryUniversity = new StringBuilder("INSERT INTO Universities VALUES ");
-            queryUniversity.Append(String.Format(formUniversity, university.ID, university.District.Replace("'", "`"), university.Name.Replace("'", "`"), university.Adress.Replace("'", "`"), university.Site.Replace("'", "`")));
-            queryUniversity.Append(",");
-
-            queryUniversity.Remove(queryUniversity.Length - 1, 1).Append(';').Replace("&#34", "\"");
-            commandUniversity.CommandText = queryUniversity.ToString();
-        }
             public void SaveAll()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -114,7 +105,22 @@ namespace Parsing
                 commandUniversity.ExecuteScalar();
                 commandDirections.ExecuteScalar();
                 commandSpeciality.ExecuteScalar();
+                
             }
+        }
+
+        public void SaveUniversities(IEnumerable<University> universities)
+        {
+            StringBuilder queryUniversity = new StringBuilder("INSERT INTO Universities VALUES ");
+
+            foreach (University university in universities)
+            {
+                queryUniversity.Append(String.Format(formUniversity, university.ID, university.District.Replace("'", "`"), university.Name.Replace("'", "`"), university.Adress.Replace("'", "`"), university.Site.Replace("'", "`")));
+                queryUniversity.Append(",");
+            }
+
+            queryUniversity.Remove(queryUniversity.Length - 1, 1).Append(';').Replace("&#34", "\"");
+            commandUniversity.CommandText = queryUniversity.ToString();
         }
     }
 }

@@ -6,11 +6,13 @@ using System.Net;
 
 namespace Parsing
 {
-    class Parser : IParser
+    public class Parser : IParser
     {
         private string url;
         private HtmlNodeCollection nodes;
         private List<Direction> directions;
+        private List<Speciality> specialities;
+        private List<University> universities;
 
         public string Url
         {
@@ -21,6 +23,9 @@ namespace Parsing
         public Parser(string url)
         {
             this.url = url;
+            this.directions = new List<Direction>();
+            this.specialities = new List<Speciality>();
+            this.universities = new List<University>();
         }
 
         public void ChangeUrl(string url)
@@ -73,14 +78,15 @@ namespace Parsing
             return new University(id, district, name, adress, webSite);
         }
 
-        public IEnumerable<Speciality> GetSpecialityInfo(ref int id, ref int idFac, int idUniv, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
+        public void GetInfo(ref int id, ref int idDirection, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
         {
-            directions = new List<Direction>();
-            List<Speciality> specialities = new List<Speciality>();
+            
             string namePrevDirection = string.Empty;
             string namePrevSpeciality = string.Empty;
             string nameDirection;
             string nameSpeciality;
+
+            universities.Add(new University(idUniv, district, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText, univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText, univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText));
 
             foreach (HtmlNode node in nodes)
             {
@@ -88,7 +94,7 @@ namespace Parsing
                 {
                     continue;
                 }
-                
+
 
                 if (node.SelectSingleNode(specFields["SpecSpecNode"]) == null)
                 {
@@ -117,49 +123,77 @@ namespace Parsing
                     nameSpeciality = nameSpeciality.Remove(0, counter).TrimStart(' ');
                 }
 
-                //if (!directions.Exists((dir) => dir.Name == nameDirection))
-                //{
-                //    directions.Add(new Direction(idFac, idUniv, nameDirection));
-                //    idFac++;
-                //    namePrevDirection = nameDirection;
 
-                //    if (nameSpeciality != namePrevSpeciality)
-                //    {
-                //        specialities.Add(new Speciality(id, idFac - 1, nameSpeciality));
-                //        id++;
-                //        namePrevSpeciality = nameSpeciality;
-                //    }
+                if (!directions.Exists((direction) => direction.Name == nameDirection))
+                {
+                    directions.Add(new Direction(idDirection, nameDirection));
+                    idDirection++;
+
+                    if (nameSpeciality != namePrevSpeciality)
+                    {
+                        specialities.Add(new Speciality(id, idDirection - 1, idUniv, nameSpeciality));
+                        id++;
+                        namePrevSpeciality = nameSpeciality;
+                    }
+                }
+
+                else
+                {
+                    if (nameSpeciality != namePrevSpeciality)
+                    {
+                        specialities.Add(new Speciality(id, directions.Find((direction) => direction.Name == nameDirection).ID, idUniv, nameSpeciality));
+                        id++;
+                        namePrevSpeciality = nameSpeciality;
+                    }
+                    
+                }
+
+                //if (nameSpeciality != namePrevSpeciality)
+                //{
+                //    specialities.Add(new Speciality(id, idDirection - 1, idUniv, nameSpeciality));
+                //    id++;
+                //    namePrevSpeciality = nameSpeciality;
                 //}
 
                 //else
                 //{
                 //    if (nameSpeciality != namePrevSpeciality)
                 //    {
-                //        specialities.Add(new Speciality(id, directions.Find((dir) => dir.Name == nameDirection)).FacultyID, nameSpeciality));
+                //        //specialities.Add(new Speciality(id, directions.Find((dir) => dir.Name == nameDirection)).FacultyID, nameSpeciality);
                 //        id++;
                 //        namePrevSpeciality = nameSpeciality;
                 //    }
                 //}
-                if (nameDirection != namePrevDirection)
-                {
-                    directions.Add(new Direction(idFac, idUniv, nameDirection));
-                    idFac++;
-                    namePrevDirection = nameDirection;
-                }
+                //if (nameDirection != namePrevDirection)
+                //{
+                //    directions.Add(new Direction(idDirection, nameDirection));
+                //    idDirection++;
+                //    namePrevDirection = nameDirection;
+                //}
 
-                if (nameSpeciality != namePrevSpeciality)
-                {
-                    specialities.Add(new Speciality(id, idFac - 1, nameSpeciality));
-                    id++;
-                    namePrevSpeciality = nameSpeciality;
-                }
+                //if (nameSpeciality != namePrevSpeciality)
+                //{
+                //    specialities.Add(new Speciality(id, idDirection - 1, nameSpeciality));
+                //    id++;
+                //    namePrevSpeciality = nameSpeciality;
+                //}
+                //}
             }
-            return specialities;
         }
 
         public IEnumerable<Direction> GetDirections()
         {
             return directions;
+        }
+
+        public IEnumerable<Speciality> GetSpecialities()
+        {
+            return specialities;
+        }
+
+        public IEnumerable<University> GetUniversities()
+        {
+            return universities;
         }
     }
 }

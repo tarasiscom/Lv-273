@@ -3,22 +3,25 @@
     using HtmlAgilityPack;
     using System;
     using System.Collections.Generic;
+    using Parsing.DataClasses;
 
     internal class ParseController
     {
         private IParser parser;
         private ISaver saver;
         private IErrorsLog errorsLog;
+        //private List<Direction> directions = new List<Direction>();
 
         string district;
 
         private int districtID = 1;
         private int universityID = 1;
-        private int facultyID = 1;
+        private int idDirection = 1;
         private int specialityID = 1;
 
         HtmlNode universityNode;
-         
+        //List<Direction> directions;
+
         string year = "/2017";
         private string indexPage;
        
@@ -31,9 +34,10 @@
             this.indexPage = parser.Url;
             this.nodesXpaths = nodesXpaths;
             this.errorsLog = errorsLog;
+            //directions = new List<Direction>();
 
-            //if(Parser.IsAvailable(indexPage))
                 GetDataFromVstupInfo();
+            Save();
         }
 
         private void GetDataFromVstupInfo()
@@ -43,15 +47,14 @@
             foreach (HtmlNode node in districtNodes)
             {
                 district = node.InnerText;
-                //After "Дніпропетровська" and "Одеcька" node.InnerText == "";
-                //In this places empty node <a></a>
-                if (node.InnerText != string.Empty)
-                {
-                    //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
-                    parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
-                    StarsProcessUniversities();
-                }
-                districtID++;
+
+                    if (node.InnerText != string.Empty)
+                    {
+                        //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
+                        parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
+                        StarsProcessUniversities();
+                    }
+                    districtID++;
             }
             errorsLog.EndLog();
         }
@@ -71,30 +74,36 @@
                     {
                         parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
                         universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
-                        saver.SaveUniversity(parser.GetUniversityInfo(universityID, district, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
-                                                                        universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
-                                                                        universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
-                        StartProcessSpeciality();
+                        //saver.SaveUniversity(parser.GetUniversityInfo(universityID, district, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
+                                                                        //universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
+                                                                        //universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
+                        StartProcessSpeciality(universityNode);
                     }
                     universityID++;
                 }
             }
         }
 
-        private void StartProcessSpeciality()
+        private void StartProcessSpeciality(HtmlNode universityNode)
         {
             HtmlNodeCollection specialitiesNodes = parser.RetreiveNodes(nodesXpaths["SpecialitiesNodes"]);
 
             if (specialitiesNodes != null)
             {
                 //id !!!!!!!!!!!!!!!!!!!!!!
-                saver.SaveSpecialities(parser.GetSpecialityInfo(ref specialityID, ref facultyID, universityID, specialitiesNodes, nodesXpaths));
-                saver.SaveDirections(parser.GetDirections());
-                saver.SaveAll();
+                parser.GetInfo(ref specialityID, ref idDirection, universityID, district, universityNode,  specialitiesNodes, nodesXpaths);
                 Console.WriteLine("_______________________________________");
                 Console.WriteLine(district + universityID);
                 Console.WriteLine(universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText);
             }
+        }
+
+        public void Save()
+        {
+            saver.SaveUniversities(parser.GetUniversities());
+            saver.SaveDirections(parser.GetDirections());
+            saver.SaveSpecialities(parser.GetSpecialities());
+            saver.SaveAll();
         }
     }
 }
