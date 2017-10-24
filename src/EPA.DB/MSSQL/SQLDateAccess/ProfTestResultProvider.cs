@@ -4,8 +4,11 @@ using System.Text;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
-    class ProfTestResultProvider
+    public class ProfTestResultProvider : IProfTestResultProvider
     {
-
+        public ProfTestResult GetUserResult(int points, int testId)
+        {
+            return new ProfTestResult();
+        }
     }
 }
