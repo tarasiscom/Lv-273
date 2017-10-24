@@ -47,13 +47,13 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
 
     handleChange(value, index) {
-        
+
         let selval = this.state.selectedValue;
         selval[index] = value;
-        
+
         this.setState({
             selectedValue: selval
-        }); 
+        });
 
     }
 
@@ -66,7 +66,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             .then(data => {
                 this.setState({
                     que: data,
-                    selectedValue: Array.apply(null, Array(data.length)).map(function () { return 1 }),
+                    //selectedValue: Array.apply(null, Array(data.length)).map(function (cur, index) { return data }),
                     loading: false
                 });
             });
@@ -74,19 +74,18 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     }
 
-    renderTestResults()
-    {
+    renderTestResults() {
         return <div>
 
             <p>{this.state.totalScore}</p>
 
-            </div>
+        </div>
 
     }
 
     renderTestQuiz() {
         return <div className="row" id="testsubmit">
-            {this.state.que.map((que,index) =>
+            {this.state.que.map((que, index) =>
 
                 <div>
                     <p>Question #{que.id}: {que.question}</p>
@@ -105,38 +104,42 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             <button onClick={() => this.submitScore()}>
                 Submit
             </button>
-            </div>
+        </div>
 
     }
 
 
     public render() {
 
-        let content = this.state.loading 
-            ?<p><em>Loading...</em></p>
+        let content = this.state.loading
+            ? <p><em>Loading...</em></p>
             : !this.state.submitted
                 ? this.renderTestQuiz()
                 : this.renderTestResults()
-            
-        
+
+
         return <div className="container">
 
-            { content }
-            
+            {content}
+
         </div>
     }
 
 
     submitScore() {
-        
-        let score = 0;
-        this.state.selectedValue.map(scr => score += scr);
 
-        this.setState({
-            submitted: true,
-            totalScore: score
-        });
+        if (this.state.selectedValue.length==this.state.que.length){
+            let score = 0;
+            this.state.selectedValue.map(scr => score += scr);
 
+            this.setState({
+                submitted: true,
+                totalScore: score
+            });
+        }
+        else {
+            alert('finish the god damn test!1');
+        }
     }
 
 }
