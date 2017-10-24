@@ -23,7 +23,7 @@ interface TestAnswer {
 interface TestQuiz {
     que: TestQuestion[];
     loading: boolean;
-    selectedValue: number;
+    selectedValue: string;
     totalScore: number;
 }
 
@@ -32,11 +32,11 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         super();
 
         this.state = {
-            que: [], loading: true, selectedValue: 0, totalScore: 0
+            que: [], loading: true, selectedValue: '1', totalScore: 0
         };
 
 
-        this.fetchData();
+
 
     }
 
@@ -45,14 +45,21 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         console.log("lalalallala");
     }
 
+    componentDidMount() {
+        this.fetchData()
+    }
+
 
     handleChange(value) {
+
+        console.log("New value: ", value);
+
         this.setState({ selectedValue: value });
     }
 
     fetchData() {
 
-        let pathId = 1;//this.props.match.params['id'];
+        let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
         fetch(path)
             .then(response => response.json() as Promise<TestQuestion[]>)
@@ -75,7 +82,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                             {que.answer.map(ans => 
                                 <div className="row" >
                                     <label>
-                                        <Radio value={ans.point} />
+                                        <Radio value={ans.point.toString()} />
                                         {ans.answer}
                                     </label>
                                 </div>
@@ -108,7 +115,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     submitScore() {
 
         let parent = document.getElementById('testsubmit');
-
+        
 
         this.setState({
             totalScore: 1
