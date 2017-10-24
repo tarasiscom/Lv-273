@@ -17,7 +17,7 @@ namespace EPA.Common.Interfaces
         ///  This method retrives data about persons professional directory and list of specialities
         ///  <returns>  ProfTestsResult </returns>
         /// </summary>
-        ProfTestResult GetUserResult(int points);
+        ProfTestResult GetUserResult(int points, int testId);
     }
     
 }
