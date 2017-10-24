@@ -33,9 +33,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         super();
 
         this.state = {
-            que: [], loading: true, submitted: false, selectedValue: [
-                1, 1
-            ], totalScore: 0
+            que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0
         };
 
 
@@ -48,10 +46,10 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     }
 
 
-    handleChange(value, curid) {
+    handleChange(value, index) {
         
         let selval = this.state.selectedValue;
-        selval[curid] = value;
+        selval[index] = value;
         
         this.setState({
             selectedValue: selval
@@ -66,8 +64,13 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         fetch(path)
             .then(response => response.json() as Promise<TestQuestion[]>)
             .then(data => {
-                this.setState({ que: data, loading: false });
+                this.setState({
+                    que: data,
+                    selectedValue: Array.apply(null, Array(data.length)).map(function () { return 1 }),
+                    loading: false
+                });
             });
+
 
     }
 
@@ -83,11 +86,11 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     renderTestQuiz() {
         return <div className="row" id="testsubmit">
-            {this.state.que.map(que =>
+            {this.state.que.map((que,index) =>
 
                 <div>
                     <p>Question #{que.id}: {que.question}</p>
-                    <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue[que.id - 1]} onChange={(e) => this.handleChange(e, que.id - 1)}>
+                    <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue[index]} onChange={(e) => this.handleChange(e, index)}>
                         {que.answer.map(ans =>
                             <div className="row" >
                                 <label>
@@ -128,7 +131,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         
         let score = 0;
         this.state.selectedValue.map(scr => score += scr);
-        console.log("score: " + score);
+
         this.setState({
             submitted: true,
             totalScore: score

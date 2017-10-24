@@ -43,7 +43,15 @@ namespace EPA.Web.Controllers
 
                            new CommonQuestions { ID = 2, Question="que2",
                 Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
-                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} }
+                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
+
+                           new CommonQuestions { ID = 3, Question="que3",
+                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
+                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
+
+                           new CommonQuestions { ID = 4, Question="que4",
+                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
+                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
 
             };
 
