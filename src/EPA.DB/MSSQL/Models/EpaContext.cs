@@ -4,11 +4,25 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
 using System.Runtime.InteropServices;
+using AutoMapper;
+using EPA.Common.dto.CommonQuiz;
+using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
     public class EpaContext : DbContext, IDisposable
     {
+        static EpaContext()
+        {
+            Mapper.Initialize
+                (
+                    cfg => {
+                        cfg.CreateMap<Questions, CommonQuestions>();
+                        cfg.CreateMap<Answers, CommonAnswers>();
+                        cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>();
+                    }
+                );
+        }
         private SafeHandle resource;
 
         public DbSet<TestDetailedInfo> Tests { get; set; }

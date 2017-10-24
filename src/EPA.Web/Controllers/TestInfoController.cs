@@ -35,5 +35,7 @@ namespace EPA.Web.Controllers
             [Route("api/profTest/{id}/info")]
             [HttpGet("{id}")]
             public CommonTestDetailedInfo GetTestInfo(int id) => profTestInfoProvider.GetTestInfo(id);
+
+        
     }
 }

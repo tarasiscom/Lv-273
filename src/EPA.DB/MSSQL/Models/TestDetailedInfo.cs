@@ -16,12 +16,12 @@ namespace EPA.DB.MSSQL.Models
         public string Description { get; set; }
         public int ApproximatedTime { get; set; }
         public int QuestionsCount { get; set; }
-
-        public Quiz.Questions Questions { get; set; } 
+        
+        public List<Quiz.Questions> Questions { get; set; } 
 
         static TestDetailedInfo()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>());
+            //Mapper.Initialize(cfg => cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>());
         }
 
         public CommonTestDetailedInfo ToCommon()

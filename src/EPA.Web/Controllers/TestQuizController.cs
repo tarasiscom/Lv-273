@@ -24,9 +24,9 @@ namespace EPA.Web.Controllers
         /// This method retrieves list of tests
         /// </summary>
         /// <returns>collection of tests</returns>
-        [Route("/api/profTest")]
+        /*[Route("/api/profTest")]
         public IEnumerable<CommonTestList> GetTestList() => profTestQuestionsProvider.GetTestList();
-
+        */
         /// <summary>
         /// This method retrieves list of questions
         /// </summary>
@@ -36,27 +36,8 @@ namespace EPA.Web.Controllers
         [HttpGet("{testId}")]
         public IEnumerable<CommonQuestions> GetQuestions(int testId)
         {
-            /*
-            return new[] { new CommonQuestions { ID = 1, Question="que1",
-                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
-                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
 
-                           new CommonQuestions { ID = 2, Question="que2",
-                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
-                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
-
-                           new CommonQuestions { ID = 3, Question="que3",
-                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
-                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
-
-                           new CommonQuestions { ID = 4, Question="que4",
-                Answer = new List<CommonAnswers>{ new CommonAnswers() { Point=1, Answer="ans1" },
-                    new CommonAnswers() { Point = 2, Answer = "ans2" }, new CommonAnswers() { Point = 3, Answer = "ans3" }} },
-
-            };//*/
-
-            
-            List<CommonQuestions> list =  profTestQuestionsProvider.GetQuestionByListID(testId).ToList();
+            List<CommonQuestions> list = profTestQuestionsProvider.GetQuestionByListID(testId).ToList();
 
             
             foreach(var v in list)
