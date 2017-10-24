@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
+using System.Runtime.InteropServices;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class EpaContext : DbContext
+    public class EpaContext : DbContext, IDisposable
     {
+        private SafeHandle resource;
+
         public DbSet<TestDetailedInfo> Tests { get; set; }
         public DbSet<Date> Dates { get; set; }
 
@@ -25,6 +28,22 @@ namespace EPA.DB.MSSQL.Models
 
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<Date>().ToTable("Dates");
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~EpaContext() { Dispose(false); }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (resource != null) resource.Dispose();
+            }
         }
     }
 }
