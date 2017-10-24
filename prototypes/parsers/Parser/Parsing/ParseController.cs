@@ -17,6 +17,7 @@
         private int facultyID = 1;
         private int specialityID = 1;
 
+        HtmlNode universityNode;
          
         string year = "/2017";
         private string indexPage;
@@ -69,7 +70,7 @@
                     if (ErrorsLog.IsAvailable(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1)))
                     {
                         parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
-                        HtmlNode universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
+                        universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
                         saver.SaveUniversity(parser.GetUniversityInfo(universityID, district, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
                                                                         universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
                                                                         universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
@@ -89,7 +90,10 @@
                 //id !!!!!!!!!!!!!!!!!!!!!!
                 saver.SaveSpecialities(parser.GetSpecialityInfo(ref specialityID, ref facultyID, universityID, specialitiesNodes, nodesXpaths));
                 saver.SaveDirections(parser.GetDirections());
+                saver.SaveAll();
                 Console.WriteLine("_______________________________________");
+                Console.WriteLine(district + universityID);
+                Console.WriteLine(universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText);
             }
         }
     }

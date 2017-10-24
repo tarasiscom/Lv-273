@@ -14,7 +14,7 @@
             serializer.Serialize();
             Dictionary<string, string> nodesXpaths = Deserializer.Deserialize();
 
-            parse.Start(new ShowInConsole(), new Parser("http://vstup.info"), new ErrorsLog(), nodesXpaths);
+            parse.Start(new DatabaseSaver(), new Parser("http://vstup.info"), new ErrorsLog(), nodesXpaths);
             Console.ReadKey();
         }
     }

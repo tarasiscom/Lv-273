@@ -9,5 +9,6 @@ namespace Parsing
         void SaveUniversity(University university);
         void SaveDirections(IEnumerable<Direction> faculties);
         void SaveSpecialities(IEnumerable<Speciality> specialities);
+        void SaveAll();
     }
 }

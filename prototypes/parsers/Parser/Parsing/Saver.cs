@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 
 namespace Parsing
@@ -10,15 +11,27 @@ namespace Parsing
 
     class ShowInConsole: ISaver
     {
+        public void SaveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+
         public void SaveDistrict(District district)
         {
             Console.WriteLine(String.Format("districtID{0}\n {1}",district.ID, district.Name));
         }
 
+
         public void SaveUniversity(University university)
         {
             Console.WriteLine(String.Format("District: {4}I\n D:{0} \n УНІВЕРСИТЕТ: {1} \n Адреса:{2} \n Сайт:{3}",university.ID, university.Name, university.Adress, university.Site, university.District));
             Console.WriteLine("СПЕЦІАЛЬНОСТІ: \n");
+
+            using (StreamWriter writer = new StreamWriter(File.OpenWrite("1.txt")))
+            {
+                writer.Write("INSERT INTO Universities VALUES" + String.Format("({0},'{1}','{2}','{3}','{4}')", university.ID, university.District, university.Name, university.Adress, university.Site));
+            }
         }
 
         public void SaveDirections(IEnumerable<Direction> directions)
@@ -39,14 +52,15 @@ namespace Parsing
  
             }
         }
+
     }
 
     class DatabaseSaver : ISaver
     {
-        string connectionString;
-        string formUniversity = "({0},{1},{2},{3},{4})";
-        string formDirection = "({0},{1},{2})";
-        string formSpeciality = "({0},{1},{2})";
+        string connectionString = "data source = .\\SQLEXPRESS; initial catalog = EPA2; integrated security = true";
+        string formUniversity = "({0},'{1}','{2}','{3}','{4}')";
+        string formDirection = "({0},{1},'{2}')";
+        string formSpeciality = "({0},{1},'{2}')";
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
         SqlCommand commandSpeciality = new SqlCommand();
@@ -57,31 +71,49 @@ namespace Parsing
 
             foreach(Direction direction in directions)
             {
-                queryDirections.Append(String.Format(formDirection, direction.ID, direction.UniversityID, direction.Name));
+                queryDirections.Append(String.Format(formDirection, direction.ID, direction.UniversityID, direction.Name.Replace("'", "`")));
                 queryDirections.Append(",");
             }
 
-            queryDirections.Append(";");
+            queryDirections.Remove(queryDirections.Length - 1, 1).Append(';');
             commandDirections.CommandText = queryDirections.ToString();
         }
 
         public void SaveSpecialities(IEnumerable<Speciality> specialities)
         {
-            throw new NotImplementedException();
+            StringBuilder querySpecialities = new StringBuilder("INSERT INTO Specialities VALUES ");
+
+            foreach (Speciality speciality in specialities)
+            {
+                querySpecialities.Append(String.Format(formSpeciality, speciality.ID, speciality.FacultyID, speciality.Name.Replace("'", "`")));
+                querySpecialities.Append(",");
+            }
+
+            querySpecialities.Remove(querySpecialities.Length - 1, 1).Append(';');
+            commandSpeciality.CommandText = querySpecialities.ToString();
         }
 
         public void SaveUniversity(University university)
         {
-            throw new NotImplementedException();
-        }
 
-        public void SaveAll()
+            StringBuilder queryUniversity = new StringBuilder("INSERT INTO Universities VALUES ");
+            queryUniversity.Append(String.Format(formUniversity, university.ID, university.District.Replace("'", "`"), university.Name.Replace("'", "`"), university.Adress.Replace("'", "`"), university.Site.Replace("'", "`")));
+            queryUniversity.Append(",");
+
+            queryUniversity.Remove(queryUniversity.Length - 1, 1).Append(';').Replace("&#34", "\"");
+            commandUniversity.CommandText = queryUniversity.ToString();
+        }
+            public void SaveAll()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                commandDirections.Connection = connection;
+                commandSpeciality.Connection = connection;
+                commandUniversity.Connection = connection;
                 connection.Open();
+                commandUniversity.ExecuteScalar();
                 commandDirections.ExecuteScalar();
-
+                commandSpeciality.ExecuteScalar();
             }
         }
     }
