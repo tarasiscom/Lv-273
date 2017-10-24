@@ -13,9 +13,7 @@ namespace EPA.DB.MSSQL.Models
         public int MaxPoint { get; set; }
 
         // foreign keys
-        public int Id_test { get; set; }
         public TestDetailedInfo TestDetailedInfo { get; set; }
-        public int Id_direction { get; set; }
         public Direction Direction { get; set; }
     }
 }
