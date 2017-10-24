@@ -10,7 +10,6 @@
         private IParser parser;
         private ISaver saver;
         private IErrorsLog errorsLog;
-        //private List<Direction> directions = new List<Direction>();
 
         string district;
 
@@ -20,7 +19,6 @@
         private int specialityID = 1;
 
         HtmlNode universityNode;
-        //List<Direction> directions;
 
         string year = "/2017";
         private string indexPage;
@@ -47,7 +45,6 @@
             foreach (HtmlNode node in districtNodes)
             {
                 district = node.InnerText;
-               
                     if (node.InnerText != string.Empty)
                     {
                         //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
