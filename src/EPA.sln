@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPA.Web", "EPA.Web\EPA.Web.csproj", "{61588525-1434-40A5-816B-CEC2D96EA18B}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPA.UnitTests", "EPA.UnitTests\EPA.UnitTests.csproj", "{5A9E775C-FEA4-4E78-B659-FB33607A702E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPA.IntegrationTests", "EPA.IntegrationTests\EPA.IntegrationTests.csproj", "{4AB5FA89-BECD-47C3-ACE9-0584D000B442}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{D5E41550-FAE8-44F6-B586-B65D91C73933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{4AB5FA89-BECD-47C3-ACE9-0584D000B442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB5FA89-BECD-47C3-ACE9-0584D000B442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AB5FA89-BECD-47C3-ACE9-0584D000B442}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5E41550-FAE8-44F6-B586-B65D91C73933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5E41550-FAE8-44F6-B586-B65D91C73933}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5E41550-FAE8-44F6-B586-B65D91C73933}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5E41550-FAE8-44F6-B586-B65D91C73933}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
