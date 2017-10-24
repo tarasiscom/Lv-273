@@ -18,28 +18,23 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 
         public ProfTestResult GetUserResult(int points, int testId)
         {
-            ProfTestResult profRes = new ProfTestResult();
-            var res = context.Directions.Join(context.ProfDirections,
-                d => d.Id, p => p.Id,
-                (d, p) => new { Name = d.Name, MaxP = p.MaxPoint, MinP = p.MinPoint }).Where(p => points >= p.MinP && p.MaxP < points ).ToList();
-            profRes.ProfDirection = res[0].Name;
-
-            profRes.ProfSpecialties = new List<Common.dto.Specialty>();
-            var resSp = context.Specialties.Join(context.Universities,
-                s => s.Id, u => u.Id,
-                (s, u) => new { spec = s.Name, univ = u.Name, distr = u.District, addr = u.Address, site = u.Site}).ToList();
-             foreach(var sp in resSp)
+            return new ProfTestResult()
             {
-                Common.dto.Specialty tmp = new Common.dto.Specialty();
-                tmp.SpecialtyName = sp.spec;
-                tmp.University = sp.univ;
-                tmp.District = sp.distr;
-                tmp.Address = sp.addr;
-                tmp.Site = sp.site;
-                profRes.ProfSpecialties.Add(tmp);
-            }
-
-            return profRes;
+                ProfDirection = (from d in context.Directions
+                                 join pd in context.ProfDirections on d.Id equals pd.Id
+                                 where points >= pd.MinPoint && pd.MaxPoint < points
+                                 select d.Name).FirstOrDefault(),
+                ProfSpecialties = (from s in context.Specialties
+                                   join u in context.Universities on s.Id equals u.Id
+                                   select new Common.dto.Specialty()
+                                   {
+                                       SpecialtyName = s.Name,
+                                       Address = u.Address,
+                                       District = u.District,
+                                       Site = u.Site,
+                                       University = u.Name
+                                   }).Take(5).ToList()
+            };
         }
     }
 }
