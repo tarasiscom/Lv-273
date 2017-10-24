@@ -17,6 +17,8 @@ namespace EPA.DB.MSSQL.Models
         public int ApproximatedTime { get; set; }
         public int QuestionsCount { get; set; }
 
+        public Quiz.Questions Questions { get; set; } 
+
         static TestDetailedInfo()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>());
