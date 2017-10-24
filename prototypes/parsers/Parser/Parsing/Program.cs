@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class Program
     {
@@ -12,8 +10,8 @@
             ParseController parse = new ParseController();
 
             //Serialization xml nodes
-            //Serializer serializer = new Serializer();
-            //serializer.Serialize();
+            Serializer serializer = new Serializer();
+            serializer.Serialize();
             Dictionary<string, string> nodesXpaths = Deserializer.Deserialize();
 
             parse.Start(new ShowInConsole(), new Parser("http://vstup.info"), new ErrorsLog(), nodesXpaths);

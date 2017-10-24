@@ -1,10 +1,5 @@
 ﻿namespace Parsing.DataClasses
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text; 
-
     public class District
     {
         public District(int id, string name)

@@ -1,11 +1,8 @@
 ﻿namespace Parsing
 {
+    using HtmlAgilityPack;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Collections;
-    using HtmlAgilityPack;
 
     internal class ParseController
     {
@@ -13,9 +10,14 @@
         private ISaver saver;
         private IErrorsLog errorsLog;
 
+        string district;
+
         private int districtID = 1;
         private int universityID = 1;
+        private int facultyID = 1;
+        private int specialityID = 1;
 
+         
         string year = "/2017";
         private string indexPage;
        
@@ -28,21 +30,23 @@
             this.indexPage = parser.Url;
             this.nodesXpaths = nodesXpaths;
             this.errorsLog = errorsLog;
-       
-            GetDataFromVstupInfo();
+
+            //if(Parser.IsAvailable(indexPage))
+                GetDataFromVstupInfo();
         }
 
         private void GetDataFromVstupInfo()
         {
             errorsLog.StartLog();
-            HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXpaths["DistricstNode"]);
+            HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXpaths["DistrictsNode"]);
             foreach (HtmlNode node in districtNodes)
             {
+                district = node.InnerText;
                 //After "Дніпропетровська" and "Одеcька" node.InnerText == "";
                 //In this places empty node <a></a>
                 if (node.InnerText != string.Empty)
                 {
-                    saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
+                    //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
                     parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
                     StarsProcessUniversities();
                 }
@@ -62,11 +66,11 @@
                 foreach (HtmlNode univ in univercitiesNodes)
                 {                    
                     //some univercity links return 404 code
-                    if (Parser.IsAvailable(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1)))
+                    if (ErrorsLog.IsAvailable(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1)))
                     {
                         parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
                         HtmlNode universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
-                        saver.SaveUniversity(parser.GetUniversityInfo(universityID, districtID, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
+                        saver.SaveUniversity(parser.GetUniversityInfo(universityID, district, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
                                                                         universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
                                                                         universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
                         StartProcessSpeciality();
@@ -82,7 +86,9 @@
 
             if (specialitiesNodes != null)
             {
-                saver.SaveSpecialities(parser.GetSpecialityInfo(specialitiesNodes, nodesXpaths));
+                //id !!!!!!!!!!!!!!!!!!!!!!
+                saver.SaveSpecialities(parser.GetSpecialityInfo(ref specialityID, ref facultyID, universityID, specialitiesNodes, nodesXpaths));
+                saver.SaveDirections(parser.GetDirections());
                 Console.WriteLine("_______________________________________");
             }
         }
