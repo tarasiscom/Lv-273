@@ -8,7 +8,7 @@ namespace Parsing
         //void SaveDistrict(District deistrict);
         void SaveUniversities(IEnumerable<University> universities);
         void SaveDirections(IEnumerable<Direction> faculties);
-        void SaveSpecialities(IEnumerable<Speciality> specialities);
+        void SaveSpecialities(List<Speciality> specialities);
         void SaveAll();
     }
 }

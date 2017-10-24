@@ -47,7 +47,7 @@
             foreach (HtmlNode node in districtNodes)
             {
                 district = node.InnerText;
-
+               
                     if (node.InnerText != string.Empty)
                     {
                         //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
@@ -92,6 +92,10 @@
             {
                 //id !!!!!!!!!!!!!!!!!!!!!!
                 parser.GetInfo(ref specialityID, ref idDirection, universityID, district, universityNode,  specialitiesNodes, nodesXpaths);
+                //saver.SaveUniversities(parser.GetUniversities());
+                //saver.SaveDirections(parser.GetDirections());
+                //saver.SaveSpecialities(parser.GetSpecialities());
+                //saver.SaveAll();
                 Console.WriteLine("_______________________________________");
                 Console.WriteLine(district + universityID);
                 Console.WriteLine(universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText);

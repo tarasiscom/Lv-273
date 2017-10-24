@@ -13,7 +13,7 @@ namespace Parsing
 
         University GetUniversityInfo(int id, string district, string name, string adress, string webSite);
         IEnumerable<Direction> GetDirections();
-        IEnumerable<Speciality> GetSpecialities();
+        List<Speciality> GetSpecialities();
         IEnumerable<University> GetUniversities();
         void GetInfo(ref int id,ref int idFac, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
 

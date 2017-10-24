@@ -186,7 +186,7 @@ namespace Parsing
             return directions;
         }
 
-        public IEnumerable<Speciality> GetSpecialities()
+        public List<Speciality> GetSpecialities()
         {
             return specialities;
         }

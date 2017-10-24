@@ -54,6 +54,11 @@ namespace Parsing
         {
             throw new NotImplementedException();
         }
+
+        public void SaveSpecialities(List<Speciality> specialities)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class DatabaseSaver : ISaver
@@ -64,7 +69,7 @@ namespace Parsing
         string formSpeciality = "({0},{1},{2},'{3}')";
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
-        SqlCommand commandSpeciality = new SqlCommand();
+        List<SqlCommand> commandSpeciality = new List<SqlCommand>();
 
         public void SaveDirections(IEnumerable<Direction> directions)
         {
@@ -80,18 +85,22 @@ namespace Parsing
             commandDirections.CommandText = queryDirections.ToString();
         }
 
-        public void SaveSpecialities(IEnumerable<Speciality> specialities)
+        public void SaveSpecialities(List<Speciality> specialities)
         {
-            StringBuilder querySpecialities = new StringBuilder("INSERT INTO Specialities VALUES ");
-
-            foreach (Speciality speciality in specialities)
+            for (int i = 0; i < specialities.Count / 500; i++)
             {
-                querySpecialities.Append(String.Format(formSpeciality, speciality.ID, speciality.DirectionID, speciality.UniversityID, speciality.Name.Replace("'", "`")));
-                querySpecialities.Append(",");
-            }
+                StringBuilder querySpecialities = new StringBuilder("INSERT INTO Specialities VALUES ");
 
-            querySpecialities.Remove(querySpecialities.Length - 1, 1).Append(';');
-            commandSpeciality.CommandText = querySpecialities.ToString();
+                for (int j = 500*i; j < 500*i+500;j++ )
+                {
+
+                    querySpecialities.Append(String.Format(formSpeciality, specialities[j].ID, specialities[j].DirectionID, specialities[j].UniversityID, specialities[j].Name.Replace("'", "`")));
+                    querySpecialities.Append(",");
+
+                }
+                querySpecialities.Remove(querySpecialities.Length - 1, 1).Append(';');
+                commandSpeciality.Add(new SqlCommand( querySpecialities.ToString()));
+            }
         }
 
             public void SaveAll()
@@ -99,13 +108,19 @@ namespace Parsing
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 commandDirections.Connection = connection;
-                commandSpeciality.Connection = connection;
+                for (int i = 0; i < commandSpeciality.Count/500; i++)
+                {
+                    commandSpeciality[i].Connection = connection;
+                }
                 commandUniversity.Connection = connection;
                 connection.Open();
                 commandUniversity.ExecuteScalar();
                 commandDirections.ExecuteScalar();
-                commandSpeciality.ExecuteScalar();
-                
+                for (int i = 0; i < commandSpeciality.Count/500; i++)
+                {
+                    commandSpeciality[i].ExecuteScalar();
+                }
+
             }
         }
 
