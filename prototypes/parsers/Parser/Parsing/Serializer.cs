@@ -23,15 +23,12 @@ namespace Parsing
 
         private void FillDictionary()
         {
-            nodesPaths.Add("DistricstNode", "//table[@id='abet']/tbody/tr/td/a");
+            nodesPaths.Add("DistricstNodes", "//table[@id='abet']/tbody/tr/td/a");
             //University, institute etc.
-            nodesPaths.Add("UniversitiesTypesNode", "//table[@id='vnzt0']/tbody/tr/td/a | //table[@id='vnzt1']/tbody/tr/td/a | //table[@id='vnzt2']/tbody/tr/td/a");
-            nodesPaths.Add("UniversitiesNode", "//div/table[@id='about']");
-            nodesPaths.Add("UniversitiesNamesNode", "//tr[1]/td[2]");
-            nodesPaths.Add("UniversitiesAdressNode", "//tr[5]/td[2]" );
-            nodesPaths.Add("UniversitiesWebSitesNode", "//tr[7]/td[2]");
+            nodesPaths.Add("UniversitiesTypesNodes", "//table[@id='vnzt0']/tbody/tr/td/a | //table[@id='vnzt1']/tbody/tr/td/a | //table[@id='vnzt2']/tbody/tr/td/a");
+            nodesPaths.Add("UniversitiesNodes", "//div/table[@id='about']");
             nodesPaths.Add("SpecialitiesNodes", "//div[@class = 'tab-content']/div/table/tbody/tr");
-            nodesPaths.Add("SpecDirectionNode","td/span[@title ='Галузь']");
+            nodesPaths.Add("SpecDirectionNodes","td/span[@title ='Галузь']");
             nodesPaths.Add("SpecSpecNode","td/span[@title ='Спеціальність']");
             nodesPaths.Add("SpecFacNode","td/span[@title ='Факультет']");
         }

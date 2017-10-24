@@ -3,12 +3,34 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
+using System.Runtime.InteropServices;
+using AutoMapper;
+using EPA.Common.dto.CommonQuiz;
+using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class EpaContext : DbContext
+    public class EpaContext : DbContext, IDisposable
     {
+        static EpaContext()
+        {
+            Mapper.Initialize
+                (
+                    cfg => {
+                        cfg.CreateMap<Questions, CommonQuestions>();
+                        cfg.CreateMap<Answers, CommonAnswers>();
+                        cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>();
+                    }
+                );
+        }
+        private SafeHandle resource;
+
         public DbSet<TestDetailedInfo> Tests { get; set; }
+<<<<<<< HEAD
+=======
+        public DbSet<Date> Dates { get; set; }
+
+>>>>>>> origin/ProfTestQuiz_DB
         public DbSet<Answers> Answers { get; set; }
         public DbSet<Questions> Questions { get; set; }
         public DbSet<University> Universities { get; set; }
@@ -25,11 +47,31 @@ namespace EPA.DB.MSSQL.Models
         {
             modelBuilder.Entity<Answers>().ToTable("Answers");
             modelBuilder.Entity<Questions>().ToTable("Questions");
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/ProfTestQuiz_DB
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<University>().ToTable("Universities");
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~EpaContext() { Dispose(false); }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (resource != null) resource.Dispose();
+            }
         }
     }
 }

@@ -11,6 +11,7 @@
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
+    <None Remove="ClientApp\components\ProfTestQuiz.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
     <None Remove="ClientApp\components\TestResult.tsx" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\ProfTestQuiz.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestResult.tsx" />
   </ItemGroup>

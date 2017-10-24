@@ -237,3 +237,5 @@ _Pvt_Extensions
 .fake/
 
 src/EPA\.Web/ClientApp/components/FetchData\.tsx
+
+src/node_modules/

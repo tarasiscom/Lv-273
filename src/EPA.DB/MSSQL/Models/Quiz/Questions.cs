@@ -17,11 +17,19 @@ namespace EPA.DB.MSSQL.Models.Quiz
         public TestDetailedInfo TestListID { get; set; }
 
         static Questions()
-        { Mapper.Initialize(cfg => cfg.CreateMap<Questions, CommonQuestions>()); }
+        {
+            
+           // Mapper.Initialize(cfg => cfg.CreateMap<Questions, CommonQuestions>());
+        }
 
         public CommonQuestions ToCommon()
         {
             return Mapper.Map<CommonQuestions>(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{ID} '{Question}' Test List: {TestListID?.Id} Answers: {Answer?.Count}";
         }
     }
 }
