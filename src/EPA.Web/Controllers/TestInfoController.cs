@@ -15,7 +15,7 @@ namespace EPA.Web.Controllers
         private IProfTestInfoProvider profTestInfoProvider;
         private IProfTestResultProvider profTestResultProvider;
 
-        public TestInfoController(IProfTestInfoProvider profTestInfoProvider /*, IProfTestResultProvider profTestResultProvider*/)
+        public TestInfoController(IProfTestInfoProvider profTestInfoProvider , IProfTestResultProvider profTestResultProvider)
         {
             this.profTestInfoProvider = profTestInfoProvider;
             this.profTestResultProvider = profTestResultProvider;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EPA.Common.Interfaces;
+using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
