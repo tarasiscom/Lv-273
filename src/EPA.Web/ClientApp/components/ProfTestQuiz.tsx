@@ -50,9 +50,11 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
 
     }
     public render() {
-
-        let contents = 1
+        let contents = this.state;
         return <div>{contents}</div>
+    }
+    handleClick = () => {
+        this.props.updateState();
     }
 }
 /**
@@ -64,7 +66,7 @@ class Parent extends Component {
   return (
     <div>
       <Child ref="child" />
-      <button onClick={this.onClick.bind(this)}>Click</button>
+      <button onClick={this.sonClick.bind(this)}>Click</button>
     </div>
   );
  }
@@ -72,6 +74,9 @@ class Parent extends Component {
 * /
  */
 export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
+      updateState = () => {
+      <div>fff</div>
+  }
     constructor() {
         super();
 
@@ -115,7 +120,9 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     renderTestResults() {
         return <div>
 
-            <p>{this.state.totalScore}</p>
+
+
+            <p>TestResult score = {this.state.totalScore}</p>
 
         </div>
 
@@ -152,8 +159,8 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         let content = this.state.loading
             ? <p><em>Loading...</em></p>
             : !this.state.submitted
-                ? this.renderTestQuiz()
-                : this.renderTestQuiz() //after : we go to child, now based in TerstResult
+                ? this.renderTestResults()
+                : this.renderTestResults() //after : we go to child, now based in TerstResult
                 //<TestResult dataFromParent={this.props.bind.totalScore} />
               //  this.renderTestResults()
 
@@ -167,6 +174,8 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
 
     submitScore() {
+
+
 
         if (this.state.selectedValue.length==this.state.que.length){
             let score = 0;
