@@ -13,6 +13,7 @@ export class NavigationMenu extends React.Component<{}, {}> {
                     <li><Link  to={'/'}>Усі Університети</Link></li>
                     <li><Link  to={'/profTest'}>Профорієнтаційні Тести</Link></li>
                     <li><Link to={'/'}>Обрати Університет</Link></li>
+                    <li><Link to={'/result'}>Результати</Link></li>
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                     <li><Link  to={'/'}>Вхід</Link></li>

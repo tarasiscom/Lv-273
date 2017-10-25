@@ -12,9 +12,11 @@
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
+    <None Remove="ClientApp\components\TestResult.tsx" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
@@ -35,6 +37,7 @@
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\TestResult.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

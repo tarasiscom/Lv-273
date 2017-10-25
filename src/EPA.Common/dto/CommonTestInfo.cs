@@ -4,12 +4,9 @@ using System.Text;
 
 namespace EPA.Common.dto
 {
-    /// <summary>
-    ///  This interface describes general information of ProfTest
-    /// </summary>
-    public interface ICommonTestInfo
+    public class CommonTestInfo
     {
-        int Id { get; }
-        string Name { get; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
