@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
-using System.Runtime.InteropServices;
 using AutoMapper;
 using EPA.Common.dto.CommonQuiz;
 using EPA.Common.dto;
@@ -23,7 +20,7 @@ namespace EPA.DB.MSSQL.Models
                     }
                 );
         }
-        private SafeHandle resource;
+        ~EpaContext() { Dispose(false); }
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
         public DbSet<Date> Dates { get; set; }
@@ -50,13 +47,13 @@ namespace EPA.DB.MSSQL.Models
             GC.SuppressFinalize(this);
         }
 
-        ~EpaContext() { Dispose(false); }
+        
 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (resource != null) resource.Dispose();
+                if (this != null) this.Dispose();
             }
         }
     }
