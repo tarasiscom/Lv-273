@@ -26,11 +26,6 @@ namespace EPA.DB.MSSQL.Models
         private SafeHandle resource;
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
-<<<<<<< HEAD
-=======
-        public DbSet<Date> Dates { get; set; }
-
->>>>>>> origin/ProfTestQuiz_DB
         public DbSet<Answers> Answers { get; set; }
         public DbSet<Questions> Questions { get; set; }
         public DbSet<University> Universities { get; set; }
@@ -47,10 +42,6 @@ namespace EPA.DB.MSSQL.Models
         {
             modelBuilder.Entity<Answers>().ToTable("Answers");
             modelBuilder.Entity<Questions>().ToTable("Questions");
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/ProfTestQuiz_DB
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<University>().ToTable("Universities");
             modelBuilder.Entity<Direction>().ToTable("Directions");

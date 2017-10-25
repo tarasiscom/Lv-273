@@ -28,11 +28,8 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<IProfTestInfoProvider, ProfTestInfoProvider>();
-<<<<<<< HEAD
             services.AddTransient<IProfTestResultProvider, ProfTestResultProvider>();
-=======
             services.AddTransient<IAccessToQuestionsByNameTest, AccessToQuestions>();
->>>>>>> origin/ProfTestQuiz_DB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

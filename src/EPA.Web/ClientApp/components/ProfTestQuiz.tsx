@@ -19,7 +19,6 @@ interface TestAnswer {
     point: number;
 }
 
-
 interface TestQuiz {
     que: TestQuestion[];
     loading: boolean;
@@ -28,6 +27,50 @@ interface TestQuiz {
     totalScore: number;
 }
 
+interface ResultsInfo {
+    profSpecialties: UserSpeciality[];
+    profDirection: string;
+    loading: boolean;
+}
+
+interface UserSpeciality {
+    specialtyName: string;
+    university: string;
+    district: string;
+    address: string;
+    site: string;
+}
+
+export class TestResult extends React.Component<RouteComponentProps<{}>, ResultsInfo> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            profDirection: "", profSpecialties: [], loading: true
+        };
+
+    }
+    public render() {
+
+        let contents = 1
+        return <div>{contents}</div>
+    }
+}
+/**
+class Parent extends Component {
+ render() {
+  onClick() {
+    this.refs.child.getAlert() // undefined
+  }
+  return (
+    <div>
+      <Child ref="child" />
+      <button onClick={this.onClick.bind(this)}>Click</button>
+    </div>
+  );
+ }
+}
+* /
+ */
 export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
     constructor() {
         super();
@@ -35,12 +78,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         this.state = {
             que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0
         };
-
-
-
-
     }
-
     componentDidMount() {
         this.fetchData()
     }
@@ -115,7 +153,9 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             ? <p><em>Loading...</em></p>
             : !this.state.submitted
                 ? this.renderTestQuiz()
-                : this.renderTestResults()
+                : this.renderTestQuiz() //after : we go to child, now based in TerstResult
+                //<TestResult dataFromParent={this.props.bind.totalScore} />
+              //  this.renderTestResults()
 
 
         return <div className="container">

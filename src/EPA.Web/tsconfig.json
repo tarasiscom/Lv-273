@@ -8,13 +8,8 @@
     "skipDefaultLibCheck": true,
     "sourceMap": true,
     "strict": true,
-<<<<<<< HEAD
-    "types": [ "webpack-env" ],
-    "noImplicitAny": false
-=======
     "target": "es5",
     "types": [ "webpack-env" ]
->>>>>>> origin/ProfTestQuiz_DB
   },
   "exclude": [
       "bin",
