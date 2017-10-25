@@ -6,10 +6,7 @@ import {
     Route
 } from 'react-router-dom';
 
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/Page_Test_Information_UI_REACT
 interface TestDetailInformation {
     id: number;
     name: string;
@@ -23,8 +20,8 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
     constructor() {
         super();
         this.state = {
-<<<<<<< HEAD
-            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true};
+            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
+        };
     }
     componentDidMount() {
         this.fetchData();
@@ -32,13 +29,6 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
 
     fetchData() {
         let pathId = this.props.match.params['id'];
-=======
-            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
-        };
-
-        let pathId = window.location.pathname.substr(10, window.location.pathname.length);
-        
->>>>>>> origin/Page_Test_Information_UI_REACT
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
             .then(response => response.json() as Promise<TestDetailInformation>)
