@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class Footer extends React.Component<{}, {}> {
     public render() {
-        return <footer className="footer">
+        return <footer className="navbar-fixed-bottom ">
             <footer className="footer-distributed">
                 <div className="footer-right">
                     <a href="#"><i className="fa fa-facebook"></i></a>
