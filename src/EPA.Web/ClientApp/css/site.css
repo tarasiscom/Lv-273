@@ -104,6 +104,15 @@ body {
     width: 160px;
 }
 
+.row {
+    
+    margin-left:15px;
+    
+}
+.quiz-pad {
+margin-bottom:130px;
+margin-top:20px;
+}
 .univer-in-row {
     margin-top: 20px;
     display: flex;

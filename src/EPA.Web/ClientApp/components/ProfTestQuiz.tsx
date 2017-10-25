@@ -76,7 +76,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             .then(data => {
                 this.setState({
                     que: data,
-                    //selectedValue: Array.apply(null, Array(data.length)).map(function (cur, index) { return data }),
+                   
                     loading: false
                 });
             });
@@ -154,7 +154,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             }
         }).then(response => response.json() as Promise<ResultsInfo>)
             .then(data => {
-                this.setState({resinfo:data, resloading:false});//{ profDirection: data.profDirection, profSpecialties: data.profSpecialties, loading: false });
+                this.setState({resinfo:data, resloading:false});
             });
     }
 
@@ -170,7 +170,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                     : this.renderTestResults();
 
 
-        return <div>
+        return <div className="quiz-pad">
 
             {content}
 
@@ -180,7 +180,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     submitScore() {
         let booly = true;
-        if (booly){//this.state.selectedValue.length==this.state.que.length){
+        if (booly){
             let score = 0;
             this.state.selectedValue.map(scr => score += scr);
 
