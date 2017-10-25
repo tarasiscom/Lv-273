@@ -46,8 +46,7 @@
             {
 
                 district = node.InnerText;
-                if (district == "Полтавська область")
-                {
+                
                     if (node.InnerText != string.Empty)
                     {
                         //saver.SaveDistrict(parser.GetDistrict(districtID, node.InnerText));
@@ -55,7 +54,6 @@
                         StarsProcessUniversities();
                     }
                     districtID++;
-                }
             
             }
             errorsLog.EndLog();

@@ -11,10 +11,10 @@ namespace Parsing
     {
         private static readonly int size = 500;
 
-        string connectionString = "data source = .\\SQLEXPRESS; initial catalog = EPA; integrated security = true";
-        string formUniversity = "({0},'{1}','{2}','{3}','{4}')";
-        string formDirection = "({0},'{1}')";
-       string formSpeciality = "({0},{1},'{2}',{3})";
+        string connectionString = @"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne";
+        string formUniversity = "({0},N'{1}',N'{2}',N'{3}',N'{4}')";
+        string formDirection = "({0},N'{1}')";
+       string formSpeciality = "({0},{1},N'{2}',{3})";
 
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
@@ -55,7 +55,7 @@ namespace Parsing
 
         private string GenerateQuery(IEnumerable<Speciality> specialities)
         {
-            StringBuilder querySpeciality = new StringBuilder("INSERT INTO Specialities VALUES ");
+            StringBuilder querySpeciality = new StringBuilder("INSERT INTO Specialties VALUES ");
 
             foreach (Speciality speciality in specialities)
             {
