@@ -1,13 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
+using AutoMapper;
+using EPA.Common.dto.CommonQuiz;
+using EPA.Common.dto;
 
 namespace EPA.DB.MSSQL.Models
 {
-    public class EpaContext : DbContext
+    public class EpaContext : DbContext, IDisposable
     {
+        static EpaContext()
+        {
+            Mapper.Initialize
+                (
+                    cfg => {
+                        cfg.CreateMap<Questions, CommonQuestions>();
+                        cfg.CreateMap<Answers, CommonAnswers>();
+                        cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>();
+                    }
+                );
+        }
+        ~EpaContext() { Dispose(false); }
+
         public DbSet<TestDetailedInfo> Tests { get; set; }
         public DbSet<Answers> Answers { get; set; }
         public DbSet<Questions> Questions { get; set; }
@@ -30,6 +44,22 @@ namespace EPA.DB.MSSQL.Models
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this != null) this.Dispose();
+            }
         }
     }
 }

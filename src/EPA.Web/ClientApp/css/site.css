@@ -154,8 +154,13 @@ padding-left:50px;
 footer {
     
     width: 100%;
+<<<<<<< HEAD
     height: 120px;
     position: relative;
+=======
+    height: 100px;
+    position: unset;
+>>>>>>> origin/develop
     bottom: 0;
     left: 0;
 }

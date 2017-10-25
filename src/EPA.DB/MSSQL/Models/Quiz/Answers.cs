@@ -16,10 +16,7 @@ namespace EPA.DB.MSSQL.Models.Quiz
 
         public Questions Qestion { get; set; }
 
-        static Answers()
-        {
-            Mapper.Initialize(cfg => cfg.CreateMap<Answers, CommonAnswers>());
-        }
+       
         public CommonAnswers ToCommon()
         {
             return Mapper.Map<CommonAnswers>(this);

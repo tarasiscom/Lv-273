@@ -44,7 +44,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
                 <div className="container">
                     <h1 className="display-1">{this.state.name}</h1>
                     <p>
-                        <Link to={'/profTest/' + this.state.id} className="btn btn-primary">Розпочати тест</Link>
+                        <Link to={'/quiz/' + this.state.id} className="btn btn-primary">Розпочати тест</Link>
                     </p>
                 </div>
             </div>

@@ -28,6 +28,7 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<IProfTestInfoProvider, ProfTestInfoProvider>();
+            services.AddTransient<IAccessToQuestionsByNameTest, AccessToQuestions>();
             services.AddTransient<IProfTestResultProvider, ProfTestResultProvider>();
         }
 

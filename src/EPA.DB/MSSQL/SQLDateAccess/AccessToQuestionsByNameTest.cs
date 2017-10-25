@@ -22,8 +22,12 @@ namespace EPA.DB.MSSQL.SQLDateAccess
 
         public IEnumerable<CommonQuestions> GetQuestionByListID(int testId)
         {
-            return epaContext.Questions.Where(td => td.TestListID.Id == testId).
-                Select(item=>item.ToCommon()).ToList<CommonQuestions>();
+            var y = epaContext.Questions.Where(v => v.TestListID.Id == testId).ToList();
+
+            var x = epaContext.Questions.Where(v => v.TestListID.Id == testId).Select(it => it.ToCommon()).ToList();
+               /* epaContext.Questions.Where(td => td.TestListID.Id == testId).
+                Select(item=>item.ToCommon()).ToList<CommonQuestions>();*/
+            return x;
         }
 
         public IEnumerable<CommonAnswers> GetAnswersByQuestId(int questionId)
