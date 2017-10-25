@@ -10,7 +10,6 @@ using EPA.Common.dto.CommonQuiz;
 
 namespace EPA.Web.Controllers
 {
-    //[Produces("application/json")]
     public class TestQuizController : Controller
     {
         private IAccessToQuestionsByNameTest profTestQuestionsProvider;
@@ -20,13 +19,6 @@ namespace EPA.Web.Controllers
             this.profTestQuestionsProvider = profTestQuestionsProvider;
         }
 
-        /// <summary>
-        /// This method retrieves list of tests
-        /// </summary>
-        /// <returns>collection of tests</returns>
-        /*[Route("/api/profTest")]
-        public IEnumerable<CommonTestList> GetTestList() => profTestQuestionsProvider.GetTestList();
-        */
         /// <summary>
         /// This method retrieves list of questions
         /// </summary>
@@ -40,9 +32,9 @@ namespace EPA.Web.Controllers
             List<CommonQuestions> list = profTestQuestionsProvider.GetQuestionByListID(testId).ToList();
 
             
-            foreach(var v in list)
+            foreach(var question in list)
             {
-                v.Answer = this.GetAnswers(v.ID).ToList();
+                question.Answer = this.GetAnswers(question.ID).ToList();
             }
 
             return list; //*/
@@ -55,7 +47,6 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <param name="questionId">id of question</param>
         /// <returns>collection of answers</returns>
-        [Route("/api/profTest/{testId}/{id}/answers")]
         public IEnumerable<CommonAnswers> GetAnswers(int questionId) => profTestQuestionsProvider.GetAnswersByQuestId(questionId);
     }
 }
