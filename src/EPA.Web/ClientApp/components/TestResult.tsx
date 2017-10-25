@@ -17,7 +17,7 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
 
         fetch("api/profTest/3/result", {
             method: 'POST',
-            body: JSON.stringify(4),
+            body: JSON.stringify(7),
             headers: {
                 'Content-Type': 'application/json'
             }
