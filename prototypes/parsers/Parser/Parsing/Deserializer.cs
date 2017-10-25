@@ -12,8 +12,7 @@ namespace Parsing
             public static Dictionary<string, string> Deserialize()
             {
                 Dictionary<string, string> nodesPaths;
-                XmlSerializer serializer = new XmlSerializer(typeof(Node[]), 
-                                           new XmlRootAttribute() { ElementName = "Nodes" });
+                XmlSerializer serializer = new XmlSerializer(typeof(Node[]));
                 using (StreamReader reader = new StreamReader(GetPath()))
                 {
                     nodesPaths = ((Node[])serializer.Deserialize(reader)).ToDictionary(i => i.key, i => i.value);

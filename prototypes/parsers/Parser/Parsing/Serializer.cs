@@ -37,8 +37,7 @@ namespace Parsing
         public  void Serialize()
         {
             FillDictionary();
-            XmlSerializer serializer = new XmlSerializer(typeof(Node[]),
-                                       new XmlRootAttribute() { ElementName = "Nodes" });
+            XmlSerializer serializer = new XmlSerializer(typeof(Node[]));
             using (StreamWriter writer = new StreamWriter(File.Create("xPaths.xml")))
             {
                 serializer.Serialize(writer, nodesPaths.Select(kv => new Node() { key = kv.Key, value = kv.Value }).ToArray());

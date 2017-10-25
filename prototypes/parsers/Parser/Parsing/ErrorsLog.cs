@@ -27,7 +27,6 @@ namespace Parsing
             {
                 sw.WriteLine(String.Format("Parsing completed at . . . date:{0}; time{1};",
                                             end.Date, end.TimeOfDay));
-                //sw.WriteLine("Parsing duration: {0}:{1}:{2}");
             }
         }
 

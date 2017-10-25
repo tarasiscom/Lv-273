@@ -32,9 +32,8 @@
             this.indexPage = parser.Url;
             this.nodesXpaths = nodesXpaths;
             this.errorsLog = errorsLog;
-            //directions = new List<Direction>();
 
-                GetDataFromVstupInfo();
+            GetDataFromVstupInfo();
             Save();
         }
 
@@ -44,7 +43,6 @@
             HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXpaths["DistrictsNode"]);
             foreach (HtmlNode node in districtNodes)
             {
-
                 district = node.InnerText;
                 
                     if (node.InnerText != string.Empty)
@@ -63,8 +61,6 @@
         {
             HtmlNodeCollection univercitiesNodes = parser.RetreiveNodes(nodesXpaths["UniversitiesTypesNode"]);
 
-            //"АР Крим", "м.Севастополь" is null
-            //These sections doesn't contains any records
             if (univercitiesNodes != null)
             {
                 foreach (HtmlNode univ in univercitiesNodes)
@@ -74,9 +70,6 @@
                     {
                         parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
                         universityNode = parser.RetreiveNode(nodesXpaths["UniversitiesNode"]);
-                        //saver.SaveUniversity(parser.GetUniversityInfo(universityID, district, universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText,
-                                                                        //universityNode.SelectSingleNode(nodesXpaths["UniversitiesAdressNode"]).InnerText, 
-                                                                        //universityNode.SelectSingleNode(nodesXpaths["UniversitiesWebSitesNode"]).InnerText));
                         StartProcessSpeciality(universityNode);
                     }
                     universityID++;
@@ -90,12 +83,7 @@
 
             if (specialitiesNodes != null)
             {
-                //id !!!!!!!!!!!!!!!!!!!!!!
                 parser.GetInfo(ref specialityID, ref idDirection, universityID, district, universityNode,  specialitiesNodes, nodesXpaths);
-                //saver.SaveUniversities(parser.GetUniversities());
-                //saver.SaveDirections(parser.GetDirections());
-                //saver.SaveSpecialities(parser.GetSpecialities());
-                //saver.SaveAll();
                 Console.WriteLine("_______________________________________");
                 Console.WriteLine(district + universityID);
                 Console.WriteLine(universityNode.SelectSingleNode(nodesXpaths["UniversitiesNamesNode"]).InnerText);

@@ -6,6 +6,8 @@ namespace Parsing
 {
     public interface IParser
     {
+        string Url { get; set; }
+
         void ChangeUrl(string url);
         HtmlNodeCollection RetreiveNodes(string xPath);
         HtmlNode RetreiveNode(string xPath);
@@ -16,8 +18,5 @@ namespace Parsing
         List<Speciality> GetSpecialities();
         IEnumerable<University> GetUniversities();
         void GetInfo(ref int id,ref int idFac, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
-
-
-        string Url { get; set; }
     }
 }

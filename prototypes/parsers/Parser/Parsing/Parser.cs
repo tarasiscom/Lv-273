@@ -147,37 +147,6 @@ namespace Parsing
                     }
                     
                 }
-
-                //if (nameSpeciality != namePrevSpeciality)
-                //{
-                //    specialities.Add(new Speciality(id, idDirection - 1, idUniv, nameSpeciality));
-                //    id++;
-                //    namePrevSpeciality = nameSpeciality;
-                //}
-
-                //else
-                //{
-                //    if (nameSpeciality != namePrevSpeciality)
-                //    {
-                //        //specialities.Add(new Speciality(id, directions.Find((dir) => dir.Name == nameDirection)).FacultyID, nameSpeciality);
-                //        id++;
-                //        namePrevSpeciality = nameSpeciality;
-                //    }
-                //}
-                //if (nameDirection != namePrevDirection)
-                //{
-                //    directions.Add(new Direction(idDirection, nameDirection));
-                //    idDirection++;
-                //    namePrevDirection = nameDirection;
-                //}
-
-                //if (nameSpeciality != namePrevSpeciality)
-                //{
-                //    specialities.Add(new Speciality(id, idDirection - 1, nameSpeciality));
-                //    id++;
-                //    namePrevSpeciality = nameSpeciality;
-                //}
-                //}
             }
         }
 

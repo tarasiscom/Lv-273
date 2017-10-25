@@ -14,7 +14,7 @@ namespace Parsing
         string connectionString = @"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne";
         string formUniversity = "({0},N'{1}',N'{2}',N'{3}',N'{4}')";
         string formDirection = "({0},N'{1}')";
-       string formSpeciality = "({0},{1},N'{2}',{3})";
+        string formSpeciality = "({0},{1},N'{2}',{3})";
 
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
@@ -48,11 +48,6 @@ namespace Parsing
             }
         }
 
-        //private string GenerateQuery(IEnumerable<Speciality> page)
-        //{
-        //    return $"INSERT INTO Specialities VALUES {string.Join(",", page.Select(item => CreateRecord(item)))};";
-        //}
-
         private string GenerateQuery(IEnumerable<Speciality> specialities)
         {
             StringBuilder querySpeciality = new StringBuilder("INSERT INTO Specialties VALUES ");
@@ -66,17 +61,6 @@ namespace Parsing
             return querySpeciality.Remove(querySpeciality.Length - 1, 1).Append(';').ToString();
 
         }
-        //private string CreateRecord(Speciality item)
-        //{
-        //    var orderedProperties = new string[] {
-        //            item.ID.ToString(),
-        //            item.DirectionID.ToString(),
-        //            item.UniversityID.ToString(),"'",
-        //            EscapeString(item.Name),"'"
-        //    };
-
-        //    return $"({string.Join(", ", orderedProperties)})";
-        //}
 
         private string EscapeString(string str) => str?.Replace("'", "`");
 
