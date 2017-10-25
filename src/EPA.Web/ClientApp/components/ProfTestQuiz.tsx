@@ -26,18 +26,28 @@ interface TestQuiz {
     submitted: boolean;
     selectedValue: number[];
     totalScore: number;
+    resinfo: ResultsInfo;
+    resloading: boolean;
 }
 
+interface ResultsInfo {
+    profSpecialties: UserSpeciality[];
+    profDirection: string;
+}
+interface UserSpeciality {
+    specialtyName: string;
+    university: string;
+    district: string;
+    address: string;
+    site: string;
+}
 export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
     constructor() {
         super();
 
         this.state = {
-            que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0
+            que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0, resinfo: { profDirection: "", profSpecialties: []},resloading : true
         };
-
-
-
 
     }
 
@@ -75,11 +85,36 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     }
 
     renderTestResults() {
-        return <div>
-
-            <p>{this.state.totalScore}</p>
-
-        </div>
+        return <section className="main-settings">
+            <div className="rec-center">
+                <h1 className="text-center uni-recom"> Ваш результат - {this.state.resinfo.profDirection}</h1>
+                <h2 className="uni-recom recom-padding rec-pad-left">Наші рекомендації:</h2>
+                <section className='rec-pad-left'>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Спеціальність</th>
+                                <th>Університет</th>
+                                <th>Область</th>
+                                <th>Адреса</th>
+                                <th>Сайт</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.resinfo.profSpecialties.map(cont =>
+                                <tr>
+                                    <td>{cont.specialtyName}</td>
+                                    <td>{cont.university}</td>
+                                    <td>{cont.district}</td>
+                                    <td>{cont.address}</td>
+                                    <td>{cont.site}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </section>
 
     }
 
@@ -109,16 +144,33 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     }
 
 
+    fetchResInfo() {
+
+        fetch("api/profTest/"+this.props.match.params['id']+"/result", {
+            method: 'POST',
+            body: JSON.stringify(this.state.totalScore),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json() as Promise<ResultsInfo>)
+            .then(data => {
+                this.setState({resinfo:data, resloading:false});//{ profDirection: data.profDirection, profSpecialties: data.profSpecialties, loading: false });
+            });
+    }
+
+
     public render() {
 
         let content = this.state.loading
             ? <p><em>Loading...</em></p>
             : !this.state.submitted
                 ? this.renderTestQuiz()
-                : this.renderTestResults()
+                : this.state.resloading
+                    ? <p>Loading...</p>
+                    : this.renderTestResults();
 
 
-        return <div className="container">
+        return <div>
 
             {content}
 
@@ -127,8 +179,8 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
 
     submitScore() {
-
-        if (this.state.selectedValue.length==this.state.que.length){
+        let booly = true;
+        if (booly){//this.state.selectedValue.length==this.state.que.length){
             let score = 0;
             this.state.selectedValue.map(scr => score += scr);
 
@@ -136,9 +188,11 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                 submitted: true,
                 totalScore: score
             });
+
+            this.fetchResInfo();
         }
         else {
-            alert('finish the god damn test!1');
+            alert('finish the test!1');
         }
     }
 
