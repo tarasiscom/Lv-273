@@ -14,6 +14,7 @@ namespace Parsing
         string connectionString = "data source = .\\SQLEXPRESS; initial catalog = EPA; integrated security = true";
         string formUniversity = "({0},'{1}','{2}','{3}','{4}')";
         string formDirection = "({0},'{1}')";
+       string formSpeciality = "({0},{1},'{2}',{3})";
 
         SqlCommand commandUniversity = new SqlCommand();
         SqlCommand commandDirections = new SqlCommand();
@@ -47,37 +48,35 @@ namespace Parsing
             }
         }
 
-        //private void SavePartSpecialities(string query)
+        //private string GenerateQuery(IEnumerable<Speciality> page)
         //{
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        commandSpeciality.CommandText = query;
-        //        commandSpeciality.Connection = connection;
-
-        //        connection.Open();
-        //        commandSpeciality.ExecuteNonQuery();
-                
-        //    }
+        //    return $"INSERT INTO Specialities VALUES {string.Join(",", page.Select(item => CreateRecord(item)))};";
         //}
 
-
-
-        private string GenerateQuery(IEnumerable<Speciality> page)
+        private string GenerateQuery(IEnumerable<Speciality> specialities)
         {
-            return $"INSERT INTO Specialities VALUES {string.Join(",", page.Select(item => CreateRecord(item)))};";
-        }
+            StringBuilder querySpeciality = new StringBuilder("INSERT INTO Specialities VALUES ");
 
-        private string CreateRecord(Speciality item)
-        {
-            var orderedProperties = new string[] {
-                    item.ID.ToString(),
-                    item.DirectionID.ToString(),
-                    item.UniversityID.ToString(),"'",
-                    EscapeString(item.Name),"'"
-            };
+            foreach (Speciality speciality in specialities)
+            {
+                querySpeciality.Append(String.Format(formSpeciality, speciality.ID, speciality.DirectionID, speciality.Name.Replace("'", "`"), speciality.UniversityID));
+                querySpeciality.Append(",");
+            }
 
-            return $"({string.Join(", ", orderedProperties)})";
+            return querySpeciality.Remove(querySpeciality.Length - 1, 1).Append(';').ToString();
+
         }
+        //private string CreateRecord(Speciality item)
+        //{
+        //    var orderedProperties = new string[] {
+        //            item.ID.ToString(),
+        //            item.DirectionID.ToString(),
+        //            item.UniversityID.ToString(),"'",
+        //            EscapeString(item.Name),"'"
+        //    };
+
+        //    return $"({string.Join(", ", orderedProperties)})";
+        //}
 
         private string EscapeString(string str) => str?.Replace("'", "`");
 
@@ -106,7 +105,7 @@ namespace Parsing
 
             foreach (University university in universities)
             {
-                queryUniversity.Append(String.Format(formUniversity, university.ID, university.District.Replace("'", "`"), university.Name.Replace("'", "`"), university.Adress.Replace("'", "`"), university.Site.Replace("'", "`")));
+                queryUniversity.Append(String.Format(formUniversity, university.ID, university.Adress.Replace("'", "`"), university.District.Replace("'", "`"), university.Name.Replace("'", "`"),  university.Site.Replace("'", "`")));
                 queryUniversity.Append(",");
             }
 
