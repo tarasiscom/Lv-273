@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=EB+Garamond|Fira+Sans+Condensed|Fjalla+One');
+html {
+    min-height: 100%
+}
+body {
+    min-height: 100%
+}
 
 .uni-recom {
     font-family: 'Fira Sans Condensed', sans-serif;
@@ -80,6 +86,7 @@
 
 .uni-padding {
     padding-right: 45px;
+    padding-bottom:150px;
 }
 
 .img-univer {
@@ -145,10 +152,10 @@
 padding-left:50px;
 }
 footer {
-    background: #ffab62;
+    
     width: 100%;
-    height: 100px;
-    position: absolute;
+    height: 120px;
+    position: relative;
     bottom: 0;
     left: 0;
 }

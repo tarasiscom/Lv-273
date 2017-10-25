@@ -20,7 +20,8 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
     constructor() {
         super();
         this.state = {
-            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true};
+            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
+        };
     }
     componentDidMount() {
         this.fetchData();
