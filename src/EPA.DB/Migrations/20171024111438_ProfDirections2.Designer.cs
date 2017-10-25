@@ -11,9 +11,10 @@ using System;
 namespace EPA.DB.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171024111438_ProfDirections2")]
+    partial class ProfDirections2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +39,10 @@ namespace EPA.DB.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("DirectionId");
+
+                    b.Property<int>("Id_direction");
+
+                    b.Property<int>("Id_test");
 
                     b.Property<int>("MaxPoint");
 
@@ -94,6 +99,10 @@ namespace EPA.DB.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("DirectionId");
+
+                    b.Property<int>("Id_direction");
+
+                    b.Property<int>("Id_university");
 
                     b.Property<string>("Name");
 

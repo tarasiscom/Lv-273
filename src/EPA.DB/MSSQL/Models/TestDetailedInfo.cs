@@ -17,7 +17,8 @@ namespace EPA.DB.MSSQL.Models
         public int ApproximatedTime { get; set; }
         public int QuestionsCount { get; set; }
         
-        public List<Quiz.Questions> Questions { get; set; } 
+        List<Quiz.Questions> Questions { get; set; }
+        List<ProfDirection> ProfDirections { get; set; }
 
         public CommonTestDetailedInfo ToCommon()
         {
