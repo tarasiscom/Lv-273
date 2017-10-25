@@ -50,11 +50,9 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
 
     }
     public render() {
-        let contents = this.state;
+
+        let contents;
         return <div>{contents}</div>
-    }
-    handleClick = () => {
-        this.props.updateState();
     }
 }
 /**
@@ -74,9 +72,6 @@ class Parent extends Component {
 * /
  */
 export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
-      updateState = () => {
-      <div>fff</div>
-  }
     constructor() {
         super();
 
