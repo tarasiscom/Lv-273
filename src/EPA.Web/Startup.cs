@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EPA.Common.Interfaces;
+using EPA.Common.Interfaces.ProfTest;
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.SQLDateAccess;
 
@@ -27,9 +27,9 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IProfTestInfoProvider, ProfTestInfoProvider>();
-            services.AddTransient<IAccessToQuestionsByNameTest, AccessToQuestions>();
-            services.AddTransient<IProfTestResultProvider, ProfTestResultProvider>();
+            services.AddTransient<ITestProvider, ProfTestInfoProvider>();
+            services.AddTransient<ITestQuizProvider, AccessToQuestions>();
+            services.AddTransient<ITestResultProvider, ProfTestResultProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
