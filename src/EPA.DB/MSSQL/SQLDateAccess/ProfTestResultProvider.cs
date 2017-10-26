@@ -1,42 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EPA.Common.Interfaces;
-using EPA.Common.dto;
+﻿using System.Collections.Generic;
+using EPA.Common.Interfaces.ProfTest;
+using EPA.Common.DTO.ProfTest.Quiz;
 using EPA.DB.MSSQL.Models;
 using System.Linq;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
-    public class ProfTestResultProvider : IProfTestResultProvider
+    public class ProfTestResultProvider : ITestResultProvider
     {
-        EpaContext context;
+        private EpaContext context;
+        private const int NumberOfUniversities = 5;
+
         public ProfTestResultProvider()
         {
             this.context = new EpaContext();
         }
 
-        public ProfTestResult GetUserResult(int points, int testId)
+        public Result GetResult(int points, int testId)
         {
-            string direction = (from d in context.Directions
-                                join pd in context.ProfDirections on d.Id equals pd.Direction.Id
+            string direction = (from d in this.context.Directions
+                                join pd in this.context.ProfDirections on d.Id equals pd.Direction.Id
                                 where points >= pd.MinPoint && pd.MaxPoint > points
                                 select d.Name).FirstOrDefault();
-            return new ProfTestResult()
+            return new Result()
             {
                 ProfDirection = direction,
-
-                ProfSpecialties = (from s in context.Specialties
-                                   join u in context.Universities on s.University.Id equals u.Id
+                Specialties = (from s in this.context.Specialties
+                                   join u in this.context.Universities on s.University.Id equals u.Id
                                    where s.Direction.Name == direction
-                                   select new Common.dto.Specialty()
+                                   select new Common.DTO.Specialty()
                                    {
-                                       SpecialtyName = s.Name,
+                                       Name = s.Name,
                                        Address = u.Address,
                                        District = u.District,
                                        Site = u.Site,
                                        University = u.Name
-                                   }).Take(5).ToList()
+                                   }).Take(NumberOfUniversities).ToList()
             };
         }
     }

@@ -9,11 +9,14 @@ namespace EPA.DB.MSSQL.Models
     {
         [Key]
         public int Id { get; set; }
+
         public int MinPoint { get; set; }
+
         public int MaxPoint { get; set; }
 
         // foreign keys
         public TestDetailedInfo TestDetailedInfo { get; set; }
+
         public Direction Direction { get; set; }
     }
 }

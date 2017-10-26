@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using EPA.DB.MSSQL.Models.Quiz;
 using AutoMapper;
-using EPA.Common.dto.CommonQuiz;
-using EPA.Common.dto;
+using EPA.Common.DTO.ProfTest;
 
 namespace EPA.DB.MSSQL.Models
 {
@@ -13,21 +12,32 @@ namespace EPA.DB.MSSQL.Models
         {
             Mapper.Initialize
                 (
-                    cfg => {
-                        cfg.CreateMap<Questions, CommonQuestions>();
-                        cfg.CreateMap<Answers, CommonAnswers>();
-                        cfg.CreateMap<TestDetailedInfo, CommonTestDetailedInfo>();
+                    cfg =>
+                    {
+                        cfg.CreateMap<Questions, EPA.Common.DTO.ProfTest.Quiz.Question>();
+                        cfg.CreateMap<Answers, EPA.Common.DTO.ProfTest.Quiz.Answer>();
+                        cfg.CreateMap<TestDetailedInfo, TestInfo>();
                     }
                 );
         }
-        ~EpaContext() { Dispose(false); }
+
+        ~EpaContext()
+        {
+            this.Dispose(false);
+        }
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
+
         public DbSet<Answers> Answers { get; set; }
+
         public DbSet<Questions> Questions { get; set; }
+
         public DbSet<University> Universities { get; set; }
+
         public DbSet<Direction> Directions { get; set; }
+
         public DbSet<Specialty> Specialties { get; set; }
+
         public DbSet<ProfDirection> ProfDirections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,8 +61,6 @@ namespace EPA.DB.MSSQL.Models
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        
 
         protected virtual void Dispose(bool disposing)
         {

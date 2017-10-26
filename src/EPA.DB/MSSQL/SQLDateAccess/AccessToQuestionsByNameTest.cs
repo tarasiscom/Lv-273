@@ -1,39 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using EPA.DB.MSSQL.Models;
 using System.Linq;
-using EPA.Common.Interfaces;
-using EPA.DB.MSSQL.Models.Quiz;
-using EPA.Common.dto.CommonQuiz;
-using AutoMapper;
+using EPA.Common.Interfaces.ProfTest;
 
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
-    public class AccessToQuestions:IAccessToQuestionsByNameTest
+    public class AccessToQuestions : ITestQuizProvider
     {
-        EpaContext epaContext;
+        private EpaContext epaContext;
 
         public AccessToQuestions()
         {
-            epaContext = new EpaContext();
+            this.epaContext = new EpaContext();
         }
 
-        public IEnumerable<CommonQuestions> GetQuestionByListID(int testId)
+        public IEnumerable<EPA.Common.DTO.ProfTest.Quiz.Question> GetQuestions(int testId)
         {
-            var y = epaContext.Questions.Where(v => v.TestListID.Id == testId).ToList();
-
-            var x = epaContext.Questions.Where(v => v.TestListID.Id == testId).Select(it => it.ToCommon()).ToList();
-               /* epaContext.Questions.Where(td => td.TestListID.Id == testId).
-                Select(item=>item.ToCommon()).ToList<CommonQuestions>();*/
-            return x;
+            return this.epaContext.Questions.Where(v => v.TestListID.Id == testId).Select(it => it.ToCommon()).ToList();
         }
 
-        public IEnumerable<CommonAnswers> GetAnswersByQuestId(int questionId)
+        public IEnumerable<EPA.Common.DTO.ProfTest.Quiz.Answer> GetAnswers(int questionId)
         {
-            return epaContext.Answers.Where(td => td.Qestion.ID == questionId).
-                Select(item => item.ToCommon()).ToList<CommonAnswers>();
+            return this.epaContext.Answers.Where(td => td.Qestion.ID == questionId)
+                    .Select(item => item.ToCommon()).ToList<EPA.Common.DTO.ProfTest.Quiz.Answer>();
         }
     }
 }

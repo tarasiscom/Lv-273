@@ -9,9 +9,11 @@ namespace EPA.DB.MSSQL.Models
     {
         [Key]
         public int Id { get; set; }
+
         public string Name { get; set; }
 
         public List<Specialty> Specialties { get; set; }
+
         public List<ProfDirection> ProfDirections { get; set; }
     }
 }

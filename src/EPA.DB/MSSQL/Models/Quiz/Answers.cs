@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using EPA.Common.dto.CommonQuiz;
+﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 
 namespace EPA.DB.MSSQL.Models.Quiz
@@ -11,15 +7,16 @@ namespace EPA.DB.MSSQL.Models.Quiz
     {
         [Key]
         public int ID { get; set; }
+
         public string Answer { get; set; }
+
         public int Point { get; set; }
 
         public Questions Qestion { get; set; }
 
-       
-        public CommonAnswers ToCommon()
+        public EPA.Common.DTO.ProfTest.Quiz.Answer ToCommon()
         {
-            return Mapper.Map<CommonAnswers>(this);
+            return Mapper.Map<EPA.Common.DTO.ProfTest.Quiz.Answer>(this);
         }
     }
 }

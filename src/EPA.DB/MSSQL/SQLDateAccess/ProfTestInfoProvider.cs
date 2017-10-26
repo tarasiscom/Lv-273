@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Text;
 using EPA.DB.MSSQL.Models;
 using System.Linq;
-using EPA.Common.Interfaces;
-using EPA.Common.dto;
+using EPA.Common.Interfaces.ProfTest;
+using EPA.Common.DTO.ProfTest;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
-    public class ProfTestInfoProvider:IProfTestInfoProvider
+    public class ProfTestInfoProvider : ITestProvider
     {
-        EpaContext context;
+        private EpaContext context;
+
         public ProfTestInfoProvider()
         {
-            context = new EpaContext();
+            this.context = new EpaContext();
         }
-        public CommonTestDetailedInfo GetTestInfo(int testId)
+
+        public TestInfo GetTestInfo(int testId)
         {
             return context.Tests.Find(testId).ToCommon();
         }
-        public IEnumerable<CommonTestInfo> GetTests()
+
+        public IEnumerable<Test> GetTests()
         {
             return context.Tests.Select(item => item.ToCommon());
         }
