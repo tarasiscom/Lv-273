@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 
-namespace EPA.DB.MSSQL.Models.Quiz
+namespace EPA.DB.MSSQL.Models
 {
     public class Answers
     {
@@ -12,7 +12,7 @@ namespace EPA.DB.MSSQL.Models.Quiz
 
         public int Point { get; set; }
 
-        public Questions Qestion { get; set; }
+        public Question Qestion { get; set; }
 
         public EPA.Common.DTO.ProfTest.Quiz.Answer ToCommon()
         {

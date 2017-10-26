@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using EPA.DB.MSSQL.Models.Quiz;
 using AutoMapper;
 using EPA.Common.DTO.ProfTest;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace EPA.DB.MSSQL.Models
 {
@@ -10,15 +11,13 @@ namespace EPA.DB.MSSQL.Models
     {
         static EpaContext()
         {
-            Mapper.Initialize
-                (
+            Mapper.Initialize(
                     cfg =>
                     {
-                        cfg.CreateMap<Questions, EPA.Common.DTO.ProfTest.Quiz.Question>();
+                        cfg.CreateMap<Question, EPA.Common.DTO.ProfTest.Quiz.Question>();
                         cfg.CreateMap<Answers, EPA.Common.DTO.ProfTest.Quiz.Answer>();
                         cfg.CreateMap<TestDetailedInfo, TestInfo>();
-                    }
-                );
+                    });
         }
 
         ~EpaContext()
@@ -30,7 +29,7 @@ namespace EPA.DB.MSSQL.Models
 
         public DbSet<Answers> Answers { get; set; }
 
-        public DbSet<Questions> Questions { get; set; }
+        public DbSet<Question> Questions { get; set; }
 
         public DbSet<University> Universities { get; set; }
 
@@ -42,13 +41,23 @@ namespace EPA.DB.MSSQL.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+
+            var connectionStringConfig = builder.Build();
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            optionsBuilder.UseSqlServer(connectionStringConfig.GetConnectionString("EPA"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Answers>().ToTable("Answers");
-            modelBuilder.Entity<Questions>().ToTable("Questions");
+            modelBuilder.Entity<Question>().ToTable("Questions");
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<University>().ToTable("Universities");
             modelBuilder.Entity<Direction>().ToTable("Directions");
@@ -58,7 +67,7 @@ namespace EPA.DB.MSSQL.Models
 
         public override void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -66,7 +75,10 @@ namespace EPA.DB.MSSQL.Models
         {
             if (disposing)
             {
-                if (this != null) this.Dispose();
+                if (this != null)
+                {
+                    this.Dispose();
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 
-namespace EPA.DB.MSSQL.Models.Quiz
+namespace EPA.DB.MSSQL.Models
 {
     public class Question
     {
@@ -11,7 +11,7 @@ namespace EPA.DB.MSSQL.Models.Quiz
 
         public string Name { get; set; }
 
-        public List<Answer> Answers { get; set; }
+        public List<Answers> Answers { get; set; }
 
         public TestDetailedInfo TestListID { get; set; }
 

@@ -1,10 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Text;
-using EPA.DB.MSSQL.Models;
 using System.Linq;
-using EPA.Common.Interfaces.ProfTest;
 using EPA.Common.DTO.ProfTest;
+using EPA.Common.Interfaces.ProfTest;
+using EPA.DB.MSSQL.Models;
 
 namespace EPA.DB.MSSQL.SQLDateAccess
 {
