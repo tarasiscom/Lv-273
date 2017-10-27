@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using EPA.Common.Interfaces.ProfTest;
+using EPA.Common.Interfaces;
 using EPA.Common.DTO;
 
 namespace EPA.Web.Controllers.ProfTest

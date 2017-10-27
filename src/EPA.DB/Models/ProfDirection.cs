@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace EPA.DB.MSSQL.Models
+namespace EPA.MSSQL.Models
 {
     public class ProfDirection
     {

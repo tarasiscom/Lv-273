@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EPA.Common\EPA.Common.csproj" />
-    <ProjectReference Include="..\EPA.DB\EPA.DB.csproj" />
+    <ProjectReference Include="..\EPA.DB\EPA.MSSQL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

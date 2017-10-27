@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EPA.Common.DTO;
 
-namespace EPA.Common.Interfaces.ProfTest
+namespace EPA.Common.Interfaces
 {
     /// <summary>
     ///  This interface describes methods that are available for getting test Related Data

@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using EPA.Common.DTO.ProfTest;
+using EPA.Common.DTO;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace EPA.DB.MSSQL.Models
+namespace EPA.MSSQL.Models
 {
     public class EpaContext : DbContext, IDisposable
     {
@@ -14,8 +14,8 @@ namespace EPA.DB.MSSQL.Models
             Mapper.Initialize(
                     cfg =>
                     {
-                        cfg.CreateMap<Question, EPA.Common.DTO.ProfTest.Quiz.Question>();
-                        cfg.CreateMap<Answers, EPA.Common.DTO.ProfTest.Quiz.Answer>();
+                        cfg.CreateMap<Question, EPA.Common.DTO.Question>();
+                        cfg.CreateMap<Answer, EPA.Common.DTO.Answer>();
                         cfg.CreateMap<TestDetailedInfo, TestInfo>();
                     });
         }
@@ -27,7 +27,7 @@ namespace EPA.DB.MSSQL.Models
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
 
-        public DbSet<Answers> Answers { get; set; }
+        public DbSet<Answer> Answers { get; set; }
 
         public DbSet<Question> Questions { get; set; }
 
@@ -41,22 +41,18 @@ namespace EPA.DB.MSSQL.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json");
+            //var builder = new ConfigurationBuilder()
+            //.SetBasePath(Directory.GetCurrentDirectory())
+            //.AddJsonFile("appsettings.json");
+            //var connectionStringConfig = builder.Build();
+            //optionsBuilder.UseSqlServer(connectionStringConfig.GetConnectionString("EPA"));
 
-            var connectionStringConfig = builder.Build();
-
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            optionsBuilder.UseSqlServer(connectionStringConfig.GetConnectionString("EPA"));
+            optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Answers>().ToTable("Answers");
+            modelBuilder.Entity<Answer>().ToTable("Answers");
             modelBuilder.Entity<Question>().ToTable("Questions");
             modelBuilder.Entity<TestDetailedInfo>().ToTable("Tests");
             modelBuilder.Entity<University>().ToTable("Universities");

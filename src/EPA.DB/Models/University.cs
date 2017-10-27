@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-namespace EPA.DB.MSSQL.Models
+
+namespace EPA.MSSQL.Models
 {
     public class University
     {

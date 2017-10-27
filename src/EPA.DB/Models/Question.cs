@@ -2,22 +2,22 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 
-namespace EPA.DB.MSSQL.Models
+namespace EPA.MSSQL.Models
 {
     public class Question
     {
         [Key]
         public int ID { get; set; }
 
-        public string Name { get; set; }
+        public string Text { get; set; }
 
-        public List<Answers> Answers { get; set; }
+        public List<Answer> Answers { get; set; }
 
         public TestDetailedInfo TestListID { get; set; }
 
-        public Common.DTO.ProfTest.Quiz.Question ToCommon()
+        public Common.DTO.Question ToCommon()
         {
-            return Mapper.Map<Common.DTO.ProfTest.Quiz.Question>(this);
+            return Mapper.Map<Common.DTO.Question>(this);
         }
     }
 }

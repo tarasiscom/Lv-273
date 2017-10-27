@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace EPA.DB.MSSQL.Models
+namespace EPA.MSSQL.Models
 {
-    public class Direction
+    public class Specialty
     {
         [Key]
         public int Id { get; set; }
 
         public string Name { get; set; }
+        // foreign keys
 
-        public List<Specialty> Specialties { get; set; }
+        public University University { get; set; }
 
-        public List<ProfDirection> ProfDirections { get; set; }
+        public Direction Direction { get; set; }
     }
 }

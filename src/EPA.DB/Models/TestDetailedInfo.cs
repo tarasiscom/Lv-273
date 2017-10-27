@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using EPA.Common.DTO.ProfTest;
+using EPA.Common.DTO;
 using AutoMapper;
 
-namespace EPA.DB.MSSQL.Models
+namespace EPA.MSSQL.Models
 {
     public class TestDetailedInfo
     {
@@ -21,7 +21,7 @@ namespace EPA.DB.MSSQL.Models
 
         public int QuestionsCount { get; set; }
 
-        public List<Quiz.Questions> Questions { get; set; }
+        public List<Question> Questions { get; set; }
 
         public List<ProfDirection> ProfDirections { get; set; }
 
