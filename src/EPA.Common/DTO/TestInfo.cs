@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EPA.Common.DTO.ProfTest
+namespace EPA.Common.DTO
 {
     /// <summary>
     ///  Describes more detailed information for the tests

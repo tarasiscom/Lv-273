@@ -1,4 +1,4 @@
-﻿namespace EPA.Common.DTO.ProfTest.Quiz
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
     /// Represents answer to the question

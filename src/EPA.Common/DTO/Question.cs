@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EPA.Common.DTO.ProfTest.Quiz
+namespace EPA.Common.DTO
 {
     /// <summary>
     ///  Represents question to test
