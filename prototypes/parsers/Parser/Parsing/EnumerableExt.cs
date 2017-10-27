@@ -22,11 +22,11 @@ namespace Parsing
 
             while (enumerator.MoveNext())
             {
-                yield return nextPartition(enumerator, blockSize);
+                yield return NextPartition(enumerator, blockSize);
             }
         }
 
-        private static IEnumerable<T> nextPartition<T>(IEnumerator<T> enumerator, int blockSize)
+        private static IEnumerable<T> NextPartition<T>(IEnumerator<T> enumerator, int blockSize)
         {
             do
             {

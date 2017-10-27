@@ -8,11 +8,17 @@ namespace Parsing
 {
     public class Parser : IParser
     {
+        private static int idSpeciality = 1;
+
+        private static int idDirection = 1;
+
         private string url;
-        private HtmlNodeCollection nodes;
-        private List<Direction> directions;
-        private List<Speciality> specialities;
-        private List<University> universities;
+
+        public List<Direction> Directions { get; private set; }
+
+        public List<Speciality> Specialities { get; private set; }
+
+        public List<University> Universities { get; private set; }
 
         public string Url
         {
@@ -23,9 +29,9 @@ namespace Parsing
         public Parser(string url)
         {
             this.url = url;
-            this.directions = new List<Direction>();
-            this.specialities = new List<Speciality>();
-            this.universities = new List<University>();
+            this.Directions = new List<Direction>();
+            this.Specialities = new List<Speciality>();
+            this.Universities = new List<University>();
         }
 
         public void ChangeUrl(string url)
@@ -52,33 +58,71 @@ namespace Parsing
 
         public HtmlNodeCollection RetreiveNodes(string xPath)
         {
-            HtmlDocument doc = new HtmlDocument();
-
-            doc.LoadHtml(GetDocument());
-            nodes = doc.DocumentNode.SelectNodes(xPath);
-            return nodes;
+            HtmlDocument doc = LoadHtmlDocument();
+            return doc.DocumentNode.SelectNodes(xPath);
         }
 
         public HtmlNode RetreiveNode(string xPath)
         {
+            HtmlDocument doc = LoadHtmlDocument();
+            return doc.DocumentNode.SelectSingleNode(xPath);
+        }
+
+        public HtmlDocument LoadHtmlDocument()
+        {
             HtmlDocument doc = new HtmlDocument();
-
             doc.LoadHtml(GetDocument());
-            HtmlNode node = doc.DocumentNode.SelectSingleNode(xPath);
-            return node;
+            return doc;
         }
 
-        public District GetDistrict(int ID, string districtName)
+        private bool IsExistDirectionAndSpeciality(HtmlNode node, Dictionary<string, string> specFields)
         {
-            return new District(ID, districtName);
+            if ((node.SelectSingleNode(specFields["SpecDirectionNode"]) == null) || (node.SelectSingleNode(specFields["SpecSpecNode"]) == null))
+                return false;
+            return true;
         }
 
-        public University GetUniversityInfo(int id, string district, string name, string adress, string webSite)
+        private string GetClearNameSpeciality(string nameSpeciality)
         {
-            return new University(id, district, name, adress, webSite);
+            int counter = 0;
+            for (int i = 0; i < nameSpeciality.Length; i++)
+            {
+                if (int.TryParse(nameSpeciality[i].ToString(), out int trash) || nameSpeciality[i] == '.')
+                {
+                    counter++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (counter > 0)
+            {
+                nameSpeciality = nameSpeciality.Remove(0, counter).TrimStart(' ');
+            }
+
+            return nameSpeciality;
+        }
+        private bool IsDirectionAlreadyExists(string nameDirection)
+        {
+            if (Directions.Exists((direction) => direction.Name == nameDirection))
+                return true;
+            return false;
         }
 
-        public void GetInfo(ref int id, ref int idDirection, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
+        private string AddSpecialityIfNotExist(int idDirection, int idUniv, string nameSpeciality, string namePrevSpeciality)
+        {
+            if (nameSpeciality != namePrevSpeciality)
+            {
+                Specialities.Add(new Speciality(idSpeciality, idDirection - 1, idUniv, nameSpeciality));
+                idSpeciality++;
+                namePrevSpeciality = nameSpeciality;
+            }
+            return namePrevSpeciality;
+        }
+
+        public void GetInfo(int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
         {
             
             string namePrevDirection = string.Empty;
@@ -86,83 +130,32 @@ namespace Parsing
             string nameDirection;
             string nameSpeciality;
 
-            universities.Add(new University(idUniv, district, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText, univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText, univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText));
+            Universities.Add(new University(idUniv, district, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText, 
+                                            univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText, 
+                                            univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText));
 
             foreach (HtmlNode node in nodes)
             {
-                if (node.SelectSingleNode(specFields["SpecDirectionNode"]) == null)
+                if(!IsExistDirectionAndSpeciality(node, specFields))
                 {
                     continue;
                 }
 
-
-                if (node.SelectSingleNode(specFields["SpecSpecNode"]) == null)
-                {
-                    continue;
-                }
-                nameSpeciality = node.SelectSingleNode(specFields["SpecSpecNode"]).InnerText;
+                nameSpeciality = GetClearNameSpeciality(node.SelectSingleNode(specFields["SpecSpecNode"]).InnerText);
                 nameDirection = node.SelectSingleNode(specFields["SpecDirectionNode"]).InnerText;
 
-                //delete spec code if it available
-                int j;
-                int counter = 0;
-                for (int i = 0; i < nameSpeciality.Length; i++)
+                if (!IsDirectionAlreadyExists(nameDirection))
                 {
-                    if (int.TryParse(nameSpeciality[i].ToString(), out j) || nameSpeciality[i] == '.')
-                    {
-                        counter++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                if (counter > 0)
-                {
-                    nameSpeciality = nameSpeciality.Remove(0, counter).TrimStart(' ');
-                }
-
-
-                if (!directions.Exists((direction) => direction.Name == nameDirection))
-                {
-                    directions.Add(new Direction(idDirection, nameDirection));
+                    Directions.Add(new Direction(idDirection, nameDirection));
                     idDirection++;
-
-                    if (nameSpeciality != namePrevSpeciality)
-                    {
-                        specialities.Add(new Speciality(id, idDirection - 1, idUniv, nameSpeciality));
-                        id++;
-                        namePrevSpeciality = nameSpeciality;
-                    }
+                    namePrevSpeciality = AddSpecialityIfNotExist(idDirection - 1, idUniv, nameSpeciality, namePrevSpeciality);
                 }
-
                 else
                 {
-                    if (nameSpeciality != namePrevSpeciality)
-                    {
-                        specialities.Add(new Speciality(id, directions.Find((direction) => direction.Name == nameDirection).ID, idUniv, nameSpeciality));
-                        id++;
-                        namePrevSpeciality = nameSpeciality;
-                    }
-                    
+                    namePrevSpeciality = AddSpecialityIfNotExist(Directions.Find((direction) => direction.Name == nameDirection).ID, 
+                                                                 idUniv, nameSpeciality, namePrevSpeciality);
                 }
             }
-        }
-
-        public IEnumerable<Direction> GetDirections()
-        {
-            return directions;
-        }
-
-        public List<Speciality> GetSpecialities()
-        {
-            return specialities;
-        }
-
-        public IEnumerable<University> GetUniversities()
-        {
-            return universities;
         }
     }
 }

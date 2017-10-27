@@ -1,20 +1,17 @@
-﻿namespace Parsing
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Parsing
+{
     public class Program
     {
         private static void Main(string[] args)
         {
-            ParseController parse = new ParseController();
-
-            //Serialization xml nodes
             Serializer serializer = new Serializer();
             serializer.Serialize();
-            Dictionary<string, string> nodesXpaths = Deserializer.Deserialize();
-
-            parse.Start(new DatabaseSaver(), new Parser("http://vstup.info"), new ErrorsLog(), nodesXpaths);
+            Dictionary<string, string> nodeXPaths = Deserializer.Deserialize();
+            ParseController parse = new ParseController(new DatabaseSaver(), new Parser("http://vstup.info"), nodeXPaths);
+            parse.Start();
             Console.ReadKey();
         }
     }

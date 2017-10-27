@@ -8,8 +8,8 @@
             this.Name = name;
         }
 
-        public int ID { get; set; }
+        public int ID { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
     }
 }

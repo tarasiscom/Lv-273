@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Parsing.DataClasses;
 using System.Data.SqlClient;
@@ -11,21 +10,20 @@ namespace Parsing
     {
         private static readonly int size = 500;
 
-        string connectionString = @"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne";
-        string formUniversity = "({0},N'{1}',N'{2}',N'{3}',N'{4}')";
-        string formDirection = "({0},N'{1}')";
-        string formSpeciality = "({0},{1},N'{2}',{3})";
+        private string connectionString = @"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne";
+        private string formUniversity = "({0},N'{1}',N'{2}',N'{3}',N'{4}')";
+        private string formDirection = "({0},N'{1}')";
+        private string formSpeciality = "({0},{1},N'{2}',{3})";
 
-        SqlCommand commandUniversity = new SqlCommand();
-        SqlCommand commandDirections = new SqlCommand();
-        SqlCommand commandSpeciality = new SqlCommand();
+        private SqlCommand commandUniversity = new SqlCommand();
+        private SqlCommand commandDirections = new SqlCommand();
+        private SqlCommand commandSpeciality = new SqlCommand();
 
-        List<string> parts = new List<string>();
-        
+        private List<string> parts = new List<string>();
 
-        StringBuilder querySpecialities = new StringBuilder();
+        private StringBuilder querySpecialities = new StringBuilder();
 
-        public void SaveDirections(IEnumerable<Direction> directions)
+        public void SaveDirections(List<Direction> directions)
         {
             StringBuilder queryDirections = new StringBuilder("INSERT INTO Directions VALUES ");
 
@@ -48,6 +46,20 @@ namespace Parsing
             }
         }
 
+        public void SaveUniversities(List<University> universities)
+        {
+            StringBuilder queryUniversity = new StringBuilder("INSERT INTO Universities VALUES ");
+
+            foreach (University university in universities)
+            {
+                queryUniversity.Append(String.Format(formUniversity, university.ID, university.Adress.Replace("'", "`"), university.District.Replace("'", "`"), university.Name.Replace("'", "`"), university.Site.Replace("'", "`")));
+                queryUniversity.Append(",");
+            }
+
+            queryUniversity.Remove(queryUniversity.Length - 1, 1).Append(';').Replace("&#34", "\"");
+            commandUniversity.CommandText = queryUniversity.ToString();
+        }
+
         private string GenerateQuery(IEnumerable<Speciality> specialities)
         {
             StringBuilder querySpeciality = new StringBuilder("INSERT INTO Specialties VALUES ");
@@ -59,12 +71,11 @@ namespace Parsing
             }
 
             return querySpeciality.Remove(querySpeciality.Length - 1, 1).Append(';').ToString();
-
         }
 
         private string EscapeString(string str) => str?.Replace("'", "`");
 
-        public void SaveAll()
+        public void SaveAll(List<University> universities, List<Direction> directions, List<Speciality> specialities)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -80,21 +91,12 @@ namespace Parsing
                     commandSpeciality.CommandText = part;
                     commandSpeciality.ExecuteNonQuery();
                 }
-            }
-        }
 
-        public void SaveUniversities(IEnumerable<University> universities)
-        {
-            StringBuilder queryUniversity = new StringBuilder("INSERT INTO Universities VALUES ");
-
-            foreach (University university in universities)
-            {
-                queryUniversity.Append(String.Format(formUniversity, university.ID, university.Adress.Replace("'", "`"), university.District.Replace("'", "`"), university.Name.Replace("'", "`"),  university.Site.Replace("'", "`")));
-                queryUniversity.Append(",");
             }
 
-            queryUniversity.Remove(queryUniversity.Length - 1, 1).Append(';').Replace("&#34", "\"");
-            commandUniversity.CommandText = queryUniversity.ToString();
+            SaveUniversities(universities);
+            SaveDirections(directions);
+            SaveSpecialities(specialities);
         }
     }
 }

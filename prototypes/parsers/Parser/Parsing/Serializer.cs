@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -9,9 +10,9 @@ namespace Parsing
     public class Node
     {
         [XmlAttribute]
-        public string key;
+        public string Key { get; set; }
         [XmlAttribute]
-        public string value;
+        public string Value { get; set; }
     }
 
     class Serializer
@@ -28,19 +29,18 @@ namespace Parsing
             nodesPaths.Add("UniversitiesAdressNode", "//tr[5]/td[2]");
             nodesPaths.Add("UniversitiesWebSitesNode", "//tr[7]/td[2]");
             nodesPaths.Add("SpecialitiesNodes", "//div[@class = 'tab-content']/div/table/tbody/tr");
-            nodesPaths.Add("SpecDirectionNode","td/span[@title ='Галузь']");
-            nodesPaths.Add("SpecSpecNode","td/span[@title ='Спеціальність']");
-            nodesPaths.Add("SpecFacNode","td/span[@title ='Факультет']");
- 
+            nodesPaths.Add("SpecDirectionNode", "td/span[@title ='Галузь']");
+            nodesPaths.Add("SpecSpecNode", "td/span[@title ='Спеціальність']");
+            nodesPaths.Add("SpecFacNode", "td/span[@title ='Факультет']");
         }
        
-        public  void Serialize()
+        public void Serialize()
         {
             FillDictionary();
             XmlSerializer serializer = new XmlSerializer(typeof(Node[]));
             using (StreamWriter writer = new StreamWriter(File.Create("xPaths.xml")))
             {
-                serializer.Serialize(writer, nodesPaths.Select(kv => new Node() { key = kv.Key, value = kv.Value }).ToArray());
+                serializer.Serialize(writer, nodesPaths.Select(kv => new Node() { Key = kv.Key, Value = kv.Value }).ToArray());
             }          
         }
     }

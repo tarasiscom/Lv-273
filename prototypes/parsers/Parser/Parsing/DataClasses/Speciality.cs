@@ -8,23 +8,14 @@
             this.DirectionID = directionID;
             this.UniversityID = universityID;
             this.Name = name;
- 
         }
 
-        public int ID { get; set; }
+        public int ID { get; }
 
-        public int UniversityID { get; set; }
+        public int UniversityID { get; }
 
-        public int DirectionID { get; set; }
+        public int DirectionID { get; }
 
-        public string Name { get; set; }
-
-        //public string MinPoints { get; set; }
-
-        //public string AvgPoints { get; set; }
-
-        //public int BudgetPlaces { get; set; }
-
-        //public int ContractPlaces { get; set; }
+        public string Name { get; }
     }
 }

@@ -4,37 +4,8 @@ using System.Net;
 
 namespace Parsing
 {
-    class ErrorsLog: IErrorsLog
+    static class ErrorsLog
     {
-        DateTime start;
-        DateTime end;
-
-        public void StartLog()
-        {
-            start = DateTime.Now;
-            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
-            {
-                sw.WriteLine(String.Format("Parsing started at . . . date:{0}; time{1};",
-                                            DateTime.Now.Date, DateTime.Now.TimeOfDay));
-                sw.WriteLine();
-            }
-        }
-
-        public void EndLog()
-        {
-            end = DateTime.Now;
-            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
-            {
-                sw.WriteLine(String.Format("Parsing completed at . . . date:{0}; time{1};",
-                                            end.Date, end.TimeOfDay));
-            }
-        }
-
-        public void SaveNulls()
-        {
-
-        }
-
         //404 not found
         public static bool IsAvailable(string url)
         {
@@ -45,6 +16,7 @@ namespace Parsing
                 {
                     return true;
                 }
+
             }
 
             catch (WebException ex)
@@ -55,6 +27,7 @@ namespace Parsing
                                                 DateTime.Now.Date, DateTime.Now.TimeOfDay, url, (((HttpWebResponse)ex.Response).StatusCode)));
                     sw.WriteLine();
                 }
+
                 return false;
             }
         }
