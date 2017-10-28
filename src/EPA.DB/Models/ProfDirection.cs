@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EPA.MSSQL.Models
 {
@@ -15,7 +12,7 @@ namespace EPA.MSSQL.Models
         public int MaxPoint { get; set; }
 
         // foreign keys
-        public TestDetailedInfo TestDetailedInfo { get; set; }
+        public TestDetailedInfo Test { get; set; }
 
         public Direction Direction { get; set; }
     }

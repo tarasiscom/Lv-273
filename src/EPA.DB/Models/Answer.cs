@@ -14,9 +14,9 @@ namespace EPA.MSSQL.Models
 
         public Question Question { get; set; }
 
-        public EPA.Common.DTO.Answer ToCommon()
+        public Common.DTO.Answer ToCommon()
         {
-            return Mapper.Map<EPA.Common.DTO.Answer>(this);
+            return Mapper.Map<Common.DTO.Answer>(this);
         }
     }
 }

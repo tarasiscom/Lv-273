@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
@@ -46,11 +45,17 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<Common.DTO.Question> GetQuestions(int testId)
         {
-            return this.context.Questions.Where(v => v.TestListID.Id == testId)
-                                            .Select(it => it.ToCommon()).ToList();
-         //   this.context.Answers.Where(td => td.Qestion.ID == questionId)
-         //                              .Select(item => item.ToCommon())
-         //                              .ToList<EPA.Common.DTO.Answer>();
+            return this.context.Questions
+                                    .Where(q => q.Test.Id == testId)
+                                    .Select(res => new Models.Question
+                                    {
+                                        ID = res.ID,
+                                        Test = res.Test,
+                                        Text = res.Text,
+                                        Answers = this.context.Answers
+                                                                    .Where(answ => answ.Question.ID == res.ID)
+                                                                    .ToList()
+                                    }.ToCommon());
         }
     }
 }

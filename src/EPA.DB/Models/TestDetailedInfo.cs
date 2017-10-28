@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EPA.Common.DTO;
 using AutoMapper;
@@ -17,7 +15,7 @@ namespace EPA.MSSQL.Models
 
         public string Description { get; set; }
 
-        public int ApproximatedTime { get; set; }
+        public int ApproximateTime { get; set; }
 
         public int QuestionsCount { get; set; }
 

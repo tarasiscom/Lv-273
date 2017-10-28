@@ -13,7 +13,7 @@ namespace EPA.MSSQL.Models
 
         public List<Answer> Answers { get; set; }
 
-        public TestDetailedInfo TestListID { get; set; }
+        public TestDetailedInfo Test { get; set; }
 
         public Common.DTO.Question ToCommon()
         {
