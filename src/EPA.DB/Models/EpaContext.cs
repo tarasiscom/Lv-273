@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using EPA.Common.DTO;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace EPA.MSSQL.Models
 {
-    public class EpaContext : DbContext, IDisposable
+    public class EpaContext : DbContext
     {
         static EpaContext()
         {
@@ -18,11 +16,6 @@ namespace EPA.MSSQL.Models
                         cfg.CreateMap<Answer, EPA.Common.DTO.Answer>();
                         cfg.CreateMap<TestDetailedInfo, TestInfo>();
                     });
-        }
-
-        ~EpaContext()
-        {
-            this.Dispose(false);
         }
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
@@ -59,23 +52,6 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
-        }
-
-        public override void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this != null)
-                {
-                    this.Dispose();
-                }
-            }
         }
     }
 }

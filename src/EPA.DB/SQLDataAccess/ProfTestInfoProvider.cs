@@ -9,23 +9,17 @@ namespace EPA.MSSQL.SQLDataAccess
 {
     public class ProfTestInfoProvider : ITestProvider
     {
-        private readonly EpaContext context;
         private const int NumberOfUniversities = 5;
- 
+        private readonly EpaContext context;
+
         public ProfTestInfoProvider()
         {
             this.context = new EpaContext();
         }
 
-        public TestInfo GetTestInfo(int testId)
-        {
-            return this.context.Tests.Find(testId).ToCommon();
-        }
+        public TestInfo GetTestInfo(int testId) => this.context.Tests.Find(testId).ToCommon();
 
-        public IEnumerable<Test> GetTests()
-        {
-            return this.context.Tests.Select(item => item.ToCommon());
-        }
+        public IEnumerable<Test> GetTests() => this.context.Tests.Select(item => item.ToCommon());
 
         public Result GetResult(int points, int testId)
         {
