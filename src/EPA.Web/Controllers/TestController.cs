@@ -5,7 +5,6 @@ using EPA.Common.DTO;
 
 namespace EPA.Web.Controllers.ProfTest
 {
-
     /// <summary>
     ///  API for Test and TestInfo draws
     /// </summary>
@@ -19,14 +18,12 @@ namespace EPA.Web.Controllers.ProfTest
         }
 
         /// <summary>
-        ///  This method retrives list of accessible tests 
+        /// This method retrives list of accessible tests
         /// </summary>
-        ///  <returns> collection of Tests </returns>
+        /// <returns> collection of Tests </returns>
         [Route("api/profTest/list")]
         [HttpGet]
-        public IEnumerable<Test> GetTests() => testProvider.GetTests();
-
-
+        public IEnumerable<Test> GetTests() => this.testProvider.GetTests();
 
         /// <summary>
         /// This method retrives more detailed information about specific Test
@@ -35,9 +32,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <returns> more detatiled test Information </returns>
         [Route("api/profTest/{id}/info")]
         [HttpGet("{id}")]
-        public TestInfo GetTestInfo(int id) => testProvider.GetTestInfo(id);
-
-
+        public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
         /// <summary>
         /// This method returns a collection of questions for a specific test
@@ -48,26 +43,18 @@ namespace EPA.Web.Controllers.ProfTest
         [HttpGet("{testId}")]
         public IEnumerable<Question> GetQuestions(int testId)
         {
-            return testProvider.GetQuestions(testId);
-
-            /*
-            List<Question> list = testProvider.GetQuestions(testId).ToList();
-
-            list.ForEach((x) => x.Answers = this.GetAnswers(x.ID).ToList());
-
-            return list;
-            //*/
+            return this.testProvider.GetQuestions(testId);
         }
 
         /// <summary>
-        ///  This method retrives data about persons professional directory and list of specialities
+        /// This method retrives data about persons professional directory and list of specialities
         /// </summary>
-        /// <param name="points">Amount of points achieved</param>
         /// <param name="id">ID of the test, whose results we need</param>
+        /// <param name="points">Amount of points achieved</param>
         /// <returns>  ProfTest's Result </returns>
         [Route("api/profTest/{id}/result")]
         [HttpPost]
-        public Result GetResult(int id, [FromBody]int points) => testProvider.GetResult(points, id);
+        public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
 
 
     }

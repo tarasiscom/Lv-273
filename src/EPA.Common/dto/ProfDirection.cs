@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
     ///  This class describes information about professional direction 
@@ -13,6 +9,7 @@ namespace EPA.Common.DTO
         ///  ID of the proffesional direction
         /// </summary>
         int ID { get; set; }
+
         /// <summary>
         ///  Name of the proffesional direction
         /// </summary>

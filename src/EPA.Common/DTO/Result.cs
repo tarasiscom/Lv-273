@@ -11,6 +11,7 @@ namespace EPA.Common.DTO
         ///  ProfDirection which is recommended
         /// </summary>
         public string ProfDirection { get; set; }
+
         /// <summary>
         ///  Specialties recommendations, based on profDirection 
         /// </summary>

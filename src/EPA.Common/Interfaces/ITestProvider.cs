@@ -4,21 +4,21 @@ using EPA.Common.DTO;
 namespace EPA.Common.Interfaces
 {
     /// <summary>
-    ///  This interface describes methods that are available for getting test Related Data
+    ///  This interface describes methods that are available for getting test related data
     /// </summary>
     public interface ITestProvider
     {
         /// <summary>
-        ///  This method retrives list of accessible tests 
-        ///  <returns> collection of Tests </returns>
+        ///  This method retrieves list of accessible tests 
         /// </summary>
+        ///  <returns> collection of Tests </returns>
         IEnumerable<Test> GetTests();
 
         /// <summary>
-        ///  This method retrives more detailed information about specific Test
-        ///  <param> id of the Test </param>
-        ///  <returns> more detatiled test Information </returns>
+        ///  This method retrieves more detailed information about specific test
         /// </summary>
+        ///  <param name="id"> id of the test </param>
+        ///  <returns> more detatiled test information </returns>
         TestInfo GetTestInfo(int id);
 
         /// <summary>
@@ -29,11 +29,11 @@ namespace EPA.Common.Interfaces
         IEnumerable<Question> GetQuestions(int testId);
 
         /// <summary>
-        ///  This method retrives data about persons professional directory and list of specialities
+        ///  This method retrieves data about persons professional directory and list of specialties
+        /// </summary>
         ///  <param name="points">Amount of points achieved</param>
         ///  <param name="testId">ID of the test, whose results we need</param>
         ///  <returns>  ProfTest's Result </returns>
-        /// </summary>
         Result GetResult(int points, int testId);
     }
 }

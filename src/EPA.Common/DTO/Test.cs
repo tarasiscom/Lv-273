@@ -13,6 +13,7 @@ namespace EPA.Common.DTO
         ///  ID of the test
         /// </summary>
         public int ID { get; set; }
+
         /// <summary>
         ///  Name of the test
         /// </summary>

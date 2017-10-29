@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EPA.Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using EPA.MSSQL.SQLDataAccess;
 
 
@@ -18,7 +13,7 @@ namespace EPA.Web
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,8 +23,6 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
-          //  services.AddTransient<ITestQuizProvider, QuestionsTestProvider>();
-          //  services.AddTransient<ITestResultProvider, ProfTestResultProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
