@@ -28,7 +28,7 @@ namespace Parsing
             nodesPaths.Add("UniversitiesNamesNode", "//tr[1]/td[2]");
             nodesPaths.Add("UniversitiesAdressNode", "//tr[5]/td[2]");
             nodesPaths.Add("UniversitiesWebSitesNode", "//tr[7]/td[2]");
-            nodesPaths.Add("SpecialitiesNodes", "//div[@class = 'tab-content']/div/table/tbody/tr");
+            nodesPaths.Add("SpecialitiesNodes", "//div[@class = 'tab-content']/div[@id = 'd_o_1']/table/tbody/tr");
             nodesPaths.Add("SpecDirectionNode", "td/span[@title ='Галузь']");
             nodesPaths.Add("SpecSpecNode", "td/span[@title ='Спеціальність']");
             nodesPaths.Add("SpecFacNode", "td/span[@title ='Факультет']");
