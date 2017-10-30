@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper;
 using EPA.Common.DTO;
-using AutoMapper;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EPA.MSSQL.Models
 {

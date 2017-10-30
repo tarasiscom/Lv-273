@@ -34,12 +34,6 @@ namespace EPA.MSSQL.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var builder = new ConfigurationBuilder()
-            //.SetBasePath(Directory.GetCurrentDirectory())
-            //.AddJsonFile("appsettings.json");
-            //var connectionStringConfig = builder.Build();
-            //optionsBuilder.UseSqlServer(connectionStringConfig.GetConnectionString("EPA"));
-
             optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
         }
 
