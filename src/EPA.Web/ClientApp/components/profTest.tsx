@@ -36,7 +36,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
         return <div>
             <section className="jumbotron text-center">
                 <div className="container">
-                    <h1 className="jumbotron-heading"><a href= "https://www.google.com.ua/">Профорієнтаційні тести</a></h1>
+                    <h1 className="jumbotron-heading">Профорієнтаційні тести</h1>
                     <p className="lead text-muted">Тут Ви можете переглянути список тестів</p>
                 </div>
             </section>

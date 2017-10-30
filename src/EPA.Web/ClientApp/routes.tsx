@@ -11,6 +11,5 @@ export const routes = <Layout>
     <Route path='/profTest' component={ProfTest} />
     <Route path='/testInfo/:id' component={TestInfo} />
     <Route path='/quiz/:id' component={ProfTestQuiz} />
-
 </Layout>;
 

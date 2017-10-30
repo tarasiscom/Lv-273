@@ -99,7 +99,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                                     <td>{cont.university}</td>
                                     <td>{cont.district}</td>
                                     <td>{cont.address}</td>
-                                    <td>{cont.site}</td>
+                                    <td><a href={cont.site}>{cont.site}</a></td>
                                 </tr>
                             )}
                         </tbody>
