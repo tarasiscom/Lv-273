@@ -43,9 +43,7 @@ namespace EPA.MSSQL.SQLDataAccess
             };
         }
 
-        public IEnumerable<Common.DTO.Question> GetQuestions(int testId)
-        {
-            return this.context.Questions
+        public IEnumerable<Common.DTO.Question> GetQuestions(int testId) => this.context.Questions
                                     .Where(q => q.Test.Id == testId)
                                     .Select(res => new Models.Question
                                     {
@@ -56,6 +54,5 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .Where(answ => answ.Question.ID == res.ID)
                                                                     .ToList()
                                     }.ToCommon());
-        }
     }
 }
