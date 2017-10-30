@@ -98,11 +98,15 @@ body {
     --margin-left:15px;
     margin-right: 3%;
     margin-left: 3%;
-    
 }
 .quiz-pad {
 margin-bottom:130px;
 margin-top:20px;
+}
+
+.pad-for-footer {
+    margin-bottom: 130px;
+    margin-top: 20px;
 }
 
 .top-univer {
