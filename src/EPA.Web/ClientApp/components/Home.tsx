@@ -8,8 +8,8 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
         return <div>
             <section className="main-container">
                 <div className="title">
-                    <div className="logo1"></div>
-                    <p className="caption">Educational Program Advisor</p>
+                    <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
+                    <p className="caption col-md-5 col-sm-5 col-xs-3">Educational Program Advisor</p>
                 </div>
                 <div className="main-block">
                     <h2 className="text-center second-title">Обери своє майбутнє разом з EPA</h2>

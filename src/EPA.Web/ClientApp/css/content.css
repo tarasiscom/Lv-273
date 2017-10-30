@@ -85,7 +85,7 @@ body {
 
 .uni-padding {
     padding-right: 45px;
-    padding-bottom:150px;
+    padding-bottom:25px;
 }
 
 .text-univer {
@@ -93,11 +93,11 @@ body {
     font-size: 16px;
 }
 
-.row {
+/*.row {
     
     margin-left:15px;
     
-}
+}*/
 .quiz-pad {
 margin-bottom:130px;
 margin-top:20px;
