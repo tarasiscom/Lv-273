@@ -9,14 +9,14 @@ namespace EPA.MSSQL.SQLDataAccess
 {
     public class ProfTestInfoProvider : ITestProvider
     {
-        private readonly IOptions<ConstSettings> numberOfUniversities;
+        private readonly IOptions<ConstSettings> constValues;
         //private const int numberOfUniversities = 5;
         private readonly EpaContext context;
 
         public ProfTestInfoProvider(IOptions<ConstSettings> constSettings)
         {
             this.context = new EpaContext();
-            this.numberOfUniversities = constSettings;
+            this.constValues = constSettings;
         }
 
         public TestInfo GetTestInfo(int testId) => this.context.Tests.Find(testId).ToCommon();
@@ -42,7 +42,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                    District = u.District,
                                    Site = u.Site,
                                    University = u.Name
-                               }).Take(this.numberOfUniversities.Value.NumberOfUniversities).ToList()
+                               }).Take(this.constValues.Value.NumberOfUniversities).ToList()
             };
         }
 
