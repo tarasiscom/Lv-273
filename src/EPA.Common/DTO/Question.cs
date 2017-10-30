@@ -23,7 +23,7 @@ namespace EPA.Common.DTO
         public List<Answer> Answers { get; set; }
 
         /// <summary>
-        /// Refference to the test
+        /// Reference to the test
         /// </summary>
         public TestInfo TestListID { get; set; }
     }

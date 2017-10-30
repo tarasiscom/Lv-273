@@ -16,12 +16,12 @@
         public string Text { get; set; }
 
         /// <summary>
-        ///  Ammount of points for the answer
+        ///  Amount of points for the answer
         /// </summary>
         public int Point { get; set; }
 
         /// <summary>
-        ///  Refference to the question this answer is for
+        ///  Reference to the question this answer is for
         /// </summary>
         public Question Question { get; set; }
     }

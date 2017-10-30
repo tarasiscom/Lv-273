@@ -6,12 +6,12 @@
     public class ProfDirection
     {
         /// <summary>
-        ///  ID of the proffesional direction
+        ///  ID of the professional direction
         /// </summary>
         int ID { get; set; }
 
         /// <summary>
-        ///  Name of the proffesional direction
+        ///  Name of the professional direction
         /// </summary>
         string Name { get; set; }
     }
