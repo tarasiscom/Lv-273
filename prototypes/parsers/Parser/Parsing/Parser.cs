@@ -104,6 +104,7 @@ namespace Parsing
 
             return nameSpeciality;
         }
+
         private bool IsDirectionAlreadyExists(string nameDirection)
         {
             if (Directions.Exists((direction) => direction.Name == nameDirection))

@@ -9,8 +9,6 @@ namespace Parsing
         private IParser parser;
         private ISaver saver;
         private string district;
-        private int districtID = 1;
-        private int universityID = 1;
         private HtmlNode universityNode;
         private string year = "/2017";
         private string indexPage;
@@ -35,22 +33,10 @@ namespace Parsing
             saver.SaveAll(parser.Universities, parser.Directions, parser.Specialities);
         }
 
-        private void StartProcessSpeciality(HtmlNode universityNode)
-        {
-            HtmlNodeCollection specialitiesNodes = parser.RetreiveNodes(nodesXPaths["SpecialitiesNodes"]);
-
-            if (specialitiesNodes != null)
-            {
-                parser.GetInfo(universityID, district, universityNode, specialitiesNodes, nodesXPaths);
-                Console.WriteLine("_______________________________________");
-                Console.WriteLine(district + universityID);
-                Console.WriteLine(universityNode.SelectSingleNode(nodesXPaths["UniversitiesNamesNode"]).InnerText);
-            }
-
-        }
 
         private void GetDataFromVstupInfo()
         {
+            int districtID = 1;
             HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXPaths["DistrictsNode"]);
             foreach (HtmlNode node in districtNodes)
             {
@@ -69,7 +55,7 @@ namespace Parsing
         private void StartProcessUniversity()
         {
             HtmlNodeCollection universitiesNodes = parser.RetreiveNodes(nodesXPaths["UniversitiesTypesNode"]);
-
+            int universityID = 1;
             if (universitiesNodes != null)
             {
                 foreach (HtmlNode univ in universitiesNodes)
@@ -79,12 +65,27 @@ namespace Parsing
                     {
                         parser.ChangeUrl(indexPage + year + univ.Attributes["href"].Value.Remove(0, 1));
                         universityNode = parser.RetreiveNode(nodesXPaths["UniversitiesNode"]);
-                        StartProcessSpeciality(universityNode);
+                        StartProcessSpeciality(universityNode, universityID);
                     }
 
                     universityID++;
                 }
             }
         }
+
+        private void StartProcessSpeciality(HtmlNode universityNode, int universityID)
+        {
+            HtmlNodeCollection specialitiesNodes = parser.RetreiveNodes(nodesXPaths["SpecialitiesNodes"]);
+
+            if (specialitiesNodes != null)
+            {
+                parser.GetInfo(universityID, district, universityNode, specialitiesNodes, nodesXPaths);
+                Console.WriteLine("_______________________________________");
+                Console.WriteLine(district + universityID);
+                Console.WriteLine(universityNode.SelectSingleNode(nodesXPaths["UniversitiesNamesNode"]).InnerText);
+            }
+
+        }
+
     }
 }
