@@ -6,8 +6,6 @@ import { ProfTest } from './components/ProfTest';
 import { TestInfo } from './components/TestInfo';
 import { ProfTestQuiz } from './components/ProfTestQuiz';
 
-
-
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/profTest' component={ProfTest} />

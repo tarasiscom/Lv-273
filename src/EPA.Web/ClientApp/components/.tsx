@@ -2,19 +2,33 @@
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
+interface ResultsInfo {
+    profSpecialties: UserSpeciality[];
+    profDirection: string;
+    loading: boolean;
+}
+
+interface UserSpeciality {
+    specialtyName: string;
+    university: string;
+    district: string;
+    address: string;
+    site: string;
+}
+
 export class TestResult extends React.Component<RouteComponentProps<{}>, ResultsInfo> {
     constructor() {
         super();
         this.state = {
              profDirection: "", profSpecialties: [], loading: true
         };
-
     }
+
     componentDidMount() {
         this.fetchData()
     }
-    fetchData() {
 
+    fetchData() {
         fetch("api/profTest/3/result", {
             method: 'POST',
             body: JSON.stringify(7),
@@ -26,6 +40,7 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
                 this.setState({ profDirection: data.profDirection, profSpecialties: data.profSpecialties, loading: false });
             });
     }
+
     public render() {
 
         let contents = this.state.loading
@@ -33,6 +48,7 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
             : this.renderResult();
         return <div>{contents}</div>
     }
+
     private renderResult() {
 
         return <section className="main-settings">
@@ -70,15 +86,3 @@ export class TestResult extends React.Component<RouteComponentProps<{}>, Results
 
 
 
-interface ResultsInfo {
-    profSpecialties: UserSpeciality[];
-    profDirection: string;
-    loading: boolean;
-}
-interface UserSpeciality {
-    specialtyName: string;
-    university: string;
-    district: string;
-    address: string;
-    site: string;
-}
