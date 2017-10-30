@@ -77,6 +77,10 @@ namespace Parsing
 
         public void SaveAll(List<University> universities, List<Direction> directions, List<Speciality> specialities)
         {
+            SaveUniversities(universities);
+            SaveDirections(directions);
+            SaveSpecialities(specialities);
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 commandDirections.Connection = connection;
@@ -94,9 +98,6 @@ namespace Parsing
 
             }
 
-            SaveUniversities(universities);
-            SaveDirections(directions);
-            SaveSpecialities(specialities);
         }
     }
 }

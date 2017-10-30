@@ -115,7 +115,7 @@ namespace Parsing
         {
             if (nameSpeciality != namePrevSpeciality)
             {
-                Specialities.Add(new Speciality(idSpeciality, idDirection - 1, idUniv, nameSpeciality));
+                Specialities.Add(new Speciality(idSpeciality, idDirection, idUniv, nameSpeciality));
                 idSpeciality++;
                 namePrevSpeciality = nameSpeciality;
             }
