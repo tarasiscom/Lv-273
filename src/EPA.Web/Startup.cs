@@ -23,14 +23,14 @@ namespace EPA.Web
             this.Configuration = builder.Build();
         }
 
-        string testSecret = null;
+        private string testSecret = null;
 
         public IConfiguration Configuration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            testSecret = Configuration["ConnectionString"];
+            this.testSecret = this.Configuration["ConnectionString"];
             services.AddMvc();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
