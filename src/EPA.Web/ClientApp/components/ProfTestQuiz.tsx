@@ -126,7 +126,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                     </RadioGroup>
                 </div>
             )}
-            <button onClick={() => this.submitScore()}>
+            <button className="btn btn-primary" onClick={() => this.submitScore()}>
                 Submit
             </button>
         </div>

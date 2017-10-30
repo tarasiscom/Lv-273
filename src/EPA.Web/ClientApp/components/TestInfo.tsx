@@ -38,7 +38,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
     }
 
     public render() {
-        return <div>
+        return <div className="pad-for-footer">
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
                     <h1 className="display-1">{this.state.name}</h1>

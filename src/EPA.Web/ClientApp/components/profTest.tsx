@@ -33,7 +33,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
             ? <p><em>Loading...</em></p>
             : ProfTest.renderTestsList(this.state.tests);
 
-        return <div>
+        return <div className="pad-for-footer">
             <section className="jumbotron text-center">
                 <div className="container">
                     <h1 className="jumbotron-heading">Профорієнтаційні тести</h1>
