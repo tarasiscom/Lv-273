@@ -3,17 +3,20 @@ using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
+using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
     public class ProfTestInfoProvider : ITestProvider
     {
-        private const int NumberOfUniversities = 5;
+        private readonly IOptions<ConstSettings> numberOfUniversities;
+        //private const int numberOfUniversities = 5;
         private readonly EpaContext context;
 
-        public ProfTestInfoProvider()
+        public ProfTestInfoProvider(IOptions<ConstSettings> constSettings)
         {
             this.context = new EpaContext();
+            this.numberOfUniversities = constSettings;
         }
 
         public TestInfo GetTestInfo(int testId) => this.context.Tests.Find(testId).ToCommon();
@@ -39,7 +42,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                    District = u.District,
                                    Site = u.Site,
                                    University = u.Name
-                               }).Take(NumberOfUniversities).ToList()
+                               }).Take(this.numberOfUniversities.Value.NumberOfUniversities).ToList()
             };
         }
 

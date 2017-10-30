@@ -7,6 +7,7 @@ using EPA.Common.Interfaces;
 using EPA.MSSQL.SQLDataAccess;
 
 
+
 namespace EPA.Web
 {
     public class Startup
@@ -23,6 +24,7 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
+            services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
