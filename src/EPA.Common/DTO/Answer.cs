@@ -19,10 +19,6 @@
         ///  Amount of points for the answer
         /// </summary>
         public int Point { get; set; }
-
-        /// <summary>
-        ///  Reference to the question this answer is for
-        /// </summary>
-        public Question Question { get; set; }
+        
     }
 }

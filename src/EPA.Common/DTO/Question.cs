@@ -21,10 +21,6 @@ namespace EPA.Common.DTO
         /// Collection of answers related to this question
         /// </summary>
         public List<Answer> Answers { get; set; }
-
-        /// <summary>
-        /// Reference to the test
-        /// </summary>
-        public TestInfo TestListID { get; set; }
+        
     }
 }
