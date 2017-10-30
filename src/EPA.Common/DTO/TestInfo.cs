@@ -15,12 +15,12 @@ namespace EPA.Common.DTO
         public string Description { get; set; }
 
         /// <summary>
-        ///  Approximated amount of time one spends on passing a test
+        ///  Approximate amount of time one spends on passing a test
         /// </summary>
-        public int ApproximatedTime { get; set; }
+        public int ApproximateTime { get; set; }
 
         /// <summary>
-        ///  Ammount of questions in the test
+        ///  Amount of questions in the test
         /// </summary>
         public int QuestionsCount { get; set; }
     }

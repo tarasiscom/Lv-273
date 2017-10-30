@@ -15,12 +15,10 @@ export class NavigationMenu extends React.Component<{}, {}> {
                         <Link className="navbar-brand" to={'/'}> EPA</Link>
                     </div>
                     <div className="navbar-collapse collapse">
-
                         <ul className="nav navbar-nav">
                             <li><Link to={'/'}>Усі Університети</Link></li>
                             <li><Link to={'/profTest'}>Профорієнтаційні Тести</Link></li>
                             <li><Link to={'/'}>Обрати Університет</Link></li>
-
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li><Link to={'/'}>Вхід</Link></li>
@@ -29,6 +27,6 @@ export class NavigationMenu extends React.Component<{}, {}> {
                     </div>
                 </div>
             </nav>
-</div>
+        </div>
     }
 }

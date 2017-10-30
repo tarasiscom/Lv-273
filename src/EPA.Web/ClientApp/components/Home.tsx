@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router';
 
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
-
         return <div>
             <section className="main-container">
                 <div className="title">
@@ -23,7 +22,6 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
                 <h2 className="text-center second-title">Топ-5 університетів</h2>
                 <section className="univer-in-row">
                     <div className="uni-padding col-md-1 "></div>
-
                     <div className="uni-padding col-md-2 col-sm-3 col-xs-10">
                         <img className="img-univer" src="http://kpi.ua/files/kpi_0.png" width="100%" height="100%" />
                         <p className="text-center text-univer">Київський політехнічний інститут імені ігоря Сікорського</p>

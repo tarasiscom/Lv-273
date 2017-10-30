@@ -3,17 +3,17 @@
 namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  Represents result for passed test, with profdirection, and specialties recommendations
+    ///  Represents result for passed test, with profdirection, and specialty recommendations
     /// </summary>
     public class Result
     {
         /// <summary>
-        ///  ProfDirection which is recommended
+        ///  Recommended profdirection
         /// </summary>
         public string ProfDirection { get; set; }
 
         /// <summary>
-        ///  Specialties recommendations, based on profDirection 
+        ///  Specialty recommendations, based on profdirection 
         /// </summary>
         public List<Specialty> Specialties { get; set; }
     }

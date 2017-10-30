@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "EPA.MSSQL": {
+      "commandName": "Project"
+    }
+  }
+}

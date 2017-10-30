@@ -6,7 +6,6 @@ import {
     Route
 } from 'react-router-dom';
 
-
 interface TestDetailInformation {
     id: number;
     name: string;
@@ -23,6 +22,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
             id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
         };
     }
+
     componentDidMount() {
         this.fetchData();
     }
@@ -35,7 +35,6 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
             .then(data => {
                 this.setState({ id: data.id, name: data.name, description: data.description, approximatedTime: data.approximatedTime, questionsCount: data.questionsCount, loading: false });
             });
-
     }
 
     public render() {

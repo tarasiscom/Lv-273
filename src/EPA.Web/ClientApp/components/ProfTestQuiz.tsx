@@ -10,18 +10,17 @@ import {
 
 interface TestQuestion {
     id: number;
-    question: string;
-    answer: TestAnswer[]
+    text: string;
+    answers: TestAnswer[]
 }
 
 interface TestAnswer {
-    answer: string;
+    text: string;
     point: number;
 }
 
-
 interface TestQuiz {
-    que: TestQuestion[];
+    questions: TestQuestion[];
     loading: boolean;
     submitted: boolean;
     selectedValue: number[];
@@ -31,57 +30,50 @@ interface TestQuiz {
 }
 
 interface ResultsInfo {
-    profSpecialties: UserSpeciality[];
+    specialties: UserSpeciality[];
     profDirection: string;
 }
+
 interface UserSpeciality {
-    specialtyName: string;
+    name: string;
     university: string;
     district: string;
     address: string;
     site: string;
 }
+
 export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
     constructor() {
         super();
-
         this.state = {
-            que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0, resinfo: { profDirection: "", profSpecialties: []},resloading : true
+            questions: [], loading: true, submitted: false, selectedValue: [], totalScore: 0,
+            resinfo: { profDirection: "", specialties: [] }, resloading: true
         };
-
     }
 
     componentDidMount() {
         this.fetchData()
     }
 
-
     handleChange(value, index) {
-
         let selval = this.state.selectedValue;
         selval[index] = value;
-
         this.setState({
             selectedValue: selval
         });
-
     }
 
     fetchData() {
-
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
         fetch(path)
             .then(response => response.json() as Promise<TestQuestion[]>)
             .then(data => {
                 this.setState({
-                    que: data,
-                   
+                    questions: data,                  
                     loading: false
                 });
             });
-
-
     }
 
     renderTestResults() {
@@ -101,13 +93,13 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.resinfo.profSpecialties.map(cont =>
+                            {this.state.resinfo.specialties.map(cont =>
                                 <tr>
-                                    <td>{cont.specialtyName}</td>
+                                    <td>{cont.name}</td>
                                     <td>{cont.university}</td>
                                     <td>{cont.district}</td>
                                     <td>{cont.address}</td>
-                                    <td>{cont.site}</td>
+                                    <td><a href={cont.site} target="_blank">{cont.site}</a></td>
                                 </tr>
                             )}
                         </tbody>
@@ -115,21 +107,19 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                 </section>
             </div>
         </section>
-
     }
 
     renderTestQuiz() {
         return <div className="row" id="testsubmit">
-            {this.state.que.map((que, index) =>
-
+            {this.state.questions.map((que, index) =>
                 <div>
-                    <p>Question #{que.id}: {que.question}</p>
+                    <p>Question #{que.id}: {que.text}</p>
                     <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue[index]} onChange={(e) => this.handleChange(e, index)}>
-                        {que.answer.map(ans =>
+                        {que.answers.map(ans =>
                             <div className="row" >
                                 <label>
                                     <Radio value={ans.point} />
-                                    {ans.answer}
+                                    {ans.text}
                                 </label>
                             </div>
                         )}
@@ -140,12 +130,9 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                 Submit
             </button>
         </div>
-
     }
 
-
     fetchResInfo() {
-
         fetch("api/profTest/"+this.props.match.params['id']+"/result", {
             method: 'POST',
             body: JSON.stringify(this.state.totalScore),
@@ -158,9 +145,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             });
     }
 
-
     public render() {
-
         let content = this.state.loading
             ? <p><em>Loading...</em></p>
             : !this.state.submitted
@@ -168,34 +153,26 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                 : this.state.resloading
                     ? <p>Loading...</p>
                     : this.renderTestResults();
-
-
         return <div className="quiz-pad">
-
             {content}
-
         </div>
     }
-
 
     submitScore() {
         let booly = true;
         if (booly){
             let score = 0;
             this.state.selectedValue.map(scr => score += scr);
-
             this.setState({
                 submitted: true,
                 totalScore: score
             });
-
             this.fetchResInfo();
         }
         else {
             alert('finish the test!1');
         }
     }
-
 }
 
 

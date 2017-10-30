@@ -11,6 +11,7 @@ interface TestsDataState {
     tests: DataAPI[];
     loading: boolean;
 }
+
 interface DataAPI {
     id: number;
     name: string;

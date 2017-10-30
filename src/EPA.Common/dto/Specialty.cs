@@ -5,12 +5,12 @@ using System.Text;
 namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  This class describes general information of Speciality
+    ///  This class describes general information of speciality
     /// </summary>
     public class Specialty
     {
         /// <summary>
-        ///  Name of the Specialty
+        ///  Name of the specialty
         /// </summary>
         public string Name { get; set; }
 
