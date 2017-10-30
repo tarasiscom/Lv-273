@@ -10,17 +10,17 @@ import {
 
 interface TestQuestion {
     id: number;
-    question: string;
-    answer: TestAnswer[]
+    text: string;
+    answers: TestAnswer[]
 }
 
 interface TestAnswer {
-    answer: string;
+    text: string;
     point: number;
 }
 
 interface TestQuiz {
-    que: TestQuestion[];
+    questions: TestQuestion[];
     loading: boolean;
     submitted: boolean;
     selectedValue: number[];
@@ -30,12 +30,12 @@ interface TestQuiz {
 }
 
 interface ResultsInfo {
-    profSpecialties: UserSpeciality[];
+    specialties: UserSpeciality[];
     profDirection: string;
 }
 
 interface UserSpeciality {
-    specialtyName: string;
+    name: string;
     university: string;
     district: string;
     address: string;
@@ -46,8 +46,8 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
     constructor() {
         super();
         this.state = {
-            que: [], loading: true, submitted: false, selectedValue: [], totalScore: 0,
-            resinfo: { profDirection: "", profSpecialties: [] }, resloading: true
+            questions: [], loading: true, submitted: false, selectedValue: [], totalScore: 0,
+            resinfo: { profDirection: "", specialties: [] }, resloading: true
         };
     }
 
@@ -70,7 +70,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
             .then(response => response.json() as Promise<TestQuestion[]>)
             .then(data => {
                 this.setState({
-                    que: data,                  
+                    questions: data,                  
                     loading: false
                 });
             });
@@ -93,13 +93,13 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.resinfo.profSpecialties.map(cont =>
+                            {this.state.resinfo.specialties.map(cont =>
                                 <tr>
-                                    <td>{cont.specialtyName}</td>
+                                    <td>{cont.name}</td>
                                     <td>{cont.university}</td>
                                     <td>{cont.district}</td>
                                     <td>{cont.address}</td>
-                                    <td><a href={cont.site}>{cont.site}</a></td>
+                                    <td><a href={cont.site} target="_blank">{cont.site}</a></td>
                                 </tr>
                             )}
                         </tbody>
@@ -111,15 +111,15 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
 
     renderTestQuiz() {
         return <div className="row" id="testsubmit">
-            {this.state.que.map((que, index) =>
+            {this.state.questions.map((que, index) =>
                 <div>
-                    <p>Question #{que.id}: {que.question}</p>
+                    <p>Question #{que.id}: {que.text}</p>
                     <RadioGroup name={que.id.toString()} selectedValue={this.state.selectedValue[index]} onChange={(e) => this.handleChange(e, index)}>
-                        {que.answer.map(ans =>
+                        {que.answers.map(ans =>
                             <div className="row" >
                                 <label>
                                     <Radio value={ans.point} />
-                                    {ans.answer}
+                                    {ans.text}
                                 </label>
                             </div>
                         )}

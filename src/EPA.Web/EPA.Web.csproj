@@ -40,7 +40,6 @@
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTestQuiz.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
-    <TypeScriptCompile Include="ClientApp\components\.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
