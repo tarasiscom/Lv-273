@@ -42,7 +42,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                    District = u.District,
                                    Site = u.Site,
                                    University = u.Name
-                               }).Take(this.constValues.Value.NumberOfUniversities).ToList()
+                               }).Distinct().Take(this.constValues.Value.NumberOfUniversities).ToList()
             };
         }
 
