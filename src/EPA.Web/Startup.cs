@@ -10,27 +10,17 @@ namespace EPA.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
-            var builder = new ConfigurationBuilder();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            this.Configuration = builder.Build();
         }
 
-        private string testSecret = null;
-
-        public IConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get;  }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            this.testSecret = this.Configuration["ConnectionString"];
+            
             services.AddMvc();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
