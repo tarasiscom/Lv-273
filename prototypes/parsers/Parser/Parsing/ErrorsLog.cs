@@ -12,11 +12,11 @@ namespace Parsing
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Timeout = 1000;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     return true;
                 }
-
             }
 
             catch (WebException ex)
@@ -27,7 +27,6 @@ namespace Parsing
                                                 DateTime.Now.Date, DateTime.Now.TimeOfDay, url, (((HttpWebResponse)ex.Response).StatusCode)));
                     sw.WriteLine();
                 }
-
                 return false;
             }
         }

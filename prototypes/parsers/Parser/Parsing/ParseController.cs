@@ -41,13 +41,14 @@ namespace Parsing
             foreach (HtmlNode node in districtNodes)
             {
                 district = node.InnerText;
-
-                if (node.InnerText != string.Empty)
+                if (district == "Полтавська область")
                 {
-                    parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
-                    StartProcessUniversity();
+                    if (node.InnerText != string.Empty)
+                    {
+                        parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
+                        StartProcessUniversity();
+                    }
                 }
-
                 districtID++;
             }
         }
@@ -67,7 +68,6 @@ namespace Parsing
                         universityNode = parser.RetreiveNode(nodesXPaths["UniversitiesNode"]);
                         StartProcessSpeciality(universityNode, universityID);
                     }
-
                     universityID++;
                 }
             }
@@ -84,8 +84,6 @@ namespace Parsing
                 Console.WriteLine(district + universityID);
                 Console.WriteLine(universityNode.SelectSingleNode(nodesXPaths["UniversitiesNamesNode"]).InnerText);
             }
-
         }
-
     }
 }

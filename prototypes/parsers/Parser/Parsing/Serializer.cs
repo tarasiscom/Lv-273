@@ -32,6 +32,9 @@ namespace Parsing
             nodesPaths.Add("SpecDirectionNode", "td/span[@title ='Галузь']");
             nodesPaths.Add("SpecSpecNode", "td/span[@title ='Спеціальність']");
             nodesPaths.Add("SpecFacNode", "td/span[@title ='Факультет']");
+
+            nodesPaths.Add("SpecPZSONode", "td/span[@title ='повна загальна середня освіта']");
+
         }
        
         public void Serialize()

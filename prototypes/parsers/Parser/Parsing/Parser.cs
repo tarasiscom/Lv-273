@@ -105,6 +105,7 @@ namespace Parsing
             return nameSpeciality;
         }
 
+
         private bool IsDirectionAlreadyExists(string nameDirection)
         {
             if (Directions.Exists((direction) => direction.Name == nameDirection))
@@ -116,7 +117,7 @@ namespace Parsing
         {
             if (nameSpeciality != namePrevSpeciality)
             {
-                Specialities.Add(new Speciality(idSpeciality, idDirection, idUniv, nameSpeciality));
+                Specialities.Add(new Speciality(idSpeciality, idDirection, idUniv, ToUpper(nameSpeciality)));
                 idSpeciality++;
                 namePrevSpeciality = nameSpeciality;
             }
@@ -133,11 +134,11 @@ namespace Parsing
 
             Universities.Add(new University(idUniv, district, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText, 
                                             univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText, 
-                                            univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText));
+                                            GetSiteWithoutHttp( univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText)));
 
             foreach (HtmlNode node in nodes)
             {
-                if(!IsExistDirectionAndSpeciality(node, specFields))
+                if(!IsPzso(node, specFields) || !IsExistDirectionAndSpeciality(node, specFields))
                 {
                     continue;
                 }
@@ -157,6 +158,23 @@ namespace Parsing
                                                                  idUniv, nameSpeciality, namePrevSpeciality);
                 }
             }
+        }
+
+        private string GetSiteWithoutHttp(string site)
+        {
+            if (site.Contains("http://"))
+                return site.Remove(0, 7);
+            return site;
+        }
+
+        private string ToUpper(string name) => name[0].ToString().ToUpper() + name.Remove(0, 1);
+
+        //повна загальна середня освіта
+        private bool IsPzso(HtmlNode node, Dictionary<string, string> specFields)
+        {
+            if (node.SelectSingleNode(specFields["SpecPZSONode"]) != null && node.SelectSingleNode(specFields["SpecPZSONode"]).InnerText == "ПЗСО")
+                return true;
+            return false;
         }
     }
 }
