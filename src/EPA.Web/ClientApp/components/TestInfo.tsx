@@ -10,7 +10,7 @@ interface TestDetailInformation {
     id: number;
     name: string;
     description: string;
-    approximatedTime: number;
+    approximateTime: number;
     questionsCount: number;
     loading: boolean;
 }
@@ -19,7 +19,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
     constructor() {
         super();
         this.state = {
-            id: 0, name: "", description: "", approximatedTime: 0, questionsCount: 0, loading: true
+            id: 0, name: "", description: "", approximateTime: 0, questionsCount: 0, loading: true
         };
     }
 
@@ -33,7 +33,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
         fetch(path)
             .then(response => response.json() as Promise<TestDetailInformation>)
             .then(data => {
-                this.setState({ id: data.id, name: data.name, description: data.description, approximatedTime: data.approximatedTime, questionsCount: data.questionsCount, loading: false });
+                this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
             });
     }
 
@@ -50,7 +50,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
             <section className="container-fluid">
                 <div className="container">
                     <p className="text-left text-muted h4">Код Тесту: {this.state.id}</p>
-                    <p className="text-left text-muted h4">Час на виконання: {this.state.approximatedTime} </p>
+                    <p className="text-left text-muted h4">Час на виконання: {this.state.approximateTime} </p>
                     <p className="text-left text-muted h4">Кількість питань: {this.state.questionsCount}</p>
                     <p className="text-left text-muted h4">Опис: {this.state.description} </p>
                 </div>
