@@ -1,10 +1,11 @@
+using EPA.Common.Interfaces;
+using EPA.MSSQL;
+using EPA.MSSQL.SQLDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EPA.Common.Interfaces;
-using EPA.MSSQL.SQLDataAccess;
 
 namespace EPA.Web
 {
@@ -55,6 +56,8 @@ namespace EPA.Web
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            new Mapping().Create();
         }
     }
 }
