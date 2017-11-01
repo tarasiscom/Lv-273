@@ -12,7 +12,7 @@ namespace EPA.MSSQL.SQLDataAccess
     public class ProfTestInfoProvider : ITestProvider
     {
         private readonly IOptions<ConstSettings> constValues;
-        //private const int numberOfUniversities = 5;
+
         private readonly EpaContext context;
 
         public ProfTestInfoProvider(IOptions<ConstSettings> constSettings, EpaContext cont)
