@@ -1,23 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using EPA.Common.DTO;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EPA.MSSQL.Models
 {
     public class EpaContext : DbContext
     {
-        static EpaContext()
-        {
-            Mapper.Initialize(
-                    cfg =>
-                    {
-                        cfg.CreateMap<Question, EPA.Common.DTO.Question>();
-                        cfg.CreateMap<Answer, EPA.Common.DTO.Answer>();
-                        cfg.CreateMap<TestDetailedInfo, TestInfo>();
-                    });
-        }
-
         public DbSet<TestDetailedInfo> Tests { get; set; }
 
         public DbSet<Answer> Answers { get; set; }

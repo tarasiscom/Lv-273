@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using AutoMapper;
 
 namespace EPA.MSSQL.Models
 {
