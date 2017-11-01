@@ -22,7 +22,7 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-           // services.AddTransient<MSSQL.Models.EpaContext>();
+            services.AddTransient<MSSQL.Models.EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
         }
