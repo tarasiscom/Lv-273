@@ -4,8 +4,6 @@ using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
 using Microsoft.Extensions.Options;
-using System;
-
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -59,7 +57,5 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .Where(answ => answ.Question.ID == res.ID)
                                                                     .ToList()
                                     }.ToCommon());
-        
-      
     }
 }

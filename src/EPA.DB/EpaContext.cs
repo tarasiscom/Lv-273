@@ -20,9 +20,8 @@ namespace EPA.MSSQL.Models
         public DbSet<ProfDirection> ProfDirections { get; set; }
 
         public DbSet<Subject> Subjects { get; set; }
-=======
+
         public DbSet<GeneralDirection> GeneralDirections { get; set; }
->>>>>>> origin/GeneralDirection_MSSQLandCommon
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,7 +37,7 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
-<<<<<<< HEAD
+            modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
         }
 
@@ -46,9 +45,6 @@ namespace EPA.MSSQL.Models
         {
             base.Dispose();
             Debug.WriteLine("dispose");
-=======
-            modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
->>>>>>> origin/GeneralDirection_MSSQLandCommon
         }
     }
 }

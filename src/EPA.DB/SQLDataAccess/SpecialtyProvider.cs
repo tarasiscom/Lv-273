@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
-    class SpecialtyProvider:ISpecialtyProvider
+    public class SpecialtyProvider : ISpecialtyProvider
     {
         private readonly EpaContext context;
 
@@ -35,7 +35,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<Common.DTO.Subject> listOfSubjects)
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }
