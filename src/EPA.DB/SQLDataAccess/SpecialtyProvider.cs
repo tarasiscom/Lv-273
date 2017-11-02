@@ -29,10 +29,7 @@ namespace EPA.MSSQL.SQLDataAccess
                         Site = u.Site,
                         University = u.Name
                     }).Distinct();
-
-                           //this.context.Specialties.Where(x => x.Direction.GeneralDirection.Id == idDirection).Select(x => x.ToCommon());
         }
-
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
