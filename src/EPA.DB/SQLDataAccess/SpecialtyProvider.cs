@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using EPA.MSSQL.Models;
 using EPA.Common.Interfaces;
+using EPA.MSSQL.BusLogic;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -27,8 +28,9 @@ namespace EPA.MSSQL.SQLDataAccess
                         Address = u.Address,
                         District = u.District,
                         Site = u.Site,
+                        Rating = CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled),
                         University = u.Name
-                    }).Distinct();
+                    }).Distinct().OrderByDescending(o => o.Rating);
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());

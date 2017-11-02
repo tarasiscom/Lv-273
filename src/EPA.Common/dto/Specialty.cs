@@ -33,5 +33,9 @@ namespace EPA.Common.DTO
         ///  Site of the university
         /// </summary>
         public string Site { get; set; }
+        /// <summary>
+        ///  Specialty rating
+        /// </summary>
+        public double Rating { get; set; }
     }
 }
