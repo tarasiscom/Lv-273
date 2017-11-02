@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace EPA.MSSQL.Models
 {
@@ -32,6 +33,12 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Debug.WriteLine("dispose");
         }
     }
 }

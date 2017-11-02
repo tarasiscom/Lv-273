@@ -5,7 +5,7 @@ using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
 using Microsoft.Extensions.Options;
 using System;
-using System.Diagnostics;
+
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -59,16 +59,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .Where(answ => answ.Question.ID == res.ID)
                                                                     .ToList()
                                     }.ToCommon());
-
-        //protected override Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        this.context.Dispose();
-        //    }
-        //    disposing = true;
-        //    base.Dispose(disposing);
-        //    Debug.WriteLine("Resources is disposed");
-        //}
+        
+      
     }
 }
