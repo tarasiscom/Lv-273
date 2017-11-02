@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -13,5 +14,10 @@ namespace EPA.MSSQL.Models
         public string Name { get; set; }
 
         public List<Direction> Directions { get; set; }
+
+        public Common.DTO.GeneralDirection ToCommon()
+        {
+            return Mapper.Map<Common.DTO.GeneralDirection>(this);
+        }
     }
 }

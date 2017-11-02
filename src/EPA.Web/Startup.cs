@@ -24,6 +24,7 @@ namespace EPA.Web
             services.AddMvc();
             services.AddTransient<MSSQL.Models.EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
+            services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
         }
 
