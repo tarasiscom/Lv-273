@@ -41,10 +41,8 @@ namespace EPA.Web.Controllers.ProfTest
         /// <returns>Collection of questions</returns>
         [Route("/api/profTest/{testId}/questions")]
         [HttpGet("{testId}")]
-        public IEnumerable<Question> GetQuestions(int testId)
-        {
-            return this.testProvider.GetQuestions(testId);
-        }
+        public IEnumerable<Question> GetQuestions(int testId) =>
+            this.testProvider.GetQuestions(testId);
 
         /// <summary>
         /// This method retrives data about persons professional directory and list of specialities

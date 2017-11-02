@@ -16,11 +16,10 @@ namespace EPA.MSSQL.SQLDataAccess
             this.context = cont;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int idDirection)
-        {
-            var y = this.context.Specialties.Where(x => x.Direction.GeneralDirection.Id == idDirection).Select(x => x.ToCommon());
-            return y;
-        }
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int idDirection) =>
+                            this.context.Specialties.Where(x => x.Direction.GeneralDirection.Id == idDirection).Select(x => x.ToCommon());
+
+        public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
     }
 }
