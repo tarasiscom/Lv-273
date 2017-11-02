@@ -106,8 +106,18 @@ margin-top:20px;
 
 .pad-for-footer {
     margin-bottom: 130px;
+    position: relative;
     /*margin-top: 20px;*/
 }
+
+.pad-for-nav {
+    margin-top: 20px;
+}
+.pad-for-footer2 {
+    position: relative;
+    height: 70px;
+}
+
 
 .top-univer {
     font-family: 'Fira Sans Condensed', sans-serif;
