@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace EPA.MSSQL.Models
 {
@@ -13,5 +14,7 @@ namespace EPA.MSSQL.Models
         public University University { get; set; }
 
         public Direction Direction { get; set; }
+
+        public List<Subject> Subjects { get; set; }
     }
 }
