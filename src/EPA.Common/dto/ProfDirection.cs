@@ -8,11 +8,11 @@
         /// <summary>
         ///  ID of the professional direction
         /// </summary>
-        int ID { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         ///  Name of the professional direction
         /// </summary>
-        string Name { get; set; }
+        public string Name { get; set; }
     }
 }

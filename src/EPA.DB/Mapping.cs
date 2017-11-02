@@ -12,6 +12,8 @@
                         cfg.CreateMap<Question, EPA.Common.DTO.Question>();
                         cfg.CreateMap<Answer, EPA.Common.DTO.Answer>();
                         cfg.CreateMap<TestDetailedInfo, EPA.Common.DTO.TestInfo>();
+                        cfg.CreateMap<Specialty, EPA.Common.DTO.Specialty>();
+                        cfg.CreateMap<GeneralDirection, EPA.Common.DTO.GeneralDirection>();
                     });
         }
     }
