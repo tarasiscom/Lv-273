@@ -11,9 +11,22 @@ namespace EPA.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env, IConfiguration conf)
         {
-            this.Configuration = configuration;
+            this.Configuration = conf;
+
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            builder.AddEnvironmentVariables();
+            this.Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get;  }
@@ -25,6 +38,7 @@ namespace EPA.Web
             services.AddTransient<MSSQL.Models.EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
+            MSSQL.Models.EpaContext.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

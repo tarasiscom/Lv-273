@@ -4,15 +4,13 @@ using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
 using Microsoft.Extensions.Options;
-using System;
-
 
 namespace EPA.MSSQL.SQLDataAccess
 {
     public class ProfTestInfoProvider : ITestProvider
     {
         private readonly IOptions<ConstSettings> constValues;
-        //private const int numberOfUniversities = 5;
+
         private readonly EpaContext context;
 
         public ProfTestInfoProvider(IOptions<ConstSettings> constSettings, EpaContext cont)

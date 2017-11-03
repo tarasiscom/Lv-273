@@ -9,9 +9,9 @@
             AutoMapper.Mapper.Initialize(
                     cfg =>
                     {
-                        cfg.CreateMap<Question, EPA.Common.DTO.Question>();
-                        cfg.CreateMap<Answer, EPA.Common.DTO.Answer>();
-                        cfg.CreateMap<TestDetailedInfo, EPA.Common.DTO.TestInfo>();
+                        cfg.CreateMap<Question, Common.DTO.Question>();
+                        cfg.CreateMap<Answer, Common.DTO.Answer>();
+                        cfg.CreateMap<TestDetailedInfo, Common.DTO.TestInfo>();
                     });
         }
     }
