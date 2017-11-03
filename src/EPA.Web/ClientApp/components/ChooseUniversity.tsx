@@ -27,7 +27,7 @@ export class ChooseUniversity extends React.Component<RouteComponentProps<{}>, {
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за відповідними предметами ЗНО.
                         Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <a href="#" className="btn btn-link btn-block">  Розпочати      </a>
+                        <a href="/ChoseSpecBySub" className="btn btn-link btn-block">  Розпочати      </a>
                     </div>
                 </div>
             </div>
