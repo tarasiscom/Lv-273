@@ -11,9 +11,9 @@ namespace EPA.Common.Interfaces
         /// <summary>
         ///  This method retrieves more detailed information about specific test
         /// </summary>
-        ///  <param name="id"> id of the test </param>
+        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
         ///  <returns> more detatiled test information </returns>
-        IEnumerable<Specialty> GetSpecialtyBySubjects(List<Subject> listOfSubjects);
+        IEnumerable<SpecialtyWithSubjectResult> GetSpecialtyBySubjects(List<Subject> listOfSubjects);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction

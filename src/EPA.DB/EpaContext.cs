@@ -21,6 +21,8 @@ namespace EPA.MSSQL.Models
 
         public DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<Specialty_Subject> Specialty_Subjects { get; set; }
+
         public DbSet<GeneralDirection> GeneralDirections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +41,7 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
+            modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
         }
 
         public override void Dispose()

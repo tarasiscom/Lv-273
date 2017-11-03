@@ -10,5 +10,6 @@ namespace EPA.MSSQL.Models
 
         [Required]
         public string Name { get; set; }
+
     }
 }
