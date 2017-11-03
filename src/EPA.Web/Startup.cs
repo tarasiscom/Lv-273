@@ -4,6 +4,7 @@ using EPA.MSSQL.SQLDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,7 +39,10 @@ namespace EPA.Web
             services.AddTransient<MSSQL.Models.EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
-            MSSQL.Models.EpaContext.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
+
+            // MSSQL.Models.EpaContext.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<MSSQL.Models.EpaContext>(options =>
+                                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
