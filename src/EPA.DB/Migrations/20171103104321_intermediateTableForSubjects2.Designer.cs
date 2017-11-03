@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171103104321_intermediateTableForSubjects2")]
+    partial class intermediateTableForSubjects2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,11 +239,11 @@ namespace EPA.MSSQL.Migrations
             modelBuilder.Entity("EPA.MSSQL.Models.Specialty_Subject", b =>
                 {
                     b.HasOne("EPA.MSSQL.Models.Specialty", "Specialty")
-                        .WithMany("SpecialtySubject")
+                        .WithMany()
                         .HasForeignKey("SpecialtyId");
 
                     b.HasOne("EPA.MSSQL.Models.Subject", "Subject")
-                        .WithMany("SpecialtySubject")
+                        .WithMany()
                         .HasForeignKey("SubjectId");
                 });
 #pragma warning restore 612, 618

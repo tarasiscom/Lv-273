@@ -33,7 +33,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public IEnumerable<Common.DTO.SpecialtyWithSubjectResult> GetSpecialtyBySubjects(List<Common.DTO.Subject> listOfSubjects)
+        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<Common.DTO.Subject> listOfSubjects)
         {
             return null;
         }
