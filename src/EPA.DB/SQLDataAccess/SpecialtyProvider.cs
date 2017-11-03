@@ -37,5 +37,10 @@ namespace EPA.MSSQL.SQLDataAccess
         {
             return null;
         }
+
+        public IEnumerable<Common.DTO.Subject> GetAllSubjects()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

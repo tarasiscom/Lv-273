@@ -14,6 +14,12 @@ namespace EPA.Common.Interfaces
         ///  <param name="listOfSubjects"> subjects for the ZNO </param>
         ///  <returns> more detatiled test information </returns>
         IEnumerable<Specialty> GetSpecialtyBySubjects(List<Subject> listOfSubjects);
+        
+        /// <summary>
+        ///  This method retrives list of all Subjects for ZNO
+        /// </summary>
+        /// <returns>List of subjects</returns>
+        IEnumerable<Subject> GetAllSubjects();
 
         /// <summary>
         /// This method retrives list of specialties according to general direction
