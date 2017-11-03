@@ -38,9 +38,6 @@ namespace EPA.MSSQL.SQLDataAccess
             return null;
         }
 
-        public IEnumerable<Common.DTO.Subject> GetAllSubjects()
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
     }
 }
