@@ -36,10 +36,11 @@ namespace EPA.MSSQL.SQLDataAccess
         public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<Common.DTO.Subject> listOfSubjects)
         {
 
-            return (from sp in this.context.Specialties
+            /*return (from sp in this.context.Specialties
                     where sp. 
                         (from ss in this.context.Specialty_Subjects
-                        where ss.Subject.Id in listOfSubjects.Select(x=>x.Id))
+                        where ss.Subject.Id in listOfSubjects.Select(x=>x.Id))*/
+            return null;
                 
         }
 

@@ -23,7 +23,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/choosessubject")]
-        public IEnumerable<Subject> GetSubject() { return new Subject[] { new Subject { Name = "Матемаьтка" }, new Subject { Name = "Українська" }, new Subject { Name = "Українська" } }; } ///=> this.specialtyProvider.GetAllSubjects();
+        public IEnumerable<Subject> GetSubject() { return new Subject[] { new Subject { Name = "Матемаьтка",Id=1 }, new Subject { Name = "Українська", Id = 2 }, new Subject { Name = "Фізика", Id = 3 } }; } ///=> this.specialtyProvider.GetAllSubjects();
 
         /// <summary>
         /// his method retrives list of specialties according to subjects
