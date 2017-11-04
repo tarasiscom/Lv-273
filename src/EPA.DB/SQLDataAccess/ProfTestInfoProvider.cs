@@ -36,12 +36,13 @@ namespace EPA.MSSQL.SQLDataAccess
                 ProfDirection = direction,
                 Specialties = (from s in this.context.Specialties
                                join u in this.context.Universities on s.University.Id equals u.Id
+                               join d in this.context.Districts on u.DistrictID equals d.Id
                                where s.Direction.Name == direction
                                select new Common.DTO.Specialty()
                                {
                                    Name = s.Name,
                                    Address = u.Address,
-                                   District = u.District,
+                                   District = d.Name,
                                    Site = u.Site,
                                    University = u.Name
                                }).Distinct().Take(this.constValues.Value.NumberOfUniversities).ToList()

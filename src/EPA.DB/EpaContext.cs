@@ -12,6 +12,8 @@ namespace EPA.MSSQL.Models
 
         public DbSet<University> Universities { get; set; }
 
+        public DbSet<District> Districts { get; set; }
+
         public DbSet<Direction> Directions { get; set; }
 
         public DbSet<Specialty> Specialties { get; set; }
@@ -35,6 +37,7 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
+            modelBuilder.Entity<District>().ToTable("Districts");
         }
     }
 }
