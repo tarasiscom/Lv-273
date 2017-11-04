@@ -22,7 +22,7 @@ namespace EPA.Web.Controllers
         /// This mehod retrives list of subjects
         /// </summary>
         /// <returns>List of subjects</returns>
-        [Route("api/choosessubject")]
+        [Route("api/ChooseUniversity/ChoseSpecBySub")]
         public IEnumerable<Subject> GetSubject() { return new Subject[] { new Subject { Name = "Матемаьтка",Id=1 }, new Subject { Name = "Українська", Id = 2 }, new Subject { Name = "Фізика", Id = 3 } }; } ///=> this.specialtyProvider.GetAllSubjects();
 
         /// <summary>
@@ -30,9 +30,10 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <param name="listOfSubjects">List of subject</param>
         /// <returns>List of specialties </returns>
-        
+
+        [Route("api/chooseSpec/bysubj")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtyBySubjects(List<int> listOfSubjects) {
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int> listOfSubjects) {
             return new Specialty[]{
                     new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"} } } };
         } //=>this.specialtyProvider.GetSpecialtyBySubjects(listOfSubjects);

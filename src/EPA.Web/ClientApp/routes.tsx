@@ -13,7 +13,7 @@ export const routes = <Layout>
     <Route path='/profTest' component={ProfTest} />
     <Route path='/testInfo/:id' component={TestInfo} />
     <Route path='/quiz/:id' component={ProfTestQuiz} />
-    <Route path='/ChoseSpecBySub' component={ChooseSpecialityBuSubject}/>
-    <Route exact path='/ChooseUniversity' component={ChooseUniversity} />
+    <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialityBuSubject}/>
+    <Route path='/ChooseUniversity' component={ChooseUniversity} />
 </Layout>;
 
