@@ -47,6 +47,24 @@ namespace EPA.MSSQL.SQLDataAccess
                        Site = u.Site,
                        University = u.Name
                    };
+
+          /*  from s in this.context.Specialties
+            join u in this.context.Universities on s.University.Id equals u.Id
+            where
+                (from ss in this.context.Specialty_Subjects
+                where listOfSubjects.Contains(ss.Id)
+                group ss by new { ss.Specialty, ss.Subject } into la
+                where la.Count() >= listOfSubjects.Count
+                select la.Key.Specialty.Id).Contains(s.Id)
+                select new Common.DTO.Specialty()
+                {
+                    Name = s.Name,
+                    Address = u.Address,
+                    District = u.District,
+                    Site = u.Site,
+                    University = u.Name
+                };
+                */
         }
 
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
