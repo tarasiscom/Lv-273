@@ -31,9 +31,9 @@ namespace EPA.Web.Controllers
         /// <param name="listOfSubjects">List of subject</param>
         /// <returns>List of specialties </returns>
 
-        [Route("api/chooseSpec/bysubj")]
+        [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int> listOfSubjects) {
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int> selectValueSub) {
             return new Specialty[]{
                     new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"} } } };
         } //=>this.specialtyProvider.GetSpecialtyBySubjects(listOfSubjects);
