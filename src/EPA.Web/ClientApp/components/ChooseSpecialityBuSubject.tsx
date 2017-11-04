@@ -75,17 +75,17 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }  
 
-        return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  col-xs-10 col-xs-offset-1">
+        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1">
             <div className="navigate">
-                <div className="virtselect col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
+                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
                     <VirtualizedSelect multi={true} options={myList} onChange={(selectValueSub) => this.setState({ selectValueSub })}
                     value={this.state.selectValueSub}></VirtualizedSelect>
                 </div>
-                <div className="virtselect col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Області</p>
+                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
                     <VirtualizedSelect multi={true} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict })}
                     value={this.state.selectDistrict}></VirtualizedSelect>
                 </div>
-                <button className="btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub)}> Пошук</button>
+                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub)}> Пошук</button>
             </div>
             <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  col-xs-10 col-xs-offset-1">
                 {this.state.univers.map(univer =>
