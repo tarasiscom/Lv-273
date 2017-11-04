@@ -238,11 +238,6 @@ namespace Parsing
         private void AddSpecSub(string subjectsList)
         {
             string[] subjects = GetSubjects(subjectsList);
-            foreach (string sub in subjects)
-            {
-                if (sub != null && sub.StartsWith("бо"))
-                    sub.Remove(0, 3);
-            }
 
             for (int i = 0; i < subjects.Length; i++)
             {
