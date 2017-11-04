@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataClasses\SpecSub.cs" />
+    <Compile Include="DataClasses\Subject.cs" />
     <Compile Include="EnumerableExt.cs" />
     <Compile Include="DatabaseSaver.cs" />
     <Compile Include="DataClasses\District.cs" />

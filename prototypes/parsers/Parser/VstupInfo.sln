@@ -1,20 +1,29 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsing", "Parsing\Parsing.csproj", "{E33AEE50-0B09-4835-A388-5880D00C5AFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Debug|x86.ActiveCfg = Debug|x86
 		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Debug|x86.Build.0 = Debug|x86
+		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Release|Any CPU.ActiveCfg = Release|x86
 		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Release|x86.ActiveCfg = Release|x86
 		{E33AEE50-0B09-4835-A388-5880D00C5AFB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DA63CD6-AF1F-43F5-8D8C-AFB26A4F6D73}
 	EndGlobalSection
 EndGlobal

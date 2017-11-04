@@ -12,7 +12,6 @@ namespace Parsing
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Timeout = 1000;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     return true;

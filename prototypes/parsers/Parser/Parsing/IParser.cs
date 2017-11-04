@@ -18,10 +18,16 @@ namespace Parsing
 
         List<University> Universities { get; }
 
+        List<Subject> Subjects { get; }
+
+        List<SpecSub> SpecSubs { get; }
+
+        List<District> Districts { get; }
+
         HtmlNodeCollection RetreiveNodes(string xPath);
 
         HtmlNode RetreiveNode(string xPath);
 
-        void GetInfo(int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
+        void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
     }
 }

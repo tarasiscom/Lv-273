@@ -13,6 +13,8 @@ namespace Parsing
         private string year = "/2017";
         private string indexPage;
         private Dictionary<string, string> nodesXPaths;
+        int universityID = 1;
+        int districtID = 1;
 
         public ParseController(ISaver saver, IParser parser, Dictionary<string, string> nodesXPaths)
         {
@@ -30,25 +32,24 @@ namespace Parsing
 
         public void Save()
         {
-            saver.SaveAll(parser.Universities, parser.Directions, parser.Specialities);
+            saver.SaveAll(parser.Universities, parser.Directions, parser.Specialities, parser.Subjects, parser.SpecSubs, parser.Districts);
         }
 
 
         private void GetDataFromVstupInfo()
         {
-            int districtID = 1;
             HtmlNodeCollection districtNodes = parser.RetreiveNodes(nodesXPaths["DistrictsNode"]);
             foreach (HtmlNode node in districtNodes)
             {
                 district = node.InnerText;
-                if (district == "Полтавська область")
-                {
+                //if (district == "Вінницька область")
+                //{
                     if (node.InnerText != string.Empty)
                     {
                         parser.ChangeUrl(indexPage + node.Attributes["href"].Value);
                         StartProcessUniversity();
                     }
-                }
+                //}
                 districtID++;
             }
         }
@@ -56,7 +57,7 @@ namespace Parsing
         private void StartProcessUniversity()
         {
             HtmlNodeCollection universitiesNodes = parser.RetreiveNodes(nodesXPaths["UniversitiesTypesNode"]);
-            int universityID = 1;
+
             if (universitiesNodes != null)
             {
                 foreach (HtmlNode univ in universitiesNodes)
@@ -79,7 +80,7 @@ namespace Parsing
 
             if (specialitiesNodes != null)
             {
-                parser.GetInfo(universityID, district, universityNode, specialitiesNodes, nodesXPaths);
+                parser.GetInfo(districtID, universityID, district, universityNode, specialitiesNodes, nodesXPaths);
                 Console.WriteLine("_______________________________________");
                 Console.WriteLine(district + universityID);
                 Console.WriteLine(universityNode.SelectSingleNode(nodesXPaths["UniversitiesNamesNode"]).InnerText);

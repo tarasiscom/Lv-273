@@ -34,6 +34,13 @@ namespace Parsing
             nodesPaths.Add("SpecFacNode", "td/span[@title ='Факультет']");
 
             nodesPaths.Add("SpecPZSONode", "td/span[@title ='повна загальна середня освіта']");
+            nodesPaths.Add("SpecEnrolledNode", "td/nobr[@title ='зараховано']");
+            nodesPaths.Add("SpecApplicationsNode", "td/span[@title ='всього заяв']");
+
+            nodesPaths.Add("SubjectNode", "td[4]");
+
+            nodesPaths.Add("UniversitiesAdressNode2", "//tr[6]/td[2]");
+            nodesPaths.Add("UniversitiesWebSitesNode2", "//tr[8]/td[2]");
 
         }
        

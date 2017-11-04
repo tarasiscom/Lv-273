@@ -2,10 +2,10 @@
 {
     public class University
     {
-        public University(int id, string district, string name,  string adress, string site)
+        public University(int id, int districtID, string name,  string adress, string site)
         {
             this.ID = id;
-            this.District = district;
+            this.DistrictID = districtID;
             this.Name = name;
             this.Adress = adress;
             this.Site = site;
