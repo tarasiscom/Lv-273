@@ -35,7 +35,10 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int> selectValueSub) {
             return new Specialty[]{
-                    new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"} } } };
+                    new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"} } },
+                    new Specialty{ Name="Інформатика", University="univer", Address="streat", District="Львівська", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"}, new Subject { Name = "chimic" } } } 
+        };
+
         } //=>this.specialtyProvider.GetSpecialtyBySubjects(listOfSubjects);
 
         /// <summary>
