@@ -17,7 +17,7 @@ namespace EPA.Web.Controllers
         {
             this.specialtyProvider = specialtyProvider;
         }
-
+        //потрібен для витягання повного ліста всіх спеціальностей. Тобто фактично не потрібен. 
         /// <summary>
         /// This mehod retrives list of subjects
         /// </summary>
@@ -57,5 +57,14 @@ namespace EPA.Web.Controllers
         /// <returns> List of general directions </returns>
         [Route("api/choosespeciality/getdirection")]
         public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
+
+        /// <summary>
+        /// This method retrives list of specialties according to general direction ordered by rating.
+        /// </summary>
+        /// <returns> Limited list of specialities </returns>
+        [Route("api/choosespeciality/bydirection/{idDirection}")]
+        [HttpPost]
+        public IEnumerable<Specialty> GetSpecialtiesByDirectionWithPagination(int idDirection, [FromBody]int page) =>
+                      this.specialtyProvider.GetSpecialtiesByDirectionWithPagination(idDirection, page);
     }
 }
