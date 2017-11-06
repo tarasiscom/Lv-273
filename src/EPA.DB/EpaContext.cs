@@ -42,7 +42,7 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
-
+            modelBuilder.Entity<District>().ToTable("Districts");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
         }
@@ -51,8 +51,6 @@ namespace EPA.MSSQL.Models
         {
             base.Dispose();
             Debug.WriteLine("dispose");
-            modelBuilder.Entity<District>().ToTable("Districts");
-
         }
     }
 }
