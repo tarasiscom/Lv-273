@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace EPA.MSSQL.Models
 {
@@ -20,6 +21,10 @@ namespace EPA.MSSQL.Models
 
         public DbSet<ProfDirection> ProfDirections { get; set; }
 
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Specialty_Subject> Specialty_Subjects { get; set; }
+
         public DbSet<GeneralDirection> GeneralDirections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,6 +43,14 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
             modelBuilder.Entity<District>().ToTable("Districts");
+            modelBuilder.Entity<Subject>().ToTable("Subjects");
+            modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Debug.WriteLine("dispose");
         }
     }
 }

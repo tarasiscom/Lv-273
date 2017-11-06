@@ -9,6 +9,19 @@ namespace EPA.Common.Interfaces
     public interface ISpecialtyProvider
     {
         /// <summary>
+        ///  This method retrieves more detailed information about specific test
+        /// </summary>
+        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
+        ///  <returns> more detatiled test information </returns>
+        IEnumerable<Specialty> GetSpecialtyBySubjects(List<int> listOfSubjects);
+        
+        /// <summary>
+        ///  This method retrives list of all Subjects for ZNO
+        /// </summary>
+        /// <returns>List of subjects</returns>
+        IEnumerable<Subject> GetAllSubjects();
+
+        /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
         /// <param name="idDirection"> id of the general direction </param>

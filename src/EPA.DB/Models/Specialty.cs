@@ -1,3 +1,5 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 ﻿using AutoMapper;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -20,9 +22,6 @@ namespace EPA.MSSQL.Models
 
         public Direction Direction { get; set; }
 
-        public Common.DTO.Specialty ToCommon()
-        {
-            return Mapper.Map<Common.DTO.Specialty>(this);
-        }
+        public List<Specialty_Subject> SpecialtySubject { get; set; }
     }
 }

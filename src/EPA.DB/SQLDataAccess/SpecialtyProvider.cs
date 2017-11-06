@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using EPA.MSSQL.Models;
+using EPA.Common.DTO;
 using EPA.Common.Interfaces;
+using EPA.MSSQL.Models;
+using Microsoft.Extensions.Options;
 using EPA.MSSQL.BusLogic;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -41,6 +42,20 @@ namespace EPA.MSSQL.SQLDataAccess
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() 
                                                             => this.context.GeneralDirections.Select(x => x.ToCommon());
 
+
+        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<int> listOfSubjects)
+        {
+
+            /*return (from sp in this.context.Specialties
+                    where sp. 
+                        (from ss in this.context.Specialty_Subjects
+                        where ss.Subject.Id in listOfSubjects.Select(x=>x.Id))*/
+            return null;
+                
+        }
+
+        public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
+
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionWithPagination(int idDirection, int page)
         {
             var serviceProvider = context.GetInfrastructure<IServiceProvider>();
@@ -62,5 +77,6 @@ namespace EPA.MSSQL.SQLDataAccess
                        };
             return qry.Skip((page - 1) * numberOfObjectsPerPage).Take(numberOfObjectsPerPage);
         }
+
     }
 }

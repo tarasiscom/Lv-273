@@ -53,7 +53,5 @@ namespace EPA.Web.Controllers.ProfTest
         [Route("api/profTest/{id}/result")]
         [HttpPost]
         public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
-
-
     }
 }
