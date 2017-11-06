@@ -28,15 +28,15 @@ namespace EPA.MSSQL.SQLDataAccess
                     join u in this.context.Universities on s.University.Id equals u.Id
                     join d in this.context.Districts on u.DistrictID equals d.Id
                     where s.Direction.GeneralDirection.Id == idDirection
+                    orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Name = s.Name,
                         Address = u.Address,
                         District = d.Name,
                         Site = u.Site,
-                        Rating = CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled),
                         University = u.Name
-                    }).Distinct().OrderByDescending(o => o.Rating);
+                    }).Distinct();
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() 
@@ -66,16 +66,16 @@ namespace EPA.MSSQL.SQLDataAccess
                        join u in this.context.Universities on s.University.Id equals u.Id
                        join d in this.context.Districts on u.DistrictID equals d.Id
                        where s.Direction.GeneralDirection.Id == idDirection
-                       select new Common.DTO.Specialty()
+                       orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                      select new Common.DTO.Specialty()
                        {
                            Name = s.Name,
                            Address = u.Address,
                            District = d.Name,
                            Site = u.Site,
-                           Rating = CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled),
                            University = u.Name
                        };
-            return qry.OrderByDescending(o => o.Rating).Skip((page - 1) * numberOfObjectsPerPage).Take(numberOfObjectsPerPage);
+            return qry.Skip((page - 1) * numberOfObjectsPerPage).Take(numberOfObjectsPerPage);
         }
 
     }

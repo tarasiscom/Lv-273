@@ -39,10 +39,5 @@ namespace EPA.Common.DTO
         ///  Subjects that are needed for ZNO 
         /// </summary>
         public List<Subject> Subjects { get; set; }
-
-        /// <summary>
-        ///  Specialty rating
-        /// </summary>
-        public double Rating { get; set; }
     }
 }
