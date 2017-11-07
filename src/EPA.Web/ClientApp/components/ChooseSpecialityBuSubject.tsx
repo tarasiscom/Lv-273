@@ -23,7 +23,7 @@ interface Specialitys {
     subjects: Subject[];
     univers: Univer[];
     selectValueSub: number[];
-    selectDistrict: number[];
+    selectDistrict: number;
 }
 
 interface Subject {
@@ -42,7 +42,7 @@ interface Univer {
 
 export class ChooseSpecialityBuSubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
 
-    constructor() { super(); this.state = { subjects: [], univers: [], selectValueSub: [], selectDistrict: [] } }
+    constructor() { super(); this.state = { subjects: [], univers: [], selectValueSub: [], selectDistrict: 0 } }
 
     componentDidMount() {
         this.fetchDataSubject()
@@ -77,45 +77,36 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }  
 
-        var classNames = {
-            panel: 'container__panel',
-            title: 'container__title',
-            content: 'container__content'
-        }
 
-        const blockElements = {
-            content: 'tabs-content',
-            panel: 'tabs-panel',
-            label: 'tabs-title'
-        }
-
-        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1">
+        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="navigate">
-                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
+                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
                     <VirtualizedSelect multi={true} options={myList} onChange={(selectValueSub) => this.setState({ selectValueSub })}
                     value={this.state.selectValueSub}></VirtualizedSelect>
                 </div>
-                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                    <VirtualizedSelect multi={true} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict })}
-                    value={this.state.selectDistrict}></VirtualizedSelect>
+                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
+                    <VirtualizedSelect  multi={false} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict } )}
+                        value={this.state.selectDistrict} ></VirtualizedSelect>
                 </div>
                 <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub)}> Пошук</button>
             </div>
-            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  col-xs-10 col-xs-offset-1">
-                <Tabbordion animateContent="height" className="accordion container" mode="toggle" >
+            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+                <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                     {this.state.univers.map(univer =>
-                        <TabPanel>
-                            <TabLabel><div>Спеціальність: {univer.name} Університет:{univer.university} Адреса:{univer.district}</div></TabLabel>
+                        <TabPanel >
+                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">Спеціальність: {univer.name} Університет:{univer.university} Область:{univer.district}</div></TabLabel>
                             <TabContent>
-                                <div> Сайт:{univer.site},
-                                Адреса:{univer.address}
-                        Предмети:{univer.subjects.map(sub => sub.name)}  </div>
+                                <div>
+                                    <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
+                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name}і </li>)} </ul></div>
+                                </div>
                             </TabContent>
                         </TabPanel>
                     )}    
                 </Tabbordion>
 
             </div>
+            <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
     }
 }
