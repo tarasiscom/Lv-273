@@ -53,7 +53,8 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
     constructor() { super(); this.state = { subjects: [], univers: [], districts:[], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } } }
 
     componentDidMount() {
-        this.fetchDataSubject()
+        this.fetchDataSubject();
+        this.fetchAllDistricts();
     }
 
     fetchDataSubject() {
@@ -63,19 +64,24 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
                 this.setState({ subjects: data });
             });
     }
+    fetchAllDistricts() {
+        fetch('api/ChooseUniversity/ChoseSpecDistrictList')
+            .then(response => response.json() as Promise<Distryct[]>)
+            .then(data => { this.setState({ districts: data }) })
+    }
     
 
-    submitFiltr(selectValueSubmit,distric) {
+    submitFiltr(selectValueSubmit,districtVal) {
         let resolt: number[];
-        let district;
-        district = "0";
         resolt = [];
         for (let i = 0; i < selectValueSubmit.length; i++) {
             resolt.push(selectValueSubmit[i].value)
         }
+        let subAndDistr = { ListSubject: resolt, District: districtVal.value }
+        console.log(districtVal.value);
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
-            body: JSON.stringify(resolt),
+            body: JSON.stringify(subAndDistr),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Univer[]>)
             .then(data => { this.setState({ univers: data }) })
@@ -84,9 +90,9 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
     public render() {
         
         let myListDisctict = [{ label: "Всі", value: 0 }];
-        /*for (let i = 0; i < this.state.di.length; i++) {
-            myList.push({ label: this.state.subjects[i].name, value: this.state.subjects[i].id })
-        }*/
+        for (let i = 0; i < this.state.districts.length; i++) {
+            myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
+        }
         let myList = [{ label: "11", value: 0 }];  
         myList.pop();
         for (let i = 0; i < this.state.subjects.length; i++)
@@ -99,10 +105,10 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
             <div className="navigate">
                 <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
                     <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSub: valueArray })}
-                        value={this.state.selectValueSub}>{console.log(this.state.selectValueSub)}</VirtualizedSelect>
+                        value={this.state.selectValueSub}></VirtualizedSelect>
                 </div>
                 <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
-                    <VirtualizedSelect  multi={false} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict } )}
+                    <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty } )}
                         value={this.state.selectDistrict} ></VirtualizedSelect>
                 </div>
                 <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub, this.state.selectDistrict)}> Пошук</button>
