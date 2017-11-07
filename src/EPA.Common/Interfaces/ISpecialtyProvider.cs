@@ -22,6 +22,12 @@ namespace EPA.Common.Interfaces
         IEnumerable<Subject> GetAllSubjects();
 
         /// <summary>
+        ///  This method retrives list of all Districts 
+        /// </summary>
+        /// <returns>List of Districts</returns>
+        IEnumerable<District> GetAllDistricts();
+
+        /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
         /// <param name="idDirection"> id of the general direction </param>

@@ -25,6 +25,8 @@ namespace EPA.MSSQL.Models
 
         public DbSet<GeneralDirection> GeneralDirections { get; set; }
 
+        public DbSet<District> Districts { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
@@ -42,6 +44,7 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
+            modelBuilder.Entity<District>().ToTable("Districts");
         }
 
         public override void Dispose()

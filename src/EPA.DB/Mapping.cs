@@ -15,7 +15,7 @@
                         cfg.CreateMap<Specialty, EPA.Common.DTO.Specialty>();
                         cfg.CreateMap<GeneralDirection, EPA.Common.DTO.GeneralDirection>();
                         cfg.CreateMap<Specialty, EPA.Common.DTO.Specialty>();
-
+                        cfg.CreateMap<District, EPA.Common.DTO.District>();
                     });
         }
     }

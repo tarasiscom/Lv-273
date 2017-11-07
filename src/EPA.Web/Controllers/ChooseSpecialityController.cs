@@ -23,7 +23,16 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/choosessubject")]
-        public IEnumerable<Subject> GetSubject() { return new Subject[] { new Subject { Name = "Матемаьтка" }, new Subject { Name = "Українська" }, new Subject { Name = "Українська" } }; } ///=> this.specialtyProvider.GetAllSubjects();
+        [HttpGet]
+        public IEnumerable<Subject> GetAllSubjects() => this.specialtyProvider.GetAllSubjects();
+
+        /// <summary>
+        /// This mehod retrives list of districts
+        /// </summary>
+        /// <returns>List of Subjects</returns>
+        [Route("api/getalldistricts")]
+        [HttpGet]
+        public IEnumerable<District> GetAllDistricts() => this.specialtyProvider.GetAllDistricts();
 
         /// <summary>
         /// his method retrives list of specialties according to subjects
@@ -41,8 +50,7 @@ namespace EPA.Web.Controllers
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection/{idDirection}")]
         [HttpGet("{idDirection}")]
-        public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection) =>
-                                      this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
+        public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
 
         /// <summary>
         /// This method retrives list of general directions
