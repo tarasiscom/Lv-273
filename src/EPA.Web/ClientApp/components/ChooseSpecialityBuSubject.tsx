@@ -22,8 +22,16 @@ import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 interface Specialitys {
     subjects: Subject[];
     univers: Univer[];
-    selectValueSub: number[];
-    selectDistrict: number;
+    districts: Distryct[];
+    selectValueSub: { label: string, value: number }[];
+    selectDistrict: { label: string, value: number };
+}
+
+
+
+interface Distryct {
+    name: string;
+    id: number;
 }
 
 interface Subject {
@@ -42,7 +50,7 @@ interface Univer {
 
 export class ChooseSpecialityBuSubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
 
-    constructor() { super(); this.state = { subjects: [], univers: [], selectValueSub: [], selectDistrict: 0 } }
+    constructor() { super(); this.state = { subjects: [], univers: [], districts:[], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } } }
 
     componentDidMount() {
         this.fetchDataSubject()
@@ -57,11 +65,17 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
     }
     
 
-    submitFiltr(selectValueSubmit: number[])
-    {
+    submitFiltr(selectValueSubmit,distric) {
+        let resolt: number[];
+        let district;
+        district = "0";
+        resolt = [];
+        for (let i = 0; i < selectValueSubmit.length; i++) {
+            resolt.push(selectValueSubmit[i].value)
+        }
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
-            body: JSON.stringify(selectValueSubmit),
+            body: JSON.stringify(resolt),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Univer[]>)
             .then(data => { this.setState({ univers: data }) })
@@ -69,7 +83,10 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
       
     public render() {
         
-        let myListDisctict = [{ label: "Всі", value: 0 }, {label:"Львівська",value:1}];
+        let myListDisctict = [{ label: "Всі", value: 0 }];
+        /*for (let i = 0; i < this.state.di.length; i++) {
+            myList.push({ label: this.state.subjects[i].name, value: this.state.subjects[i].id })
+        }*/
         let myList = [{ label: "11", value: 0 }];  
         myList.pop();
         for (let i = 0; i < this.state.subjects.length; i++)
@@ -81,14 +98,14 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
         return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="navigate">
                 <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
-                    <VirtualizedSelect multi={true} options={myList} onChange={(selectValueSub) => this.setState({ selectValueSub })}
-                    value={this.state.selectValueSub}></VirtualizedSelect>
+                    <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSub: valueArray })}
+                        value={this.state.selectValueSub}>{console.log(this.state.selectValueSub)}</VirtualizedSelect>
                 </div>
                 <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
                     <VirtualizedSelect  multi={false} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict } )}
                         value={this.state.selectDistrict} ></VirtualizedSelect>
                 </div>
-                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub)}> Пошук</button>
+                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub, this.state.selectDistrict)}> Пошук</button>
             </div>
             <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
                 <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">

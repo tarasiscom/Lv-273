@@ -57,7 +57,7 @@ namespace EPA.MSSQL.SQLDataAccess
                     {
                         Name = s.Name,
                         Address = u.Address,
-                        // District = u.District,
+                         District = "область",
                         Site = u.Site,
                         University = u.Name
                     }).ToList();
