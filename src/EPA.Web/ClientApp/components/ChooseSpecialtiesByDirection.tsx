@@ -75,7 +75,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                         value={this.state.selectValueDir}></VirtualizedSelect>
                 </div>
                 <div>
-                  
+                    <List/>
                     </div>
 
             </div>
