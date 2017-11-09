@@ -38,8 +38,10 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<int> listOfSubjects)
+        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
         {
+            var listOfSubjects = listSubjectsAndDistrict.ListSubject;
+
             var serviceProvider = this.context.GetInfrastructure<IServiceProvider>();
             var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             loggerFactory.AddProvider(new MyLoggerProvider());
@@ -50,6 +52,14 @@ namespace EPA.MSSQL.SQLDataAccess
                      select grouped.Key)
                      .ToList();
 
+            var sub = (from sb in this.context.Subjects
+                       where listOfSubjects.Contains(sb.Id)
+                       select new Common.DTO.Subject()
+                       {
+                           Id=sb.Id,
+                           Name=sb.Name
+                       }).ToList();
+
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where q.Contains(s.Id)
@@ -57,9 +67,10 @@ namespace EPA.MSSQL.SQLDataAccess
                     {
                         Name = s.Name,
                         Address = u.Address,
-                         District = "область",
+                        District = "область",
                         Site = u.Site,
-                        University = u.Name
+                        University = u.Name,
+                        Subjects = sub
                     }).ToList();
         }
 

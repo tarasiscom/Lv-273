@@ -48,7 +48,7 @@ interface Univer {
     subjects: Subject[];
 }
 
-export class ChooseSpecialityBuSubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
+export class ChooseSpecialityBySubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
 
     constructor() { super(); this.state = { subjects: [], univers: [], districts:[], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } } }
 
@@ -117,11 +117,15 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
                 <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                     {this.state.univers.map(univer =>
                         <TabPanel >
-                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">Спеціальність: {univer.name} Університет:{univer.university} Область:{univer.district}</div></TabLabel>
+                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">
+                                <p>Спеціальність: {univer.name}</p>
+                                <p>Університет:{univer.university}</p>
+                                <p>Область:{univer.district}</p>
+                            </div></TabLabel>
                             <TabContent>
                                 <div>
                                     <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
-                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name}і </li>)} </ul></div>
+                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
                                 </div>
                             </TabContent>
                         </TabPanel>
