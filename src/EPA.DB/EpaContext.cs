@@ -13,8 +13,6 @@ namespace EPA.MSSQL.Models
 
         public DbSet<University> Universities { get; set; }
 
-        public DbSet<District> Districts { get; set; }
-
         public DbSet<Direction> Directions { get; set; }
 
         public DbSet<Specialty> Specialties { get; set; }
@@ -26,6 +24,8 @@ namespace EPA.MSSQL.Models
         public DbSet<Specialty_Subject> Specialty_Subjects { get; set; }
 
         public DbSet<GeneralDirection> GeneralDirections { get; set; }
+
+        public DbSet<District> Districts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,9 +42,9 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
-            modelBuilder.Entity<District>().ToTable("Districts");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
+            modelBuilder.Entity<District>().ToTable("Districts");
         }
 
         public override void Dispose()

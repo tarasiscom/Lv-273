@@ -8,6 +8,8 @@ import { ProfTestQuiz } from './components/ProfTestQuiz';
 import { ChooseSpecialityBuSubject } from './components/ChooseSpecialityBuSubject'
 import { ChooseUniversity } from './components/ChooseUniversity';
 import { ChooseSpecialtiesByDirection } from './components/ChooseSpecialtiesByDirection';
+//import { ListSpecialties } from './components/ListSpecialties';
+
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />

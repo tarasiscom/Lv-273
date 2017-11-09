@@ -22,11 +22,17 @@ namespace EPA.Common.Interfaces
         IEnumerable<Subject> GetAllSubjects();
 
         /// <summary>
+        ///  This method retrives list of all Districts 
+        /// </summary>
+        /// <returns>List of Districts</returns>
+        IEnumerable<District> GetAllDistricts();
+
+        /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
         /// <param name="idDirection"> id of the general direction </param>
         /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection); //temp
+        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection);
 
         /// <summary>
         /// This method retrives list of general directions
@@ -34,11 +40,5 @@ namespace EPA.Common.Interfaces
         /// <returns> List of general directions </returns>
         IEnumerable<GeneralDirection> GetGeneralDirections();
 
-        /// <summary>
-        /// This method retrives list of specialties according to general direction
-        /// </summary>
-        /// <param name="idDirection"> id of the general direction </param>
-        /// <returns> Limited list of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirectionWithPagination(int idDirection, int page);
     }
 }

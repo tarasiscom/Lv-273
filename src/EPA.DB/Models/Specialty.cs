@@ -1,8 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-﻿using AutoMapper;
-using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace EPA.MSSQL.Models
 {
@@ -12,10 +9,6 @@ namespace EPA.MSSQL.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public int NumApplication { get; set; }
-
-        public int NumEnrolled { get; set; }
 
         // foreign keys
         public University University { get; set; }

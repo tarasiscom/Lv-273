@@ -34,7 +34,6 @@ namespace EPA.Common.DTO
         /// </summary>
         public string Site { get; set; }
 
-
         /// <summary>
         ///  Subjects that are needed for ZNO 
         /// </summary>

@@ -57,7 +57,6 @@ namespace EPA.Web
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
-
             loggerFactory.AddProvider(new MyLoggerProvider());
             new Mapping().Create();
         }

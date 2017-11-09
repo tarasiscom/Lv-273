@@ -22,8 +22,16 @@ import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 interface Specialitys {
     subjects: Subject[];
     univers: Univer[];
-    selectValueSub: number[];
-    selectDistrict: number[];
+    districts: Distryct[];
+    selectValueSub: { label: string, value: number }[];
+    selectDistrict: { label: string, value: number };
+}
+
+
+
+interface Distryct {
+    name: string;
+    id: number;
 }
 
 interface Subject {
@@ -42,10 +50,11 @@ interface Univer {
 
 export class ChooseSpecialityBuSubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
 
-    constructor() { super(); this.state = { subjects: [], univers: [], selectValueSub: [], selectDistrict: [] } }
+    constructor() { super(); this.state = { subjects: [], univers: [], districts:[], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } } }
 
     componentDidMount() {
-        this.fetchDataSubject()
+        this.fetchDataSubject();
+        this.fetchAllDistricts();
     }
 
     fetchDataSubject() {
@@ -55,67 +64,71 @@ export class ChooseSpecialityBuSubject extends React.Component<RouteComponentPro
                 this.setState({ subjects: data });
             });
     }
+    fetchAllDistricts() {
+        fetch('api/ChooseUniversity/ChoseSpecDistrictList')
+            .then(response => response.json() as Promise<Distryct[]>)
+            .then(data => { this.setState({ districts: data }) })
+    }
     
 
-    submitFiltr(selectValueSubmit: number[])
-    {
+    submitFiltr(selectValueSubmit,districtVal) {
+        let resolt: number[];
+        resolt = [];
+        for (let i = 0; i < selectValueSubmit.length; i++) {
+            resolt.push(selectValueSubmit[i].value)
+        }
+        let subAndDistr = { ListSubject: resolt, District: districtVal.value }
+        console.log(districtVal.value);
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
-            body: JSON.stringify(selectValueSubmit),
+            body: JSON.stringify(subAndDistr),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Univer[]>)
             .then(data => { this.setState({ univers: data }) })
     }
       
     public render() {
-        
-        let myListDisctict = [{ label: "Всі", value: 0 }, {label:"Львівська",value:1}];
-        let myList = [{ label: "11", value: 0 }];  
+
+        let myListDisctict = [{ label: "Всі", value: 0 }];
+        for (let i = 0; i < this.state.districts.length; i++) {
+            myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
+        }
+        let myList = [{ label: "11", value: 0 }];
         myList.pop();
-        for (let i = 0; i < this.state.subjects.length; i++)
-        {
-            myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
-        }  
-
-        var classNames = {
-            panel: 'container__panel',
-            title: 'container__title',
-            content: 'container__content'
+        for (let i = 0; i < this.state.subjects.length; i++) {
+            myList.push({ label: this.state.subjects[i].name, value: this.state.subjects[i].id })
         }
 
-        const blockElements = {
-            content: 'tabs-content',
-            panel: 'tabs-panel',
-            label: 'tabs-title'
-        }
 
-        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1">
+        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="navigate">
-                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
-                    <VirtualizedSelect multi={true} options={myList} onChange={(selectValueSub) => this.setState({ selectValueSub })}
-                    value={this.state.selectValueSub}></VirtualizedSelect>
+                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
+                    <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSub: valueArray })}
+                        value={this.state.selectValueSub}></VirtualizedSelect>
                 </div>
-                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                    <VirtualizedSelect multi={true} options={myListDisctict} onChange={(selectDistrict) => this.setState({ selectDistrict })}
-                    value={this.state.selectDistrict}></VirtualizedSelect>
+                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
+                    <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
+                        value={this.state.selectDistrict} ></VirtualizedSelect>
                 </div>
-                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub)}> Пошук</button>
+                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub, this.state.selectDistrict)}> Пошук</button>
             </div>
-            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  col-xs-10 col-xs-offset-1">
-                <Tabbordion animateContent="height" className="accordion container" mode="toggle" >
+            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+                <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                     {this.state.univers.map(univer =>
-                        <TabPanel>
-                            <TabLabel><div>Спеціальність: {univer.name} Університет:{univer.university} Адреса:{univer.district}</div></TabLabel>
+                        <TabPanel >
+                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">Спеціальність: {univer.name} Університет:{univer.university} Область:{univer.district}</div></TabLabel>
                             <TabContent>
-                                <div> Сайт:{univer.site},
-                                Адреса:{univer.address}
-                        Предмети:{univer.subjects.map(sub => sub.name)}  </div>
+                                <div>
+                                    <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
+                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name}і </li>)} </ul></div>
+                                </div>
                             </TabContent>
                         </TabPanel>
-                    )}    
+                    )}
                 </Tabbordion>
 
             </div>
+            <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
     }
 }
