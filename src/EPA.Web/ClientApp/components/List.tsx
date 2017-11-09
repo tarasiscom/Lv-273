@@ -19,12 +19,12 @@ import {
 
 import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 
-interface Distryct {
+interface District {
     name: string;
 }
 
 
-export default class List extends React.Component<RouteComponentProps<{}>, Distryct> {
+export default class List extends React.Component<{}, District> {
 
     constructor() {
         super();
