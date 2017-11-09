@@ -53,11 +53,11 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
     constructor() { super(); this.state = { subjects: [], univers: [], districts:[], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } } }
 
     componentDidMount() {
-        this.fetchDataSubject();
+        this.fetchAllSubject();
         this.fetchAllDistricts();
     }
 
-    fetchDataSubject() {
+    fetchAllSubject() {
         fetch('api/ChooseUniversity/ChoseSpecBySub')
             .then(response => response.json() as Promise<Subject[]>)
             .then(data => {
@@ -101,26 +101,25 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
         }  
 
 
-        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
+        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 paddin">
             <div className="navigate">
-                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
+                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 paddin"><p>Предмети</p>
                     <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSub: valueArray })}
                         value={this.state.selectValueSub}></VirtualizedSelect>
                 </div>
-                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
+                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 paddin"><p>Області</p>
                     <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty } )}
                         value={this.state.selectDistrict} ></VirtualizedSelect>
                 </div>
                 <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub, this.state.selectDistrict)}> Пошук</button>
             </div>
-            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  col-xs-offset-1 ">
                 <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                     {this.state.univers.map(univer =>
                         <TabPanel >
-                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">
-                                <p>Спеціальність: {univer.name}</p>
-                                <p>Університет:{univer.university}</p>
-                                <p>Область:{univer.district}</p>
+                            <TabLabel className="glyphicon "><div className="glyphicon container-fluid col-md-12 blockquote h4 row">
+                                <div className="col-md-11  glyphicon-menu-down"><span className=""> Спеціальність: {univer.name}</span> <span className="pull-right">Область:{univer.district}</span></div>
+                                <div className="col-md-12 ">Університет:{univer.university}</div>
                             </div></TabLabel>
                             <TabContent>
                                 <div>

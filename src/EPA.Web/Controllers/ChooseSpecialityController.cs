@@ -23,7 +23,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/ChooseUniversity/ChoseSpecBySub")]
-        public IEnumerable<Subject> GetSubject() => this.specialtyProvider.GetAllSubjects();
+        public IEnumerable<Subject> GetAllSubjects() => this.specialtyProvider.GetAllSubjects();
 
         /// <summary>
         /// This method retrives list of districts
