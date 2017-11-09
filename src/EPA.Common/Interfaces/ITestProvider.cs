@@ -35,5 +35,11 @@ namespace EPA.Common.Interfaces
         ///  <param name="testId">ID of the test, whose results we need</param>
         ///  <returns>  ProfTest's Result </returns>
         Result GetResult(int points, int testId);
+        /// <summary>
+        ///  This method retrieves data about persons professional directory and list of specialties
+        /// </summary>
+        ///  <param name="testId">ID of the test, whose results we need</param>
+        ///  <returns>  ProfTest's Result </returns>
+        GeneralDirectionResult[] GetResults(int testId);
     }
 }

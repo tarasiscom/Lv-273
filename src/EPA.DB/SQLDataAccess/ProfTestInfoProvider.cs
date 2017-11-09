@@ -58,5 +58,16 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .Where(answ => answ.Question.ID == res.ID)
                                                                     .ToList()
                                     }.ToCommon());
+
+        public GeneralDirectionResult[] GetResults(int testId) {
+            GeneralDirectionResult[] temp = new GeneralDirectionResult[6];
+            temp[0] = new GeneralDirectionResult {Name = "One", Score = 5 };
+            temp[1] = new GeneralDirectionResult { Name = "Two", Score = 6 };
+            temp[2] = new GeneralDirectionResult { Name = "Three", Score = 11 };
+            temp[3] = new GeneralDirectionResult { Name = "Four", Score = 3 };
+            temp[4] = new GeneralDirectionResult { Name = "Five", Score = 4 };
+            temp[5] = new GeneralDirectionResult { Name = "Six", Score = 9 };
+            return temp;
+        }
     }
 }

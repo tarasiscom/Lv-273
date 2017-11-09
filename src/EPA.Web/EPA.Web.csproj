@@ -13,6 +13,7 @@
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\ProfTestQuiz.tsx" />
+    <None Remove="ClientApp\components\ProfTestResult.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
@@ -42,6 +43,7 @@
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTestQuiz.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\ProfTestResult.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 

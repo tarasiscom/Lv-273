@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { ProfTest } from './components/ProfTest';
 import { TestInfo } from './components/TestInfo';
 import { ProfTestQuiz } from './components/ProfTestQuiz';
+import { ProfTestResult } from './components/ProfTestResult';
 import { ChooseSpecialityBuSubject } from './components/ChooseSpecialityBuSubject'
 import { ChooseUniversity } from './components/ChooseUniversity';
 
@@ -15,5 +16,6 @@ export const routes = <Layout>
     <Route path='/quiz/:id' component={ProfTestQuiz} />
     <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialityBuSubject}/>
     <Route path='/ChooseUniversity' component={ChooseUniversity} />
+    <Route path='/profTestResult' component={ProfTestResult} />
 </Layout>;
 

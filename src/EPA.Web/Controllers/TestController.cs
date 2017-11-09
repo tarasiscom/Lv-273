@@ -53,5 +53,14 @@ namespace EPA.Web.Controllers.ProfTest
         [Route("api/profTest/{id}/result")]
         [HttpPost]
         public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
+
+        /// <summary>
+        /// This method retrives data about persons professional directory and list of specialities
+        /// </summary>
+        /// <param name="testId">ID of the test, whose results we need</param>
+        /// <returns>  ProfTest's Result </returns>
+        [Route("api/profTest/{testId}/resultnew")]
+        [HttpGet("{testId}")]
+        public IEnumerable<GeneralDirectionResult> GetResults(int testId) => this.testProvider.GetResults(testId);
     }
 }
