@@ -75,11 +75,11 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit != null && selectValueSubmit != undefined && districtValueSubmit != undefined)
         {
-            let subjectsAndDistrict = { Direction: selectValueSubmit.value, District: districtValueSubmit.value }
+            let directionAndDistrict = { Direction: selectValueSubmit.value, District: districtValueSubmit.value }
 
-            fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+            fetch('api/Choosespeciality/byDirection', {
                 method: 'POST',
-                body: JSON.stringify(subjectsAndDistrict),
+                body: JSON.stringify(directionAndDistrict),
                 headers: { 'Content-Type': 'application/json' }
             }).then(response => response.json() as Promise<Univer[]>)
                 .then(data => { this.setState({ univers: data }) })
