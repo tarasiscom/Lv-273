@@ -84,7 +84,7 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
             body: JSON.stringify(subAndDistr),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Univer[]>)
-            .then(data => { this.setState({ univers: data }) })
+            .then(data => { this.setState({ univers: data }); console.log(this.state.univers.length+"  hhhhh"); })
     }
       
     public render() {
