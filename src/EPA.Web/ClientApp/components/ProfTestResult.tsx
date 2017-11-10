@@ -2,19 +2,26 @@
 import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 
-interface GeneralDirectionResult {
+interface GeneralDirection{
+    id: number;
     name: string;
+}
+
+interface GeneralDirectionResult {
+    generaldirection: GeneralDirection;
     score: number;
 }
+
 interface GeneralDirectionInfo {
-    generaldirection: GeneralDirectionResult[];
+    generaldirectionresult: GeneralDirectionResult[];
     loading: boolean;
 }
+
 export class ProfTestResult extends React.Component<RouteComponentProps<{}>, GeneralDirectionInfo> {
     constructor() {
         super();
         this.state = {
-            generaldirection: [], loading: true
+            generaldirectionresult: [], loading: true
         };
     }
     
@@ -26,14 +33,14 @@ export class ProfTestResult extends React.Component<RouteComponentProps<{}>, Gen
         fetch(path)
             .then(response => response.json() as Promise<GeneralDirectionResult[]>)
             .then(data => {
-                this.setState({generaldirection : data, loading : false});
+                this.setState({generaldirectionresult : data, loading : false});
             });
     }
    drawRadar() {
-       return <div className="text-center">
+       return <div className="text-left">
            <Radar className="radar"
-               width={500}
-               height={500}
+               width={600}
+               height={600}
                padding={70}
                domainMax={this.GetDomainMax()}
                highlighted={null}
@@ -46,8 +53,8 @@ export class ProfTestResult extends React.Component<RouteComponentProps<{}>, Gen
                }}
 
                data={{
-                   variables: this.state.generaldirection.map(gen =>
-                       ({ key: gen.name.toLowerCase(), label: gen.name }),
+                   variables: this.state.generaldirectionresult.map(gen =>
+                       ({ key: gen.generaldirection.name.toLowerCase(), label: gen.generaldirection.name }),
                    ),
                    sets:
                    [{
@@ -58,7 +65,8 @@ export class ProfTestResult extends React.Component<RouteComponentProps<{}>, Gen
                            return acc;
                        }, {}),
                        */
-                       values: this.state.generaldirection.reduce((o, generaldirection) => ({ ...o, [generaldirection.name.toLowerCase()]: generaldirection.score }), {}),
+                       values: this.state.generaldirectionresult.reduce((o, generaldirectionresult) =>
+                           ({ ...o, [generaldirectionresult.generaldirection.name.toLowerCase()]: generaldirectionresult.score }), {}),
                    },
                    ],
 
@@ -75,7 +83,7 @@ export class ProfTestResult extends React.Component<RouteComponentProps<{}>, Gen
         return <div>{content}</div>;
    }
     private GetDomainMax() {
-        var arrScores = this.state.generaldirection.map(gen => gen.score);
+        var arrScores = this.state.generaldirectionresult.map(gen => gen.score);
         var max = 0;
         for (let i = 0; i < arrScores.length; i++) {
             if (arrScores[i] > max)

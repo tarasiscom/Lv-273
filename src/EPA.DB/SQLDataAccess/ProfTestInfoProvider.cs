@@ -60,13 +60,21 @@ namespace EPA.MSSQL.SQLDataAccess
                                     }.ToCommon());
 
         public GeneralDirectionResult[] GetResults(int testId) {
+            Common.DTO.GeneralDirection[] t = new Common.DTO.GeneralDirection[6];
+            t[0] = new Common.DTO.GeneralDirection { ID = 0, Name = "One" };
+            t[1] = new Common.DTO.GeneralDirection { ID = 1, Name = "Two" };
+            t[2] = new Common.DTO.GeneralDirection { ID = 2, Name = "Three" };
+            t[3] = new Common.DTO.GeneralDirection { ID = 3, Name = "Four" };
+            t[4] = new Common.DTO.GeneralDirection { ID = 4, Name = "Five" };
+            t[5] = new Common.DTO.GeneralDirection { ID = 5, Name = "Six" };
+
             GeneralDirectionResult[] temp = new GeneralDirectionResult[6];
-            temp[0] = new GeneralDirectionResult {Name = "One", Score = 5 };
-            temp[1] = new GeneralDirectionResult { Name = "Two", Score = 6 };
-            temp[2] = new GeneralDirectionResult { Name = "Three", Score = 11 };
-            temp[3] = new GeneralDirectionResult { Name = "Four", Score = 3 };
-            temp[4] = new GeneralDirectionResult { Name = "Five", Score = 4 };
-            temp[5] = new GeneralDirectionResult { Name = "Six", Score = 9 };
+            temp[0] = new GeneralDirectionResult { generaldirection = t[0], Score = 5 };
+            temp[1] = new GeneralDirectionResult { generaldirection = t[1], Score = 6 };
+            temp[2] = new GeneralDirectionResult { generaldirection = t[2], Score = 11 };
+            temp[3] = new GeneralDirectionResult { generaldirection = t[3], Score = 3 };
+            temp[4] = new GeneralDirectionResult { generaldirection = t[4], Score = 4 };
+            temp[5] = new GeneralDirectionResult { generaldirection = t[5], Score = 9 };
             return temp;
         }
     }

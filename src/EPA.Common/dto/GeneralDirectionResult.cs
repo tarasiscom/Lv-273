@@ -5,7 +5,7 @@
         /// <summary>
         ///  Name of the general direction
         /// </summary>
-        public string Name { get; set; }
+        public GeneralDirection generaldirection { get; set; }
 
         public int Score { get; set; }
     }
