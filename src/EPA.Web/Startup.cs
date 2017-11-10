@@ -37,13 +37,11 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<MSSQL.Models.EpaContext>();
+            services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
-
-            // MSSQL.Models.EpaContext.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<MSSQL.Models.EpaContext>(options =>
+            services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
         }
 
