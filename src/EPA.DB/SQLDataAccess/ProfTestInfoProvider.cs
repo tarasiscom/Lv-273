@@ -19,7 +19,7 @@ namespace EPA.MSSQL.SQLDataAccess
             this.constValues = constSettings;
         }
 
-        public TestInfo GetTestInfo(int testId) => this.context.Tests.Find(testId).ToCommon();
+        public TestInfo GetTestInfo(int id) => this.context.Tests.Find(id).ToCommon();
 
         public IEnumerable<Test> GetTests() => this.context.Tests.Select(item => item.ToCommon());
 
@@ -57,7 +57,5 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .Where(answ => answ.Question.ID == res.ID)
                                                                     .ToList()
                                     }.ToCommon());
-        
-      
     }
 }

@@ -12,6 +12,11 @@ namespace EPA.MSSQL.Models
 
         public static string ConnectionString { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
+        }
+
         public DbSet<TestDetailedInfo> Tests { get; set; }
 
         public DbSet<Answer> Answers { get; set; }

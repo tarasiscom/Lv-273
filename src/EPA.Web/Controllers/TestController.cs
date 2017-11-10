@@ -3,7 +3,7 @@ using EPA.Common.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace EPA.Web.Controllers.ProfTest
+namespace EPA.Web.Controllers
 {
     /// <summary>
     ///  API for Test and TestInfo draws
@@ -30,8 +30,8 @@ namespace EPA.Web.Controllers.ProfTest
         /// </summary>
         /// <param name="id"> id of the Test </param>
         /// <returns> more detatiled test Information </returns>
-        [Route("api/profTest/{id}/info")]
-        [HttpGet("{id}")]
+        [Route("api/profTest/{id:int}/info")]
+        [HttpGet]
         public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace EPA.Web.Controllers.ProfTest
         /// </summary>
         /// <param name="testId">ID of the test, whose questions we need</param>
         /// <returns>Collection of questions</returns>
-        [Route("/api/profTest/{testId}/questions")]
-        [HttpGet("{testId}")]
+        [Route("api/profTest/{testId:int}/questions")]
+        [HttpGet]
         public IEnumerable<Question> GetQuestions(int testId)
         {
             return this.testProvider.GetQuestions(testId);
@@ -52,7 +52,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="id">ID of the test, whose results we need</param>
         /// <param name="points">Amount of points achieved</param>
         /// <returns>  ProfTest's Result </returns>
-        [Route("api/profTest/{id}/result")]
+        [Route("api/profTest/{id:int}/result")]
         [HttpPost]
         public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
 

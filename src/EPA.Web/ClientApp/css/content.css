@@ -112,3 +112,20 @@ margin-top:20px;
 .top-univer {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
+
+.erdiv {
+    text-align: center;
+    color: #222;
+    margin: 0;
+    font-family: 'Helvetica';
+}
+
+.imgError {
+    border-bottom: #888 solid 1px;
+    box-shadow: 0px 2px 20px;
+    background-color: #ccc;
+}
+
+.textError {
+    font-size: 1.1em;
+}
