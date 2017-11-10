@@ -30,7 +30,9 @@
     "url-loader": "0.5.9",
     "webpack": "2.5.1",
     "webpack-hot-middleware": "2.18.2",
-    "react-radio-group": "3.0.2"
-
+    "react-radio-group": "3.0.2",
+    "react-paginate": "5.0.0",
+    "pagination-component": "1.5.7",
+    "react-pagination-component": "1.0.1"
   }
 }

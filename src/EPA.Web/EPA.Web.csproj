@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTestQuiz.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\TestQuiz.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 

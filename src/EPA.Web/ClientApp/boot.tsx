@@ -1,5 +1,6 @@
 import './css/content.css';
 import './css/navbarAndFoter.css';
+import './css/question.css'
 import 'bootstrap';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
