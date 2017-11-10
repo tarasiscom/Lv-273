@@ -4,9 +4,9 @@ using System.Text;
 
 namespace EPA.Common.DTO
 {
-    public class ListSubjectsAndDistrict
+    public class ListDirectionAndDistrict
     {
         public int District;
-        public List<int> ListSubjects;
+        public int GeneralDirection;
     }
 }

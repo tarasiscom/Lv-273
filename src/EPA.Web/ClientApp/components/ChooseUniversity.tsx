@@ -15,7 +15,7 @@ export class ChooseUniversity extends React.Component<RouteComponentProps<{}>, {
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за вибраною
                         галуззю знань. Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <Link to={'/'} className="btn btn-link btn-block">  Розпочати      </Link>
+                        <Link to={'/ChooseUniversitys/ChoseSpecByDir'} className="btn btn-link btn-block">  Розпочати      </Link>
                     </div>
                 </div>
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\components\Footer.tsx" />
+    <None Remove="ClientApp\components\List.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\ProfTestQuiz.tsx" />

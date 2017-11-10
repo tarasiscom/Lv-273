@@ -5,15 +5,18 @@ import { Home } from './components/Home';
 import { ProfTest } from './components/ProfTest';
 import { TestInfo } from './components/TestInfo';
 import { ProfTestQuiz } from './components/ProfTestQuiz';
-import { ChooseSpecialityBySubject } from './components/ChooseSpecialityBySubject'
+import { ChooseSpecialtiesBySubject } from './components/ChooseSpecialtiesBySubject'
 import { ChooseUniversity } from './components/ChooseUniversity';
+import { ChooseSpecialtiesByDirection } from './components/ChooseSpecialtiesByDirection';
+
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/profTest' component={ProfTest} />
     <Route path='/testInfo/:id' component={TestInfo} />
     <Route path='/quiz/:id' component={ProfTestQuiz} />
-    <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialityBySubject}/>
+    <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialtiesBySubject}/>
     <Route path='/ChooseUniversity' component={ChooseUniversity} />
+    <Route path='/ChooseUniversitys/ChoseSpecByDir' component={ChooseSpecialtiesByDirection} />
 </Layout>;
 
