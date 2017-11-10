@@ -101,7 +101,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
             ? this.renderSubmitButton()
             : <div></div>
         return <div className="col">
-                    <Question questioNumber={this.state.currentPage}
+                    <Question questionNumber={this.state.currentPage}
                               question={this.state.questions[this.state.currentPage - 1]}
                               onAnswerChoose={this.onAnswerChoose} />
                     <div className="row submit_btn">{submit}</div>

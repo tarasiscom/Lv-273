@@ -3,7 +3,7 @@ import { ReactPaginate } from 'react-paginate';
 import { RadioGroup, Radio } from 'react-radio-group';
 
 interface propTypes {
-    questioNumber: number;
+    questionNumber: number;
     question: TestQuestion;
     onAnswerChoose: Function;
 }
@@ -40,7 +40,7 @@ export class Question extends React.Component<propTypes, stateTypes> {
         
         var listAnswers = this.props.question.answers.map((item,id) => {
             return (
-                <label key={this.props.questioNumber + '.' + id} className="btn btn-lg btn-primary btn-block element-animation"
+                <label key={this.props.questionNumber + '.' + id} className="btn btn-lg btn-primary btn-block element-animation"
                     onClick={() => this.handleClick(item.id)}>
                     <span className="btn-label">
                         <i className="glyphicon glyphicon-chevron-right"></i>
