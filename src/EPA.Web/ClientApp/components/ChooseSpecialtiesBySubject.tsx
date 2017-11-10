@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import  VirtualizedSelect  from 'react-virtualized-select'
 import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'
+import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
 
 interface Specialitys {
@@ -33,7 +34,7 @@ interface Univer {
     subjects: Subject[];
 }
 
-export class ChooseSpecialityBySubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
+export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
 
     constructor()
     {
@@ -66,20 +67,28 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
     }
     
 
-    submitFilter(selectValueSubmit,districtValueSubmit) {
-        let result: number[];
-        result = [];
-        for (let i = 0; i < selectValueSubmit.length; i++) {
-            result.push(selectValueSubmit[i].value)
+    submitFilter(selectValueSubmit, districtValueSubmit) {
+        if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit != undefined) {
+            let result: number[];
+            result = [];
+            for (let i = 0; i < selectValueSubmit.length; i++) {
+                result.push(selectValueSubmit[i].value)
+            }
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value }
+
+            fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+                method: 'POST',
+                body: JSON.stringify(subjectsAndDistrict),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json() as Promise<Univer[]>)
+                .then(data => {
+                    this.setState({ univers: data })
+                })
         }
-        let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value }
-       
-        fetch('api/ChooseUniversity/ChoseSpecBySublist', {
-            method: 'POST',
-            body: JSON.stringify(subjectsAndDistrict),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Univer[]>)
-            .then(data => { this.setState({ univers: data }) })
+        else
+        {
+            alert('Pick out some subjects or select district');
+        }
     }
       
     public render() {
@@ -109,7 +118,8 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
                                 <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
                             </div>
-                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
+                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary"
+                                onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
                         </div>
                              <ListSpecialties univers={this.state.univers} />
                     </div>
