@@ -3,12 +3,13 @@ import { RouteComponentProps } from 'react-router';
 import VirtualizedSelect from 'react-virtualized-select'
 import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'
+import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
 
 
 interface Specialties {
     directions: GeneralDirection[];
-    selectValueDirection: { label: string, value: number }[];
+    selectValueDirection: { label: string, value: number };
     districts: District[];
     selectDistrict: { label: string, value: number };
     univers: Univer[];
@@ -44,7 +45,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         super();
         this.state = {
             directions: [],
-            selectValueDirection: [],
+            selectValueDirection: { value: 0, label: "Всі" },
             univers: [],
             districts: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -72,15 +73,20 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
+        if (selectValueSubmit != null && selectValueSubmit != undefined && districtValueSubmit != undefined)
+        {
+            let subjectsAndDistrict = { Direction: selectValueSubmit.value, District: districtValueSubmit.value }
 
-        let subjectsAndDistrict = { ListSubjects: selectValueSubmit.value, District: districtValueSubmit.value }
-
-        fetch('api/ChooseUniversity/ChoseSpecBySublist', {
-            method: 'POST',
-            body: JSON.stringify(subjectsAndDistrict),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Univer[]>)
-            .then(data => { this.setState({ univers: data }) })
+            fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+                method: 'POST',
+                body: JSON.stringify(subjectsAndDistrict),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json() as Promise<Univer[]>)
+                .then(data => { this.setState({ univers: data }) })
+        }
+        else {
+            alert('Pick out direction or select district');
+        }
     }
 
 
@@ -99,13 +105,25 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             }
 
         return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
-            <div className="navigate">
-                <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Галузі</p>
-                    <VirtualizedSelect multi={true} options={myList} onChange={(value) => this.setState({ selectValueDirection: value })}
-                        value={this.state.selectValueDirection}></VirtualizedSelect>
-                </div>
+            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
 
-                <div>
+                <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+                    <div className="navigate">
+                        <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Галузі</p>
+                            <VirtualizedSelect multi={false} options={myList} onChange={(value) => this.setState(
+                                { selectValueDirection: value })
+                            }
+                                value={this.state.selectValueDirection}></VirtualizedSelect>
+                        </div>
+                        <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
+                            <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState(
+                                { selectDistrict: selectDistricty })
+                            }
+                                value={this.state.selectDistrict} ></VirtualizedSelect>
+                        </div>
+                        <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary"
+                            onClick={ () => this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)}> Пошук</button>
+                    </div>
                     <ListSpecialties univers={this.state.univers} />
                 </div>
 

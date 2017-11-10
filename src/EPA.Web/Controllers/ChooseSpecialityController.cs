@@ -35,7 +35,7 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This method retrives list of specialties according to subjects
         /// </summary>
-        /// <param name="listOfSubjects">List of subject</param>
+        /// <param name="subjectsAndDistrict">List of subject</param>
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
