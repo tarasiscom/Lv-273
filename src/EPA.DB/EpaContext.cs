@@ -5,6 +5,13 @@ namespace EPA.MSSQL.Models
 {
     public class EpaContext : DbContext
     {
+        public EpaContext(DbContextOptions<EpaContext> op)
+            : base(op)
+        {
+        }
+
+        public static string ConnectionString { get; set; }
+
         public DbSet<TestDetailedInfo> Tests { get; set; }
 
         public DbSet<Answer> Answers { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EPA.Common.DTO
 {
-    public class LisSubgAndDistrict
+    public class ListSubjectsAndDistrict
     {
         public int District;
         public List<int> ListSubject;

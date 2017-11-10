@@ -3,12 +3,6 @@ using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
-using Microsoft.Extensions.Options;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -30,7 +24,7 @@ namespace EPA.MSSQL.SQLDataAccess
                     {
                         Name = s.Name,
                         Address = u.Address,
-                        District = u.District,
+                        District = u.District.Name,
                         Site = u.Site,
                         University = u.Name
                     }).Distinct();
@@ -38,17 +32,42 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(List<int> listOfSubjects)
+        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
         {
-            var serviceProvider = this.context.GetInfrastructure<IServiceProvider>();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-            loggerFactory.AddProvider(new MyLoggerProvider());
+            if (listSubjectsAndDistrict.District == 0)
+            {
+                var q = (from ss in this.context.Specialty_Subjects
+                         group ss.Subject.Id by ss.Specialty.Id into grouped
+                         where grouped.All(item => listSubjectsAndDistrict.ListSubject.Contains(item))
+                         select grouped.Key).ToList();
 
-            var q = (from ss in this.context.Specialty_Subjects
-                     group ss.Subject.Id by ss.Specialty.Id into grouped
-                     where grouped.All(item => listOfSubjects.Contains(item))
-                     select grouped.Key)
-                     .ToList();
+                return this.GetSpecialty(listSubjectsAndDistrict, q);
+            }
+            else
+            {
+                var q = (from ss in this.context.Specialty_Subjects
+                         where ss.Specialty.University.District.Id == listSubjectsAndDistrict.District
+                         group ss.Subject.Id by ss.Specialty.Id into grouped
+                         where grouped.All(item => listSubjectsAndDistrict.ListSubject.Contains(item))
+                         select grouped.Key).ToList();
+
+                return this.GetSpecialty(listSubjectsAndDistrict, q);
+            }
+        }
+
+        public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
+
+        public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
+
+        private IEnumerable<Common.DTO.Specialty> GetSpecialty(ListSubjectsAndDistrict subjects, List<int> q)
+        {
+            var sub = (from sb in this.context.Subjects
+                       where subjects.ListSubject.Contains(sb.Id)
+                       select new Common.DTO.Subject()
+                       {
+                           Id = sb.Id,
+                           Name = sb.Name
+                       }).ToList();
 
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
@@ -57,14 +76,11 @@ namespace EPA.MSSQL.SQLDataAccess
                     {
                         Name = s.Name,
                         Address = u.Address,
-                         District = "область",
+                        District = u.District.Name,
                         Site = u.Site,
-                        University = u.Name
+                        University = u.Name,
+                        Subjects = sub
                     }).ToList();
         }
-
-        public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
-
-        public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
     }
 }

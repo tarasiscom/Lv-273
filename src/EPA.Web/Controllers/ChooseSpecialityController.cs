@@ -23,35 +23,23 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/ChooseUniversity/ChoseSpecBySub")]
-        public IEnumerable<Subject> GetSubject() /*{ return new Subject[] { new Subject { Name = "Матемаьтка",Id=1 }, new Subject { Name = "Українська", Id = 2 }, new Subject { Name = "Фізика", Id = 3 } }; } //*/=> this.specialtyProvider.GetAllSubjects();
+        public IEnumerable<Subject> GetSubject() => this.specialtyProvider.GetAllSubjects();
+
         /// <summary>
         /// This method retrives list of districts
         /// </summary>
         /// <returns>List of districts</returns>
         [Route("api/ChooseUniversity/ChoseSpecDistrictList")]
         public IEnumerable<District> GetAllDistrict() => this.specialtyProvider.GetAllDistricts();
+
         /// <summary>
         /// This method retrives list of specialties according to subjects
         /// </summary>
         /// <param name="listOfSubjects">List of subject</param>
         /// <returns>List of specialties </returns>
-
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        //public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int>selectValueSub)
-        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] LisSubgAndDistrict subjAndDistr)
-        {
-            return new Specialty[]{
-                    new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"} } },
-                    //new Specialty{ Name="Інформатика", University="univer", Address="streat", District="District", Site="Site", Subjects = null},
-                new Specialty{ Name="Інформатика", University="univer", Address="streat", District="Львівська", Site="Site", Subjects = new List<Subject> { new Subject { Name="Matematic"}, new Subject { Name = "chimic" } } } 
-        };
-
-        } 
-        /*{
-            var x = this.specialtyProvider.GetSpecialtyBySubjects(selectValueSub);
-                return x;
-                }*/
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction
@@ -59,7 +47,7 @@ namespace EPA.Web.Controllers
         /// <param name="idDirection"> id of the general direction </param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection/{idDirection}")]
-        [HttpGet("{idDirection}")]
+        [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
 
         /// <summary>
@@ -67,6 +55,6 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns> List of general directions </returns>
         [Route("api/choosespeciality/getdirection")]
-        public IEnumerable<GeneralDirection> GetGeneralDirection() { return new GeneralDirection[] { new GeneralDirection { Name = "Матемаьтка", ID=1 }, new GeneralDirection { Name = "Українська", ID = 2 }, new GeneralDirection { Name = "Фізика", ID = 3 } }; } // => this.specialtyProvider.GetGeneralDirections();
+        public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
     }
 }

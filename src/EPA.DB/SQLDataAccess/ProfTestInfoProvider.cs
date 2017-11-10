@@ -39,7 +39,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                {
                                    Name = s.Name,
                                    Address = u.Address,
-                                   District = u.District,
+                                   District = u.District.Name,
                                    Site = u.Site,
                                    University = u.Name
                                }).Distinct().Take(this.constValues.Value.NumberOfUniversities).ToList()
