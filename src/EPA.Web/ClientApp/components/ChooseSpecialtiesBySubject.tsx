@@ -118,7 +118,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                                 <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
                             </div>
-                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary"
+                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary btn-primarymarg"
                                 onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
                         </div>
                              <ListSpecialties univers={this.state.univers} />
