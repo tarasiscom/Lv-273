@@ -1,35 +1,14 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-//import React, { Component } from 'react';
-//import { VirtualizedSelect } from 'react-virtualized-select'
 import VirtualizedSelect from 'react-virtualized-select'
-/*import { View } from 'react-native'
-import SelectMultiple from 'react-native-select-multiple'
-*/
-
 import ListSpecialties from './ListSpecialties'
-
-import List from './List'
-
-
-
-import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
-
 import 'isomorphic-fetch';
-import {
-    Link, NavLink, BrowserRouter as Router,
-    Route
-} from 'react-router-dom';
-
-import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
-
 
 
 interface Specialties {
     directions: GeneralDirection[];
-    selectValueDir: { label: string, value: number }[];
+    selectValueDirection: { label: string, value: number }[];
     districts: District[];
     selectDistrict: { label: string, value: number };
     univers: Univer[];
@@ -59,15 +38,13 @@ interface Univer {
     subjects: Subject[];
 }
 
-
-
 export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
 {
     constructor() {
         super();
         this.state = {
             directions: [],
-            selectValueDir: [],
+            selectValueDirection: [],
             univers: [],
             districts: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -75,10 +52,11 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     componentDidMount() {
-        this.fetchDataSubject();
+        this.fetchDataDirections();
+        this.fetchAllDistricts();
     }
 
-    fetchDataSubject() {
+    fetchDataDirections() {
         fetch('api/choosespeciality/getdirection')
             .then(response => response.json() as Promise<GeneralDirection[]>)
             .then(data => {
@@ -86,8 +64,28 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             });
     }
 
+    fetchAllDistricts() {
+        fetch('api/ChooseUniversity/ChoseSpecDistrictList')
+            .then(response => response.json() as Promise<District[]>)
+            .then(data => { this.setState({ districts: data }) })
+    }
+
+
+    submitFilter(selectValueSubmit, districtValueSubmit) {
+
+        let subjectsAndDistrict = { ListSubjects: selectValueSubmit.value, District: districtValueSubmit.value }
+
+        fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+            method: 'POST',
+            body: JSON.stringify(subjectsAndDistrict),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => response.json() as Promise<Univer[]>)
+            .then(data => { this.setState({ univers: data }) })
+    }
+
+
     render() {
-        let myList = [{ label: "13", value: 0 }];
+        let myList = [{ label: " ", value: 0 }];
         myList.pop();
         for (let i = 0; i < this.state.directions.length; i++)
         {
@@ -103,8 +101,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="navigate">
                 <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Галузі</p>
-                    <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueDir: valueArray })}
-                        value={this.state.selectValueDir}></VirtualizedSelect>
+                    <VirtualizedSelect multi={true} options={myList} onChange={(value) => this.setState({ selectValueDirection: value })}
+                        value={this.state.selectValueDirection}></VirtualizedSelect>
                 </div>
 
                 <div>

@@ -1,17 +1,5 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-//import React, { Component } from 'react';
-//import { VirtualizedSelect } from 'react-virtualized-select'
-import  VirtualizedSelect  from 'react-virtualized-select'
-/*import { View } from 'react-native'
-import SelectMultiple from 'react-native-select-multiple'
-*/
-
-import 'react-select/dist/react-select.css'
-import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
-
-import 'isomorphic-fetch';
 
 import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 
@@ -44,7 +32,6 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
         }
     }
 
-
     public render() {
 
         return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
@@ -64,8 +51,7 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
                         </TabContent>
                     </TabPanel>
                 )}
-            </Tabbordion> 
-                
+            </Tabbordion>    
         </div>
     }
 }
