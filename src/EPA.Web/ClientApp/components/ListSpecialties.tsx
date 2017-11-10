@@ -15,22 +15,6 @@ import 'isomorphic-fetch';
 
 import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 
-
-interface Specialitys {
-    subjects: Subject[];
-    univers: Univer[];
-    districts: Distryct[];
-    selectValueSub: { label: string, value: number }[];
-    selectDistrict: { label: string, value: number };
-}
-
-
-
-interface Distryct {
-    name: string;
-    id: number;
-}
-
 interface Subject {
     id: number;
     name: string
@@ -45,32 +29,42 @@ interface Univer {
     subjects: Subject[];
 }
 
-export default class ListSpecialties extends React.Component<RouteComponentProps<{}>, Specialitys> {
+interface Specialties
+{
+    univers: Univer[];
+}
 
-    constructor()
+export default class ListSpecialties extends React.Component<Specialties, {}> {
+
+    constructor(props: Specialties)
     {
-        super();
-        this.state = { subjects: [], univers: [], districts: [], selectValueSub: [], selectDistrict: { value: 0, label: "Всі" } }
+        super(props);
+        this.props = {
+            univers: []
+        }
     }
 
 
     public render() {
 
         return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
-          
-                <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
-                    {this.state.univers.map(univer =>
-                        <TabPanel >
-                            <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">Спеціальність: {univer.name} Університет:{univer.university} Область:{univer.district}</div></TabLabel>
-                            <TabContent>
-                                <div>
-                                    <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
-                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name}і </li>)} </ul></div>
-                                </div>
-                            </TabContent>
-                        </TabPanel>
-                    )}
-                </Tabbordion>
+            <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
+                {this.props.univers.map(univer =>
+                    <TabPanel >
+                        <TabLabel className="glyphicon "><div className="glyphicon blockquote h4">
+                            <p className="glyphicon glyphicon-menu-down">Спеціальність: {univer.name}</p>
+                            <p>Університет:{univer.university}</p>
+                            <p>Область:{univer.district}</p>
+                        </div></TabLabel>
+                        <TabContent>
+                            <div>
+                                <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
+                                <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
+                            </div>
+                        </TabContent>
+                    </TabPanel>
+                )}
+            </Tabbordion> 
                 
         </div>
     }

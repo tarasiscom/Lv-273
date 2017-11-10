@@ -30,6 +30,9 @@ import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 interface Specialties {
     directions: GeneralDirection[];
     selectValueDir: { label: string, value: number }[];
+    districts: District[];
+    selectDistrict: { label: string, value: number };
+    univers: Univer[];
 }
 
 interface GeneralDirection {
@@ -37,17 +40,39 @@ interface GeneralDirection {
     id: number;
 }
 
+interface District {
+    name: string;
+    id: number;
+}
+
+interface Subject {
+    id: number;
+    name: string
+}
+
+interface Univer {
+    name: string;
+    university: string;
+    address: string;
+    district: string;
+    site: string;
+    subjects: Subject[];
+}
+
+
+
 export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
 {
     constructor() {
         super();
-        this.state = { directions: [], selectValueDir: []}
-        // this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            directions: [],
+            selectValueDir: [],
+            univers: [],
+            districts: [],
+            selectDistrict: { value: 0, label: "Всі" }
+        }
     }
-
-    //handleChange(event) {
-    //    this.setState({ value: event.target.value });
-    //}
 
     componentDidMount() {
         this.fetchDataSubject();
@@ -64,9 +89,16 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     render() {
         let myList = [{ label: "13", value: 0 }];
         myList.pop();
-        for (let i = 0; i < this.state.directions.length; i++) {
+        for (let i = 0; i < this.state.directions.length; i++)
+        {
             myList.push({ label: this.state.directions[i].name, value: this.state.directions[i].id })
         }
+
+        let myListDisctict = [{ label: "Всі", value: 0 }];
+        for (let i = 0; i < this.state.districts.length; i++)
+        {
+                myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
+            }
 
         return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="navigate">
@@ -74,9 +106,10 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                     <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueDir: valueArray })}
                         value={this.state.selectValueDir}></VirtualizedSelect>
                 </div>
+
                 <div>
-                    <List/>
-                    </div>
+                    <ListSpecialties univers={this.state.univers} />
+                </div>
 
             </div>
         </div>
