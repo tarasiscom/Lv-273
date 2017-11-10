@@ -1,7 +1,6 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-import { TestInfo } from './TestInfo'
 import {
     Link, NavLink, BrowserRouter as Router,
     Route
@@ -20,18 +19,23 @@ interface DataAPI {
 export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
     constructor() {
         super();
-        this.state = { tests: [], loading: true }
+        this.state = { tests: [], loading: true };
+    }
+
+    componentDidMount(){
+
         fetch('api/profTest/list')
             .then(response => response.json() as Promise<DataAPI[]>)
             .then(data => {
                 this.setState({ tests: data, loading: false });
             });
     }
+    
 
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : ProfTest.renderTestsList(this.state.tests);
+            : this.renderTestsList();
 
         return <div className="pad-for-footer">
             <section className="jumbotron text-center">
@@ -44,7 +48,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
         </div>;
     }
 
-    private static renderTestsList(tests: DataAPI[]) {
+    private renderTestsList() {
         return <div className="container">
             <table className="table table-striped table table-hover table-sm">
                 <thead className="thread-dark">
@@ -55,7 +59,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
                     </tr>
                 </thead>
                 <tbody>
-                    {tests.map(tests =>
+                    {this.state.tests.map(tests =>
                         <tr key={tests.id}>
                             <td className="text-center">{tests.id}</td>
                             <td className="text-center"> {tests.name}</td>
