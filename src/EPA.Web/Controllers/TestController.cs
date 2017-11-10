@@ -31,7 +31,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="id"> id of the Test </param>
         /// <returns> more detatiled test Information </returns>
         [Route("api/profTest/{id}/info")]
-        [HttpGet("{id}")]
+        [HttpGet]
         public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
         /// <summary>
@@ -40,11 +40,9 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="testId">ID of the test, whose questions we need</param>
         /// <returns>Collection of questions</returns>
         [Route("/api/profTest/{testId}/questions")]
-        [HttpGet("{testId}")]
-        public IEnumerable<Question> GetQuestions(int testId)
-        {
-            return this.testProvider.GetQuestions(testId);
-        }
+        [HttpGet]
+        public IEnumerable<Question> GetQuestions(int testId) =>
+            this.testProvider.GetQuestions(testId);
 
         /// <summary>
         /// This method retrives data about persons professional directory and list of specialities
@@ -55,7 +53,5 @@ namespace EPA.Web.Controllers.ProfTest
         [Route("api/profTest/{id}/result")]
         [HttpPost]
         public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
-
-
     }
 }

@@ -43,11 +43,27 @@ namespace EPA.MSSQL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("GeneralDirectionId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GeneralDirectionId");
+
                     b.ToTable("Directions");
+                });
+
+            modelBuilder.Entity("EPA.MSSQL.Models.GeneralDirection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralDirection");
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.ProfDirection", b =>
@@ -108,6 +124,37 @@ namespace EPA.MSSQL.Migrations
                     b.ToTable("Specialties");
                 });
 
+            modelBuilder.Entity("EPA.MSSQL.Models.Specialty_Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("SpecialtyId");
+
+                    b.Property<int?>("SubjectId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecialtyId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Specialty_Subjects");
+                });
+
+            modelBuilder.Entity("EPA.MSSQL.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
             modelBuilder.Entity("EPA.MSSQL.Models.TestDetailedInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -152,6 +199,13 @@ namespace EPA.MSSQL.Migrations
                         .HasForeignKey("QuestionID");
                 });
 
+            modelBuilder.Entity("EPA.MSSQL.Models.Direction", b =>
+                {
+                    b.HasOne("EPA.MSSQL.Models.GeneralDirection", "GeneralDirection")
+                        .WithMany("Directions")
+                        .HasForeignKey("GeneralDirectionId");
+                });
+
             modelBuilder.Entity("EPA.MSSQL.Models.ProfDirection", b =>
                 {
                     b.HasOne("EPA.MSSQL.Models.Direction", "Direction")
@@ -179,6 +233,17 @@ namespace EPA.MSSQL.Migrations
                     b.HasOne("EPA.MSSQL.Models.University", "University")
                         .WithMany("Specialties")
                         .HasForeignKey("UniversityId");
+                });
+
+            modelBuilder.Entity("EPA.MSSQL.Models.Specialty_Subject", b =>
+                {
+                    b.HasOne("EPA.MSSQL.Models.Specialty", "Specialty")
+                        .WithMany("SpecialtySubject")
+                        .HasForeignKey("SpecialtyId");
+
+                    b.HasOne("EPA.MSSQL.Models.Subject", "Subject")
+                        .WithMany("SpecialtySubject")
+                        .HasForeignKey("SubjectId");
                 });
 #pragma warning restore 612, 618
         }

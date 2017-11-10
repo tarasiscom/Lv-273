@@ -1,20 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace EPA.MSSQL.Models
 {
-    public class Specialty
+    public class Subject
     {
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
-        // foreign keys
-        public University University { get; set; }
-
-        public Direction Direction { get; set; }
-
         public List<Specialty_Subject> SpecialtySubject { get; set; }
+
+        public Common.DTO.Subject ToCommon()
+        {
+            return Mapper.Map<Common.DTO.Subject>(this);
+        }
     }
 }
