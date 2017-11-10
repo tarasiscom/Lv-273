@@ -103,7 +103,9 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
 
         return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
             <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
-                        <div className="navigate">
+                        
+                <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+                    <div className="navigate">
                             <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
                                 <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSub: valueArray })}
                                     value={this.state.selectValueSub}></VirtualizedSelect>
@@ -114,7 +116,6 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
                             </div>
                             <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary" onClick={() => this.submitFiltr(this.state.selectValueSub, this.state.selectDistrict)}> Пошук</button>
                         </div>
-                        <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
                             <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                                 {this.state.univers.map(univer =>
                                     <TabPanel >
