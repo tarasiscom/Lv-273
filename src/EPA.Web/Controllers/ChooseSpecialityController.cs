@@ -39,7 +39,6 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        //public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int>selectValueSub)
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace EPA.Web.Controllers
         /// <param name="idDirection"> id of the general direction </param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection/{idDirection}")]
-        [HttpGet("{idDirection}")]
+        [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
 
         /// <summary>

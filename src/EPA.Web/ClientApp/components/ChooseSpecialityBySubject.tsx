@@ -119,13 +119,13 @@ export class ChooseSpecialityBySubject extends React.Component<RouteComponentPro
                         <TabPanel >
                             <TabLabel className="glyphicon "><div className="glyphicon glyphicon-menu-down blockquote h4">
                                 <p>Спеціальність: {univer.name}</p>
-                                <p>Університет:{univer.university}</p>
-                                <p>Область:{univer.district}</p>
+                                <p>Університет: {univer.university}</p>
+                                <p>Область: {univer.district}</p>
                             </div></TabLabel>
                             <TabContent>
                                 <div>
-                                    <div className="col-md-6"><p>Адреса:{univer.address}</p> <p>Сайт:{univer.site}</p></div>
-                                    <div className="col-md-6"><ul>Предмети:{univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
+                                    <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
+                                    <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
                                 </div>
                             </TabContent>
                         </TabPanel>

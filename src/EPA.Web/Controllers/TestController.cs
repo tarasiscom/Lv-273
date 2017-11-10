@@ -31,7 +31,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="id"> id of the Test </param>
         /// <returns> more detatiled test Information </returns>
         [Route("api/profTest/{id}/info")]
-        [HttpGet("{id}")]
+        [HttpGet]
         public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="testId">ID of the test, whose questions we need</param>
         /// <returns>Collection of questions</returns>
         [Route("/api/profTest/{testId}/questions")]
-        [HttpGet("{testId}")]
+        [HttpGet]
         public IEnumerable<Question> GetQuestions(int testId) =>
             this.testProvider.GetQuestions(testId);
 
