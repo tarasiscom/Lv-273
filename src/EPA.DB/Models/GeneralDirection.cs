@@ -11,6 +11,8 @@ namespace EPA.MSSQL.Models
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public List<Direction> Directions { get; set; }
 
         public Common.DTO.GeneralDirection ToCommon()

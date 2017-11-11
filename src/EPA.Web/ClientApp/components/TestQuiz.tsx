@@ -23,8 +23,8 @@ interface TestAnswer {
 }
 
 interface UserAnswer {
-    questionId: number;
-    answerId: number;
+    idQuestion: number;
+    idAnswer: number;
 }
 
 interface TestResult {
@@ -54,11 +54,18 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
 
     onAnswerChoose(answId: number): void 
     {
+        console.log("Current page " + this.state.currentPage);
+        console.log("Question id " + this.state.questions[this.state.currentPage - 1].id);
+        console.log("Choosen answer number " + answId);
+        console.log(this.state.userAnswers);
+
         let updatedAnswers = this.state.userAnswers.slice();
-        updatedAnswers.push({ questionId: this.state.questions[this.state.currentPage].id, answerId: answId });        
+        updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
         this.setState({
             userAnswers: updatedAnswers
         });
+
+        console.log(this.state.userAnswers);
 
         let nextPage = this.state.currentPage < 30
             ? this.state.currentPage + 1
@@ -93,6 +100,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
         this.setState({
             isSubmitted: true 
         });
+        console.log(this.state.userAnswers);
     }
 
     calculateResult()
