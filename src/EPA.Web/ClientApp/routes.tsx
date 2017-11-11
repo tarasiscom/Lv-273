@@ -15,10 +15,9 @@ export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/profTest' component={ProfTest} />
     <Route path='/testInfo/:id' component={TestInfo} />
-    <Route path='/quiz/:id' component={ProfTestQuiz} />
+    <Route path='/quiz/:id' component={TestQuiz} />
     <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialtiesBySubject}/>
     <Route path='/ChooseUniversity' component={ChooseUniversity} />
     <Route path='/ChooseUniversitys/ChoseSpecByDir' component={ChooseSpecialtiesByDirection} />
-    <Route path='/ababa/:id' component={TestQuiz} />
 </Layout>;
 

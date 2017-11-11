@@ -23,8 +23,19 @@ interface TestAnswer {
 }
 
 interface UserAnswer {
-    questionId: number;
-    answerId: number;
+    idQuestion: number;
+    idAnswer: number;
+}
+
+interface TestResult {
+    generalDirection: GeneralDir;
+    score: number;
+}
+
+interface GeneralDir {
+    id: number;
+    name: string;
+    description: string;
 }
 
 export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateTypes> {
@@ -38,20 +49,28 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
             userAnswers: []
         }
         this.onAnswerChoose = this.onAnswerChoose.bind(this);
-
+        this.submitTest = this.submitTest.bind(this);
     }
 
     onAnswerChoose(answId: number): void 
     {
+        console.log("Current page " + this.state.currentPage);
+        console.log("Question id " + this.state.questions[this.state.currentPage - 1].id);
+        console.log("Choosen answer number " + answId);
+        console.log(this.state.userAnswers);
+
         let updatedAnswers = this.state.userAnswers.slice();
-        updatedAnswers.push({ questionId: this.state.questions[this.state.currentPage].id, answerId: answId });
+        updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
+        this.setState({
+            userAnswers: updatedAnswers
+        });
+
+        console.log(this.state.userAnswers);
+
         let nextPage = this.state.currentPage < 30
             ? this.state.currentPage + 1
             : this.state.currentPage;
-        this.setState({
-            userAnswers: updatedAnswers,
-            currentPage: nextPage
-        });
+        this.changePage(nextPage);
     }
 
     loadQuestions() {
@@ -65,7 +84,6 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
                     loading: false
                 });
             });
-        console.log(this.state.questions);
     }
 
     componentWillMount() {
@@ -76,20 +94,35 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
         this.setState({
             currentPage: page
         });
-    };
+    };  
 
-    sendUserAnswer()
+    submitTest() {
+        this.setState({
+            isSubmitted: true 
+        });
+        console.log(this.state.userAnswers);
+    }
+
+    calculateResult()
     {
-        //pull request to business logic layer 
+        let testResult;
+        fetch("api/profTest/" + this.props.match.params['id'] + "/result", {
+            method: 'POST',
+            body: JSON.stringify(this.state.userAnswers),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json() as Promise<TestResult>)
+            .then(data => { testResult = data });
+        return testResult;
     }
 
     render() {
         let content = this.state.loading
             ? <p><em>Loading...</em></p>
-            : !this.state.isSubmitted
+            : this.state.isSubmitted == false
                 ? this.rendeQuiz()
                 : this.renderResult();
-
         return <div>
             {content}
         </div>
@@ -112,12 +145,12 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
     renderSubmitButton()
     {
         return <div className="col-md-2 col-md-offset-5">
-            <button className="btn btn-lg btn-block btn-success p-1" onClick={this.sendUserAnswer}>Завершити тест</button>
+            <button className="btn btn-lg btn-block btn-success p-1" onClick={this.submitTest}>Завершити тест</button>
         </div>
     }
 
-    renderResult()
-    {
-        return <div></div>
-    }
+    renderResult() {
+        let result = this.calculateResult();
+        return <div>Test tesult component</div>
+    };
 };

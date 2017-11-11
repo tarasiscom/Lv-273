@@ -32,7 +32,7 @@ export class Question extends React.Component<propTypes, stateTypes> {
 
     handleClick(id:number) : void
     {
-        this.props.onAnswerChoose(id);
+        this.props.onAnswerChoose(id+1);
     }
 
     render() {
@@ -40,7 +40,7 @@ export class Question extends React.Component<propTypes, stateTypes> {
         var listAnswers = this.props.question.answers.map((item,id) => {
             return (
                 <label key={this.props.questionNumber + '.' + id} className="btn btn-lg btn-primary btn-block element-animation"
-                    onClick={() => this.handleClick(item.id)}>
+                    onClick={() => this.handleClick(id)}>
                     <span className="btn-label">
                         <i className="glyphicon glyphicon-chevron-right"></i>
                     </span>

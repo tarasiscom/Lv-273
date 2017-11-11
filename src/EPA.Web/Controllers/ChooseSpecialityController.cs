@@ -5,7 +5,6 @@ using EPA.Common.DTO;
 
 namespace EPA.Web.Controllers
 {
-
     /// <summary>
     ///  API for Specialty and Direction draws
     /// </summary>

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using EPA.MSSQL.Models;
 
-namespace EPA.MSSQL.Models
+namespace EPA.MSSQL
 {
     public class EpaContext : DbContext
     {
@@ -9,8 +10,6 @@ namespace EPA.MSSQL.Models
             : base(op)
         {
         }
-
-        public static string ConnectionString { get; set; }
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
 
