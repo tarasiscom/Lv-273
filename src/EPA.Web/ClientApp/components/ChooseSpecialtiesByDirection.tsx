@@ -77,7 +77,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         {
             let directionAndDistrict = { Direction: selectValueSubmit.value, District: districtValueSubmit.value }
 
-            fetch('api/Choosespeciality/byDirection', {
+            fetch('api/choosespeciality/bydirection', {
                 method: 'POST',
                 body: JSON.stringify(directionAndDistrict),
                 headers: { 'Content-Type': 'application/json' }
@@ -122,7 +122,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                                 value={this.state.selectDistrict} ></VirtualizedSelect>
                         </div>
                         <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary"
-                            onClick={ () => this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)}> Пошук</button>
+                            onClick={() => (this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict))}> Пошук</button>
                     </div>
                     <ListSpecialties univers={this.state.univers} />
                 </div>

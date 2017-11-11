@@ -15,6 +15,10 @@ namespace EPA.MSSQL.Models
 
         public Direction Direction { get; set; }
 
+        public int NumApplication { get; set; }
+
+        public int NumEnrolled { get; set; }
+
         public List<Specialty_Subject> SpecialtySubject { get; set; }
     }
 }
