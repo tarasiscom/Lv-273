@@ -1,10 +1,18 @@
-﻿using System;
+﻿using EPA.Common.DTO;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EPA.Common.Interfaces
 {
-    class IUserAnswersProdiver
+    /// <summary>
+    /// Interface that contains methods for calculating scores of test quiz and getting result
+    /// </summary>
+    public interface IUserAnswersProdiver
     {
+        /// <summary>
+        /// Calculates scores for each direction depends on user answers
+        /// </summary>
+        /// <param name="userAnswers"> pair of question and answer that user chose </param>
+        /// <returns>list of directions with scores</returns>
+        List<Direction_Score> CalculateScores(List<UserAnswer> userAnswers);
     }
 }

@@ -132,18 +132,18 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         </div>
     }
 
-    fetchResInfo() {
-        fetch("api/profTest/"+this.props.match.params['id']+"/result", {
-            method: 'POST',
-            body: JSON.stringify(this.state.totalScore),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json() as Promise<ResultsInfo>)
-            .then(data => {
-                this.setState({resinfo:data, resloading:false});
-            });
-    }
+    //fetchResInfo() {
+    //    fetch("api/profTest/"+this.props.match.params['id']+"/result", {
+    //        method: 'POST',
+    //        body: JSON.stringify(this.state.totalScore),
+    //        headers: {
+    //            'Content-Type': 'application/json'
+    //        }
+    //    }).then(response => response.json() as Promise<ResultsInfo>)
+    //        .then(data => {
+    //            this.setState({resinfo:data, resloading:false});
+    //        });
+    //}
 
     public render() {
         let content = this.state.loading
@@ -167,7 +167,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
                 submitted: true,
                 totalScore: score
             });
-            this.fetchResInfo();
+            // this.fetchResInfo();
         }
         else {
             alert('finish the test!1');

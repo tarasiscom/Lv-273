@@ -1,3 +1,4 @@
+using EPA.BusinessLogic;
 using EPA.Common.Interfaces;
 using EPA.MSSQL;
 using EPA.MSSQL.SQLDataAccess;
@@ -40,6 +41,7 @@ namespace EPA.Web
             services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
+            services.AddTransient<IUserAnswersProdiver, UserAnswersProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));

@@ -29,11 +29,10 @@ namespace EPA.Common.Interfaces
         IEnumerable<Question> GetQuestions(int testId);
 
         /// <summary>
-        ///  This method retrieves data about persons professional directory and list of specialties
+        /// This method returns information about general direction 
         /// </summary>
-        ///  <param name="points">Amount of points achieved</param>
-        ///  <param name="testId">ID of the test, whose results we need</param>
-        ///  <returns>  ProfTest's Result </returns>
-        Result GetResult(int points, int testId);
+        /// <param name="dirId">id of direction</param>
+        /// <returns>Direction information</returns>
+        GeneralDirection GetDirectionInfo(int dirId);
     }
 }
