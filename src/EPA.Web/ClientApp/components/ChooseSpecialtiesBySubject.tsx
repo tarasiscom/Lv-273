@@ -104,26 +104,32 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }  
 
-
-        return <div className="col-md-offset-1  col-md-10  col-sm-10  col-xs-10 col-xs-offset-1 pagin">
-            <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
-                        
-                <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
-                    <div className="navigate">
-                            <div className="virtselect  col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pagin"><p>Предмети</p>
+        return <div>
+            <div className="delete-margin">
+                <section className="jumbotron center-block">
+                    <div className="container">
+                        <div className="navigate">
+                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Предмети</p>
                                 <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
                                     value={this.state.selectValueSubjects}></VirtualizedSelect>
                             </div>
-                            <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2 pagin"><p>Області</p>
+                            <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
                                 <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
                             </div>
-                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary btn-primarymarg"
-                                onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
+                            <div>
+                                <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
+                                    onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
+                            </div>
                         </div>
-                             <ListSpecialties univers={this.state.univers} />
                     </div>
-                 </div>
+                </section>
+            </div>
+            <div className="container">
+                <div className="col-md-10 col-md-offset-1">
+                    <ListSpecialties univers={this.state.univers} />
+                </div>
+            </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
     }

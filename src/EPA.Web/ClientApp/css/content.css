@@ -215,10 +215,23 @@ h1.heading {
     padding: 0;
 }
 
-.btn-primarymarg {
-    margin-top: 38px;
+.my-align {
+    vertical-align: bottom;
 }
 
-.pagin {
-            margin-top: 10px;
-        }
+.cus-margin {
+    margin-top: 4%;
+}
+
+.virtselect .Select .Select-control .Select-multi-value-wrapper .Select-input {
+    cursor: pointer;
+}
+
+.glyphicon-menu-down:before{
+    content: none;
+}
+
+.delete-margin .jumbotron {
+    padding-left: 0;
+    padding-right: 0;
+}
