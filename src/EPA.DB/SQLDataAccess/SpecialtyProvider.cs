@@ -38,7 +38,7 @@ namespace EPA.MSSQL.SQLDataAccess
             {
                 var q = (from ss in this.context.Specialty_Subjects
                          group ss.Subject.Id by ss.Specialty.Id into grouped
-                         where grouped.All(item => listSubjectsAndDistrict.ListSubject.Contains(item))&&
+                         where listSubjectsAndDistrict.ListSubject.All(x => grouped.Contains(x)) &&
                          grouped.Count() >= listSubjectsAndDistrict.ListSubject.Count()
                          select grouped.Key).ToList();
 
@@ -49,7 +49,7 @@ namespace EPA.MSSQL.SQLDataAccess
                 var q = (from ss in this.context.Specialty_Subjects
                          where ss.Specialty.University.District.Id == listSubjectsAndDistrict.District
                          group ss.Subject.Id by ss.Specialty.Id into grouped
-                         where grouped.All(item => listSubjectsAndDistrict.ListSubject.Contains(item))&&
+                         where listSubjectsAndDistrict.ListSubject.All(x => grouped.Contains(x)) &&
                          grouped.Count() >= listSubjectsAndDistrict.ListSubject.Count()
                          select grouped.Key).ToList();
 
@@ -63,14 +63,6 @@ namespace EPA.MSSQL.SQLDataAccess
 
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(ListSubjectsAndDistrict subjects, List<int> q)
         {
-            var sub = (from sb in this.context.Subjects
-                       where subjects.ListSubject.Contains(sb.Id)
-                       select new Common.DTO.Subject()
-                       {
-                           Id = sb.Id,
-                           Name = sb.Name
-                       }).ToList();
-
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where q.Contains(s.Id)
@@ -81,7 +73,9 @@ namespace EPA.MSSQL.SQLDataAccess
                         District = u.District.Name,
                         Site = u.Site,
                         University = u.Name,
-                        Subjects = sub
+                        Subjects = (from ss in this.context.Specialty_Subjects
+                                    where ss.Specialty.Id == s.Id
+                                    select ss.Subject.ToCommon()).ToList()
                     }).ToList();
         }
     }
