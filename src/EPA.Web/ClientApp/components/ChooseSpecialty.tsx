@@ -21,7 +21,7 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
 
             </div>
             <div className="card col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4 col-xs-8 col-xs-offset-2 pad-for-nav">
-                <img className="card-img-top" src="/pictures/profPicture1.jpg" alt="Card image cap" width="100%" ></img>
+                <img className="card-img-top" src="/pictures/bysub.jpg" alt="Card image cap" width="100%" ></img>
                 <div className="card-content">
                     <h4 className="card-title">Пошук cпеціальності за предметами</h4>
                     <p className="card-text">Цей розділ допоможе підібрати спеціальність у вищих навчальних закладах України за предметами ЗНО.
