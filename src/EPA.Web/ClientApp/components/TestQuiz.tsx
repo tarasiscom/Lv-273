@@ -9,6 +9,7 @@ interface stateTypes {
     loading: boolean;
     isSubmitted: boolean;
     userAnswers: UserAnswer[];
+    testResult: TestResult[];
 }
 
 interface TestQuestion {
@@ -46,7 +47,8 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
             currentPage: 1,
             loading: true,
             isSubmitted: false,
-            userAnswers: []
+            userAnswers: [],
+            testResult: [],
         }
         this.onAnswerChoose = this.onAnswerChoose.bind(this);
         this.submitTest = this.submitTest.bind(this);
@@ -54,18 +56,11 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
 
     onAnswerChoose(answId: number): void 
     {
-        console.log("Current page " + this.state.currentPage);
-        console.log("Question id " + this.state.questions[this.state.currentPage - 1].id);
-        console.log("Choosen answer number " + answId);
-        console.log(this.state.userAnswers);
-
         let updatedAnswers = this.state.userAnswers.slice();
         updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
         this.setState({
             userAnswers: updatedAnswers
         });
-
-        console.log(this.state.userAnswers);
 
         let nextPage = this.state.currentPage < 30
             ? this.state.currentPage + 1
@@ -97,24 +92,19 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
     };  
 
     submitTest() {
-        this.setState({
-            isSubmitted: true 
-        });
-        console.log(this.state.userAnswers);
-    }
-
-    calculateResult()
-    {
-        let testResult;
         fetch("api/profTest/" + this.props.match.params['id'] + "/result", {
             method: 'POST',
             body: JSON.stringify(this.state.userAnswers),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json() as Promise<TestResult>)
-            .then(data => { testResult = data });
-        return testResult;
+        }).then(response => response.json() as Promise<TestResult[]>)
+            .then(data => {
+                this.setState({
+                    testResult: data,
+                    isSubmitted: true
+                });
+            });
     }
 
     render() {
@@ -150,7 +140,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
     }
 
     renderResult() {
-        let result = this.calculateResult();
+        console.log(this.state.testResult);
         return <div>Test tesult component</div>
     };
 };

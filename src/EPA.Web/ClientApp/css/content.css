@@ -227,9 +227,9 @@ h1.heading {
     cursor: pointer;
 }
 
-.glyphicon-menu-down:before{
+/*.glyphicon-menu-down:before{
     content: none;
-}
+}*/
 
 .delete-margin .jumbotron {
     padding-left: 0;
