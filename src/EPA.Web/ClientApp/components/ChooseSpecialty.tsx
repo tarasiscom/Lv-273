@@ -2,7 +2,7 @@
 import { RouteComponentProps } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
 
-export class ChooseUniversity extends React.Component<RouteComponentProps<{}>, {}>
+export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}>
 {
     
     renderSelect() {
@@ -15,7 +15,7 @@ export class ChooseUniversity extends React.Component<RouteComponentProps<{}>, {
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за вибраною
                         галуззю знань. Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <Link to={'/ChooseUniversitys/ChoseSpecByDir'} className="btn btn-link btn-block">  Розпочати      </Link>
+                        <Link to={'/ChooseSpecialties/ChooseSpecByDir'} className="btn btn-link btn-block">  Розпочати      </Link>
                     </div>
                 </div>
 
@@ -28,7 +28,7 @@ export class ChooseUniversity extends React.Component<RouteComponentProps<{}>, {
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за відповідними предметами ЗНО.
                         Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <Link to="/ChooseUniversitys/ChoseSpecBySub" className="btn btn-link btn-block">  Розпочати      </Link>
+                        <Link to="/ChooseSpecialties/ChooseSpecBySub" className="btn btn-link btn-block">  Розпочати      </Link>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import { ProfTest } from './components/ProfTest';
 import { TestInfo } from './components/TestInfo';
 import { ProfTestQuiz } from './components/ProfTestQuiz';
 import { ChooseSpecialtiesBySubject } from './components/ChooseSpecialtiesBySubject'
-import { ChooseUniversity } from './components/ChooseUniversity';
+import { ChooseSpecialty } from './components/ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './components/ChooseSpecialtiesByDirection';
 import { TestQuiz } from './components/TestQuiz';
 
@@ -16,8 +16,8 @@ export const routes = <Layout>
     <Route path='/profTest' component={ProfTest} />
     <Route path='/testInfo/:id' component={TestInfo} />
     <Route path='/quiz/:id' component={TestQuiz} />
-    <Route path='/ChooseUniversitys/ChoseSpecBySub' component={ChooseSpecialtiesBySubject}/>
-    <Route path='/ChooseUniversity' component={ChooseUniversity} />
-    <Route path='/ChooseUniversitys/ChoseSpecByDir' component={ChooseSpecialtiesByDirection} />
+    <Route path='/ChooseSpecialties/ChooseSpecBySub' component={ChooseSpecialtiesBySubject} />
+    <Route path='/ChooseSpecialty' component={ChooseSpecialty} />
+    <Route path='/ChooseSpecialties/ChooseSpecByDir' component={ChooseSpecialtiesByDirection} />
 </Layout>;
 
