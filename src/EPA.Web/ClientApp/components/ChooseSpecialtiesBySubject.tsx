@@ -1,5 +1,4 @@
 ﻿import * as React from 'react';
-import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
 
 import { RouteComponentProps } from 'react-router';
 import  VirtualizedSelect  from 'react-virtualized-select'
@@ -7,7 +6,7 @@ import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'
 import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
-import { ReactPaginate } from 'react-paginate';
+import  ReactPaginate  from 'react-paginate';
 
 interface Specialitys {
     subjects: Subject[];
@@ -107,7 +106,8 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         for (let i = 0; i < this.state.selectValueSubjects.length; i++) {
             result.push(this.state.selectValueSubjects[i].value)
         }
-        let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countElementsOnPage: 10, page: selected }
+        console.log(selected)
+        let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected+1 }
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
@@ -137,25 +137,14 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         {
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }
-        { console.log(this.state.page)}
+        
         let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
         if (this.state.page != 0)
             content = <div>
                 {//console.log(this.state.univers.page)
                 }
                 <ListSpecialties univers={this.state.univers.listSpecialties} />
-                <ReactPaginate className="qqq"
-                previousLabel={"Попередня"}
-                nextLabel={"Наступна"}
-                breakLabel={<a href="">...</a>}
-                breakClassName={"break-me"}
-                pageCount={this.state.univers.countOfAllElements / 10}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.handlePageClick}
-                containerClassName={"pagination"}
-                subContainerClassName={"pages pagination"}
-                activeClassName={"active"} />}</div>
+                </div>
 
         return <div>
             <div className="delete-margin">
@@ -178,11 +167,22 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                     </div>
                 </section>
             </div>
-            <div className="container">
+            <div className="container pagination">
                 <div className="col-md-10 col-md-offset-1">
                     
                     {content}
-
+                    <ReactPaginate className="qqq"
+                        previousLabel={"Попередня"}
+                        nextLabel={"Наступна"}
+                        breakLabel={<a href="">...</a>}
+                        breakClassName={"break-me"}
+                        pageCount={this.state.univers.countOfAllElements / 10}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"} />
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
