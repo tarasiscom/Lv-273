@@ -35,8 +35,8 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
 
         return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
             <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
-            {this.props.univers.map(univer =>
-                    <TabPanel className="my-cursor">
+            {this.props.univers.map((univer, id) =>
+                    <TabPanel key={id} className="my-cursor">
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <TabLabel className="my-cursor">
@@ -48,7 +48,7 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
                          <TabContent>
                             <div className="panel-body">
                                 <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
-                                    <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
+                                <div className="col-md-6"><ul>Предмети: {univer.subjects.map((sub, id) => <li key={id}> {sub.name} </li>)} </ul></div>
                             </div>
                         </TabContent>
                       </div> 
