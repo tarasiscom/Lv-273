@@ -4,7 +4,7 @@ import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
 
-interface stateTypes {
+interface StateTypes {
     questions: TestQuestion[];
     currentPage: number;
     loading: boolean;
@@ -40,7 +40,7 @@ interface GeneralDir {
     description: string;
 }
 
-export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateTypes> {
+export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateTypes> {
     constructor() {
         super();
         this.state = {
@@ -59,14 +59,14 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
     {
         let updatedAnswers = this.state.userAnswers.slice();
         updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
-        this.setState({
-            userAnswers: updatedAnswers
-        });
 
-        let nextPage = this.state.currentPage < 30
+        let nextPage = this.state.currentPage < this.state.questions.length
             ? this.state.currentPage + 1
             : this.state.currentPage;
-        this.changePage(nextPage);
+        this.setState({
+            userAnswers: updatedAnswers,
+            currentPage: nextPage
+        });
     }
 
     loadQuestions() {
@@ -109,19 +109,16 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
     }
 
     render() {
-        let content = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : this.state.isSubmitted == false
-                ? this.rendeQuiz()
-                : this.renderResult();
-        return <div>
-            {content}
-        </div>
-        
+        if (this.state.loading) {
+            return <p><em>Loading...</em></p>
+        }
+        else {
+            return <div>{this.state.isSubmitted == false ? this.rendeQuiz() : this.renderResult()}</div>
+        }        
     }
 
     rendeQuiz() {
-        let submit = this.state.currentPage == 30
+        const submit = this.state.currentPage == this.state.questions.length
             ? this.renderSubmitButton()
             : <div></div>
         return <div className="col">

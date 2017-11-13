@@ -13,6 +13,6 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="userAnswers"> pair of question and answer that user chose </param>
         /// <returns>list of directions with scores</returns>
-        List<Direction_Score> CalculateScores(List<UserAnswer> userAnswers);
+        List<DirectionScores> CalculateScores(List<UserAnswer> userAnswers);
     }
 }

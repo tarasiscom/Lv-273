@@ -1,8 +1,4 @@
-﻿using EPA.MSSQL.Models;
-using EPA.Common.DTO;
-using EPA.BusinessLogic.Models;
-
-namespace EPA.Web
+﻿namespace EPA.Web
 {
     public class Mapping
     {
@@ -19,7 +15,6 @@ namespace EPA.Web
                         cfg.CreateMap<MSSQL.Models.Specialty, Common.DTO.Specialty>();
                         cfg.CreateMap<MSSQL.Models.Subject, Common.DTO.Subject>();
                         cfg.CreateMap<MSSQL.Models.District, Common.DTO.District>();
-                        cfg.CreateMap<BusinessLogic.Models.UserAnswer, Common.DTO.UserAnswer>();
                     });
         }
     }
