@@ -32,7 +32,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
         {
             if (listSubjectsAndDistrict.District == 0)
             {
@@ -42,7 +42,10 @@ namespace EPA.MSSQL.SQLDataAccess
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
 
-                return this.GetSpecialty(listSubjectsAndDistrict, q);
+                Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
+                result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
+                result.CountOfAllElements = q.Count;
+                return result;
             }
             else
             {
@@ -53,7 +56,11 @@ namespace EPA.MSSQL.SQLDataAccess
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
 
-                return this.GetSpecialty(listSubjectsAndDistrict, q);
+
+                Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
+                result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
+                result.CountOfAllElements = q.Count;
+                return result;
             }
         }
 
@@ -76,7 +83,7 @@ namespace EPA.MSSQL.SQLDataAccess
                         Subjects = (from ss in this.context.Specialty_Subjects
                                     where ss.Specialty.Id == s.Id
                                     select ss.Subject.ToCommon()).ToList()
-                    }).ToList();
+                    }).Skip((subjects.page - 1) * subjects.countOfElementsOnPage).Take(subjects.countOfElementsOnPage).ToList();
         }
     }
 }
