@@ -4,6 +4,11 @@ using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
 using EPA.MSSQL.BusLogic;
+using EPA.MSSQL.SQLDataAccess;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -18,6 +23,9 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionAndDistrict directionAndDistrict)
         {
+            var serviceProvider = context.GetInfrastructure<IServiceProvider>();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            loggerFactory.AddProvider(new MyLoggerProvider());
             int numberOfSpecialities = 50;
             if (directionAndDistrict.District == 0)
             {

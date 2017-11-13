@@ -2,10 +2,9 @@
 
 import { RouteComponentProps } from 'react-router';
 import ListSpecialties from './ListSpecialties';
-import  VirtualizedSelect  from 'react-virtualized-select'
-import ListSpecialties from './ListSpecialties'
-import 'react-virtualized/styles.css'
-import 'react-select/dist/react-select.css'
+import VirtualizedSelect from 'react-virtualized-select';
+import 'react-virtualized/styles.css';
+import 'react-select/dist/react-select.css';
 import 'isomorphic-fetch';
 import  ReactPaginate  from 'react-paginate';
 
@@ -136,11 +135,11 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         {
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }
-        
-        let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
+
+        let content = <ListSpecialties specialties={this.state.univers.listSpecialties} />;
         if (this.state.page != 0)
             content = <div>
-                <ListSpecialties univers={this.state.univers.listSpecialties} />
+                <ListSpecialties specialties={this.state.univers.listSpecialties} />
                 </div>
 
         return <div>
