@@ -7,6 +7,6 @@ namespace EPA.Common.DTO
     public class ListSubjectsAndDistrict
     {
         public int District;
-        public List<int> ListSubject;
+        public List<int> ListSubjects;
     }
 }

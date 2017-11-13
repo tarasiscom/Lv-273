@@ -5,7 +5,6 @@ using EPA.Common.DTO;
 
 namespace EPA.Web.Controllers
 {
-
     /// <summary>
     ///  API for Specialty and Direction draws
     /// </summary>
@@ -35,11 +34,10 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This method retrives list of specialties according to subjects
         /// </summary>
-        /// <param name="listOfSubjects">List of subject</param>
+        /// <param name="subjectsAndDistrict">List of subject</param>
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        //public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] List<int>selectValueSub)
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace EPA.Web.Controllers
         /// <param name="idDirection"> id of the general direction </param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection/{idDirection}")]
-        [HttpGet("{idDirection}")]
+        [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
 
         /// <summary>

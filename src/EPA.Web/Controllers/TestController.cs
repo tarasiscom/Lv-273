@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using EPA.Common.Interfaces;
+﻿using EPA.Common.Interfaces;
 using EPA.Common.DTO;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace EPA.Web.Controllers.ProfTest
 {
@@ -11,10 +11,12 @@ namespace EPA.Web.Controllers.ProfTest
     public class TestController : Controller
     {
         private readonly ITestProvider testProvider;
+        private readonly IUserAnswersProdiver userAnswersProdiver;
 
-        public TestController(ITestProvider testProvider)
+        public TestController(ITestProvider testProvider, IUserAnswersProdiver userAnswersProdiver)
         {
             this.testProvider = testProvider;
+            this.userAnswersProdiver = userAnswersProdiver;
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="id"> id of the Test </param>
         /// <returns> more detatiled test Information </returns>
         [Route("api/profTest/{id}/info")]
-        [HttpGet("{id}")]
+        [HttpGet]
         public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
         /// <summary>
@@ -40,18 +42,17 @@ namespace EPA.Web.Controllers.ProfTest
         /// <param name="testId">ID of the test, whose questions we need</param>
         /// <returns>Collection of questions</returns>
         [Route("/api/profTest/{testId}/questions")]
-        [HttpGet("{testId}")]
-        public IEnumerable<Question> GetQuestions(int testId) =>
-            this.testProvider.GetQuestions(testId);
+        [HttpGet]
+        public IEnumerable<Question> GetQuestions(int testId) => this.testProvider.GetQuestions(testId);
 
         /// <summary>
-        /// This method retrives data about persons professional directory and list of specialities
+        /// This method retrieves general directions with scores based on user answers
         /// </summary>
-        /// <param name="id">ID of the test, whose results we need</param>
-        /// <param name="points">Amount of points achieved</param>
-        /// <returns>  ProfTest's Result </returns>
-        [Route("api/profTest/{id}/result")]
+        /// <param name="listansw">Take list of objects, that contains id question and answer number</param>
+        /// <returns>List of general directions with scores</returns>
+        [Route("api/profTest/{testId}/result")]
         [HttpPost]
-        public Result GetResult(int id, [FromBody]int points) => this.testProvider.GetResult(points, id);
+        public IEnumerable<Direction_Score> GetDirection_Score([FromBody]List<UserAnswer> listansw)
+                 => this.userAnswersProdiver.CalculateScores(listansw);
     }
 }

@@ -215,11 +215,8 @@ h1.heading {
     padding: 0;
 }
 
-.btn-primary {
-    color: #9d9d9d;
-    background-color: #2d2d2d;
-    border-color: #2d2d2d;
-    margin-top: 35px;
+.my-align {
+    vertical-align: bottom;
 }
 
     .btn-primary:hover {
@@ -240,3 +237,18 @@ h1.heading {
 .paddin {
     margin-top: 10px;
 }
+.cus-margin {
+    margin-top: 4%;
+}
+
+.virtselect .Select .Select-control .Select-multi-value-wrapper .Select-input {
+    cursor: pointer;
+}
+
+/*.glyphicon-menu-down:before{
+    content: none;
+}*/
+
+.delete-margin .jumbotron {
+    padding-left: 0;
+    padding-right: 0;
