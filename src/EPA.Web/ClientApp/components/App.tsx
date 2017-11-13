@@ -5,7 +5,7 @@ import { Home } from './Home';
 import { ProfTest } from './ProfTest';
 import { TestInfo } from './TestInfo';
 import { ProfTestQuiz } from './ProfTestQuiz';
-import { Error404 } from './errors/Error';
+import { ErrorPage } from './errors/Error';
 
 interface AppErrorHandler{
     isError: boolean,
@@ -31,7 +31,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
     }
 
     render() {
-        const errRoute = ( <Route render={(props) => (<Error404 {...props} message={this.state.errorMessage} onRouteChange={this.cleanError.bind(this)} />)} />);
+        const errRoute = ( <Route render={(props) => (<ErrorPage {...props} message={this.state.errorMessage} onRouteChange={this.cleanError.bind(this)} />)} />);
         return (
             <Layout>
                 {

@@ -7,7 +7,7 @@ interface Err {
     onRouteChange: PropTypes.func;
 }
 
-export class Error404 extends React.Component<RouteComponentProps<{}>&Err, {}> {
+export class ErrorPage extends React.Component<RouteComponentProps<{}>&Err, {}> {
     constructor(props) {
         super();
 
