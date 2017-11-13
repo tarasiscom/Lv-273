@@ -34,26 +34,25 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
 
     public render() {
 
-        return <div>
+        return <div className="panel-group" id="accordion">
             <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
-                {this.props.univers.map(univer =>
-                    <TabPanel >
-                        <TabLabel className="glyphicon">
-                            <div className="glyphicon blockquote h4">
-                                <p className="glyphicon glyphicon-menu-down">Спеціальність: {univer.name}</p>
-                                <p>Університет: {univer.university}</p>
-                                <p>Область: {univer.district}</p>
-                            </div>
-                        </TabLabel>
-                        <TabContent>
-                            <div>
-                                <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
-                                <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
-                            </div>
+            {this.props.univers.map(univer =>
+                    <TabPanel  className="panel panel-default">
+                        <TabLabel  className="panel-heading">
+                        <h4 className="panel-title"> {univer.name} </h4>
+                            <p>Університет: {univer.university}</p>
+                            <p>Область: {univer.district}</p>
+                        </TabLabel >
+                
+                        <TabContent id="collapse1" className="panel-collapse collapse">
+                        <div className="panel-body">
+                            <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
+                            <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
+                        </div>
                         </TabContent>
                     </TabPanel>
-                )}
-            </Tabbordion>    
+            )}
+            </Tabbordion>  
         </div>
     }
 }
