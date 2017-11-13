@@ -1,4 +1,6 @@
 ﻿import * as React from 'react';
+import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
+
 import { RouteComponentProps } from 'react-router';
 import  VirtualizedSelect  from 'react-virtualized-select'
 import ListSpecialties from './ListSpecialties'
@@ -13,13 +15,13 @@ interface Specialitys {
     districts: District[];
     selectValueSubjects: { label: string, value: number }[];
     selectDistrict: { label: string, value: number };
+    page: number;
 }
 
 
 interface SpecialitiInfo {
-    univer: Univer[];
+    listSpecialties: Univer[];
     countOfAllElements: number;
-    page: number;
 }
 
 interface District {
@@ -48,7 +50,8 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         super();
         this.state = {
             subjects: [],
-            univers: { univer: [], countOfAllElements:0, page:0 },
+            page: 0,
+            univers: { listSpecialties: [], countOfAllElements:0 },
             districts: [],
             selectValueSubjects: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -81,7 +84,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             for (let i = 0; i < selectValueSubmit.length; i++) {
                 result.push(selectValueSubmit[i].value)
             }
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value,countElementsOnPage:10,page:1 }
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:1 }
 
             fetch('api/ChooseUniversity/ChoseSpecBySublist', {
                 method: 'POST',
@@ -108,13 +111,11 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<SpecialitiInfo>)
             .then(data => {
-                this.setState({ univers: data });
-            });
+                this.setState({ univers: data })
+            })
     }
 
     handlePageClick = (data) => {
@@ -136,10 +137,14 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         {
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }
-        let content;
-        if (this.state.univers.page != 0)
-            content = <div><ListSpecialties univers={this.state.univers.univer} />
-            {/*<ReactPaginate className="qqq"
+        { console.log(this.state.page)}
+        let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
+        if (this.state.page != 0)
+            content = <div>
+                {//console.log(this.state.univers.page)
+                }
+                <ListSpecialties univers={this.state.univers.listSpecialties} />
+                <ReactPaginate className="qqq"
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a href="">...</a>}
@@ -150,7 +155,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 onPageChange={this.handlePageClick}
                 containerClassName={"pagination"}
                 subContainerClassName={"pages pagination"}
-                activeClassName={"active"} />*/}</div>
+                activeClassName={"active"} />}</div>
 
         return <div>
             <div className="delete-margin">
@@ -175,7 +180,9 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="container">
                 <div className="col-md-10 col-md-offset-1">
+                    
                     {content}
+
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>

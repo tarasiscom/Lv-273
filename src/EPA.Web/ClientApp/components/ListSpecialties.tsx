@@ -10,6 +10,7 @@ interface Subject {
     name: string
 }
 
+
 interface Univer {
     name: string;
     university: string;
@@ -19,14 +20,14 @@ interface Univer {
     subjects: Subject[];
 }
 
-interface Specialties
+interface SpecialitiInfo
 {
     univers: Univer[];
 }
 
-export default class ListSpecialties extends React.Component<Specialties, {}> {
+export default class ListSpecialties extends React.Component<SpecialitiInfo, {}> {
 
-    constructor(props: Specialties)
+    constructor(props: SpecialitiInfo)
     {
         super(props);
         this.props = {

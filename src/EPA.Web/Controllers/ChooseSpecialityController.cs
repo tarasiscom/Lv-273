@@ -38,8 +38,11 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        public SpecialtiesAndCount GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
-
+        public SpecialtiesAndCount GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) //=> this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+        {
+            var x=this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+            return x;
+        }
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
