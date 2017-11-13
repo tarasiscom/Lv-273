@@ -1,14 +1,26 @@
 ﻿import * as React from 'react';
-import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
+import { Link, NavLink, RouteComponentProps } from 'react-router-dom'; 
+import PropTypes from 'prop-types';
 
 interface Err {
     message: string;
+    onRouteChange: PropTypes.func;
 }
 
-export class Error404 extends React.Component<Err, {}> {
+export class Error404 extends React.Component<RouteComponentProps<{}>&Err, {}> {
     constructor(props) {
         super();
+
     }
+
+    componentDidMount() {
+
+        this.props.history.listen((location, action) => {
+            this.props.onRouteChange();
+        });
+    }
+    
+    
 
     public render() {
         return <div className="erdiv">
@@ -23,6 +35,7 @@ export class Error404 extends React.Component<Err, {}> {
                             Такої сторінки не існує, або ви ввели неправильний шлях.
                         </h2>
                     </div>
+
                 </div>
 
     }

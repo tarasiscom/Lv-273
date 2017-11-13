@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { RouteComponentProps, Switch, Route } from 'react-router';
+import { RouteComponentProps, Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Layout } from './Layout';
 import { Home } from './Home';
 import { ProfTest } from './ProfTest';
@@ -7,12 +7,12 @@ import { TestInfo } from './TestInfo';
 import { ProfTestQuiz } from './ProfTestQuiz';
 import { Error404 } from './errors/Error';
 
-interface Applicat{
+interface AppErrorHandler{
     isError: boolean,
     errorMessage: string
 }
 
-export class App extends React.Component<{}, Applicat> {
+export class App extends React.Component<{}, AppErrorHandler> {
     constructor() {
         super();
         this.state = {
@@ -21,23 +21,34 @@ export class App extends React.Component<{}, Applicat> {
         };
     }
 
+
     onError = (message) => {
         this.setState({ isError: true, errorMessage: message });
     }
 
-    render() {
-        let content = <Layout>
-            {this.state.isError ? <Error404 {...this.props} message={this.state.errorMessage} />:
-            <Switch>
-                <Route exact path='/' render={(props) => (<Home {...props} message={this.state.errorMessage} />)} />
-                <Route exact path='/quiz/:id' render={(props) => (<ProfTestQuiz {...props} />)} />
-                <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError}  />)} />
-                <Route exact path='/profTest' render={(props) => (<ProfTest {...props} />)} />
-                <Route path='*' render={(props) => (<Error404 {...props} message={this.state.errorMessage}/>)} />
-                </Switch>}
-        </Layout>
+    cleanError() {
+        this.setState({ isError: false });
+    }
 
-        return content;
+    render() {
+        const errRoute = ( <Route render={(props) => (<Error404 {...props} message={this.state.errorMessage} onRouteChange={this.cleanError.bind(this)} />)} />);
+        return (
+            <Layout>
+                {
+                    this.state.isError ?
+                        errRoute
+                        :
+                        <Switch>
+                            <Route exact path='/' render={(props) => (<Home {...props} message={this.state.errorMessage} />)} />
+                            <Route exact path='/quiz/:id' render={(props) => (<ProfTestQuiz {...props} onError={this.onError} />)} />
+                            <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
+                            <Route exact path='/profTest' render={(props) => (<ProfTest {...props} />)} />
+                            errRoute
+                        </Switch>
+                }
+            </Layout>           
+        )
+        
     }
 
     

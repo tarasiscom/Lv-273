@@ -21,7 +21,12 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public TestInfo GetTestInfo(int id) => this.context.Tests.Find(id).ToCommon();
 
-        public IEnumerable<Test> GetTests() => this.context.Tests.Select(item => item.ToCommon());
+        public IEnumerable<Test> GetTests()
+        {
+            var x  = this.context.Tests.Select(item => item.ToCommon());
+            //if (x.Count() < 1) return null;
+            return x;
+        }
 
         public Result GetResult(int points, int testId)
         {
@@ -46,16 +51,22 @@ namespace EPA.MSSQL.SQLDataAccess
             };
         }
 
-        public IEnumerable<Common.DTO.Question> GetQuestions(int testId) => this.context.Questions
-                                    .Where(q => q.Test.Id == testId)
-                                    .Select(res => new Models.Question
-                                    {
-                                        ID = res.ID,
-                                        Test = res.Test,
-                                        Text = res.Text,
-                                        Answers = this.context.Answers
-                                                                    .Where(answ => answ.Question.ID == res.ID)
-                                                                    .ToList()
-                                    }.ToCommon());
+        public IEnumerable<Common.DTO.Question> GetQuestions(int testId)
+        {
+            var x = this.context.Questions
+                .Where(q => q.Test.Id == testId)
+                .Select(res => new Models.Question
+                {
+                ID = res.ID,
+                Test = res.Test,
+                Text = res.Text,
+                Answers = this.context.Answers
+                    .Where(answ => answ.Question.ID == res.ID)
+                    .ToList()
+                    }.ToCommon());
+
+            if (x.Count() < 1) throw new System.ArgumentException("No matching elements.");
+            return x;
+        }
     }
 }

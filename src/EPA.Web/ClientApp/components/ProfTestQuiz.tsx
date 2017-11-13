@@ -7,6 +7,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 interface TestQuestion {
     id: number;
@@ -42,7 +43,11 @@ interface UserSpeciality {
     site: string;
 }
 
-export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQuiz> {
+interface myProps {
+    onError: PropTypes.func;
+}
+
+export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>&myProps, TestQuiz> {
     constructor() {
         super();
         this.state = {
@@ -67,7 +72,7 @@ export class ProfTestQuiz extends React.Component<RouteComponentProps<{}>, TestQ
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
         fetch(path)
-            .then(response => response.json() as Promise<TestQuestion[]>)
+            .then(response => response.ok ? response.json() as Promise<TestQuestion[]> : this.props.onError(response.status))
             .then(data => {
                 this.setState({
                     questions: data,                  
