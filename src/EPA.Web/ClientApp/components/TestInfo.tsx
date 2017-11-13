@@ -18,8 +18,7 @@ interface TestDetailInformation {
     loading: boolean;
 }
 interface myProps {
-    onError: PropTypes.func,
-    
+    onError: PropTypes.func    
 }
 
 export class TestInfo extends React.Component<RouteComponentProps<{}>&myProps, TestDetailInformation> {
@@ -42,13 +41,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>&myProps, T
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
-            .then(response => {
-                if (!response.ok) {
-                    this.onError(response.status.toString())
-                }
-                return response.json() as Promise<TestDetailInformation>; 
-                     
-                })
+            .then(response => response.ok ? response.json() as Promise<TestDetailInformation> : this.props.onError(response.status.toString()) )
             .then(data => {
                 this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
             })
