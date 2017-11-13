@@ -77,7 +77,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         {
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value }
 
-            fetch('api/Choosespeciality/byDirection', {
+            fetch('api/choosespeciality/bydirection', {
                 method: 'POST',
                 body: JSON.stringify(directionAndDistrict),
                 headers: { 'Content-Type': 'application/json' }

@@ -8,7 +8,9 @@ body {
 .uni-recom {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
-
+.labelfont{
+    font-size: 14px;
+}
 .logo1 {
     background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
     width: 120px;
