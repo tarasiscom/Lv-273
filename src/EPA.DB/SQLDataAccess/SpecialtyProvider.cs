@@ -15,50 +15,64 @@ namespace EPA.MSSQL.SQLDataAccess
             this.context = cont;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionAndDistrict directionAndDistrict)
+
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrict directionAndDistrict)
         {
-            int numberOfSpecialities = 50;
+            IEnumerable<EPA.Common.DTO.Specialty> qry;
             if (directionAndDistrict.District == 0)
             {
-                var qry = from s in this.context.Specialties
-                          join u in this.context.Universities on s.University.Id equals u.Id
-                          join d in this.context.Districts on u.District.Id equals d.Id
-                          where s.Direction.GeneralDirection.Id == directionAndDistrict.GeneralDirection
-                          orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
-                          select new Common.DTO.Specialty()
-                          {
-                              Name = s.Name,
-                              Address = u.Address,
-                              District = d.Name,
-                              Site = u.Site,
-                              University = u.Name,
-                              Subjects = (from ss in this.context.Specialty_Subjects
-                                          where ss.Specialty.Id == s.Id
-                                          select ss.Subject.ToCommon()).ToList()
-                          };
-                return qry.Take(numberOfSpecialities);
+                qry = GetSpecialtiesByDirection(directionAndDistrict.GeneralDirection);
+
             }
             else
             {
-                var qry = from s in this.context.Specialties
-                          join u in this.context.Universities on s.University.Id equals u.Id
-                          join d in this.context.Districts on u.District.Id equals d.Id
-                          where d.Id == directionAndDistrict.District
-                          where s.Direction.GeneralDirection.Id == directionAndDistrict.GeneralDirection
-                          orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
-                          select new Common.DTO.Specialty()
-                          {
-                              Name = s.Name,
-                              Address = u.Address,
-                              District = d.Name,
-                              Site = u.Site,
-                              University = u.Name,
-                              Subjects = (from ss in this.context.Specialty_Subjects
-                                          where ss.Specialty.Id == s.Id
-                                          select ss.Subject.ToCommon()).ToList()
-                          };
-                return qry;
+                qry = GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrict);
             }
+            return qry;
+        }
+
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int direction)
+        {
+            int numberOfSpecialities = 50;
+            var qry = from s in this.context.Specialties
+                      join u in this.context.Universities on s.University.Id equals u.Id
+                      join d in this.context.Districts on u.District.Id equals d.Id
+                      where s.Direction.GeneralDirection.Id == direction
+                      orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                      select new Common.DTO.Specialty()
+                      {
+                          Name = s.Name,
+                          Address = u.Address,
+                          District = d.Name,
+                          Site = u.Site,
+                          University = u.Name,
+                          Subjects = (from ss in this.context.Specialty_Subjects
+                                      where ss.Specialty.Id == s.Id
+                                      select ss.Subject.ToCommon()).ToList()
+                      };
+            return qry.Take(numberOfSpecialities);
+        }
+
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrict directionAndDistrict)
+        {
+            var qry = from s in this.context.Specialties
+                      join u in this.context.Universities on s.University.Id equals u.Id
+                      join d in this.context.Districts on u.District.Id equals d.Id
+                      where d.Id == directionAndDistrict.District
+                      where s.Direction.GeneralDirection.Id == directionAndDistrict.GeneralDirection
+                      orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                      select new Common.DTO.Specialty()
+                      {
+                          Name = s.Name,
+                          Address = u.Address,
+                          District = d.Name,
+                          Site = u.Site,
+                          University = u.Name,
+                          Subjects = (from ss in this.context.Specialty_Subjects
+                                      where ss.Specialty.Id == s.Id
+                                      select ss.Subject.ToCommon()).ToList()
+                      };
+            return qry;
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());

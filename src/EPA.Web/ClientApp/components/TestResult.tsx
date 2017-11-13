@@ -85,10 +85,10 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     GetSpecialties = (id) => {
         
         this.setState({ currentid: id })
-        let directionAndDistrict = { GeneralDirection: id, District: 0 }
-        fetch('api/choosespeciality/bydirection', {
+        
+        fetch('api/choosespeciality/bydirectiononly', {
             method: 'POST',
-            body: JSON.stringify(directionAndDistrict),
+            body: JSON.stringify(this.state.currentid),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Specialty[]>)
             .then(data => {
@@ -98,6 +98,8 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     }
     private GetDomainMax() {
         var max = this.GetGeneralDirectionWithMaxScore().score;
+        if (max % 5 > 2)
+            return max + (5 - max % 5);
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }

@@ -41,13 +41,22 @@ namespace EPA.Web.Controllers
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
-        /// This method retrives list of specialties according to general direction
+        /// This method retrives list of specialties according to general direction and district
         /// </summary>
         /// <param name="directionAndDistrict"> Contains id of the general direction and district id </param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody]DirectionAndDistrict directionAndDistrict) => this.specialtyProvider.GetSpecialtiesByDirection(directionAndDistrict);
+        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrict directionAndDistrict) => this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrict);
+
+        /// <summary>
+        /// This method retrives list of specialties according to general direction 
+        /// </summary>
+        /// <param name="idDirection"> id of the general direction </param>
+        /// <returns> List of specialties </returns>
+        [Route("api/choosespeciality/bydirectiononly")]
+        [HttpPost]
+        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody]int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
 
         /// <summary>
         /// This method retrives list of general directions
