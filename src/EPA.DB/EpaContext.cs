@@ -1,20 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using EPA.MSSQL.Models;
 
-namespace EPA.MSSQL.Models
+namespace EPA.MSSQL
 {
     public class EpaContext : DbContext
     {
         public EpaContext(DbContextOptions<EpaContext> op)
             : base(op)
         {
-        }
-
-        public static string ConnectionString { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne");
         }
 
         public DbSet<TestDetailedInfo> Tests { get; set; }
@@ -31,6 +25,14 @@ namespace EPA.MSSQL.Models
 
         public DbSet<ProfDirection> ProfDirections { get; set; }
 
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Specialty_Subject> Specialty_Subjects { get; set; }
+
+        public DbSet<GeneralDirection> GeneralDirections { get; set; }
+
+        public DbSet<District> Districts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Answer>().ToTable("Answers");
@@ -40,6 +42,10 @@ namespace EPA.MSSQL.Models
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
             modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
+            modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
+            modelBuilder.Entity<Subject>().ToTable("Subjects");
+            modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
+            modelBuilder.Entity<District>().ToTable("Districts");
         }
 
         public override void Dispose()

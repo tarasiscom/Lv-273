@@ -21,52 +21,21 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public TestInfo GetTestInfo(int id) => this.context.Tests.Find(id).ToCommon();
 
-        public IEnumerable<Test> GetTests()
-        {
-            var x  = this.context.Tests.Select(item => item.ToCommon());
-            //if (x.Count() < 1) return null;
-            return x;
-        }
+        public IEnumerable<Test> GetTests() => this.context.Tests.Select(item => item.ToCommon());
 
-        public Result GetResult(int points, int testId)
-        {
-            string direction = (from d in this.context.Directions
-                                join pd in this.context.ProfDirections on d.Id equals pd.Direction.Id
-                                where points >= pd.MinPoint && pd.MaxPoint > points
-                                select d.Name).FirstOrDefault();
-            return new Result()
-            {
-                ProfDirection = direction,
-                Specialties = (from s in this.context.Specialties
-                               join u in this.context.Universities on s.University.Id equals u.Id
-                               where s.Direction.Name == direction
-                               select new Common.DTO.Specialty()
-                               {
-                                   Name = s.Name,
-                                   Address = u.Address,
-                                   District = u.District,
-                                   Site = u.Site,
-                                   University = u.Name
-                               }).Distinct().Take(this.constValues.Value.NumberOfUniversities).ToList()
-            };
-        }
+        public IEnumerable<Common.DTO.Question> GetQuestions(int testId) => this.context.Questions
+                                    .Where(q => q.Test.Id == testId)
+                                    .Select(res => new Models.Question
+                                    {
+                                        ID = res.ID,
+                                        Test = res.Test,
+                                        Text = res.Text,
+                                        Answers = this.context.Answers
+                                                                    .Where(answ => answ.Question.ID == res.ID)
+                                                                    .ToList()
+                                    }.ToCommon());
 
-        public IEnumerable<Common.DTO.Question> GetQuestions(int testId)
-        {
-            var x = this.context.Questions
-                .Where(q => q.Test.Id == testId)
-                .Select(res => new Models.Question
-                {
-                ID = res.ID,
-                Test = res.Test,
-                Text = res.Text,
-                Answers = this.context.Answers
-                    .Where(answ => answ.Question.ID == res.ID)
-                    .ToList()
-                    }.ToCommon());
-
-            if (x.Count() < 1) throw new System.ArgumentException("No matching elements.");
-            return x;
-        }
+        public IEnumerable<Common.DTO.GeneralDirection> GetDirectionsInfo() =>
+                    this.context.GeneralDirections.Select(item => item.ToCommon());
     }
 }

@@ -10,9 +10,9 @@ interface Err {
 export class Home extends React.Component<Err, {}> {
     public render() {
 
-        return <div className="pad-for-footer">
+        return <div className="pad-for-footer">         
             <section className="main-container">
-                <div className="title">
+                <div className="title grey-background">
                     <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
                     <p className="caption col-md-5 col-sm-5 col-xs-3">Educational Program Advisor</p>
                 </div>

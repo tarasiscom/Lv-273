@@ -59,9 +59,9 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.tests.map(tests =>
-                        <tr key={tests.id}>
-                            <td className="text-center">{tests.id}</td>
+                    {this.state.tests.map((tests, id) =>
+                        <tr key={id}>
+                            <td className="text-center">{id+1}</td>
                             <td className="text-center"> {tests.name}</td>
                             <td className="text-center"><Link to={'/testInfo/' + tests.id} ><span className="glyphicon glyphicon-list-alt"></span></Link></td>
                         </tr>

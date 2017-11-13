@@ -1,18 +1,19 @@
 ﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  This class describes information about professional direction 
+    ///  This class describes general directions 
     /// </summary>
-    public class ProfDirection
+    public class GeneralDirection
     {
         /// <summary>
-        ///  ID of the professional direction
+        ///  ID of the general direction
         /// </summary>
         public int ID { get; set; }
 
         /// <summary>
-        ///  Name of the professional direction
+        ///  Name of the general direction
         /// </summary>
         public string Name { get; set; }
+
     }
 }

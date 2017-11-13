@@ -1,3 +1,4 @@
+using EPA.BusinessLogic;
 using EPA.Common.Interfaces;
 using EPA.MSSQL;
 using EPA.MSSQL.SQLDataAccess;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace EPA.Web
 {
@@ -36,17 +38,17 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<MSSQL.Models.EpaContext>();
+            services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
+            services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
+            services.AddTransient<IUserAnswersProdiver, UserAnswersProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
-
-            // MSSQL.Models.EpaContext.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<MSSQL.Models.EpaContext>(options =>
+            services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -63,7 +65,6 @@ namespace EPA.Web
             }
 
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -85,7 +86,7 @@ namespace EPA.Web
                         name: "spa-fallback",
                         defaults: new { controller = "Home", action = "Index" });
                 });
-            });
+            loggerFactory.AddProvider(new MyLoggerProvider());
             new Mapping().Create();
         }
     }
