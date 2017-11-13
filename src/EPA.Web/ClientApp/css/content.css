@@ -8,7 +8,9 @@ body {
 .uni-recom {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
-
+.labelfont{
+    font-size: 14px;
+}
 .logo1 {
     background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
     width: 120px;
@@ -95,7 +97,6 @@ body {
 
 .row {
     
-    --margin-left:15px;
     margin-right: 3%;
     margin-left: 3%;
 }
@@ -234,4 +235,8 @@ h1.heading {
 .delete-margin .jumbotron {
     padding-left: 0;
     padding-right: 0;
+}
+
+.my-cursor {
+    cursor: pointer;
 }

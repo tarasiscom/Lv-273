@@ -1,11 +1,11 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import VirtualizedSelect from 'react-virtualized-select'
-import ListSpecialties from './ListSpecialties'
-import 'react-virtualized/styles.css'
-import 'react-select/dist/react-select.css'
+import ListSpecialties from './ListSpecialties';
+import VirtualizedSelect from 'react-virtualized-select';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
 import 'isomorphic-fetch';
-
 
 interface Specialties {
     directions: GeneralDirection[];
@@ -73,11 +73,11 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit != null && selectValueSubmit != undefined && districtValueSubmit != undefined)
+        if (selectValueSubmit && districtValueSubmit)
         {
-            let directionAndDistrict = { Direction: selectValueSubmit.value, District: districtValueSubmit.value }
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value }
 
-            fetch('api/Choosespeciality/byDirection', {
+            fetch('api/choosespeciality/bydirection', {
                 method: 'POST',
                 body: JSON.stringify(directionAndDistrict),
                 headers: { 'Content-Type': 'application/json' }
@@ -129,7 +129,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             </div>
             <div className="container">
                 <div className="col-md-10 col-md-offset-1">
-                    <ListSpecialties univers={this.state.univers} />
+                    <ListSpecialties specialties={this.state.univers} />
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>

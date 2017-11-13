@@ -1,9 +1,10 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import  VirtualizedSelect  from 'react-virtualized-select'
-import ListSpecialties from './ListSpecialties'
-import 'react-virtualized/styles.css'
-import 'react-select/dist/react-select.css'
+import ListSpecialties from './ListSpecialties';
+import VirtualizedSelect  from 'react-virtualized-select';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
 import 'isomorphic-fetch';
 
 interface Specialitys {
@@ -68,7 +69,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit != undefined) {
+        if (selectValueSubmit && districtValueSubmit) {
             let result: number[];
             result = [];
             for (let i = 0; i < selectValueSubmit.length; i++) {
@@ -109,7 +110,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
-                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Предмети</p>
+                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
                                 <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
                                     value={this.state.selectValueSubjects}></VirtualizedSelect>
                             </div>
@@ -127,7 +128,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="container">
                 <div className="col-md-10 col-md-offset-1">
-                    <ListSpecialties univers={this.state.univers} />
+                    <ListSpecialties specialties={this.state.univers} />
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
