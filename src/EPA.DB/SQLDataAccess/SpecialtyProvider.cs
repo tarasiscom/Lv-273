@@ -3,6 +3,7 @@ using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Models;
+using EPA.MSSQL.BusLogic;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -34,6 +35,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public Common.DTO.SpecialtiesAndCount GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
         {
+            Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
             if (listSubjectsAndDistrict.District == 0)
             {
                 var q = (from ss in this.context.Specialty_Subjects
@@ -42,10 +44,8 @@ namespace EPA.MSSQL.SQLDataAccess
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
 
-                Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
                 result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
                 result.CountOfAllElements = q.Count;
-                return result;
             }
             else
             {
@@ -56,12 +56,11 @@ namespace EPA.MSSQL.SQLDataAccess
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
 
-
-                Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
                 result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
                 result.CountOfAllElements = q.Count;
-                return result;
             }
+
+            return result;
         }
 
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
@@ -73,6 +72,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where q.Contains(s.Id)
+                    orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Name = s.Name,
