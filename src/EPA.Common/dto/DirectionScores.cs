@@ -5,7 +5,7 @@ namespace EPA.Common.DTO
     /// <summary>
     /// Represent score of direction based on user answers
     /// </summary>
-    public class Direction_Score
+    public class DirectionScores
     {
         /// <summary>
         ///  Describes general directions 
