@@ -1,7 +1,9 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { ReactPaginate } from 'react-paginate';
 
 import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
+import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject';
 
 interface Subject {
     id: number;
@@ -53,7 +55,10 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
                         </TabContent>
                     </TabPanel>
                 )}
-            </Tabbordion>    
+            </Tabbordion>
+
+
+
         </div>
     }
 }

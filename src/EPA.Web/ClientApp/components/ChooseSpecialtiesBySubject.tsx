@@ -5,15 +5,22 @@ import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'
 import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
+import { ReactPaginate } from 'react-paginate';
 
 interface Specialitys {
     subjects: Subject[];
-    univers: Univer[];
+    univers: SpecialitiInfo;
     districts: District[];
     selectValueSubjects: { label: string, value: number }[];
     selectDistrict: { label: string, value: number };
 }
 
+
+interface SpecialitiInfo {
+    univer: Univer[];
+    countOfAllElements: number;
+    page: number;
+}
 
 interface District {
     name: string;
@@ -41,7 +48,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         super();
         this.state = {
             subjects: [],
-            univers: [],
+            univers: { univer: [], countOfAllElements:0, page:0 },
             districts: [],
             selectValueSubjects: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -74,13 +81,13 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             for (let i = 0; i < selectValueSubmit.length; i++) {
                 result.push(selectValueSubmit[i].value)
             }
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value }
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value,countElementsOnPage:10,page:1 }
 
             fetch('api/ChooseUniversity/ChoseSpecBySublist', {
                 method: 'POST',
                 body: JSON.stringify(subjectsAndDistrict),
                 headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<Univer[]>)
+            }).then(response => response.json() as Promise<SpecialitiInfo>)
                 .then(data => {
                     this.setState({ univers: data })
                 })
@@ -90,6 +97,32 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             alert('Pick out some subjects or select district');
         }
     }
+
+    loadCommentsFromServer(selected) {
+        let result: number[];
+        result = [];
+        for (let i = 0; i < this.state.selectValueSubjects.length; i++) {
+            result.push(this.state.selectValueSubjects[i].value)
+        }
+        let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countElementsOnPage: 10, page: selected }
+        fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+            method: 'POST',
+            body: JSON.stringify(subjectsAndDistrict),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json() as Promise<SpecialitiInfo>)
+            .then(data => {
+                this.setState({ univers: data });
+            });
+    }
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        //let offset = Math.ceil(selected * this.state.perPage);
+        this.loadCommentsFromServer(selected);
+    };
+    
       
     public render() {
         
@@ -102,7 +135,22 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         for (let i = 0; i < this.state.subjects.length; i++)
         {
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
-        }  
+        }
+        let content;
+        if (this.state.univers.page != 0)
+            content = <div><ListSpecialties univers={this.state.univers.univer} />
+            {/*<ReactPaginate className="qqq"
+                previousLabel={"Попередня"}
+                nextLabel={"Наступна"}
+                breakLabel={<a href="">...</a>}
+                breakClassName={"break-me"}
+                pageCount={this.state.univers.countOfAllElements / 10}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"} />*/}</div>
 
         return <div>
             <div className="delete-margin">
@@ -127,7 +175,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="container">
                 <div className="col-md-10 col-md-offset-1">
-                    <ListSpecialties univers={this.state.univers} />
+                    {content}
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
