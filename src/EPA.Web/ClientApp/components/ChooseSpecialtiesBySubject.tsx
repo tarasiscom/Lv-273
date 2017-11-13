@@ -69,7 +69,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit != undefined) {
+        if (selectValueSubmit && districtValueSubmit) {
             let result: number[];
             result = [];
             for (let i = 0; i < selectValueSubmit.length; i++) {

@@ -73,7 +73,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit != null && selectValueSubmit != undefined && districtValueSubmit != undefined)
+        if (selectValueSubmit && districtValueSubmit)
         {
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value }
 
