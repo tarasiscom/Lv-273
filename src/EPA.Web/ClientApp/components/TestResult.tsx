@@ -32,12 +32,14 @@ interface Subject {
 interface GeneralTest {
     specialties: Specialty[];
     currentid: number;
+    maxscore: number;
 }
 export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { specialties: [], currentid: this.GetGeneralDirectionWithMaxScore().generalDir.id}
+        this.state = { currentid: this.GetGeneralDirectionWithMaxScore().generalDir.id, specialties: [], maxscore: this.GetDomainMax() }
+        this.GetSpecialties(this.state.currentid);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
@@ -46,26 +48,24 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 {this.drawRadar()}
                             </div>
                             <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
-                                {this.state.currentid != -1 ? this.RetrieveSpecialties(this.state.currentid) : loading}
+                                <ListSpecialties univers={this.state.specialties} />
                             </div>
                     </div>
         return <div>{content}</div>
     }
 
     drawRadar() {
-        //this.props.match.params = 2;
         return <div className="text-left">
             <Radar className="radar"
-                width={600}
-                height={600}
-                padding={70}
-                domainMax={this.GetDomainMax()}
-                //onHover={this.handleHover.bind(this)}
+                width={450}
+                height={450}
+                padding={60}
+                domainMax={this.state.maxscore}
                 data={{
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelfont" onClick={this.handleClick.bind(this, gen.generalDir.id)}> {gen.generalDir.name}</a>
+                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id)}> {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -82,21 +82,19 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
         </div>
     }
 
-    RetrieveSpecialties(id) {
+    GetSpecialties = (id) => {
+        
+        this.setState({ currentid: id })
         let directionAndDistrict = { GeneralDirection: id, District: 0 }
         fetch('api/choosespeciality/bydirection', {
             method: 'POST',
             body: JSON.stringify(directionAndDistrict),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Specialty[]>)
-            .then(data => { this.setState({ specialties: data }) })
-        return <div> <ListSpecialties univers={this.state.specialties} /> </div>
-    }
-    handleClick = (id) => {
-        
-        console.log(id);
-        this.setState({ currentid: id })
-        //this.props.match.params = id;
+            .then(data => {
+                this.setState({
+                    specialties: data,
+                }) })
     }
     private GetDomainMax() {
         var max = this.GetGeneralDirectionWithMaxScore().score;
