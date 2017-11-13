@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 
 import { RouteComponentProps } from 'react-router';
+import ListSpecialties from './ListSpecialties';
 import  VirtualizedSelect  from 'react-virtualized-select'
 import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'

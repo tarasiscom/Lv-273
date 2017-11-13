@@ -32,7 +32,7 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="idDirection"> id of the general direction </param>
         /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection);
+        IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionAndDistrict directionAndDistrict);
 
         /// <summary>
         /// This method retrives list of general directions
