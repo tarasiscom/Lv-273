@@ -23,14 +23,33 @@ interface SpecialtyInfo {
     countOfAllElements: number;
 }
 
-interface District {
+interface DistrictDTO {
     name: string;
     id: number;
 }
 
-interface Subject {
+class District {
+    value: number;
+    label: string;
+    constructor(value: number, label: string) {
+        this.value = value;
+        this.label = label;
+    }
+}
+
+interface SubjectDTO {
     id: number;
     name: string
+}
+
+class Subject {
+    value: number;
+    label: string;
+
+    constructor(value: number, label: string) {
+        this.value = value;
+        this.label = label;
+    }
 }
 
 interface Univer {
@@ -39,7 +58,7 @@ interface Univer {
     address: string;
     district: string;
     site: string;
-    subjects: Subject[];
+    subjects: SubjectDTO[];
 }
 
 export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}>, Specialities> {
@@ -64,15 +83,23 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     fetchDataSubject() {
         fetch('api/ChooseUniversity/ChoseSpecBySub')
-            .then(response => response.json() as Promise<Subject[]>)
+            .then(response => response.json() as Promise<SubjectDTO[]>)
             .then(data => {
-                this.setState({ subjects: data });
+                this.setState({
+                    subjects: data.map<Subject>(subject => new Subject(subject.id, subject.name))
+                });
             });
     }
     fetchAllDistricts() {
         fetch('api/ChooseUniversity/ChoseSpecDistrictList')
-            .then(response => response.json() as Promise<District[]>)
-            .then(data => { this.setState({ districts: data }) })
+            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(data => {
+                this.setState({
+                    districts:
+                    data.map<District>(district => new District(district.id, district.name))
+                })
+            })
+        //this.setState({ districts: new District(0,"Всі") })
     }
     
 
@@ -124,35 +151,36 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     };
          
     public render() {
-        
+        /*
         let myListDisctict = [{ label: "Всі", value: 0 }];
         for (let i = 0; i < this.state.districts.length; i++) {
             myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
         }
+
         let myList = [{ label: "11", value: 0 }];  
         myList.pop();
-        for (let i = 0; i < this.state.subjects.length; i++)
+        /*for (let i = 0; i < this.state.subjects.length; i++)
         {
             myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
         }
-        
+        /*
         let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
         if (this.state.page != 0)
             content = <div>
-                <ListSpecialties univers={this.state.univers.listSpecialties} />
+                
                 </div>
-
+        */
         return <div>
             <div className="delete-margin">
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
                             <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Предмети</p>
-                                <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
+                                <VirtualizedSelect multi={true} options={this.state.subjects} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
                                     value={this.state.selectValueSubjects}></VirtualizedSelect>
                             </div>
                             <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                                <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
+                                <VirtualizedSelect multi={false} options={this.state.districts} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
                             </div>
                             <div>
@@ -166,7 +194,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             <div className="container pagination">
                 <div className="col-md-10 col-md-offset-1">
                    
-                    {content}
+                    <ListSpecialties univers={this.state.univers.listSpecialties} />
                     <ReactPaginate className="qqq"
                         previousLabel={"Попередня"}
                         nextLabel={"Наступна"}

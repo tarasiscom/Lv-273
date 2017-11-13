@@ -7,7 +7,7 @@ import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject';
 
 interface Subject {
     id: number;
-    name: string
+    name: string;
 }
 
 
@@ -29,10 +29,7 @@ export default class ListSpecialties extends React.Component<SpecialitiInfo, {}>
 
     constructor(props: SpecialitiInfo)
     {
-        super(props);
-        this.props = {
-            univers: []
-        }
+        super(props)
     }
 
     public render() {
@@ -50,7 +47,7 @@ export default class ListSpecialties extends React.Component<SpecialitiInfo, {}>
                         </TabLabel>
                         <TabContent>
                             <div>
-                                <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: <a href= {univer.site} target = "_blank">{univer.site}</a></p></div>
+                                <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: <a href={univer.site} target="_blank">{univer.site}</a></p></div>
                                 <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
                             </div>
                         </TabContent>
