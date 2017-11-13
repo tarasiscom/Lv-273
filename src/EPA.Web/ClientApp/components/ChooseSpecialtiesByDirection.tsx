@@ -104,12 +104,15 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
             }
 
+
+     //   myList.map((label, value, id) => (this.state.districts.name);
+
         return <div>
             <div className="delete-margin">
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
-                            <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Галузі</p>
+                            <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
                                 <VirtualizedSelect multi={false} options={myList} onChange={(value) => this.setState(
                                     { selectValueDirection: value })
                                 }

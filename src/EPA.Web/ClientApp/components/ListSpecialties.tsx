@@ -21,14 +21,10 @@ interface Specialties
     specialties: Specialty[];
 }
 
-export default class ListSpecialties extends React.Component<Specialties, {}> {
+export default class ListSpecialties extends React.Component<Specialties, {} > {
 
-    constructor(props: Specialties)
-    {
+    constructor(props) {
         super(props);
-        this.props = {
-            specialties: []
-        }
     }
 
     public render() {
@@ -49,7 +45,7 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
                                 <div className="panel-body">
                                     <div className="col-md-6"><p>Адреса: {specialty.address}</p> <p>Сайт: {specialty.site}</p></div>
                                     <div className="col-md-6"><ul>Предмети: {specialty.subjects.map((sub, id) => <li key={id}> {sub.name} </li>)} </ul></div>
-                            </div>
+                                </div>
                         </TabContent>
                       </div> 
                     </TabPanel>
