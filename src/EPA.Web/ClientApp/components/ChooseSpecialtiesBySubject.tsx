@@ -1,10 +1,10 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import  VirtualizedSelect  from 'react-virtualized-select'
-import ListSpecialties from './ListSpecialties'
-import 'react-select/dist/react-select.css'
-import 'react-virtualized-select/styles.css'
-import 'react-virtualized/styles.cs
+import  VirtualizedSelect  from 'react-virtualized-select';
+import ListSpecialties from './ListSpecialties';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
 import 'isomorphic-fetch';
 
 interface Specialitys {
