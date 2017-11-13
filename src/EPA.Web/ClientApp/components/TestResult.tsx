@@ -48,7 +48,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 {this.drawRadar()}
                             </div>
                             <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
-                                <ListSpecialties univers={this.state.specialties} />
+                                <ListSpecialties specialties={this.state.specialties} />
                             </div>
                     </div>
         return <div>{content}</div>

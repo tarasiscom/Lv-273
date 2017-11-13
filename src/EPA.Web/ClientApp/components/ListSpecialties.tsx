@@ -7,7 +7,7 @@ interface Subject {
     name: string
 }
 
-interface Univer {
+interface Specialty {
     name: string;
     university: string;
     address: string;
@@ -18,7 +18,7 @@ interface Univer {
 
 interface Specialties
 {
-    univers: Univer[];
+    specialties: Specialty[];
 }
 
 export default class ListSpecialties extends React.Component<Specialties, {}> {
@@ -27,7 +27,7 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
     {
         super(props);
         this.props = {
-            univers: []
+            specialties: []
         }
     }
 
@@ -35,20 +35,20 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
 
         return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
             <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
-            {this.props.univers.map((univer, id) =>
+                {this.props.specialties.map((specialty, id) =>
                     <TabPanel key={id} className="my-cursor">
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <TabLabel className="my-cursor">
-                                    <p>Спеціальність: {univer.name} </p>
-                                    <p>Університет: {univer.university}</p>
-                                    <p>Область: {univer.district}</p>
+                                    <p>Спеціальність: {specialty.name} </p>
+                                    <p>Університет: {specialty.university}</p>
+                                    <p>Область: {specialty.district}</p>
                                 </TabLabel >
                             </div>
                          <TabContent>
-                            <div className="panel-body">
-                                <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
-                                <div className="col-md-6"><ul>Предмети: {univer.subjects.map((sub, id) => <li key={id}> {sub.name} </li>)} </ul></div>
+                                <div className="panel-body">
+                                    <div className="col-md-6"><p>Адреса: {specialty.address}</p> <p>Сайт: {specialty.site}</p></div>
+                                    <div className="col-md-6"><ul>Предмети: {specialty.subjects.map((sub, id) => <li key={id}> {sub.name} </li>)} </ul></div>
                             </div>
                         </TabContent>
                       </div> 
