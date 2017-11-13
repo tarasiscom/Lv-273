@@ -31,7 +31,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
     }
 
     render() {
-        const errRoute = ( <Route render={(props) => (<ErrorPage {...props} message={this.state.errorMessage} onRouteChange={this.cleanError.bind(this)} />)} />);
+        const errRoute = (<Route path='*' render={(props) => (<ErrorPage {...props} message={this.state.errorMessage} onRouteChange={this.cleanError.bind(this)} />)} />);
         return (
             <Layout>
                 {
@@ -43,7 +43,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/quiz/:id' render={(props) => (<ProfTestQuiz {...props} onError={this.onError} />)} />
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/profTest' render={(props) => (<ProfTest {...props} />)} />
-                            errRoute
+                            {errRoute}
                         </Switch>
                 }
             </Layout>           
