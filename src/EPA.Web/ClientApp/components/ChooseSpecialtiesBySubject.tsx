@@ -8,9 +8,9 @@ import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
 import  ReactPaginate  from 'react-paginate';
 
-interface Specialitys {
+interface Specialities {
     subjects: Subject[];
-    univers: SpecialitiInfo;
+    univers: SpecialtyInfo;
     districts: District[];
     selectValueSubjects: { label: string, value: number }[];
     selectDistrict: { label: string, value: number };
@@ -18,7 +18,7 @@ interface Specialitys {
 }
 
 
-interface SpecialitiInfo {
+interface SpecialtyInfo {
     listSpecialties: Univer[];
     countOfAllElements: number;
 }
@@ -42,7 +42,7 @@ interface Univer {
     subjects: Subject[];
 }
 
-export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}>, Specialitys> {
+export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}>, Specialities> {
 
     constructor()
     {
@@ -89,7 +89,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 method: 'POST',
                 body: JSON.stringify(subjectsAndDistrict),
                 headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<SpecialitiInfo>)
+            }).then(response => response.json() as Promise<SpecialtyInfo>)
                 .then(data => {
                     this.setState({ univers: data })
                 })
@@ -112,7 +112,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<SpecialitiInfo>)
+        }).then(response => response.json() as Promise<SpecialtyInfo>)
             .then(data => {
                 this.setState({ univers: data })
             })
@@ -120,11 +120,9 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        //let offset = Math.ceil(selected * this.state.perPage);
         this.loadCommentsFromServer(selected);
     };
-    
-      
+         
     public render() {
         
         let myListDisctict = [{ label: "Всі", value: 0 }];
@@ -141,8 +139,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
         if (this.state.page != 0)
             content = <div>
-                {//console.log(this.state.univers.page)
-                }
                 <ListSpecialties univers={this.state.univers.listSpecialties} />
                 </div>
 
@@ -169,7 +165,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="container pagination">
                 <div className="col-md-10 col-md-offset-1">
-                    
+                   
                     {content}
                     <ReactPaginate className="qqq"
                         previousLabel={"Попередня"}
