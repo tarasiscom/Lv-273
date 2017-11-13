@@ -2,6 +2,7 @@
 import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
+import TestResults from './TestResult';
 
 interface stateTypes {
     questions: TestQuestion[];
@@ -29,7 +30,7 @@ interface UserAnswer {
 }
 
 interface TestResult {
-    generalDirection: GeneralDir;
+    generalDir: GeneralDir;
     score: number;
 }
 
@@ -141,6 +142,6 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, stateType
 
     renderResult() {
         console.log(this.state.testResult);
-        return <div>Test tesult component</div>
+        return <div><TestResults testresult={this.state.testResult}/></div>
     };
-};
+};//
