@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import  VirtualizedSelect  from 'react-virtualized-select';
 import ListSpecialties from './ListSpecialties';
+import VirtualizedSelect  from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
@@ -110,7 +110,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
-                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Предмети</p>
+                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
                                 <VirtualizedSelect multi={true} options={myList} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
                                     value={this.state.selectValueSubjects}></VirtualizedSelect>
                             </div>

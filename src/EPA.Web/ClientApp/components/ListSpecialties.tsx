@@ -1,7 +1,6 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-
-import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion'
+import { Tabbordion, TabPanel, TabLabel, TabContent } from 'react-tabbordion';
 
 interface Subject {
     id: number;
@@ -41,19 +40,18 @@ export default class ListSpecialties extends React.Component<Specialties, {}> {
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <TabLabel className="my-cursor">
-                            <p>Спеціальність: {univer.name} </p>
-                            <p>Університет: {univer.university}</p>
-                            <p>Область: {univer.district}</p>
-                        </TabLabel >
+                                    <p>Спеціальність: {univer.name} </p>
+                                    <p>Університет: {univer.university}</p>
+                                    <p>Область: {univer.district}</p>
+                                </TabLabel >
                             </div>
-                        <TabContent>
-                        <div className="panel-body">
-                            <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
-                            <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
-                        </div>
+                         <TabContent>
+                            <div className="panel-body">
+                                <div className="col-md-6"><p>Адреса: {univer.address}</p> <p>Сайт: {univer.site}</p></div>
+                                    <div className="col-md-6"><ul>Предмети: {univer.subjects.map(sub => <li> {sub.name} </li>)} </ul></div>
+                            </div>
                         </TabContent>
-
-                        </div> 
+                      </div> 
                     </TabPanel>
             )}
             </Tabbordion>  
