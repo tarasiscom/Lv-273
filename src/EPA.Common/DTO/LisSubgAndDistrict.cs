@@ -8,5 +8,7 @@ namespace EPA.Common.DTO
     {
         public int District;
         public List<int> ListSubjects;
+        public int countOfElementsOnPage;
+        public int page;
     }
 }
