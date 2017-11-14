@@ -43,8 +43,17 @@ export default class ListSpecialties extends React.Component<Specialties, {} > {
                             </div>
                          <TabContent>
                                 <div className="panel-body">
-                                    <div className="col-md-6"><p>Адреса: {specialty.address}</p> <p>Сайт: {specialty.site}</p></div>
-                                    <div className="col-md-6"><ul>Предмети: {specialty.subjects.map((sub, id) => <li key={id}> {sub.name} </li>)} </ul></div>
+                                    <div className="col-md-6">
+                                        <p>Адреса: {specialty.address}</p>
+                                        <p>Сайт:
+                                         <a target="_blank" href={specialty.site}> {specialty.site} </a>
+                                        </p>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <ul>Предмети: {specialty.subjects.map((sub, id) =>
+                                            <li key={id}> {sub.name} </li>)}
+                                        </ul>
+                                    </div>
                                 </div>
                         </TabContent>
                       </div> 
