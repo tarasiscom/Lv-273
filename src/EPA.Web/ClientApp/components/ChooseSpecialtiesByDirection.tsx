@@ -1,18 +1,20 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import ListSpecialties from './ListSpecialties';
+import ReactPaginate from 'react-paginate';
 import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
 import 'isomorphic-fetch';
 
+
 interface Specialties {
     directions: GeneralDirection[];
     selectValueDirection: { label: string, value: number };
     districts: District[];
     selectDistrict: { label: string, value: number };
-    univers: Univer[];
+    univers: SpecialtyInfo;
 }
 
 interface GeneralDirectionDTO {
@@ -60,6 +62,11 @@ interface Univer {
     subjects: Subject[];
 }
 
+interface SpecialtyInfo {
+    listSpecialties: Univer[];
+    countOfAllElements: number;
+}
+
 export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
 {
     constructor() {
@@ -67,7 +74,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         this.state = {
             directions: [],
             selectValueDirection: { value: 0, label: "Всі" },
-            univers: [],
+            univers: { listSpecialties: [], countOfAllElements: 1 },
             districts: [],
             selectDistrict: { value: 0, label: "Всі" }
         }
@@ -100,18 +107,35 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             });  
     }
 
+    loadFromServer(selected) {
+
+        let directionAndDistrict = { GeneralDirection: this.state.selectValueDirection, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected + 1 }
+        this.fetchData(directionAndDistrict);
+       
+    }
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        this.loadFromServer(selected);
+    }
+
+    private fetchData(directionAndDistrict: object) {
+        fetch('api/choosespeciality/bydirection', {
+            method: 'POST',
+            body: JSON.stringify(directionAndDistrict),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => response.json() as Promise<SpecialtyInfo>)
+            .then(data => {
+                this.setState({ univers: data })
+            })
+    }
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit)
         {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value }
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 1 }
 
-            fetch('api/choosespeciality/bydirection', {
-                method: 'POST',
-                body: JSON.stringify(directionAndDistrict),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<Univer[]>)
-                .then(data => { this.setState({ univers: data }) })
+            this.fetchData(directionAndDistrict); 
         }
         else {
             alert('Pick out direction or select district');
@@ -120,6 +144,33 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     render() {
+
+        let tabbord;
+        if (this.state.univers.countOfAllElements == 0) {
+            tabbord = <div>
+                <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
+            </div>
+        }
+        else {
+            tabbord = <ListSpecialties specialties={this.state.univers.listSpecialties} />
+        }
+
+        let pagin;
+        if (this.state.univers.countOfAllElements > 10) {
+            pagin = <ReactPaginate
+                previousLabel={"Попередня"}
+                nextLabel={"Наступна"}
+                breakLabel={<a>...</a>}
+                breakClassName={"break-me"}
+                pageCount={this.state.univers.countOfAllElements / 10}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"} />
+        }
+
            return <div>
             <div className="delete-margin">
                 <section className="jumbotron center-block">
@@ -145,7 +196,10 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             </div>
             <div className="container">
                 <div className="col-md-10 col-md-offset-1">
-                    <ListSpecialties specialties={this.state.univers} />
+                       {tabbord}
+                       <div className="pageBar">
+                           {pagin}
+                       </div>
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
