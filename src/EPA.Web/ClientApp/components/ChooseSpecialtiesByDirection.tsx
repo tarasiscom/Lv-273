@@ -15,6 +15,8 @@ interface Specialties {
     districts: District[];
     selectDistrict: { label: string, value: number };
     univers: SpecialtyInfo;
+    districtId: number;
+    directionId: number;
 }
 
 interface GeneralDirectionDTO {
@@ -74,17 +76,18 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     constructor() {
         
         super();
+        var countOfElementsOnPage = 10;
         this.state = {
             directions: [],
             selectValueDirection: { value: 0, label: "Всі" },
             univers: { listSpecialties: [], countOfAllElements: 1 },
             districts: [],
-            selectDistrict: { value: 0, label: "Всі" }
+            selectDistrict: { value: 0, label: "Всі" },
+            districtId: 0,
+            directionId: 0
         }
         
     }
-
-   // const countOflElementsOnPage = 10;
 
     componentDidMount() {
         this.fetchDataDirections();
@@ -115,7 +118,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.selectValueDirection.value, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected + 1 }
+        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: 10, page: selected + 1 }
         this.fetchData(directionAndDistrict);
     }
 
@@ -136,6 +139,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 1 }
 
             this.fetchData(directionAndDistrict); 
+
+            this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
         }
         else {
             alert('Pick out direction or select district');

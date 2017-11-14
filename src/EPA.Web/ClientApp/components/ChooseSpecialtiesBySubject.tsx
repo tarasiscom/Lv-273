@@ -8,6 +8,9 @@ import 'isomorphic-fetch';
 import  ReactPaginate  from 'react-paginate';
 
 interface Specialities {
+    districtId: number;
+    subjectsIds: number[];
+
     subjects: Subject[];
     univers: SpecialtyInfo;
     districts: District[];
@@ -65,6 +68,10 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     {
         super();
         this.state = {
+
+            subjectsIds: [],
+            districtId: 0,
+
             subjects: [],
             univers: { listSpecialties: [], countOfAllElements:1 },
             districts: [],
@@ -98,7 +105,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             });        
     }
     
-
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit) {
             let result: number[];
@@ -106,9 +112,12 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             for (let i = 0; i < selectValueSubmit.length; i++) {
                 result.push(selectValueSubmit[i].value)
             }
+          
             let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:1 }
+            
+            this.fetchDataSpecialties(subjectsAndDistrict);
 
-            this.fetchData(subjectsAndDistrict);
+            this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
         }
         else
         {
@@ -116,6 +125,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         }
     }
 
+    /*
     loadFromServer(selected) {
         let result: number[];
         result = [];
@@ -123,17 +133,20 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             result.push(this.state.selectValueSubjects[i].value)
         }
 
-        let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected+1 }
+        let subjectsAndDistrict = { ListSubjects: this.state.filterSubjects, District: this.state.filterDistrict, countOfElementsOnPage: 10, page: selected+1 }
        
-        this.fetchData(subjectsAndDistrict);
-    }
+        this.fetchDataSpecialties(subjectsAndDistrict);
+    }*/
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        this.loadFromServer(selected);
+        //this.loadFromServer(selected);
+        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: 10, page: selected + 1 }
+
+        this.fetchDataSpecialties(subjectsAndDistrict);
     }
 
-    private fetchData(subjectsAndDistrict: object)
+    private fetchDataSpecialties(subjectsAndDistrict: object)
     {
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
@@ -185,6 +198,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                             </div>
                             <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
                                 <VirtualizedSelect multi={false} options={this.state.districts} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
+
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
                             </div>
                             <div>
