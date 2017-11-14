@@ -102,7 +102,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit != undefined) {
+        if (selectValueSubmit && districtValueSubmit) {
             let result: number[];
             result = [];
             for (let i = 0; i < selectValueSubmit.length; i++) {
@@ -110,14 +110,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             }
             let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:1 }
 
-            fetch('api/ChooseUniversity/ChoseSpecBySublist', {
-                method: 'POST',
-                body: JSON.stringify(subjectsAndDistrict),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<SpecialtyInfo>)
-                .then(data => {
-                    this.setState({ univers: data })
-                })
+            this.FetchData(subjectsAndDistrict);
         }
         else
         {
@@ -131,8 +124,19 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         for (let i = 0; i < this.state.selectValueSubjects.length; i++) {
             result.push(this.state.selectValueSubjects[i].value)
         }
-        console.log(selected)
+
         let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected+1 }
+       
+        this.FetchData(subjectsAndDistrict);
+    }
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        this.loadFromServer(selected);
+    }
+
+    private FetchData(subjectsAndDistrict: object)
+    {
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
@@ -142,11 +146,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 this.setState({ univers: data })
             })
     }
-
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        this.loadFromServer(selected);
-    };
          
     public render() {
         
