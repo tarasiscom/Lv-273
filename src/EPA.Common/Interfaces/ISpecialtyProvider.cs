@@ -31,15 +31,15 @@ namespace EPA.Common.Interfaces
         /// This method retrives list of specialties according to general direction and district
         /// </summary>
         /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
-        /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
+        /// <returns> Limited list of specialties and count of all specialties </returns>
+        SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
         /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
-        /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo);
+        /// <returns> Limited list of specialties and count of all specialties </returns>
+        SpecialtiesAndCount GetSpecialtiesByDirection(DirectionInfo directionInfo);
 
         /// <summary>
         /// This method retrives list of general directions

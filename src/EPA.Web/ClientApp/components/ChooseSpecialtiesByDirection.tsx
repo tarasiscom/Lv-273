@@ -67,9 +67,12 @@ interface SpecialtyInfo {
     countOfAllElements: number;
 }
 
+
+
 export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
 {
     constructor() {
+        
         super();
         this.state = {
             directions: [],
@@ -78,7 +81,10 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             districts: [],
             selectDistrict: { value: 0, label: "Всі" }
         }
+        
     }
+
+   // const countOflElementsOnPage = 10;
 
     componentDidMount() {
         this.fetchDataDirections();
@@ -107,19 +113,13 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             });  
     }
 
-    loadFromServer(selected) {
-
-        let directionAndDistrict = { GeneralDirection: this.state.selectValueDirection, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected + 1 }
-        this.fetchData(directionAndDistrict);
-       
-    }
-
     handlePageClick = (data) => {
         let selected = data.selected;
-        this.loadFromServer(selected);
+        let directionAndDistrict = { GeneralDirection: this.state.selectValueDirection.value, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected + 1 }
+        this.fetchData(directionAndDistrict);
     }
 
-    private fetchData(directionAndDistrict: object) {
+    private fetchData(directionAndDistrict) {
         fetch('api/choosespeciality/bydirection', {
             method: 'POST',
             body: JSON.stringify(directionAndDistrict),

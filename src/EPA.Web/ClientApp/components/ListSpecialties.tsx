@@ -35,7 +35,7 @@ export default class ListSpecialties extends React.Component<Specialties, {} > {
                     <TabPanel key={id} className="my-cursor">
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <TabLabel className="my-cursor">
+                                <TabLabel className="my-cursor panel-heading">
                                     <p>Спеціальність: {specialty.name} </p>
                                     <p>Університет: {specialty.university}</p>
                                     <p>Область: {specialty.district}</p>
