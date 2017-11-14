@@ -10,8 +10,6 @@ namespace EPA.MSSQL.Models
 
         public string Text { get; set; }
 
-        public int Point { get; set; }
-
         public Question Question { get; set; }
 
         public Common.DTO.Answer ToCommon()

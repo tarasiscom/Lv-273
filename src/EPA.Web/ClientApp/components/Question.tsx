@@ -46,7 +46,7 @@ export class Question extends React.Component<PropTypes, {}> {
 
 
         return (<div className="text-center">
-            <div>
+            <div className="question-container">
                 <section className="jumbotron text-center">
                     <div className="container">
                         <h3 className="jumbotron-heading">{this.props.question.text}</h3>

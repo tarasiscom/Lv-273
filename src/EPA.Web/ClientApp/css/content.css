@@ -99,7 +99,7 @@ body {
     font-size: 16px;
 }
 
-.row {    
+.row {
     margin-right: 3%;
     margin-left: 3%;
 }
@@ -238,6 +238,24 @@ h1.heading {
     vertical-align: bottom;
 }
 
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #2d2d2d;
+        border-color: #2d2d2d;
+    }
+    .btn-primary:focus {
+        color: #fff;
+        background-color: #2d2d2d;
+        border-color: #2d2d2d;
+    }
+    .btn-primary:active {
+        color: #fff;
+        background-color: #2d2d2d;
+        border-color: #2d2d2d;
+    }
+.paddin {
+    margin-top: 10px;
+}
 .cus-margin {
     margin-top: 4%;
 }
@@ -258,3 +276,8 @@ h1.heading {
 .my-cursor {
     cursor: pointer;
 }
+
+.pageBar {
+    text-align:center;
+}
+

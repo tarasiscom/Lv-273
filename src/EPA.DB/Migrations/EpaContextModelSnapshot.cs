@@ -25,8 +25,6 @@ namespace EPA.MSSQL.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Point");
-
                     b.Property<int?>("QuestionID");
 
                     b.Property<string>("Text");
@@ -80,28 +78,6 @@ namespace EPA.MSSQL.Migrations
                     b.ToTable("GeneralDirection");
                 });
 
-            modelBuilder.Entity("EPA.MSSQL.Models.ProfDirection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("DirectionId");
-
-                    b.Property<int>("MaxPoint");
-
-                    b.Property<int>("MinPoint");
-
-                    b.Property<int?>("TestId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DirectionId");
-
-                    b.HasIndex("TestId");
-
-                    b.ToTable("ProfDirection");
-                });
-
             modelBuilder.Entity("EPA.MSSQL.Models.Question", b =>
                 {
                     b.Property<int>("ID")
@@ -126,6 +102,10 @@ namespace EPA.MSSQL.Migrations
                     b.Property<int?>("DirectionId");
 
                     b.Property<string>("Name");
+
+                    b.Property<int>("NumApplication");
+
+                    b.Property<int>("NumEnrolled");
 
                     b.Property<int?>("UniversityId");
 
@@ -220,17 +200,6 @@ namespace EPA.MSSQL.Migrations
                     b.HasOne("EPA.MSSQL.Models.GeneralDirection", "GeneralDirection")
                         .WithMany("Directions")
                         .HasForeignKey("GeneralDirectionId");
-                });
-
-            modelBuilder.Entity("EPA.MSSQL.Models.ProfDirection", b =>
-                {
-                    b.HasOne("EPA.MSSQL.Models.Direction", "Direction")
-                        .WithMany("ProfDirections")
-                        .HasForeignKey("DirectionId");
-
-                    b.HasOne("EPA.MSSQL.Models.TestDetailedInfo", "Test")
-                        .WithMany("ProfDirections")
-                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.Question", b =>

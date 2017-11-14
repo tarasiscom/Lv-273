@@ -66,9 +66,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, S
         let updatedAnswers = this.state.userAnswers.slice();
         updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
 
-        let nextPage = this.state.currentPage < this.state.questions.length
-            ? this.state.currentPage + 1
-            : this.state.currentPage;
+        let nextPage = this.state.currentPage + 1;
         this.setState({
             userAnswers: updatedAnswers,
             currentPage: nextPage
@@ -119,32 +117,26 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, S
             return <p><em>Loading...</em></p>
         }
         else {
-            return <div>{this.state.isSubmitted == false ? this.rendeQuiz() : this.renderResult()}</div>
+            return <div>{this.state.currentPage <= this.state.questions.length ? this.rendeQuiz() : this.renderResult()}</div>
         }        
     }
 
     rendeQuiz() {
-        const submit = this.state.currentPage == this.state.questions.length
-            ? this.renderSubmitButton()
-            : <div></div>
-        return <div className="col">
+        return <div className="col margin-bottom">
                     <Question questionNumber={this.state.currentPage}
                               question={this.state.questions[this.state.currentPage - 1]}
                               onAnswerChoose={this.onAnswerChoose} />
-                    <div className="row submit_btn">{submit}</div>
                     <div className="pagin"><Paginate totalPage={this.state.questions.length} focusPage={this.changePage} /></div>
         </div>
     }
-
-    renderSubmitButton()
-    {
-        return <div className="col-md-2 col-md-offset-5">
-            <button className="btn btn-lg btn-block btn-success p-1" onClick={this.submitTest}>Завершити тест</button>
-        </div>
-    }
-
+    
     renderResult() {
-        { /*console.log(this.state.testResult);*/}
-        return <div><TestResults testresult={this.state.testResult}/></div>
+        if (this.state.isSubmitted) {
+            return <div><TestResults testresult={this.state.testResult} /></div>
+        }
+        else {
+            this.submitTest();
+            return <p><em>Loading...</em></p>
+        }
     };
 };

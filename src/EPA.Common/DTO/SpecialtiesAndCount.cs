@@ -4,15 +4,16 @@ using System.Text;
 
 namespace EPA.Common.DTO
 {
-    public class DirectionAndDistrict
+    public class SpecialtiesAndCount
     {
         /// <summary>
-        /// District's Id
+        /// 
         /// </summary>
-        public int District;
+        public IEnumerable<Specialty> ListSpecialties { get; set; }
+        
         /// <summary>
-        ///  ID of the general direction
+        /// 
         /// </summary>
-        public int GeneralDirection;
+        public int CountOfAllElements { get; set; }
     }
 }

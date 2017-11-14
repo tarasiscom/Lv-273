@@ -16,28 +16,30 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrict directionAndDistrict)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
         {
-            IEnumerable<EPA.Common.DTO.Specialty> qry;
-            if (directionAndDistrict.District == 0)
+            Common.DTO.SpecialtiesAndCount result;
+
+            if (directionAndDistrictinfo.District == 0)
             {
-                qry = GetSpecialtiesByDirection(directionAndDistrict.GeneralDirection);
+                result = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
 
             }
             else
             {
-                qry = GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrict);
+                result = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
             }
-            return qry;
+            return result;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int direction)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirection(DirectionInfo directionInfo)
         {
-            int numberOfSpecialities = 50;
+            Common.DTO.SpecialtiesAndCount result = new Common.DTO.SpecialtiesAndCount();
+
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
                       join d in this.context.Districts on u.District.Id equals d.Id
-                      where s.Direction.GeneralDirection.Id == direction
+                      where s.Direction.GeneralDirection.Id == directionInfo.GeneralDirection
                       orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                       select new Common.DTO.Specialty()
                       {
@@ -50,11 +52,15 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry.Take(numberOfSpecialities);
+            result.CountOfAllElements = qry.Count();
+            result.ListSpecialties = qry.Skip((directionInfo.Page - 1) * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
+            return result;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrict directionAndDistrict)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrictInfo directionAndDistrict)
         {
+            Common.DTO.SpecialtiesAndCount result = new Common.DTO.SpecialtiesAndCount();
+
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
                       join d in this.context.Districts on u.District.Id equals d.Id
@@ -72,13 +78,16 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry;
+            result.CountOfAllElements = qry.Count();
+            result.ListSpecialties = qry.Skip((directionAndDistrict.Page - 1) * directionAndDistrict.CountOfElementsOnPage).Take(directionAndDistrict.CountOfElementsOnPage);
+            return result;
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public IEnumerable<Common.DTO.Specialty> GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
         {
+            Common.DTO.SpecialtiesAndCount result = new SpecialtiesAndCount();
             if (listSubjectsAndDistrict.District == 0)
             {
                 var q = (from ss in this.context.Specialty_Subjects
@@ -86,8 +95,8 @@ namespace EPA.MSSQL.SQLDataAccess
                          where listSubjectsAndDistrict.ListSubjects.All(x => grouped.Contains(x)) &&
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
-
-                return this.GetSpecialty(listSubjectsAndDistrict, q);
+                    result.CountOfAllElements = q.Count;
+                    result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
             }
             else
             {
@@ -97,9 +106,12 @@ namespace EPA.MSSQL.SQLDataAccess
                          where listSubjectsAndDistrict.ListSubjects.All(x => grouped.Contains(x)) &&
                          grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
                          select grouped.Key).ToList();
+                    result.CountOfAllElements = q.Count;
+                    result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
 
-                return this.GetSpecialty(listSubjectsAndDistrict, q);
             }
+
+            return result;
         }
 
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
@@ -111,6 +123,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where q.Contains(s.Id)
+                    orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Name = s.Name,
@@ -121,7 +134,7 @@ namespace EPA.MSSQL.SQLDataAccess
                         Subjects = (from ss in this.context.Specialty_Subjects
                                     where ss.Specialty.Id == s.Id
                                     select ss.Subject.ToCommon()).ToList()
-                    }).ToList();
+                    }).Skip((subjects.page - 1) * subjects.countOfElementsOnPage).Take(subjects.countOfElementsOnPage).ToList();
         }
     }
 }
