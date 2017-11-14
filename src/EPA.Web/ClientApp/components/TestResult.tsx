@@ -51,10 +51,10 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     public render() {
         let loading = <p><em>Loading...</em></p>
         let content = <div className="row">
-                            <div className="affix col-md-5 col-sm-5 col-xs-5">
+            <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
                                 {this.drawRadar()}
                             </div>
-                            <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
+                            <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
 
                 <ListSpecialties specialties={this.state.specialties.listSpecialties} />
                                 <ReactPaginate
@@ -69,7 +69,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 containerClassName={"pagination"}
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
-                                <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
+                                <div className="col-md-6 col-sm-12 col-xs-12 pad-for-footer2"></div>
                             </div>
                     </div>
         return <div>{content}</div>
@@ -90,7 +90,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}> {gen.generalDir.name}</a>
+                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}> {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
