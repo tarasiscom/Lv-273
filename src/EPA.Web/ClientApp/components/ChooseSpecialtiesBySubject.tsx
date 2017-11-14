@@ -13,7 +13,6 @@ interface Specialities {
     districts: District[];
     selectValueSubjects: { label: string, value: number }[];
     selectDistrict: { label: string, value: number };
-    page: number;
 }
 
 
@@ -67,7 +66,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         super();
         this.state = {
             subjects: [],
-            page: 0,
             univers: { listSpecialties: [], countOfAllElements:1 },
             districts: [],
             selectValueSubjects: [],
@@ -152,7 +150,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         let tabbord;
         if (this.state.univers.countOfAllElements == 0) {
             tabbord = <div>
-                <h1>По даному запиту нічого не знайдено змініть вибрані другі предмети обо область.</h1>
+                <h1>По даному запиту нічого не знайдено. Виберіть інші предмети, або область.</h1>
             </div>
         }
         else
@@ -197,7 +195,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                     </div>
                 </section>
             </div>
-            <div className="container pagination">
+            <div className="container">
                 <div className="col-md-10 col-md-offset-1">
                     {tabbord}
                     <div className = "pageBar">
