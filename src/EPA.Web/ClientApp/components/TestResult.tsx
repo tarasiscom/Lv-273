@@ -31,15 +31,14 @@ interface Subject {
 }
 interface GeneralTest {
     specialties: Specialty[];
-    currentid: number;
     maxscore: number;
 }
 export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { currentid: this.GetGeneralDirectionWithMaxScore().generalDir.id, specialties: [], maxscore: this.GetDomainMax() }
-        this.GetSpecialties(this.state.currentid);
+        this.state = { specialties: [], maxscore: this.GetDomainMax() }
+        this.GetSpecialties(this.GetGeneralDirectionWithMaxScore().generalDir.id);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
@@ -84,11 +83,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
 
     GetSpecialties = (id) => {
         
-        this.setState({ currentid: id })
-        
+        let directionInfo = {
+            generaldirection: id, page: 1, countofelementsonpage: 20
+        }
         fetch('api/choosespeciality/bydirectiononly', {
             method: 'POST',
-            body: JSON.stringify(this.state.currentid),
+            body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Specialty[]>)
             .then(data => {

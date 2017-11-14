@@ -16,28 +16,27 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrict directionAndDistrict)
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
         {
             IEnumerable<EPA.Common.DTO.Specialty> qry;
-            if (directionAndDistrict.District == 0)
+            if (directionAndDistrictinfo.District == 0)
             {
-                qry = GetSpecialtiesByDirection(directionAndDistrict.GeneralDirection);
+                qry = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
 
             }
             else
             {
-                qry = GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrict);
+                qry = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
             }
             return qry;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int direction)
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo)
         {
-            int numberOfSpecialities = 50;
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
                       join d in this.context.Districts on u.District.Id equals d.Id
-                      where s.Direction.GeneralDirection.Id == direction
+                      where s.Direction.GeneralDirection.Id == directionInfo.GeneralDirection
                       orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                       select new Common.DTO.Specialty()
                       {
@@ -50,10 +49,10 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry.Take(numberOfSpecialities);
+            return qry.Skip((directionInfo.Page - 1) * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrict directionAndDistrict)
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrictInfo directionAndDistrict)
         {
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
@@ -72,7 +71,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry;
+            return qry.Skip((directionAndDistrict.Page - 1) * directionAndDistrict.CountOfElementsOnPage).Take(directionAndDistrict.CountOfElementsOnPage);
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
