@@ -58,8 +58,8 @@ export default class ListSpecialties extends React.Component<Specialties, {} > {
                         </TabContent>
                       </div> 
                     </TabPanel>
-            )}
-            </Tabbordion>  
+                )}
+            </Tabbordion>
         </div>
     }
 }
