@@ -2,6 +2,7 @@
 import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
+import ReactPaginate from 'react-paginate';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -31,14 +32,16 @@ interface Subject {
 }
 interface GeneralTest {
     specialties: Specialty[];
+    countsOfElementsOnPage: number
+    idCurrentDirection: number;
     maxscore: number;
 }
 export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { specialties: [], maxscore: this.GetDomainMax() }
-        this.GetSpecialties(this.GetGeneralDirectionWithMaxScore().generalDir.id);
+        this.state = { specialties: [], maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id}
+        this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
@@ -47,12 +50,30 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 {this.drawRadar()}
                             </div>
                             <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
+
                                 <ListSpecialties specialties={this.state.specialties} />
+                                <ReactPaginate
+                                previousLabel={"Попередня"}
+                                nextLabel={"Наступна"}
+                                breakLabel={<a>...</a>}
+                                breakClassName={"break-me"}
+                                pageCount={200 / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                                <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
                             </div>
                     </div>
         return <div>{content}</div>
     }
 
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        this.GetSpecialties(this.state.idCurrentDirection, selected);
+    }
     drawRadar() {
         return <div className="text-left">
             <Radar className="radar"
@@ -64,7 +85,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id)}> {gen.generalDir.name}</a>
+                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}> {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -81,10 +102,11 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
         </div>
     }
 
-    GetSpecialties = (id) => {
-        
+    GetSpecialties = (id, selectedPage) => {
+
+        this.setState({idCurrentDirection: id});
         let directionInfo = {
-            generaldirection: id, page: 1, countofelementsonpage: 20
+            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
         }
         fetch('api/choosespeciality/bydirectiononly', {
             method: 'POST',
