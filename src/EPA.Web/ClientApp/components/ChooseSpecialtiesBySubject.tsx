@@ -125,7 +125,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         }
     }
 
-    loadCommentsFromServer(selected) {
+    loadFromServer(selected) {
         let result: number[];
         result = [];
         for (let i = 0; i < this.state.selectValueSubjects.length; i++) {
@@ -145,7 +145,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        this.loadCommentsFromServer(selected);
+        this.loadFromServer(selected);
     };
          
     public render() {
@@ -164,10 +164,10 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         let pagin;
         if (this.state.univers.countOfAllElements > 10)
         {
-            pagin = <ReactPaginate className="qqq"
+            pagin = <ReactPaginate 
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
-                breakLabel={<a href="">...</a>}
+                breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
                 pageCount={this.state.univers.countOfAllElements / 10}
                 marginPagesDisplayed={2}
@@ -201,7 +201,9 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             <div className="container pagination">
                 <div className="col-md-10 col-md-offset-1">
                     {tabbord}
-                    {pagin}
+                    <div className = "pageBar">
+                        {pagin}
+                    </div>
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>

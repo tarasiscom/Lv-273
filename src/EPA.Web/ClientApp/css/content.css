@@ -254,7 +254,6 @@ h1.heading {
     padding-right: 0;
 }
 
-.pagination {
-    display: block;
-    position: center;
+.pageBar {
+    text-align:center;
 }
