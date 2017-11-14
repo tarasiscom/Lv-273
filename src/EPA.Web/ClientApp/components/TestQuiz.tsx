@@ -144,7 +144,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, S
     }
 
     renderResult() {
-        console.log(this.state.testResult);
+        { /*console.log(this.state.testResult);*/}
         return <div><TestResults testresult={this.state.testResult}/></div>
     };
 };

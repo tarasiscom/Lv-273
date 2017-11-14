@@ -2,15 +2,19 @@
 html {
     min-height: 100%
 }
+
 body {
     min-height: 100%
 }
+
 .uni-recom {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
+
 .labelfont{
     font-size: 14px;
 }
+
 .logo1 {
     background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
     width: 120px;
@@ -95,14 +99,14 @@ body {
     font-size: 16px;
 }
 
-.row {
-    
+.row {    
     margin-right: 3%;
     margin-left: 3%;
 }
+
 .quiz-pad {
-margin-bottom:130px;
-margin-top:20px;
+    margin-bottom:130px;
+    margin-top:20px;
 }
 
 .pad-for-footer {
@@ -114,10 +118,10 @@ margin-top:20px;
     border-top: 1px solid #D4D4D4;
 }
 
-
 .pad-for-nav {
     margin-top: 40px;
 }
+
 .pad-for-footer2 {
     position: relative;
     height: 70px;
@@ -147,6 +151,7 @@ margin-top:20px;
 .textError {
     font-size: 1.1em;
 }
+
 h1.heading {
     color: #fff;
     font-size: 1.15em;
@@ -154,8 +159,6 @@ h1.heading {
     margin: 0 0 0.5em;
     color: #505050;
 }
-
-
 
 .card {
     padding:0;
@@ -168,9 +171,9 @@ h1.heading {
     transition: box-shadow .25s;
 }
 
-    .card:hover {
-        box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    }
+.card:hover {
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
 
 .img-card {
     width: 100%;
@@ -181,12 +184,12 @@ h1.heading {
     overflow: hidden;
 }
 
-    .img-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        transition: all .25s ease;
-    }
+.img-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: all .25s ease;
+}
 
 .card-content {
     padding: 15px;
@@ -200,21 +203,21 @@ h1.heading {
     font-size: 1.65em;
 }
 
-    .card-title a {
-        color: #000;
-        text-decoration: none !important;
-    }
+.card-title a {
+    color: #000;
+    text-decoration: none !important;
+}
 
 .card-read-more {
     border-top: 1px solid #D4D4D4;
 }
 
-    .card-read-more a {
-        text-decoration: none !important;
-        padding: 10px;
-        font-weight: 600;
-        text-transform: uppercase
-    }
+.card-read-more a {
+    text-decoration: none !important;
+    padding: 10px;
+    font-weight: 600;
+    text-transform: uppercase
+}
 
 [data-state="tabbordion"] {
     clip: rect(0 0 0 0);
@@ -224,7 +227,6 @@ h1.heading {
     width: 1px;
     z-index: -1;
 }
-
 
 .accordion {
     list-style: none;

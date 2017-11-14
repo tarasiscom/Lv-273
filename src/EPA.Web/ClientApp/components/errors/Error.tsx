@@ -10,18 +10,13 @@ interface Err {
 export class ErrorPage extends React.Component<RouteComponentProps<{}>&Err, {}> {
     constructor(props) {
         super();
-
     }
 
     componentDidMount() {
-
         this.props.history.listen((location, action) => {
             this.props.onRouteChange();
         });
     }
-    
-    
-
     public render() {
         return <div className="erdiv">
                     <div className="imgError">
