@@ -35,6 +35,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                                                     .ToList()
                                     }.ToCommon());
 
-        public Common.DTO.GeneralDirection GetDirectionInfo(int dirId) => this.context.GeneralDirections.Find(dirId).ToCommon();
+        public IEnumerable<Common.DTO.GeneralDirection> GetDirectionsInfo() =>
+                    this.context.GeneralDirections.Select(item => item.ToCommon());
     }
 }

@@ -1,14 +1,10 @@
 ﻿import * as React from 'react';
 import { RadioGroup, Radio } from 'react-radio-group';
 
-interface propTypes {
+interface PropTypes {
     questionNumber: number;
     question: TestQuestion;
     onAnswerChoose: Function;
-}
-
-interface stateTypes {
-    loading: boolean;
 }
 
 interface TestQuestion {
@@ -22,22 +18,21 @@ interface TestAnswer {
     text: string;
 }
 
-export class Question extends React.Component<propTypes, stateTypes> {
-    constructor(props: propTypes) {
+export class Question extends React.Component<PropTypes, {}> {
+    constructor(props: PropTypes) {
         super(props);
         this.state = {
             loading: true
         }
     }
 
-    handleClick(id:number) : void
-    {
+    handleClick(id:number) : void {
         this.props.onAnswerChoose(id+1);
     }
 
     render() {
-        
-        var listAnswers = this.props.question.answers.map((item,id) => {
+
+        const listAnswers = this.props.question.answers.map((item, id) => {
             return (
                 <label key={this.props.questionNumber + '.' + id} className="btn btn-lg btn-primary btn-block element-animation"
                     onClick={() => this.handleClick(id)}>

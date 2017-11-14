@@ -4,7 +4,6 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { ProfTest } from './components/ProfTest';
 import { TestInfo } from './components/TestInfo';
-import { ProfTestQuiz } from './components/ProfTestQuiz';
 import { ChooseSpecialtiesBySubject } from './components/ChooseSpecialtiesBySubject'
 import { ChooseSpecialty } from './components/ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './components/ChooseSpecialtiesByDirection';

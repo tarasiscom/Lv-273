@@ -15,15 +15,36 @@ interface Specialties {
     univers: Univer[];
 }
 
-interface GeneralDirection {
+interface GeneralDirectionDTO {
     name: string;
     id: number;
 }
 
-interface District {
+class GeneralDirection {
+    value: number;
+    label: string;
+
+    constructor(value: number, label: string) {
+        this.value = value;
+        this.label = label;
+    }
+}
+
+interface DistrictDTO {
     name: string;
     id: number;
 }
+
+class District {
+    value: number;
+    label: string;
+    constructor(value: number, label: string) {
+        this.value = value;
+        this.label = label;
+    }
+}
+
+
 
 interface Subject {
     id: number;
@@ -59,16 +80,24 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     fetchDataDirections() {
         fetch('api/choosespeciality/getdirection')
-            .then(response => response.json() as Promise<GeneralDirection[]>)
+            .then(response => response.json() as Promise<GeneralDirectionDTO[]>)
             .then(data => {
-                this.setState({ directions: data });
+                this.setState({
+                    directions:
+                    data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
+                });
             });
     }
 
     fetchAllDistricts() {
         fetch('api/ChooseUniversity/ChoseSpecDistrictList')
-            .then(response => response.json() as Promise<District[]>)
-            .then(data => { this.setState({ districts: data }) })
+            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(data => {
+                this.setState({
+                    districts:
+                    data.map<District>(district => new District(district.id, district.name))
+                })
+            });  
     }
 
 
@@ -91,35 +120,19 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     render() {
-        let myList = [{ label: " ", value: 0 }];
-        myList.pop();
-        for (let i = 0; i < this.state.directions.length; i++)
-        {
-            myList.push({ label: this.state.directions[i].name, value: this.state.directions[i].id })
-        }
-
-        let myListDisctict = [{ label: "Всі", value: 0 }];
-        for (let i = 0; i < this.state.districts.length; i++)
-        {
-                myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
-            }
-
-
-     //   myList.map((label, value, id) => (this.state.districts.name);
-
-        return <div>
+           return <div>
             <div className="delete-margin">
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
-                            <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
-                                <VirtualizedSelect multi={false} options={myList} onChange={(value) => this.setState(
+                               <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
+                                   <VirtualizedSelect multi={false} options={this.state.directions} onChange={(value) => this.setState(
                                     { selectValueDirection: value })
                                 }
                                     value={this.state.selectValueDirection}></VirtualizedSelect>
                             </div>
-                            <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                                <VirtualizedSelect multi={false} options={myListDisctict} onChange={(selectDistricty) => this.setState(
+                               <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
+                                   <VirtualizedSelect multi={false} options={this.state.districts} onChange={(selectDistricty) => this.setState(
                                     { selectDistrict: selectDistricty })
                                 }
                                     value={this.state.selectDistrict} ></VirtualizedSelect>
