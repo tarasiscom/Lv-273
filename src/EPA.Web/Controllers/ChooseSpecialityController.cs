@@ -43,20 +43,20 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This method retrives list of specialties according to general direction and district
         /// </summary>
-        /// <param name="directionAndDistrict"> Contains id of the general direction and district id </param>
+        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirection")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrict directionAndDistrict) => this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrict);
+        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrictInfo directionAndDistrictInfo) => this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrictInfo);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
-        /// <param name="idDirection"> id of the general direction </param>
+        /// <param name="directionInfo"> Contains id of the general direction, number of page and number of elements per page</param>
         /// <returns> List of specialties </returns>
         [Route("api/choosespeciality/bydirectiononly")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody]int idDirection) => this.specialtyProvider.GetSpecialtiesByDirection(idDirection);
+        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody]DirectionInfo directionInfo) => this.specialtyProvider.GetSpecialtiesByDirection(directionInfo);
 
         /// <summary>
         /// This method retrives list of general directions

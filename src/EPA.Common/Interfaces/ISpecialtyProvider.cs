@@ -28,17 +28,19 @@ namespace EPA.Common.Interfaces
         IEnumerable<District> GetAllDistricts();
 
         /// <summary>
-        /// This method retrives list of specialties according to general direction
+        /// This method retrives list of specialties according to general direction and district
         /// </summary>
-        /// <param name="idDirection"> id of the general direction </param>
+        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
         /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrict directionAndDistrict);
+        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
+
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
-        /// <param name="idDirection"> id of the general direction </param>
+        /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
         /// <returns> List of specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection);
+        IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo);
+
         /// <summary>
         /// This method retrives list of general directions
         /// </summary>

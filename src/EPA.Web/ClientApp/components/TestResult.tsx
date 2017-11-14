@@ -2,6 +2,7 @@
 import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
+import ReactPaginate from 'react-paginate';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -31,15 +32,16 @@ interface Subject {
 }
 interface GeneralTest {
     specialties: Specialty[];
-    currentid: number;
+    countsOfElementsOnPage: number
+    idCurrentDirection: number;
     maxscore: number;
 }
 export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { currentid: this.GetGeneralDirectionWithMaxScore().generalDir.id, specialties: [], maxscore: this.GetDomainMax() }
-        this.GetSpecialties(this.state.currentid);
+        this.state = { specialties: [], maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id}
+        this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
@@ -48,12 +50,30 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 {this.drawRadar()}
                             </div>
                             <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
+
                                 <ListSpecialties specialties={this.state.specialties} />
+                                <ReactPaginate
+                                previousLabel={"Попередня"}
+                                nextLabel={"Наступна"}
+                                breakLabel={<a>...</a>}
+                                breakClassName={"break-me"}
+                                pageCount={200 / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                                <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
                             </div>
                     </div>
         return <div>{content}</div>
     }
 
+    handlePageClick = (data) => {
+        let selected = data.selected+1;
+        this.GetSpecialties(this.state.idCurrentDirection, selected);
+    }
     drawRadar() {
         return <div className="text-left">
             <Radar className="radar"
@@ -65,7 +85,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id)}> {gen.generalDir.name}</a>
+                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}> {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -82,13 +102,15 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
         </div>
     }
 
-    GetSpecialties = (id) => {
-        
-        this.setState({ currentid: id })
-        
+    GetSpecialties = (id, selectedPage) => {
+
+        this.setState({idCurrentDirection: id});
+        let directionInfo = {
+            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
+        }
         fetch('api/choosespeciality/bydirectiononly', {
             method: 'POST',
-            body: JSON.stringify(this.state.currentid),
+            body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => response.json() as Promise<Specialty[]>)
             .then(data => {
