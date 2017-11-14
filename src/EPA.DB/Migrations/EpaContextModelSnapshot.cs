@@ -25,8 +25,6 @@ namespace EPA.MSSQL.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Point");
-
                     b.Property<int?>("QuestionID");
 
                     b.Property<string>("Text");
