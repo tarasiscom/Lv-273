@@ -1,5 +1,4 @@
 ﻿import * as React from 'react';
-
 import { RouteComponentProps } from 'react-router';
 import  VirtualizedSelect  from 'react-virtualized-select'
 import ListSpecialties from './ListSpecialties'
@@ -69,7 +68,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         this.state = {
             subjects: [],
             page: 0,
-            univers: { listSpecialties: [], countOfAllElements:0 },
+            univers: { listSpecialties: [], countOfAllElements:1 },
             districts: [],
             selectValueSubjects: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -98,8 +97,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                     districts:
                     data.map<District>(district => new District(district.id, district.name))
                 })
-            })
-        //this.setState({ districts: new District(0,"Всі") })
+            });        
     }
     
 
@@ -151,25 +149,34 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     };
          
     public render() {
-        /*
-        let myListDisctict = [{ label: "Всі", value: 0 }];
-        for (let i = 0; i < this.state.districts.length; i++) {
-            myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
+        
+        let tabbord;
+        if (this.state.univers.countOfAllElements == 0) {
+            tabbord = <div>
+                <h1>По даному запиту нічого не знайдено змініть вибрані другі предмети обо область.</h1>
+            </div>
+        }
+        else
+        {
+            tabbord = <ListSpecialties univers={this.state.univers.listSpecialties} />
         }
 
-        let myList = [{ label: "11", value: 0 }];  
-        myList.pop();
-        /*for (let i = 0; i < this.state.subjects.length; i++)
+        let pagin;
+        if (this.state.univers.countOfAllElements > 10)
         {
-            myList.push({ label: this.state.subjects[i].name,value: this.state.subjects[i].id })
+            pagin = <ReactPaginate className="qqq"
+                previousLabel={"Попередня"}
+                nextLabel={"Наступна"}
+                breakLabel={<a href="">...</a>}
+                breakClassName={"break-me"}
+                pageCount={this.state.univers.countOfAllElements / 10}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"} />
         }
-        /*
-        let content = <ListSpecialties univers={this.state.univers.listSpecialties}/>;
-        if (this.state.page != 0)
-            content = <div>
-                
-                </div>
-        */
         return <div>
             <div className="delete-margin">
                 <section className="jumbotron center-block">
@@ -193,20 +200,8 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="container pagination">
                 <div className="col-md-10 col-md-offset-1">
-                   
-                    <ListSpecialties univers={this.state.univers.listSpecialties} />
-                    <ReactPaginate className="qqq"
-                        previousLabel={"Попередня"}
-                        nextLabel={"Наступна"}
-                        breakLabel={<a href="">...</a>}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.univers.countOfAllElements / 10}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
+                    {tabbord}
+                    {pagin}
                 </div>
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
