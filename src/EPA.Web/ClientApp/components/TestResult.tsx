@@ -71,7 +71,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     }
 
     handlePageClick = (data) => {
-        let selected = data.selected;
+        let selected = data.selected+1;
         this.GetSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {

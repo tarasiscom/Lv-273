@@ -52,7 +52,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// <returns>List of general directions with scores</returns>
         [Route("api/profTest/{testId}/result")]
         [HttpPost]
-        public IEnumerable<Direction_Score> GetDirection_Score([FromBody]List<UserAnswer> listansw)
+        public IEnumerable<DirectionScores> GetDirection_Score([FromBody]List<UserAnswer> listansw)
                  => this.userAnswersProdiver.CalculateScores(listansw);
     }
 }

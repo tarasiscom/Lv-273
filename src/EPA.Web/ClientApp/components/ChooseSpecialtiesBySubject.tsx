@@ -95,6 +95,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     public render() {
         
         let myListDisctict = [{ label: "Всі", value: 0 }];
+        myListDisctict.pop();
         for (let i = 0; i < this.state.districts.length; i++) {
             myListDisctict.push({ label: this.state.districts[i].name, value: this.state.districts[i].id })
         }
