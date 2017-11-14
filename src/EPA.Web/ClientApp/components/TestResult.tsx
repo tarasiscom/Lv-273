@@ -26,12 +26,17 @@ interface Specialty {
     subjects: Subject[];
 
 }
+
+interface SpecialtyInfo {
+    listSpecialties: Specialty[];
+    countOfAllElements: number;
+}
 interface Subject {
     id: number;
     name: string
 }
 interface GeneralTest {
-    specialties: Specialty[];
+    specialties: SpecialtyInfo;
     countsOfElementsOnPage: number
     idCurrentDirection: number;
     maxscore: number;
@@ -40,7 +45,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { specialties: [], maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id}
+        this.state = { specialties: { listSpecialties: [], countOfAllElements:0 }, maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
         this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
@@ -51,13 +56,13 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                             </div>
                             <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
 
-                                <ListSpecialties specialties={this.state.specialties} />
+                <ListSpecialties specialties={this.state.specialties.listSpecialties} />
                                 <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
                                 breakClassName={"break-me"}
-                                pageCount={200 / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
+                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
@@ -112,7 +117,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
             method: 'POST',
             body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Specialty[]>)
+        }).then(response => response.json() as Promise<SpecialtyInfo>)
             .then(data => {
                 this.setState({
                     specialties: data,
