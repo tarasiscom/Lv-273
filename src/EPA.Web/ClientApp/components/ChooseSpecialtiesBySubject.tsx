@@ -110,7 +110,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             }
             let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:1 }
 
-            this.FetchData(subjectsAndDistrict);
+            this.fetchData(subjectsAndDistrict);
         }
         else
         {
@@ -127,7 +127,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
         let subjectsAndDistrict = { ListSubjects: result, District: this.state.selectDistrict.value, countOfElementsOnPage: 10, page: selected+1 }
        
-        this.FetchData(subjectsAndDistrict);
+        this.fetchData(subjectsAndDistrict);
     }
 
     handlePageClick = (data) => {
@@ -135,7 +135,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         this.loadFromServer(selected);
     }
 
-    private FetchData(subjectsAndDistrict: object)
+    private fetchData(subjectsAndDistrict: object)
     {
         fetch('api/ChooseUniversity/ChoseSpecBySublist', {
             method: 'POST',
