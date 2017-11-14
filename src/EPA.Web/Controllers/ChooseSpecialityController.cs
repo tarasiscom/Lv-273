@@ -22,7 +22,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/ChooseUniversity/ChoseSpecBySub")]
-        public IEnumerable<Subject> GetSubject() => this.specialtyProvider.GetAllSubjects();
+        public IEnumerable<Subject> GetAllSubjects() => this.specialtyProvider.GetAllSubjects();
 
         /// <summary>
         /// This method retrives list of districts
@@ -38,7 +38,7 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+        public SpecialtiesAndCount GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction and district
