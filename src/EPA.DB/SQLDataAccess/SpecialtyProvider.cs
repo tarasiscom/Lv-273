@@ -2,7 +2,6 @@
 using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
-using EPA.MSSQL.Models;
 using EPA.MSSQL.BusLogic;
 
 namespace EPA.MSSQL.SQLDataAccess
@@ -17,23 +16,26 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
         {
-            IEnumerable<EPA.Common.DTO.Specialty> qry;
+            Common.DTO.SpecialtiesAndCount result;
+
             if (directionAndDistrictinfo.District == 0)
             {
-                qry = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
+                result = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
 
             }
             else
             {
-                qry = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
+                result = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
             }
-            return qry;
+            return result;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirection(DirectionInfo directionInfo)
         {
+            Common.DTO.SpecialtiesAndCount result = new Common.DTO.SpecialtiesAndCount();
+
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
                       join d in this.context.Districts on u.District.Id equals d.Id
@@ -50,11 +52,15 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry.Skip((directionInfo.Page - 1) * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
+            result.CountOfAllElements = qry.Count();
+            result.ListSpecialties = qry.Skip((directionInfo.Page - 1) * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
+            return result;
         }
 
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrictInfo directionAndDistrict)
+        public Common.DTO.SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrictInfo directionAndDistrict)
         {
+            Common.DTO.SpecialtiesAndCount result = new Common.DTO.SpecialtiesAndCount();
+
             var qry = from s in this.context.Specialties
                       join u in this.context.Universities on s.University.Id equals u.Id
                       join d in this.context.Districts on u.District.Id equals d.Id
@@ -72,7 +78,9 @@ namespace EPA.MSSQL.SQLDataAccess
                                       where ss.Specialty.Id == s.Id
                                       select ss.Subject.ToCommon()).ToList()
                       };
-            return qry.Skip((directionAndDistrict.Page - 1) * directionAndDistrict.CountOfElementsOnPage).Take(directionAndDistrict.CountOfElementsOnPage);
+            result.CountOfAllElements = qry.Count();
+            result.ListSpecialties = qry.Skip((directionAndDistrict.Page - 1) * directionAndDistrict.CountOfElementsOnPage).Take(directionAndDistrict.CountOfElementsOnPage);
+            return result;
         }
 
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
@@ -89,8 +97,6 @@ namespace EPA.MSSQL.SQLDataAccess
                          select grouped.Key).ToList();
                     result.CountOfAllElements = q.Count;
                     result.ListSpecialties = this.GetSpecialty(listSubjectsAndDistrict, q);
-                //return this.GetSpecialty;
-                
             }
             else
             {
