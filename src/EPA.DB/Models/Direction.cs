@@ -13,5 +13,7 @@ namespace EPA.MSSQL.Models
         public List<Specialty> Specialties { get; set; }
 
         public List<ProfDirection> ProfDirections { get; set; }
+
+        public GeneralDirection GeneralDirection { get; set; }
     }
 }
