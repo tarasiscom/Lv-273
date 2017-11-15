@@ -127,7 +127,6 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateType
     renderResult() {
         this.submitTest();
         if (this.state.isSubmitted == true) {
-            console.log(this.state.testResult);
             return <div><TestResults testresult={this.state.testResult} /></div>
         }
         else {

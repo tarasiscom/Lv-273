@@ -10,7 +10,7 @@ body {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
 .labelradar {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .logo1 {
@@ -119,7 +119,9 @@ body {
 .radar-position {
     position:fixed;
 }
-
+.labelwidth{
+    width:100px;
+} 
 @media screen and (max-width: 1200px) {
     .radar-position {
         position: relative;

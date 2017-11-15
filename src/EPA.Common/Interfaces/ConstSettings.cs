@@ -2,6 +2,6 @@
 {
     public class ConstSettings
     {
-        public int NumberOfUniversities { get; set; }
+        public int koefOfNumApplication { get; set; }
     }
 }

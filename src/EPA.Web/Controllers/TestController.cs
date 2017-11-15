@@ -1,7 +1,7 @@
 ﻿using EPA.Common.Interfaces;
 using EPA.Common.DTO;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EPA.Web.Controllers.ProfTest
 {

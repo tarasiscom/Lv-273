@@ -14,9 +14,11 @@ interface GeneralDir {
     name: string;
     description: string;
 }
+
 interface GeneralDirectionResult {
     testresult: TestResult[];
 }
+
 interface Specialty {
     name: string;
     university: string;
@@ -31,21 +33,24 @@ interface SpecialtyInfo {
     listSpecialties: Specialty[];
     countOfAllElements: number;
 }
+
 interface Subject {
     id: number;
     name: string
 }
+
 interface GeneralTest {
     specialties: SpecialtyInfo;
     countsOfElementsOnPage: number
     idCurrentDirection: number;
-    maxscore: number;
+    maxScore: number;
 }
+
 export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
-        this.state = { specialties: { listSpecialties: [], countOfAllElements:0 }, maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
+        this.state = { specialties: { listSpecialties: [], countOfAllElements: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
         this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
@@ -62,7 +67,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
                                 breakClassName={"break-me"}
-                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
+                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} 
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
@@ -76,7 +81,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     }
 
     handlePageClick = (data) => {
-        let selected = data.selected+1;
+        let selected = data.selected + 1;
         this.GetSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {
@@ -85,12 +90,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
                 width={450}
                 height={450}
                 padding={60}
-                domainMax={this.state.maxscore}
+                domainMax={this.state.maxScore}
                 data={{
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}> {gen.generalDir.name}</a>
+                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -125,8 +130,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     }
     private GetDomainMax() {
         var max = this.GetGeneralDirectionWithMaxScore().score;
-        if (max % 5 > 2)
-            return max + (5 - max % 5);
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }
