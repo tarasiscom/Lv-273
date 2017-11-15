@@ -9,6 +9,11 @@ import { ChooseSpecialty } from './ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './ChooseSpecialtiesByDirection';
 import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
+import PropTypes from 'prop-types';
+
+export interface ErrorHandlerProp {
+    onError: PropTypes.func
+}
 
 interface AppErrorHandler{
     isError: boolean,
@@ -23,7 +28,6 @@ export class App extends React.Component<{}, AppErrorHandler> {
             errorMessage: '404'
         };
     }
-
 
     onError = (message) => {
         this.setState({ isError: true, errorMessage: message });
@@ -42,19 +46,18 @@ export class App extends React.Component<{}, AppErrorHandler> {
                         errRoute
                         :
                         <Switch>
-                            <Route exact path='/' render={(props) => (<Home {...props} message={this.state.errorMessage} />)} />
-                            <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
+                            <Route exact path='/' render={(props) => (<Home {...props} />)} />
+                            <Route exact path='/profTest' render={(props) => (<ProfTest {...props} onError={this.onError} />)} />
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
-                            <Route exact path='/profTest' render={(props) => (<ProfTest {...props} />)} />
+                            <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
                             <Route exact path='/ChooseSpecialties/ChooseSpecBySub' component={ChooseSpecialtiesBySubject} />
                             <Route exact path='/ChooseSpecialties/ChooseSpecByDir' component={ChooseSpecialtiesByDirection} />
                             {errRoute}
                         </Switch>
                 }
-            </Layout>           
-        )
-        
+            </Layout>
+        )        
     }
 
     

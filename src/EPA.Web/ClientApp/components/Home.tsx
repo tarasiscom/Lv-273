@@ -3,11 +3,9 @@ import { RouteComponentProps } from 'react-router';
 //import logo from "ClientApp/images/epa1.png";
 
 
-interface Err {
-    message: string;
-}
 
-export class Home extends React.Component<Err, {}> {
+
+export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
 
         return <div className="pad-for-footer">         

@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
-import PropTypes from 'prop-types';
+import {ErrorHandlerProp} from './App';
 
 interface StateTypes {
     questions: TestQuestion[];
@@ -42,11 +42,8 @@ interface GeneralDir {
 }
 
 
-interface myProps {
-    onError: PropTypes.func
-}
 
-export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, StateTypes> {
+export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandlerProp, StateTypes> {
     constructor() {
         super();
         this.state = {
@@ -77,7 +74,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, S
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
         fetch(path)
-            .then(response => response.ok ? response.json() as Promise<TestQuestion[]> : this.props.onError(response.status.toString()) )
+            .then(response => response.ok ? response.json() as Promise<TestQuestion[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     questions: data,
@@ -103,7 +100,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&myProps, S
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.ok ? response.json() as Promise<TestResult[]> : this.props.onError(response.status.toString()) )
+        }).then(response => response.ok ? response.json() as Promise<TestResult[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     testResult: data,

@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { ErrorHandlerProp } from './App';
 
 //import { Error404inComp } from './errors/404';
 
@@ -17,11 +17,12 @@ interface TestDetailInformation {
     questionsCount: number;
     loading: boolean;
 }
-interface myProps {
+/*
+interface ErrorHandlerProp {
     onError: PropTypes.func    
-}
+}*/
 
-export class TestInfo extends React.Component<RouteComponentProps<{}>&myProps, TestDetailInformation> {
+export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, TestDetailInformation> {
     constructor(props) {
         super();
         this.state = {
