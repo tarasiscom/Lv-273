@@ -9,14 +9,14 @@ namespace EPA.Common.Interfaces
     public interface ISpecialtyProvider
     {
         /// <summary>
-        ///  This method retrieves more detailed information about specific test
+        ///  This method retrieves information about specialties 
         /// </summary>
         ///  <param name="listOfSubjects"> subjects for the ZNO </param>
-        ///  <returns> more detatiled test information </returns>
-        SpecialtiesAndCount GetSpecialtyBySubjects(ListSubjectsAndDistrict listOfSubjects);
+        ///  <returns> List of Specialties </returns>
+        Specialties GetSpecialtyBySubjects(ListSubjectsAndDistrict listOfSubjects);
         
         /// <summary>
-        ///  This method retrives list of all Subjects for ZNO
+        ///  This method retrives list of all Subjects
         /// </summary>
         /// <returns>List of subjects</returns>
         IEnumerable<Subject> GetAllSubjects();
@@ -32,14 +32,14 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
+        Specialties GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
         /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        SpecialtiesAndCount GetSpecialtiesByDirection(DirectionInfo directionInfo);
+        Specialties GetSpecialtiesByDirection(DirectionInfo directionInfo);
 
         /// <summary>
         /// This method retrives list of general directions

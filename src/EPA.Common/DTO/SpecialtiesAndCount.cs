@@ -4,16 +4,19 @@ using System.Text;
 
 namespace EPA.Common.DTO
 {
-    public class SpecialtiesAndCount
+    /// <summary>
+    /// This class contains information about list of Specialties that retrives from DB and it count
+    /// </summary>
+    public class Specialties
     {
         /// <summary>
-        /// Limited list of specialties
+        /// List of Specialties
         /// </summary>
-        public IEnumerable<Specialty> ListSpecialties { get; set; }
-
+        public IEnumerable<Specialty> List { get; set; }
+        
         /// <summary>
-        /// Count of all specialities
+        /// Count of Elements in list if Specialties
         /// </summary>
-        public int CountOfAllElements { get; set; }
+        public int Count { get; set; }
     }
 }
