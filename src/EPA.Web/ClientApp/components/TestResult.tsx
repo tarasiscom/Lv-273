@@ -51,19 +51,25 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
 
     constructor(props) {
         super(props);
-        this.state = { specialties: { list:[], count:0 }, maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
+        this.state = { specialties: { list:[], count:0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
         this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
         let content = <div className="row">
             <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
-                                {this.drawRadar()}
+                {this.drawRadar()}
+                <div className="row">
+                    <h3>
+                        Ваш результат - {this.GetGeneralDirectionWithMaxScore().generalDir.name}
+                    </h3>
+                </div>
                             </div>
                             <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
 
                 <ListSpecialties specialties={this.state.specialties.list} />
-                                <ReactPaginate
+                <div className="pageBar">
+                    <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
@@ -75,6 +81,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                                 containerClassName={"pagination"}
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
+                    </div>
                                 <div className="col-md-6 col-sm-12 col-xs-12 pad-for-footer2"></div>
                             </div>
                     </div>

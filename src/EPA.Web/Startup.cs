@@ -52,7 +52,6 @@ namespace EPA.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
@@ -88,7 +87,6 @@ namespace EPA.Web
                         defaults: new { controller = "Home", action = "Index" });
                 });
             });
-            loggerFactory.AddProvider(new MyLoggerProvider());
             new Mapping().Create();
         }
     }

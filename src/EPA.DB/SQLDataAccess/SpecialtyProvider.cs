@@ -3,32 +3,19 @@ using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Calculations;
+using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
     public class SpecialtyProvider : ISpecialtyProvider
     {
         private readonly EpaContext context;
+        private readonly IOptions<ConstSettings> constValues;
 
-        public SpecialtyProvider(EpaContext cont)
+        public SpecialtyProvider(EpaContext cont, IOptions<ConstSettings> constSettings)
         {
             this.context = cont;
-        }
-
-        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
-        {
-            Common.DTO.Specialties result;
-
-            if (directionAndDistrictinfo.District == 0)
-            {
-                result = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
-            }
-            else
-            {
-                result = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
-            }
-
-            return result;
+            this.constValues = constSettings;
         }
 
         public Common.DTO.Specialties GetSpecialtiesByDirection(DirectionInfo directionInfo)
@@ -53,6 +40,22 @@ namespace EPA.MSSQL.SQLDataAccess
                       };
             result.Count = qry.Count();
             result.List = qry.Skip(directionInfo.Page * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
+            return result;
+        }
+
+        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
+        {
+            Common.DTO.Specialties result;
+
+            if (directionAndDistrictinfo.District == this.constValues.Value.AllDistricts)
+            {
+                result = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
+            }
+            else
+            {
+                result = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
+            }
+
             return result;
         }
 
@@ -89,7 +92,7 @@ namespace EPA.MSSQL.SQLDataAccess
             Common.DTO.Specialties result = new Specialties();
 
             // Check if District = All
-            if (listSubjectsAndDistrict.District == 0)
+            if (listSubjectsAndDistrict.District == this.constValues.Value.AllDistricts)
             {
                 var listId = (from ss in this.context.Specialty_Subjects
                          group ss.Subject.Id by ss.Specialty.Id into grouped
@@ -129,7 +132,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where listId.Contains(s.Id)
-                    orderby CalculatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                    orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Name = s.Name,
