@@ -2,7 +2,6 @@
 using System.Linq;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
-using EPA.MSSQL.Models;
 using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess

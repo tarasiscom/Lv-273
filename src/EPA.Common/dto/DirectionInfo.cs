@@ -15,7 +15,7 @@ namespace EPA.Common.DTO
         /// </summary>
         public int Page;
         /// <summary>
-        ///  Number of elements needing at page
+        ///  Number of elements needed at page
         /// </summary>
         public int CountOfElementsOnPage;
     }

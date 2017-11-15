@@ -44,7 +44,7 @@ namespace EPA.Web.Controllers
         /// This method retrives list of specialties according to general direction and district
         /// </summary>
         /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
-        /// <returns> List of specialties </returns>
+        /// <returns> Limited list of specialties and count of all specialities</returns>
         [Route("api/choosespeciality/bydirection")]
         [HttpPost]
         public SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrictInfo directionAndDistrictInfo) => this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrictInfo);
@@ -53,7 +53,7 @@ namespace EPA.Web.Controllers
         /// This method retrives list of specialties according to general direction 
         /// </summary>
         /// <param name="directionInfo"> Contains id of the general direction, number of page and number of elements per page</param>
-        /// <returns> List of specialties </returns>
+        /// <returns> Limited list of specialties and count of all specialities </returns>
         [Route("api/choosespeciality/bydirectiononly")]
         [HttpPost]
         public SpecialtiesAndCount GetSpecialtiesByDirection([FromBody]DirectionInfo directionInfo) => this.specialtyProvider.GetSpecialtiesByDirection(directionInfo);
