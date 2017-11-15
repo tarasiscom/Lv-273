@@ -1,10 +1,13 @@
 ﻿import * as React from 'react';
-import { RouteComponentProps, withRouter, Switch } from 'react-router';
+import { RouteComponentProps, withRouter, Switch, Redirect } from 'react-router';
 import 'isomorphic-fetch';
 import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
+import { ErrorHandlerProp } from './App';
+
+//import { Error404inComp } from './errors/404';
 
 interface TestDetailInformation {
     id: number;
@@ -14,9 +17,13 @@ interface TestDetailInformation {
     questionsCount: number;
     loading: boolean;
 }
+/*
+interface ErrorHandlerProp {
+    onError: PropTypes.func    
+}*/
 
-export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetailInformation> {
-    constructor() {
+export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, TestDetailInformation> {
+    constructor(props) {
         super();
         this.state = {
             id: 0, name: "", description: "", approximateTime: 0, questionsCount: 0, loading: true
@@ -27,17 +34,22 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
         this.fetchData();
     }
 
+    onError(message) {
+        this.props.onError(message);
+    }
+
     fetchData() {
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
-            .then(response => response.json() as Promise<TestDetailInformation>)
+            .then(response => response.ok ? response.json() as Promise<TestDetailInformation> : this.props.onError(response.status.toString()) )
             .then(data => {
                 this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
-            });
+            })
     }
 
-    public render() {
+    private renderTestInfo()
+    {
         return <div className="pad-for-footer">
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
@@ -56,6 +68,14 @@ export class TestInfo extends React.Component<RouteComponentProps<{}>, TestDetai
                 </div>
             </section>
         </div>
+    }
+
+    public render() {
+        let content = this.state.loading ?
+            <p>Loading...</p>:
+            this.renderTestInfo();
+
+        return content;
     }
 }
 

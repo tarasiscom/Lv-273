@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
 import ReactPaginate from 'react-paginate';
+import { ErrorHandlerProp } from './App';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -46,7 +47,7 @@ interface GeneralTest {
     maxScore: number;
 }
 
-export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
+export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
 
     constructor(props: GeneralDirectionResult) {
         super(props);
@@ -122,7 +123,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
             method: 'POST',
             body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<SpecialtyInfo>)
+        }).then(response => response.ok ? response.json() as Promise<SpecialtyInfo> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     specialties: data,

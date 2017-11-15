@@ -3,7 +3,7 @@ using EPA.Common.DTO;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EPA.Web.Controllers.ProfTest
+namespace EPA.Web.Controllers
 {
     /// <summary>
     ///  API for Test and TestInfo draws
@@ -32,7 +32,7 @@ namespace EPA.Web.Controllers.ProfTest
         /// </summary>
         /// <param name="id"> id of the Test </param>
         /// <returns> more detatiled test Information </returns>
-        [Route("api/profTest/{id}/info")]
+        [Route("api/profTest/{id:int}/info")]
         [HttpGet]
         public TestInfo GetTestInfo(int id) => this.testProvider.GetTestInfo(id);
 
@@ -41,9 +41,12 @@ namespace EPA.Web.Controllers.ProfTest
         /// </summary>
         /// <param name="testId">ID of the test, whose questions we need</param>
         /// <returns>Collection of questions</returns>
-        [Route("/api/profTest/{testId}/questions")]
+        [Route("api/profTest/{testId:int}/questions")]
         [HttpGet]
-        public IEnumerable<Question> GetQuestions(int testId) => this.testProvider.GetQuestions(testId);
+        public IEnumerable<Question> GetQuestions(int testId)
+        {
+            return this.testProvider.GetQuestions(testId);
+        }
 
         /// <summary>
         /// This method retrieves general directions with scores based on user answers
