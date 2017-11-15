@@ -79,7 +79,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         var countOfElementsOnPage = 10;
         this.state = {
             directions: [],
-            selectValueDirection: { value: 0, label: "Всі" },
+            selectValueDirection: { value: 0, label: "Будь ласка, виберіть галузь" },
             univers: { listSpecialties: [], countOfAllElements: 1 },
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
