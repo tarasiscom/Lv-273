@@ -20,8 +20,8 @@ interface Specialities {
 
 
 interface SpecialtyInfo {
-    listSpecialties: Univer[];
-    countOfAllElements: number;
+    list: Univer[];
+    count: number;
 }
 
 interface DistrictDTO {
@@ -73,7 +73,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             districtId: 0,
 
             subjects: [],
-            univers: { listSpecialties: [], countOfAllElements:1 },
+            univers: { list: [], count:1 },
             districts: [],
             selectValueSubjects: [],
             selectDistrict: { value: 0, label: "Всі" }
@@ -113,7 +113,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 result.push(selectValueSubmit[i].value)
             }
           
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:1 }
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:0 }
             
             this.fetchDataSpecialties(subjectsAndDistrict);
 
@@ -125,23 +125,10 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         }
     }
 
-    /*
-    loadFromServer(selected) {
-        let result: number[];
-        result = [];
-        for (let i = 0; i < this.state.selectValueSubjects.length; i++) {
-            result.push(this.state.selectValueSubjects[i].value)
-        }
-
-        let subjectsAndDistrict = { ListSubjects: this.state.filterSubjects, District: this.state.filterDistrict, countOfElementsOnPage: 10, page: selected+1 }
-       
-        this.fetchDataSpecialties(subjectsAndDistrict);
-    }*/
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        //this.loadFromServer(selected);
-        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: 10, page: selected + 1 }
+        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: 10, page: selected }
 
         this.fetchDataSpecialties(subjectsAndDistrict);
     }
@@ -161,25 +148,25 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     public render() {
         
         let tabbord;
-        if (this.state.univers.countOfAllElements == 0) {
+        if (this.state.univers.count == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено. Виберіть інші предмети, або область.</h1>
             </div>
         }
         else
         {
-            tabbord = <ListSpecialties specialties={this.state.univers.listSpecialties} />
+            tabbord = <ListSpecialties specialties={this.state.univers.list} />
         }
 
         let pagin;
-        if (this.state.univers.countOfAllElements > 10)
+        if (this.state.univers.count > 10)
         {
             pagin = <ReactPaginate 
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
-                pageCount={this.state.univers.countOfAllElements / 10}
+                pageCount={this.state.univers.count / 10}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}

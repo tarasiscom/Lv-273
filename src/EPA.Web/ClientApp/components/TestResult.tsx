@@ -31,8 +31,8 @@ interface Specialty {
 }
 
 interface SpecialtyInfo {
-    listSpecialties: Specialty[];
-    countOfAllElements: number;
+    list: Specialty[];
+    count: number;
 }
 
 interface Subject {
@@ -51,7 +51,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
 
     constructor(props) {
         super(props);
-        this.state = { specialties: { listSpecialties: [], countOfAllElements: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
+        this.state = { specialties: { list:[], count:0 }, maxscore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
         this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
@@ -62,13 +62,13 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                             </div>
                             <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
 
-                <ListSpecialties specialties={this.state.specialties.listSpecialties} />
+                <ListSpecialties specialties={this.state.specialties.list} />
                                 <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
                                 breakClassName={"break-me"}
-                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} 
+                                pageCount={this.state.specialties.count / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
@@ -82,7 +82,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
     }
 
     handlePageClick = (data) => {
-        let selected = data.selected + 1;
+        let selected = data.selected;
         this.GetSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {

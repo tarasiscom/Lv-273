@@ -65,8 +65,8 @@ interface Univer {
 }
 
 interface SpecialtyInfo {
-    listSpecialties: Univer[];
-    countOfAllElements: number;
+    list: Univer[];
+    count: number;
 }
 
 
@@ -79,8 +79,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         var countOfElementsOnPage = 10;
         this.state = {
             directions: [],
-            selectValueDirection: { value: 0, label: "Будь ласка, виберіть галузь" },
-            univers: { listSpecialties: [], countOfAllElements: 1 },
+            selectValueDirection: { value: 0, label: "Всі" },
+            univers: { list: [], count: 1 },
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
@@ -118,7 +118,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: 10, page: selected + 1 }
+        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: 10, page: selected }
         this.fetchData(directionAndDistrict);
     }
 
@@ -136,7 +136,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit)
         {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 1 }
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 0 }
 
             this.fetchData(directionAndDistrict); 
 
@@ -151,23 +151,23 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     render() {
 
         let tabbord;
-        if (this.state.univers.countOfAllElements == 0) {
+        if (this.state.univers.count == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
             </div>
         }
         else {
-            tabbord = <ListSpecialties specialties={this.state.univers.listSpecialties} />
+            tabbord = <ListSpecialties specialties={this.state.univers.list} />
         }
 
         let pagin;
-        if (this.state.univers.countOfAllElements > 10) {
+        if (this.state.univers.count > 10) {
             pagin = <ReactPaginate
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
-                pageCount={this.state.univers.countOfAllElements / 10}
+                pageCount={this.state.univers.count / 10}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}

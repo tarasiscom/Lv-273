@@ -94,7 +94,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandl
     };  
 
     submitTest() {
-        fetch("api/profTest/" + this.props.match.params['id'] + "/result", {
+        fetch("api/profTest/result", {
             method: 'POST',
             body: JSON.stringify(this.state.userAnswers),
             headers: {
