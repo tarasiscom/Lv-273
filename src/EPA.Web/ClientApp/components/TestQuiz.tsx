@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
+import { ErrorHandlerProp} from './App';
 
 interface StateTypes {
     questions: TestQuestion[];
@@ -40,7 +41,9 @@ interface GeneralDir {
     description: string;
 }
 
-export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateTypes> {
+
+
+export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandlerProp, StateTypes> {
     constructor() {
         super();
         this.state = {
@@ -60,9 +63,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateType
         let updatedAnswers = this.state.userAnswers.slice();
         updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });        
 
-        let nextPage = this.state.currentPage < this.state.questions.length
-            ? this.state.currentPage + 1
-            : this.state.currentPage;
+        let nextPage = this.state.currentPage + 1;
         this.setState({
             userAnswers: updatedAnswers,
             currentPage: nextPage
@@ -73,7 +74,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateType
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
         fetch(path)
-            .then(response => response.json() as Promise<TestQuestion[]>)
+            .then(response => response.ok ? response.json() as Promise<TestQuestion[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     questions: data,
@@ -99,7 +100,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateType
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json() as Promise<TestResult[]>)
+        }).then(response => response.ok ? response.json() as Promise<TestResult[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     testResult: data,
@@ -113,32 +114,26 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>, StateType
             return <p><em>Loading...</em></p>
         }
         else {
-            return <div>{this.state.isSubmitted == false ? this.rendeQuiz() : this.renderResult()}</div>
+            return <div>{this.state.currentPage <= this.state.questions.length ? this.rendeQuiz() : this.renderResult()}</div>
         }        
     }
 
     rendeQuiz() {
-        const submit = this.state.currentPage == this.state.questions.length
-            ? this.renderSubmitButton()
-            : <div></div>
-        return <div className="col">
+        return <div className="col margin-bottom">
                     <Question questionNumber={this.state.currentPage}
                               question={this.state.questions[this.state.currentPage - 1]}
                               onAnswerChoose={this.onAnswerChoose} />
-                    <div className="row submit_btn">{submit}</div>
                     <div className="pagin"><Paginate totalPage={this.state.questions.length} focusPage={this.changePage} /></div>
         </div>
     }
-
-    renderSubmitButton()
-    {
-        return <div className="col-md-2 col-md-offset-5">
-            <button className="btn btn-lg btn-block btn-success p-1" onClick={this.submitTest}>Завершити тест</button>
-        </div>
-    }
-
+    
     renderResult() {
-        console.log(this.state.testResult);
-        return <div><TestResults testresult={this.state.testResult}/></div>
+        if (this.state.isSubmitted) {
+            return <div><TestResults testresult={this.state.testResult} onError={this.props.onError} /></div>
+        }
+        else {
+            this.submitTest();
+            return <p><em>Loading...</em></p>
+        }
     };
 };

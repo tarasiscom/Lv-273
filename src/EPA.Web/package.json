@@ -35,6 +35,7 @@
     "react-tabbordion": "1.0.2",
     "react-responsive-accordion": "1.0.0",
     "react-pagination-component": "1.0.1",
-    "react-d3-radar": "0.2.6"
+    "react-d3-radar": "0.2.6",
+    "react-paginate": "5.0.0"
   }
 }

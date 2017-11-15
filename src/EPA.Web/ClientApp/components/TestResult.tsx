@@ -2,6 +2,8 @@
 import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
+import ReactPaginate from 'react-paginate';
+import { ErrorHandlerProp } from './App';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -13,9 +15,11 @@ interface GeneralDir {
     name: string;
     description: string;
 }
+
 interface GeneralDirectionResult {
     testresult: TestResult[];
 }
+
 interface Specialty {
     name: string;
     university: string;
@@ -25,47 +29,74 @@ interface Specialty {
     subjects: Subject[];
 
 }
+
+interface SpecialtyInfo {
+    listSpecialties: Specialty[];
+    countOfAllElements: number;
+}
+
 interface Subject {
     id: number;
     name: string
 }
-interface GeneralTest {
-    specialties: Specialty[];
-    currentid: number;
-    maxscore: number;
-}
-export default class TestResults extends React.Component<GeneralDirectionResult, GeneralTest> {
 
-    constructor(props: GeneralDirectionResult) {
+interface GeneralTest {
+    specialties: SpecialtyInfo;
+    countsOfElementsOnPage: number
+    idCurrentDirection: number;
+    maxScore: number;
+}
+
+export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
+
+    constructor(props) {
         super(props);
-        this.state = { currentid: this.GetGeneralDirectionWithMaxScore().generalDir.id, specialties: [], maxscore: this.GetDomainMax() }
-        this.GetSpecialties(this.state.currentid);
+        this.state = { specialties: { listSpecialties: [], countOfAllElements: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
+        this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
         let loading = <p><em>Loading...</em></p>
         let content = <div className="row">
-                            <div className="affix col-md-5 col-sm-5 col-xs-5">
+            <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
                                 {this.drawRadar()}
                             </div>
-                            <div className="col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 col-xs-offset-5 col-xs-7">
-                                <ListSpecialties specialties={this.state.specialties} />
+                            <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
+
+                <ListSpecialties specialties={this.state.specialties.listSpecialties} />
+                                <ReactPaginate
+                                previousLabel={"Попередня"}
+                                nextLabel={"Наступна"}
+                                breakLabel={<a>...</a>}
+                                breakClassName={"break-me"}
+                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} 
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                                <div className="col-md-6 col-sm-12 col-xs-12 pad-for-footer2"></div>
                             </div>
                     </div>
         return <div>{content}</div>
     }
 
+    handlePageClick = (data) => {
+        let selected = data.selected + 1;
+        this.GetSpecialties(this.state.idCurrentDirection, selected);
+    }
     drawRadar() {
         return <div className="text-left">
             <Radar className="radar"
                 width={450}
                 height={450}
                 padding={60}
-                domainMax={this.state.maxscore}
+                domainMax={this.state.maxScore}
                 data={{
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelfont" onClick={this.GetSpecialties.bind(this, gen.generalDir.id)}> {gen.generalDir.name}</a>
+                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -82,15 +113,17 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
         </div>
     }
 
-    GetSpecialties = (id) => {
-        
-        this.setState({ currentid: id })
-        
+    GetSpecialties = (id, selectedPage) => {
+
+        this.setState({idCurrentDirection: id});
+        let directionInfo = {
+            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
+        }
         fetch('api/choosespeciality/bydirectiononly', {
             method: 'POST',
-            body: JSON.stringify(this.state.currentid),
+            body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Specialty[]>)
+        }).then(response => response.ok ? response.json() as Promise<SpecialtyInfo> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     specialties: data,
@@ -98,8 +131,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult,
     }
     private GetDomainMax() {
         var max = this.GetGeneralDirectionWithMaxScore().score;
-        if (max % 5 > 2)
-            return max + (5 - max % 5);
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }

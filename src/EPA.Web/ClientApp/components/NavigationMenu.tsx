@@ -14,6 +14,7 @@ export class NavigationMenu extends React.Component<{}, {}> {
                         </button>
                         <Link className="navbar-brand" to={'/'}> EPA</Link>
                     </div>
+
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
                             <li><Link to={'/'}>Усі Університети</Link></li>
