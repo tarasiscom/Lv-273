@@ -49,7 +49,7 @@ interface GeneralTest {
 
 export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
 
-    constructor(props: GeneralDirectionResult) {
+    constructor(props) {
         super(props);
         this.state = { specialties: { listSpecialties: [], countOfAllElements: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
         this.GetSpecialties(this.state.idCurrentDirection, 1);

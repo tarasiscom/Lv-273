@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
-import {ErrorHandlerProp} from './App';
+import { ErrorHandlerProp} from './App';
 
 interface StateTypes {
     questions: TestQuestion[];
@@ -129,7 +129,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandl
     
     renderResult() {
         if (this.state.isSubmitted) {
-            return <div><TestResults testresult={this.state.testResult} /></div>
+            return <div><TestResults testresult={this.state.testResult} onError={this.props.onError} /></div>
         }
         else {
             this.submitTest();
