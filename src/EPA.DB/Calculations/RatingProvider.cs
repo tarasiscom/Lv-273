@@ -4,6 +4,9 @@ using EPA.Common.Interfaces;
 
 namespace EPA.MSSQL.Calculations
 {
+    /// <summary>
+    /// This class contains methods for calculating specialities rating
+    /// </summary>
     public class RatingProvider
     {
         private static IOptions<ConstSettings> constValues;
@@ -15,16 +18,19 @@ namespace EPA.MSSQL.Calculations
         }
 
         /// <summary>
-        /// This method retrieves rating of Specialty
+        /// This method  calculating speciality rating
         /// </summary>
+        /// <param name="numApplication">Amount of all entrants applications</param>
+        /// <param name="numEnrolled">Amount of enrolled students</param>
+        /// <returns>Speciality rating</returns>
         public static double GetRating(int numApplication, int numEnrolled)
         {
-            try
-            {
+            if(numEnrolled != 0)
+            { 
                 return (double)numApplication / numEnrolled + numApplication * KoefOfNumApplication;
             }
-            catch (DivideByZeroException)
-            {
+            else
+            { 
                 return 0;
             }
         }
