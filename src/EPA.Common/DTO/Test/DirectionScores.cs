@@ -1,6 +1,4 @@
-﻿using EPA.Common.DTO;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
     /// Represent score of direction based on user answers

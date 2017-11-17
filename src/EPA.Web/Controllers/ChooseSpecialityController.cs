@@ -38,7 +38,7 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        public Specialties GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction and district

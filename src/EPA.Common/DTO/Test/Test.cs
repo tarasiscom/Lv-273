@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    /// Represents District
+    ///  Describes poor information for the test(needed for showing test lists)
     /// </summary>
-    public class District
+    public class Test
     {
         /// <summary>
-        /// District's Id
+        ///  ID of the test
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// District's Name
+        ///  Name of the test
         /// </summary>
         public string Name { get; set; }
     }
