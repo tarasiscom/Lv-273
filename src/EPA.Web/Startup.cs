@@ -83,7 +83,7 @@ namespace EPA.Web
                         defaults: new { controller = "Home", action = "Index" });
                 });
             });
-            new Mapping().Create();
+            Mapping.Create();
         }
     }
 }

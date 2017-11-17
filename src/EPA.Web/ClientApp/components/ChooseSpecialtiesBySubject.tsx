@@ -10,7 +10,7 @@ import  ReactPaginate  from 'react-paginate';
 interface Specialities {
     districtId: number;
     subjectsIds: number[];
-
+    countOfElementsOnPage: number;
     subjects: Subject[];
     univers: SpecialtyInfo;
     districts: District[];
@@ -71,7 +71,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
             subjectsIds: [],
             districtId: 0,
-
+            countOfElementsOnPage: 10,
             subjects: [],
             univers: { list: [], count:1 },
             districts: [],
@@ -106,14 +106,14 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
     
     submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit && districtValueSubmit) {
+        if (selectValueSubmit!=null && selectValueSubmit.length > 0 && districtValueSubmit) {
             let result: number[];
             result = [];
             for (let i = 0; i < selectValueSubmit.length; i++) {
                 result.push(selectValueSubmit[i].value)
             }
-          
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage:10,page:0 }
+
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.countOfElementsOnPage, page: 0 }
             
             this.fetchDataSpecialties(subjectsAndDistrict);
 
@@ -128,7 +128,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: 10, page: selected }
+        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.countOfElementsOnPage, page: selected }
 
         this.fetchDataSpecialties(subjectsAndDistrict);
     }
@@ -166,7 +166,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
-                pageCount={this.state.univers.count / 10}
+                pageCount={this.state.univers.count / this.state.countOfElementsOnPage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}
@@ -179,8 +179,10 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 <section className="jumbotron center-block">
                     <div className="container">
                         <div className="navigate">
-                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-1"><p>Предмети</p>
-                                <VirtualizedSelect multi={true} options={this.state.subjects} onChange={(valueArray) => this.setState({ selectValueSubjects: valueArray })}
+                            <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
+                                <VirtualizedSelect multi={true} options={this.state.subjects} onChange={
+                                    (valueArray) => this.setState({ selectValueSubjects: valueArray }
+                                    )}
                                     value={this.state.selectValueSubjects}></VirtualizedSelect>
                             </div>
                             <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
@@ -190,7 +192,9 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                             </div>
                             <div>
                                 <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
-                                    onClick={() => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)}> Пошук</button>
+                                    onClick={
+                                        () => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)
+                                    }> Пошук</button>
                             </div>
                         </div>
                     </div>
