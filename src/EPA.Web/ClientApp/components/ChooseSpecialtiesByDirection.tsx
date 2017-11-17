@@ -17,6 +17,7 @@ interface Specialties {
     univers: SpecialtyInfo;
     districtId: number;
     directionId: number;
+    countOfElementsOnPage: number;
 }
 
 interface GeneralDirectionDTO {
@@ -48,8 +49,6 @@ class District {
     }
 }
 
-
-
 interface Subject {
     id: number;
     name: string
@@ -76,7 +75,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     constructor() {
         
         super();
-        var countOfElementsOnPage = 10;
+       
         this.state = {
             directions: [],
             selectValueDirection: { value: 0, label: "Всі" },
@@ -84,7 +83,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
-            directionId: 0
+            directionId: 0,
+            countOfElementsOnPage: 10
         }
         
     }
@@ -118,7 +118,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: 10, page: selected }
+        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.countOfElementsOnPage, page: selected }
         this.fetchData(directionAndDistrict);
     }
 
@@ -136,7 +136,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit)
         {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 0 }
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: this.state.countOfElementsOnPage, page: 0 }
 
             this.fetchData(directionAndDistrict); 
 
@@ -161,13 +161,13 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         }
 
         let pagin;
-        if (this.state.univers.count > 10) {
+        if (this.state.univers.count > this.state.countOfElementsOnPage) {
             pagin = <ReactPaginate
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
-                pageCount={this.state.univers.count / 10}
+                pageCount={this.state.univers.count / this.state.countOfElementsOnPage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}
