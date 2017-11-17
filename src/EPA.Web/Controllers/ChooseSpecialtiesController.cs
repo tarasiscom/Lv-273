@@ -21,39 +21,46 @@ namespace EPA.Web.Controllers
         /// This mehod retrives list of subjects
         /// </summary>
         /// <returns>List of subjects</returns>
-        [Route("api/ChooseSpecialties/ChoseSpecBySub")]
+        [Route("api/ChooseSpecialties/subjectsList")]
         public IEnumerable<Subject> GetAllSubjects() => this.specialtyProvider.GetAllSubjects();
+
+        /// <summary>
+        /// This method retrives list of general directions
+        /// </summary>
+        /// <returns> List of general directions </returns>
+        [Route("api/ChooseSpecialties/directionsList")]
+        public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
 
         /// <summary>
         /// This method retrives list of districts
         /// </summary>
         /// <returns>List of districts</returns>
-        [Route("api/ChooseSpecialties/ChoseSpecDistrictList")]
+        [Route("api/ChooseSpecialties/districtsList")]
         public IEnumerable<District> GetAllDistrict() => this.specialtyProvider.GetAllDistricts();
 
         /// <summary>
         /// This method retrives list of specialties according to subjects
         /// </summary>
-        /// <param name="subjectsAndDistrict">List of subject</param>
+        /// <param name="subjects">List of subject</param>
         /// <returns>List of specialties </returns>
-        [Route("api/ChooseSpecialties/ChoseSpecBySublist")]
+        [Route("api/ChooseSpecialties/bySubject")]
         [HttpPost]
-        public Specialties GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict)
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjects)
         {
-            return this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+            return this.specialtyProvider.GetSpecialtyBySubjects(subjects);
         }
 
         /// <summary>
         /// This method retrives list of specialties according to general direction and district
         /// </summary>
-        /// <param name="directionAndDistrictInfo"> Contains id of the general direction,
+        /// <param name="direction"> Contains id of the general direction,
         /// district id, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialities</returns>
-        [Route("api/ChooseSpecialties/bydirection")]
+        [Route("api/ChooseSpecialties/byDirectionAndDistrict")]
         [HttpPost]
-        public Specialties GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrictInfo directionAndDistrictInfo)
+        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict([FromBody] DirectionInfo direction)
         {
-            return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrictInfo);
+            return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(direction);
         }
 
         /// <summary>
@@ -62,18 +69,11 @@ namespace EPA.Web.Controllers
         /// <param name="directionInfo"> Contains id of the general direction,
         /// number of page and number of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialities </returns>
-        [Route("api/ChooseSpecialties/bydirectiononly")]
+        [Route("api/ChooseSpecialties/byDirection")]
         [HttpPost]
-        public Specialties GetSpecialtiesByDirection([FromBody]DirectionInfo directionInfo)
+        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody] DirectionInfo directionInfo)
         {
             return this.specialtyProvider.GetSpecialtiesByDirection(directionInfo);
         }
-
-        /// <summary>
-        /// This method retrives list of general directions
-        /// </summary>
-        /// <returns> List of general directions </returns>
-        [Route("api/ChooseSpecialties/getdirection")]
-        public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
     }
 }
