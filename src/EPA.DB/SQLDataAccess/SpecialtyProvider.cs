@@ -7,131 +7,153 @@ using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
+    /// <summary>
+    /// This class contains methods for obtaining specialties data from database
+    /// </summary>
     public class SpecialtyProvider : ISpecialtyProvider
     {
         private readonly EpaContext context;
         private readonly IOptions<ConstSettings> constValues;
 
-        public SpecialtyProvider(EpaContext cont, IOptions<ConstSettings> constSettings)
+        public SpecialtyProvider(EpaContext context, IOptions<ConstSettings> constSettings)
         {
-            this.context = cont;
+            this.context = context;
             this.constValues = constSettings;
         }
 
-        public Common.DTO.Specialties GetSpecialtiesByDirection(DirectionInfo directionInfo)
-        {
-            Common.DTO.Specialties result = new Common.DTO.Specialties();
+        /// <summary>
+        /// This method retrieves collection of all subjects from database
+        /// </summary>
+        /// <returns>Collection of subjects</returns>
+        public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
 
-            var qry = from s in this.context.Specialties
-                      where s.Direction.GeneralDirection.Id == directionInfo.GeneralDirection
-                      join u in this.context.Universities on s.University.Id equals u.Id
-                      join d in this.context.Districts on u.District.Id equals d.Id
-                      orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
-                      select new Common.DTO.Specialty()
-                      {
-                          Name = s.Name,
-                          Address = u.Address,
-                          District = d.Name,
-                          Site = u.Site,
-                          University = u.Name,
-                          Subjects = (from ss in this.context.Specialty_Subjects
-                                      where ss.Specialty.Id == s.Id
-                                      select ss.Subject.ToCommon()).ToList()
-                      };
-            result.Count = qry.Count();
-            result.List = qry.Skip(directionInfo.Page * directionInfo.CountOfElementsOnPage).Take(directionInfo.CountOfElementsOnPage);
-            return result;
-        }
+        /// <summary>
+        /// This method retrieves collection of all districts from database
+        /// </summary>
+        /// <returns>Collection of districts</returns>
+        public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
 
-        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrict(DirectionInfo directionAndDistrictinfo)
-        {
-            Common.DTO.Specialties result;
-
-            if (directionAndDistrictinfo.District == this.constValues.Value.AllDistricts)
-            {
-                result = this.GetSpecialtiesByDirection(directionAndDistrictinfo);
-            }
-            else
-            {
-                result = this.GetSpecialtiesByDirectionAndDistrictAll(directionAndDistrictinfo);
-            }
-
-            return result;
-        }
-
-        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrictAll(DirectionAndDistrictInfo directionAndDistrict)
-        {
-            Common.DTO.Specialties result = new Common.DTO.Specialties();
-
-            var qry = from s in this.context.Specialties
-                      where s.Direction.GeneralDirection.Id == directionAndDistrict.GeneralDirection
-                      join u in this.context.Universities on s.University.Id equals u.Id
-                      join d in this.context.Districts on u.District.Id equals d.Id
-                      where d.Id == directionAndDistrict.District
-                      orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
-                      select new Common.DTO.Specialty()
-                      {
-                          Name = s.Name,
-                          Address = u.Address,
-                          District = d.Name,
-                          Site = u.Site,
-                          University = u.Name,
-                          Subjects = (from ss in this.context.Specialty_Subjects
-                                      where ss.Specialty.Id == s.Id
-                                      select ss.Subject.ToCommon()).ToList()
-                      };
-            result.Count = qry.Count();
-            result.List = qry.Skip(directionAndDistrict.Page * directionAndDistrict.CountOfElementsOnPage).Take(directionAndDistrict.CountOfElementsOnPage);
-            return result;
-        }
-
+        /// <summary>
+        /// This method retrieves collection of all general directions
+        /// </summary>
+        /// <returns>Collection of general directions</returns>
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        public Common.DTO.Specialties GetSpecialtyBySubjects(ListSubjectsAndDistrict listSubjectsAndDistrict)
+        /// <summary>
+        /// This method retrieves collection of specialties which relates to chosen direction
+        /// </summary>
+        /// <param name="directionInfo">Information about direction for which specialties are filtered</param>
+        /// <returns>Collection of specialties with their amount</returns>
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo)
         {
-            Common.DTO.Specialties result = new Specialties();
 
-            // Check if District = All
-            if (listSubjectsAndDistrict.District == this.constValues.Value.AllDistricts)
+            var specialties = from s in this.context.Specialties
+                              where s.Direction.GeneralDirection.Id == directionInfo.GeneralDirection
+                              join u in this.context.Universities on s.University.Id equals u.Id
+                              join d in this.context.Districts on u.District.Id equals d.Id
+                              orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                              select new Common.DTO.Specialty()
+                              {
+                                  Name = s.Name,
+                                  Address = u.Address,
+                                  District = d.Name,
+                                  Site = u.Site,
+                                  University = u.Name,
+                                  Subjects = (from ss in this.context.Specialty_Subjects
+                                              where ss.Specialty.Id == s.Id
+                                              select ss.Subject.ToCommon()).ToList()
+                              };
+
+            return specialties.Skip(directionInfo.Page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
+        }
+
+        /// <summary>
+        /// This method retrieves collection of specialties which relates to chosen direction and district
+        /// </summary>
+        /// <param name="directionAndDistrictinfo"></param>
+        /// <returns></returns>
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionInfo directionInfo)
+        {
+            IEnumerable<Specialty> specialties;
+
+            if (directionInfo.District == this.constValues.Value.AllDistricts)
             {
-                var listId = (from ss in this.context.Specialty_Subjects
-                         group ss.Subject.Id by ss.Specialty.Id into grouped
-                         where listSubjectsAndDistrict.ListSubjects.All(x => grouped.Contains(x)) &&
-                         grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
-                         select grouped.Key).ToList();
-                result.Count = listId.Count;
-                result.List = this.GetSpecialty(listSubjectsAndDistrict, listId);
+                specialties = this.GetSpecialtiesByDirection(directionInfo);
             }
             else
             {
-                var listId = (from ss in this.context.Specialty_Subjects
-                         where ss.Specialty.University.District.Id == listSubjectsAndDistrict.District
-                         group ss.Subject.Id by ss.Specialty.Id into grouped
-                         where listSubjectsAndDistrict.ListSubjects.All(x => grouped.Contains(x)) &&
-                         grouped.Count() >= listSubjectsAndDistrict.ListSubjects.Count()
-                         select grouped.Key).ToList();
-                result.Count = listId.Count;
-                result.List = this.GetSpecialty(listSubjectsAndDistrict, listId);
+                specialties = this.GetSpecialtiesByDirectionAndDistrictAll(directionInfo);
             }
 
+            return specialties;
+        }
+
+        /// <summary>
+        /// This method retrieves collection of specialties which relates to chosen direction
+        /// </summary>
+        /// <param name="directionAndDistrict"></param>
+        /// <returns></returns>
+        private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionInfo direction)
+        {
+            IEnumerable<Specialty> result;
+
+            var specialties = from s in this.context.Specialties
+                              where s.Direction.GeneralDirection.Id == direction.GeneralDirection
+                              join u in this.context.Universities on s.University.Id equals u.Id
+                              join d in this.context.Districts on u.District.Id equals d.Id
+                              where d.Id == direction.District
+                              orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                              select new Common.DTO.Specialty()
+                              {
+                                  Name = s.Name,
+                                  Address = u.Address,
+                                  District = d.Name,
+                                  Site = u.Site,
+                                  University = u.Name,
+                                  Subjects = (from ss in this.context.Specialty_Subjects
+                                              where ss.Specialty.Id == s.Id
+                                              select ss.Subject.ToCommon()).ToList()
+                              };
+
+            result = specialties.Skip(direction.Page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
             return result;
         }
 
-        public IEnumerable<Common.DTO.Subject> GetAllSubjects()
-        {
-            return this.context.Subjects.Select(x => x.ToCommon());
-        }
 
-        public IEnumerable<Common.DTO.District> GetAllDistricts()
-        {
-            return this.context.Districts.Select(x => x.ToCommon());
-        }
 
-        private IEnumerable<Common.DTO.Specialty> GetSpecialty(ListSubjectsAndDistrict subjects, List<int> listId)
+
+
+        /*
+                private IEnumerable<Common.DTO.Specialty> GetSpecialty(ListSubjectsAndDistrict subjects, List<int> listId)
+                {
+                    return (from s in this.context.Specialties
+                            join u in this.context.Universities on s.University.Id equals u.Id
+                            where listId.Contains(s.Id)
+                            orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                            select new Common.DTO.Specialty()
+                            {
+                                Name = s.Name,
+                                Address = u.Address,
+                                District = u.District.Name,
+                                Site = u.Site,
+                                University = u.Name,
+                                Subjects = (from ss in this.context.Specialty_Subjects
+                                            where ss.Specialty.Id == s.Id
+                                            select ss.Subject.ToCommon()).ToList()
+                            }).Skip(subjects.page * subjects.countOfElementsOnPage).Take(subjects.countOfElementsOnPage).ToList();
+                }
+                */
+
+        /// <summary>
+        /// This method retrieves collection of specialties that relates to chosen subjets and district
+        /// </summary>
+        /// <param name="listSubjectsAndDistrict"></param>
+        /// <returns></returns>
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(SubjectsInfo subjectsInfo)
         {
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
-                    where listId.Contains(s.Id)
+                    where subjectsInfo.ListSubjects.Contains(s.Id)
                     orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
@@ -143,7 +165,67 @@ namespace EPA.MSSQL.SQLDataAccess
                         Subjects = (from ss in this.context.Specialty_Subjects
                                     where ss.Specialty.Id == s.Id
                                     select ss.Subject.ToCommon()).ToList()
-                    }).Skip(subjects.page * subjects.countOfElementsOnPage).Take(subjects.countOfElementsOnPage).ToList();
+                    }).Skip(subjectsInfo.Page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
+        }
+
+        public Count GetCountByDirection(DirectionInfo directioninfo)
+        {
+            Count result = new Count();
+            if (directioninfo.District == this.constValues.Value.AllDistricts)
+            {
+                var count = (from s in this.context.Specialties
+                             where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
+                             join u in this.context.Universities on s.University.Id equals u.Id
+                             join d in this.context.Districts on u.District.Id equals d.Id
+                             where d.Id == directioninfo.District
+                             select this.context.Specialties).Count();
+
+                result.AllElements = count;
+            }
+            else
+            {
+                var count = (from s in this.context.Specialties
+                             where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
+                             join u in this.context.Universities on s.University.Id equals u.Id
+                             join d in this.context.Districts on u.District.Id equals d.Id
+                             where d.Id == directioninfo.District
+                             select this.context.Specialties).Count();
+
+                result.AllElements = count;
+            }
+
+            result.ForOnePage = constValues.Value.CountForPage;
+            return result;
+        }
+
+        public Count GetCountBySubjects(SubjectsInfo subjectsInfo)
+        {
+            Count result = new Count();
+            if (subjectsInfo.District == this.constValues.Value.AllDistricts)
+            {
+                var count = (from ss in this.context.Specialty_Subjects
+                             group ss.Subject.Id by ss.Specialty.Id into grouped
+                             where subjectsInfo.ListSubjects.All(x => grouped.Contains(x)) &&
+                             grouped.Count() >= subjectsInfo.ListSubjects.Count()
+                             select grouped.Key).Count();
+
+                result.AllElements = count;
+            }
+            else
+            {
+                var count = (from ss in this.context.Specialty_Subjects
+                             where ss.Specialty.University.District.Id == subjectsInfo.District
+                             group ss.Subject.Id by ss.Specialty.Id into grouped
+                             where subjectsInfo.ListSubjects.All(x => grouped.Contains(x)) &&
+                             grouped.Count() >= subjectsInfo.ListSubjects.Count()
+                             select grouped.Key).Count();
+
+                result.AllElements = count;
+            }
+
+            result.ForOnePage = constValues.Value.CountForPage;
+            return result;
         }
     }
 }
+
