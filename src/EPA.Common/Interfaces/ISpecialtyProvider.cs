@@ -58,7 +58,5 @@ namespace EPA.Common.Interfaces
         /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
         IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo);
-
-        
     }
 }

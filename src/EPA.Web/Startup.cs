@@ -70,9 +70,7 @@ namespace EPA.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
             });
-
 
             app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             {
