@@ -2,6 +2,7 @@
 {
     public class ConstSettings
     {
-        public int NumberOfUniversities { get; set; }
+        public float KoefOfNumApplication { get; set; }
+        public int AllDistricts { get; set; }
     }
 }

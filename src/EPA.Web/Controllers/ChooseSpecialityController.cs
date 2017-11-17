@@ -38,16 +38,25 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseUniversity/ChoseSpecBySublist")]
         [HttpPost]
-        public SpecialtiesAndCount GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
+        public Specialties GetSpecialtyBySubjects([FromBody] ListSubjectsAndDistrict subjectsAndDistrict) => this.specialtyProvider.GetSpecialtyBySubjects(subjectsAndDistrict);
 
         /// <summary>
-        /// This method retrives list of specialties according to general direction
+        /// This method retrives list of specialties according to general direction and district
         /// </summary>
-        /// <param name="directionAndDistrict"> Contains id of the general direction and district id </param>
-        /// <returns> List of specialties </returns>
+        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
+        /// <returns> Limited list of specialties and count of all specialities</returns>
         [Route("api/choosespeciality/bydirection")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody]DirectionAndDistrict directionAndDistrict) => this.specialtyProvider.GetSpecialtiesByDirection(directionAndDistrict);
+        public Specialties GetSpecialtiesByDirectionAndDistrict([FromBody]DirectionAndDistrictInfo directionAndDistrictInfo) => this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionAndDistrictInfo);
+
+        /// <summary>
+        /// This method retrives list of specialties according to general direction 
+        /// </summary>
+        /// <param name="directionInfo"> Contains id of the general direction, number of page and number of elements per page</param>
+        /// <returns> Limited list of specialties and count of all specialities </returns>
+        [Route("api/choosespeciality/bydirectiononly")]
+        [HttpPost]
+        public Specialties GetSpecialtiesByDirection([FromBody]DirectionInfo directionInfo) => this.specialtyProvider.GetSpecialtiesByDirection(directionInfo);
 
         /// <summary>
         /// This method retrives list of general directions

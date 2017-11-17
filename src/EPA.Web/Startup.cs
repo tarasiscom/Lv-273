@@ -71,11 +71,18 @@ namespace EPA.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
             });
-            loggerFactory.AddProvider(new MyLoggerProvider());
+
+
+            app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
+            {
+                builder.UseMvc(routes =>
+                {
+                    routes.MapSpaFallbackRoute(
+                        name: "spa-fallback",
+                        defaults: new { controller = "Home", action = "Index" });
+                });
+            });
             new Mapping().Create();
         }
     }

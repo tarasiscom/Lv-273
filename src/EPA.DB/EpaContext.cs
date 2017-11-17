@@ -39,7 +39,6 @@ namespace EPA.MSSQL
             modelBuilder.Entity<University>().ToTable("Universities");
             modelBuilder.Entity<Direction>().ToTable("Directions");
             modelBuilder.Entity<Specialty>().ToTable("Specialties");
-           // modelBuilder.Entity<ProfDirection>().ToTable("ProfDirection");
             modelBuilder.Entity<GeneralDirection>().ToTable("GeneralDirection");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");

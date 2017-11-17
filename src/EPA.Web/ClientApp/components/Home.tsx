@@ -2,18 +2,21 @@
 import { RouteComponentProps } from 'react-router';
 //import logo from "ClientApp/images/epa1.png";
 
+
+
+
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
 
         return <div className="pad-for-footer">         
             <section className="main-container">
-                <div className="title grey-background">
+                <div className="title grey-background col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                     <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
                     <p className="caption col-md-5 col-sm-5 col-xs-3">Educational Program Advisor</p>
                 </div>
                 <div className="main-block">
                     <h2 className="text-center second-title">Обери своє майбутнє разом з EPA</h2>
-                    <div className="text-description">
+                    <div className="text-description  col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                         <p> Ще не знаєш ким хочеш бути в майбутньому? EPA з радістю тобі допоможе. Все, що тобі потрібно: </p>
                         <p>1) Пройти тест на профорієнтацію.</p>
                         <p>2) Вибрати університет до вподоби.</p>

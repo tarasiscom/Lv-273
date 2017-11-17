@@ -9,11 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\404.tsx" />
+    <None Remove="ClientApp\components\App.tsx" />
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\List.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
-    <None Remove="ClientApp\components\ProfTestQuiz.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
@@ -40,10 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\App.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
-    <TypeScriptCompile Include="ClientApp\components\ProfTestQuiz.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
@@ -65,7 +66,6 @@
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec Command="npm install" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>

@@ -18,7 +18,7 @@ export class Footer extends React.Component<{}, {}> {
                         ·
                         <Link to={'/profTest'}>Тести</Link>
                         ·
-					    <a href="#">Обрати Університет</a>
+					    <Link to={'/ChooseSpecialty'}> Обрати Спеціальність </Link>
                     </p>
                     <p>Educational Profession Adviser &copy; 2017</p>
                 </div>

@@ -1,11 +1,11 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-import { TestInfo } from './TestInfo'
 import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
+import { ErrorHandlerProp } from './App';
 
 interface TestsDataState {
     tests: DataAPI[];
@@ -17,21 +17,26 @@ interface DataAPI {
     name: string;
 }
 
-export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsDataState> {
+export class ProfTest extends React.Component<RouteComponentProps<{}>&ErrorHandlerProp, TestsDataState> {
     constructor() {
         super();
-        this.state = { tests: [], loading: true }
+        this.state = { tests: [], loading: true };
+    }
+
+    componentDidMount(){
+
         fetch('api/profTest/list')
-            .then(response => response.json() as Promise<DataAPI[]>)
+            .then(response => response.ok ? response.json() as Promise<DataAPI[]> : this.props.onError(response.status))
             .then(data => {
                 this.setState({ tests: data, loading: false });
             });
     }
+    
 
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : ProfTest.renderTestsList(this.state.tests);
+            : this.renderTestsList();
 
         return <div className="pad-for-footer">
             <section className="jumbotron text-center">
@@ -44,7 +49,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
         </div>;
     }
 
-    private static renderTestsList(tests: DataAPI[]) {
+    private renderTestsList() {
         return <div className="container">
             <table className="table table-striped table table-hover table-sm">
                 <thead className="thread-dark">
@@ -55,7 +60,7 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>, TestsData
                     </tr>
                 </thead>
                 <tbody>
-                    {tests.map((tests, id) =>
+                    {this.state.tests.map((tests, id) =>
                         <tr key={id}>
                             <td className="text-center">{id+1}</td>
                             <td className="text-center"> {tests.name}</td>

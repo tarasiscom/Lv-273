@@ -21,8 +21,6 @@ namespace EPA.MSSQL.Models
 
         public List<Question> Questions { get; set; }
 
-        public List<ProfDirection> ProfDirections { get; set; }
-
         public TestInfo ToCommon()
         {
             return Mapper.Map<TestInfo>(this);

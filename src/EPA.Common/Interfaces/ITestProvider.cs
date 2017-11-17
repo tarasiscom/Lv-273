@@ -33,6 +33,6 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="dirId">id of direction</param>
         /// <returns>Direction information</returns>
-        GeneralDirection GetDirectionInfo(int dirId);
+        IEnumerable<GeneralDirection> GetDirectionsInfo();
     }
 }

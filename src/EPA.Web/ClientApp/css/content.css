@@ -2,21 +2,31 @@
 html {
     min-height: 100%
 }
+
 body {
-    min-height: 100%
+    min-height: 100%;
+    
 }
+
 .uni-recom {
     font-family: 'Fira Sans Condensed', sans-serif;
 }
-.labelfont{
-    font-size: 14px;
+
+.labelradar {
+    font-size: 12px;
 }
+
 .logo1 {
     background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
     width: 120px;
     height: 120px;
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.text-univer {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 16px;
 }
 
 .title {
@@ -87,23 +97,23 @@ body {
 
 .uni-padding {
     padding-right: 45px;
-    padding-bottom:25px;
-}
-
-.text-univer {
-    font-family: 'Fira Sans Condensed', sans-serif;
-    font-size: 16px;
+    padding-bottom: 25px;
+    
 }
 
 .row {
+<<<<<<< HEAD
     
     /*margin-left:15px;*/
+=======
+>>>>>>> origin/develop
     margin-right: 3%;
     margin-left: 3%;
 }
+
 .quiz-pad {
-margin-bottom:130px;
-margin-top:20px;
+    margin-bottom:130px;
+    margin-top:20px;
 }
 
 .pad-for-footer {
@@ -114,11 +124,22 @@ margin-top:20px;
 .card-read-more {
     border-top: 1px solid #D4D4D4;
 }
-
+.radar-position {
+    position:fixed;
+}
+.labelwidth{
+    width:100px;
+} 
+@media screen and (max-width: 1200px) {
+    .radar-position {
+        position: relative;
+    }
+}
 
 .pad-for-nav {
     margin-top: 40px;
 }
+
 .pad-for-footer2 {
     position: relative;
     height: 70px;
@@ -132,6 +153,23 @@ margin-top:20px;
     font-family: 'Fira Sans Condensed', sans-serif;
 }
 
+.erdiv {
+    text-align: center;
+    color: #222;
+    margin: 0;
+    font-family: 'Helvetica';
+}
+
+.imgError {
+    border-bottom: #888 solid 1px;
+    box-shadow: 0px 2px 20px;
+    background-color: #ccc;
+}
+
+.textError {
+    font-size: 1.1em;
+}
+
 h1.heading {
     color: #fff;
     font-size: 1.15em;
@@ -139,8 +177,6 @@ h1.heading {
     margin: 0 0 0.5em;
     color: #505050;
 }
-
-
 
 .card {
     padding:0;
@@ -153,9 +189,9 @@ h1.heading {
     transition: box-shadow .25s;
 }
 
-    .card:hover {
-        box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    }
+.card:hover {
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
 
 .img-card {
     width: 100%;
@@ -166,12 +202,12 @@ h1.heading {
     overflow: hidden;
 }
 
-    .img-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        transition: all .25s ease;
-    }
+.img-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: all .25s ease;
+}
 
 .card-content {
     padding: 15px;
@@ -185,21 +221,21 @@ h1.heading {
     font-size: 1.65em;
 }
 
-    .card-title a {
-        color: #000;
-        text-decoration: none !important;
-    }
+.card-title a {
+    color: #000;
+    text-decoration: none !important;
+}
 
 .card-read-more {
     border-top: 1px solid #D4D4D4;
 }
 
-    .card-read-more a {
-        text-decoration: none !important;
-        padding: 10px;
-        font-weight: 600;
-        text-transform: uppercase
-    }
+.card-read-more a {
+    text-decoration: none !important;
+    padding: 10px;
+    font-weight: 600;
+    text-transform: uppercase
+}
 
 [data-state="tabbordion"] {
     clip: rect(0 0 0 0);
@@ -209,7 +245,6 @@ h1.heading {
     width: 1px;
     z-index: -1;
 }
-
 
 .accordion {
     list-style: none;
@@ -256,7 +291,12 @@ h1.heading {
     padding-right: 0;
 }
 
-.pagination {
-    display: block;
-    position: center;
+.my-cursor {
+    cursor: pointer;
 }
+
+.pageBar {
+    text-align:center;
+    margin-bottom : 50px;
+}
+
