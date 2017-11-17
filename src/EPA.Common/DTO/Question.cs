@@ -10,7 +10,7 @@ namespace EPA.Common.DTO
         /// <summary>
         /// ID of the question
         /// </summary>
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Text of the question

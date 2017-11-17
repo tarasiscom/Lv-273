@@ -102,6 +102,11 @@ body {
 }
 
 .row {
+<<<<<<< HEAD
+    
+    /*margin-left:15px;*/
+=======
+>>>>>>> origin/develop
     margin-right: 3%;
     margin-left: 3%;
 }

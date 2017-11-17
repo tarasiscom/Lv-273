@@ -9,13 +9,6 @@ namespace EPA.Common.Interfaces
     public interface ISpecialtyProvider
     {
         /// <summary>
-        ///  This method retrieves information about specialties 
-        /// </summary>
-        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
-        ///  <returns> List of Specialties </returns>
-        Specialties GetSpecialtyBySubjects(ListSubjectsAndDistrict listOfSubjects);
-        
-        /// <summary>
         ///  This method retrives list of all Subjects
         /// </summary>
         /// <returns>List of subjects</returns>
@@ -28,23 +21,44 @@ namespace EPA.Common.Interfaces
         IEnumerable<District> GetAllDistricts();
 
         /// <summary>
+        /// This method retrives list of general directions
+        /// </summary>
+        /// <returns> List of general directions </returns>
+        IEnumerable<GeneralDirection> GetGeneralDirections();
+
+        /// <summary>
+        ///  This method retrieves information about specialties 
+        /// </summary>
+        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
+        ///  <returns> List of Specialties </returns>
+        IEnumerable<Specialty> GetSpecialtyBySubjects(SubjectsInfo listOfSubjects);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Count GetCountByDirection(DirectionInfo directioninfo);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Count GetCountBySubjects(SubjectsInfo listOfSubjects);
+
+        /// <summary>
         /// This method retrives list of specialties according to general direction and district
         /// </summary>
         /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        Specialties GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
+        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionInfo directioninfo);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
         /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        Specialties GetSpecialtiesByDirection(DirectionInfo directionInfo);
+        IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo);
 
-        /// <summary>
-        /// This method retrives list of general directions
-        /// </summary>
-        /// <returns> List of general directions </returns>
-        IEnumerable<GeneralDirection> GetGeneralDirections();
+        
     }
 }

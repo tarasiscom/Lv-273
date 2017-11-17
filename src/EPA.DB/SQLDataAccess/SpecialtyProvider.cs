@@ -43,7 +43,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
-        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictinfo)
+        public Common.DTO.Specialties GetSpecialtiesByDirectionAndDistrict(DirectionInfo directionAndDistrictinfo)
         {
             Common.DTO.Specialties result;
 
