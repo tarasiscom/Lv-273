@@ -51,8 +51,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecBySub' component={ChooseSpecialtiesBySubject} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecByDir' component={ChooseSpecialtiesByDirection} />
+                            <Route exact path='/ChooseSpecialties/BySubject' component={ChooseSpecialtiesBySubject} />
+                            <Route exact path='/ChooseSpecialties/ByDirection' component={ChooseSpecialtiesByDirection} />
                             {errRoute}
                         </Switch>
                 }
