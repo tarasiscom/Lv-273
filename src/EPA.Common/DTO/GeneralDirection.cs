@@ -8,7 +8,7 @@
         /// <summary>
         ///  ID of the general direction
         /// </summary>
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///  Name of the general direction
