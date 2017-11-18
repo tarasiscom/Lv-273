@@ -39,6 +39,29 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of general directions</returns>
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
+
+
+        /// <summary>
+        /// This method retrieves collection of specialties which relates to chosen direction and district
+        /// </summary>
+        /// <param name="directionInfo">Information about direction for which specialties are filtered</param>
+        /// <returns></returns>
+        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionInfo directionInfo)
+        {
+            IEnumerable<Specialty> specialties;
+
+            if (directionInfo.District == this.constValues.Value.AllDistricts)
+            {
+                specialties = this.GetSpecialtiesByDirection(directionInfo);
+            }
+            else
+            {
+                specialties = this.GetSpecialtiesByDirectionAndDistrictAll(directionInfo);
+            }
+
+            return specialties;
+        }
+
         /// <summary>
         /// This method retrieves collection of specialties which relates to chosen direction
         /// </summary>
@@ -46,7 +69,6 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of specialties with their amount</returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo)
         {
-
             var specialties = from s in this.context.Specialties
                               where s.Direction.GeneralDirection.Id == directionInfo.GeneralDirection
                               join u in this.context.Universities on s.University.Id equals u.Id
@@ -68,30 +90,9 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
         /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction and district
-        /// </summary>
-        /// <param name="directionAndDistrictinfo"></param>
-        /// <returns></returns>
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionInfo directionInfo)
-        {
-            IEnumerable<Specialty> specialties;
-
-            if (directionInfo.District == this.constValues.Value.AllDistricts)
-            {
-                specialties = this.GetSpecialtiesByDirection(directionInfo);
-            }
-            else
-            {
-                specialties = this.GetSpecialtiesByDirectionAndDistrictAll(directionInfo);
-            }
-
-            return specialties;
-        }
-
-        /// <summary>
         /// This method retrieves collection of specialties which relates to chosen direction
         /// </summary>
-        /// <param name="directionAndDistrict"></param>
+        /// <param name="direction"></param>
         /// <returns></returns>
         private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(DirectionInfo direction)
         {
@@ -119,35 +120,10 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
-
-
-
-
-        /*
-                private IEnumerable<Common.DTO.Specialty> GetSpecialty(ListSubjectsAndDistrict subjects, List<int> listId)
-                {
-                    return (from s in this.context.Specialties
-                            join u in this.context.Universities on s.University.Id equals u.Id
-                            where listId.Contains(s.Id)
-                            orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
-                            select new Common.DTO.Specialty()
-                            {
-                                Name = s.Name,
-                                Address = u.Address,
-                                District = u.District.Name,
-                                Site = u.Site,
-                                University = u.Name,
-                                Subjects = (from ss in this.context.Specialty_Subjects
-                                            where ss.Specialty.Id == s.Id
-                                            select ss.Subject.ToCommon()).ToList()
-                            }).Skip(subjects.page * subjects.countOfElementsOnPage).Take(subjects.countOfElementsOnPage).ToList();
-                }
-                */
-
         /// <summary>
         /// This method retrieves collection of specialties that relates to chosen subjets and district
         /// </summary>
-        /// <param name="listSubjectsAndDistrict"></param>
+        /// <param name="subjectsInfo"></param>
         /// <returns></returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(SubjectsInfo subjectsInfo)
         {
@@ -168,6 +144,11 @@ namespace EPA.MSSQL.SQLDataAccess
                     }).Skip(subjectsInfo.Page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="directioninfo"></param>
+        /// <returns></returns>
         public Count GetCountByDirection(DirectionInfo directioninfo)
         {
             Count result = new Count();
@@ -198,6 +179,11 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subjectsInfo"></param>
+        /// <returns></returns>
         public Count GetCountBySubjects(SubjectsInfo subjectsInfo)
         {
             Count result = new Count();

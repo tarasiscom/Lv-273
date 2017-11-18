@@ -11,12 +11,10 @@ namespace EPA.Web.Controllers
     public class TestController : Controller
     {
         private readonly ITestProvider testProvider;
-        private readonly IAnswersProdiver answersProdiver;
 
         public TestController(ITestProvider testProvider, IAnswersProdiver answersProdiver)
         {
             this.testProvider = testProvider;
-            this.answersProdiver = answersProdiver;
         }
 
         /// <summary>
@@ -48,14 +46,5 @@ namespace EPA.Web.Controllers
             return this.testProvider.GetQuestions(testId);
         }
 
-        /// <summary>
-        /// This method retrieves general directions with scores based on user answers
-        /// </summary>
-        /// <param name="listAnswers">Take list of objects, that contains id question and answer number</param>
-        /// <returns>List of general directions with scores</returns>
-        [Route("api/profTest/result")]
-        [HttpPost]
-        public IEnumerable<DirectionScores> GetDirectionsScore([FromBody]List<UserAnswer> listAnswers)
-                 => this.answersProdiver.CalculateScores(listAnswers);
     }
 }
