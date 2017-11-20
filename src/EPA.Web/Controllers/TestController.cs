@@ -11,10 +11,12 @@ namespace EPA.Web.Controllers
     public class TestController : Controller
     {
         private readonly ITestProvider testProvider;
+        private readonly IAnswersProdiver answersProdiver;
 
         public TestController(ITestProvider testProvider, IAnswersProdiver answersProdiver)
         {
             this.testProvider = testProvider;
+            this.answersProdiver = answersProdiver;
         }
 
         /// <summary>
