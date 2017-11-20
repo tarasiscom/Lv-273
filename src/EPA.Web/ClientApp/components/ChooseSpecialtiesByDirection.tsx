@@ -95,7 +95,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     fetchDataDirections() {
-        fetch('api/choosespeciality/getdirection')
+        fetch('api/ChooseSpecialties/getdirection')
             .then(response => response.json() as Promise<GeneralDirectionDTO[]>)
             .then(data => {
                 this.setState({
@@ -106,7 +106,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     fetchAllDistricts() {
-        fetch('api/ChooseUniversity/ChoseSpecDistrictList')
+        fetch('api/ChooseSpecialties/ChoseSpecDistrictList')
             .then(response => response.json() as Promise<DistrictDTO[]>)
             .then(data => {
                 this.setState({
@@ -123,7 +123,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     private fetchData(directionAndDistrict) {
-        fetch('api/choosespeciality/bydirection', {
+        fetch('api/ChooseSpecialties/bydirection', {
             method: 'POST',
             body: JSON.stringify(directionAndDistrict),
             headers: { 'Content-Type': 'application/json' }

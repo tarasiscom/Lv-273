@@ -3,7 +3,9 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
-import { ErrorHandlerProp} from './App';
+import { ErrorHandlerProp } from './App';
+import { Loading } from './Loading';
+
 
 interface StateTypes {
     questions: TestQuestion[];
@@ -111,10 +113,10 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandl
 
     render() {
         if (this.state.loading) {
-            return <p><em>Loading...</em></p>
+            return <Loading />
         }
         else {
-            return <div>{this.state.currentPage <= this.state.questions.length ? this.rendeQuiz() : this.renderResult()}</div>
+            return <div className="pad-for-footer">{this.state.currentPage <= this.state.questions.length ? this.rendeQuiz() : this.renderResult()}</div>
         }        
     }
 
@@ -133,7 +135,7 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandl
         }
         else {
             this.submitTest();
-            return <p><em>Loading...</em></p>
+            return <Loading />
         }
     };
 };
