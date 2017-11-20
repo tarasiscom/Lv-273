@@ -14,7 +14,7 @@ interface Specialties {
     selectValueDirection: { label: string, value: number };
     districts: District[];
     selectDistrict: { label: string, value: number };
-    univers: SpecialtyInfo;
+    univers: Univer[];
     districtId: number;
     directionId: number;
 }
@@ -80,7 +80,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         this.state = {
             directions: [],
             selectValueDirection: { value: 0, label: "Всі" },
-            univers: { list: [], count: 1 },
+            univers: [],
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
@@ -123,20 +123,17 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     private fetchData(directionAndDistrict) {
-        fetch('api/ChooseSpecialties/byDirectionAndDistrict', {
-            method: 'POST',
-            body: JSON.stringify(directionAndDistrict),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<SpecialtyInfo>)
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page )
+            .then(response => response.json() as Promise<Univer[]>)
             .then(data => {
-                this.setState({ univers: data })
+                this.setState({univers:data})
             })
     }
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit)
         {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, countOfElementsOnPage: 10, page: 0 }
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
 
             this.fetchData(directionAndDistrict); 
 

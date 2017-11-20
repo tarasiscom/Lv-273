@@ -63,6 +63,16 @@ namespace EPA.Web.Controllers
             return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(direction);
         }
 
+        [Route("api/ChooseSpecialties/byDirectionAndDistrict/{idDirection}/{idDistrict}/{page}")]
+        [HttpGet]
+        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
+        {
+            DirectionInfo directionInfo = new DirectionInfo();
+            directionInfo.District = idDistrict;
+            directionInfo.GeneralDirection = idDirection;
+            directionInfo.Page = page;
+            return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionInfo);
+        }
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
