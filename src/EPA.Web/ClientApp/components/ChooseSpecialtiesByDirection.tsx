@@ -14,7 +14,7 @@ interface Specialties {
     selectValueDirection: { label: string, value: number };
     districts: District[];
     selectDistrict: { label: string, value: number };
-    univers: Univer[];
+    specialties: Specialty[];
     districtId: number;
     directionId: number;
     count: Count;
@@ -55,14 +55,12 @@ class District {
     }
 }
 
-
-
 interface Subject {
     id: number;
     name: string
 }
 
-interface Univer {
+interface Specialty {
     name: string;
     university: string;
     address: string;
@@ -71,9 +69,6 @@ interface Univer {
     subjects: Subject[];
 }
 
-
-
-
 export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
 {
     constructor() {
@@ -81,8 +76,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         super();
         this.state = {
             directions: [],
-            selectValueDirection: { value: 0, label: "Всі" },
-            univers: [],
+            selectValueDirection: { value: 0, label: "Виберіть галузь" },
+            specialties: [],
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
@@ -126,10 +121,10 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     private fetchData(directionAndDistrict) {
-        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page )
-            .then(response => response.json() as Promise<Univer[]>)
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
+            .then(response => response.json() as Promise<Specialty[]>)
             .then(data => {
-                this.setState({univers:data})
+                this.setState({specialties: data})
             })
     }
 
@@ -152,6 +147,17 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         }
     }
 
+    handleOnChangeDirection = (value) => {
+        this.setState( { selectValueDirection: value })
+    }
+
+    handleOnChangeDistrict = (selectDistricty) => {
+        this.setState( { selectDistrict: selectDistricty })
+    }
+
+    handleOnClick = () => {
+        this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)
+    }
 
     render() {
 
@@ -162,7 +168,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             </div>
         }
         else {
-            tabbord = <ListSpecialties specialties={this.state.univers} />
+            tabbord = <ListSpecialties specialties={this.state.specialties} />
         }
 
         let pagin;
@@ -171,7 +177,6 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
-                breakClassName={"break-me"}
                 pageCount={this.state.count.allElements / this.state.count.forOnePage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
@@ -187,19 +192,22 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                     <div className="container">
                         <div className="navigate">
                                <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
-                                   <VirtualizedSelect multi={false} options={this.state.directions} onChange={(value) => this.setState(
-                                    { selectValueDirection: value })
-                                }
-                                    value={this.state.selectValueDirection}></VirtualizedSelect>
-                            </div>
+                                   <VirtualizedSelect multi={false}
+                                        options={this.state.directions}
+                                        onChange={this.handleOnChangeDirection}
+                                        value={this.state.selectValueDirection}>
+                                   </VirtualizedSelect>
+                               </div>
                                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                                   <VirtualizedSelect multi={false} options={this.state.districts} onChange={(selectDistricty) => this.setState(
-                                    { selectDistrict: selectDistricty })
-                                }
-                                    value={this.state.selectDistrict} ></VirtualizedSelect>
-                            </div>
-                            <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
-                                onClick={() => this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)}> Пошук</button>
+                                   <VirtualizedSelect multi={false}
+                                       options={this.state.districts}
+                                       onChange={this.handleOnChangeDistrict}
+                                       value={this.state.selectDistrict} >
+                                   </VirtualizedSelect>
+                                </div>
+                               <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
+                                   onClick={this.handleOnClick}> Пошук
+                               </button>
                         </div>
                     </div>
                 </section>

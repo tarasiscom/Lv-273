@@ -100,5 +100,14 @@ namespace EPA.Web.Controllers
             d.Page = page;
             return this.specialtyProvider.GetCountByDirection(d);
         }
+
+        [Route("api/ChooseSpecialties/count/bySubjects")]
+        [HttpPost]
+        public Count GetCountBySubjects([FromBody] SubjectsInfo subjectsInfo)
+        {
+            return this.specialtyProvider.GetCountBySubjects(subjectsInfo);
+
+
+        }
     }
 }

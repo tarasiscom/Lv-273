@@ -10,18 +10,18 @@ import  ReactPaginate  from 'react-paginate';
 interface Specialities {
     districtId: number;
     subjectsIds: number[];
-    countOfElementsOnPage: number;
     subjects: Subject[];
-    univers: SpecialtyInfo;
+    specialties: Specialty[];
     districts: District[];
     selectValueSubjects: { label: string, value: number }[];
     selectDistrict: { label: string, value: number };
+    count: Count;
 }
 
+interface Count {
 
-interface SpecialtyInfo {
-    list: Univer[];
-    count: number;
+    allElements: number;
+    forOnePage: number;
 }
 
 interface DistrictDTO {
@@ -53,7 +53,7 @@ class Subject {
     }
 }
 
-interface Univer {
+interface Specialty {
     name: string;
     university: string;
     address: string;
@@ -71,12 +71,12 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
             subjectsIds: [],
             districtId: 0,
-            countOfElementsOnPage: 10,
             subjects: [],
-            univers: { list: [], count:1 },
+            specialties: [],
             districts: [],
             selectValueSubjects: [],
-            selectDistrict: { value: 0, label: "Всі" }
+            selectDistrict: { value: 0, label: "Всі" },
+            count: { allElements: 1, forOnePage: 1 }
         }
     }
 
@@ -113,8 +113,17 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 result.push(selectValueSubmit[i].value)
             }
 
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.countOfElementsOnPage, page: 0 }
-            
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.count.allElements, page: 0 }
+
+            fetch('api/ChooseSpecialties/count/bySubjects', {
+                method: 'POST',
+                body: JSON.stringify(subjectsAndDistrict),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json() as Promise<Count>)
+                .then(data => {
+                    this.setState({ count: data })
+                })
+
             this.fetchDataSpecialties(subjectsAndDistrict);
 
             this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
@@ -128,7 +137,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.countOfElementsOnPage, page: selected }
+        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
 
         this.fetchDataSpecialties(subjectsAndDistrict);
     }
@@ -139,34 +148,33 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<SpecialtyInfo>)
+        }).then(response => response.json() as Promise<Specialty[]>)
             .then(data => {
-                this.setState({ univers: data })
+                this.setState({ specialties: data })
             })
     }
          
     public render() {
         
         let tabbord;
-        if (this.state.univers.count == 0) {
+        if (this.state.count.allElements == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено. Виберіть інші предмети, або область.</h1>
             </div>
         }
         else
         {
-            tabbord = <ListSpecialties specialties={this.state.univers.list} />
+            tabbord = <ListSpecialties specialties={this.state.specialties} />
         }
 
         let pagin;
-        if (this.state.univers.count > 10)
+        if (this.state.count.allElements > 10)
         {
             pagin = <ReactPaginate 
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
-                breakClassName={"break-me"}
-                pageCount={this.state.univers.count / this.state.countOfElementsOnPage}
+                pageCount={this.state.count.allElements / this.state.count.forOnePage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}

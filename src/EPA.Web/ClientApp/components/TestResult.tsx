@@ -73,7 +73,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
-                                breakClassName={"break-me"}
                                 pageCount={this.state.specialties.count / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
