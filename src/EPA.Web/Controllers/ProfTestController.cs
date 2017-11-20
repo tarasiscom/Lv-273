@@ -13,7 +13,8 @@ namespace EPA.Web.Controllers
         private readonly ITestProvider testProvider;
         private readonly IUserAnswersProdiver userAnswersProdiver;
 
-        public ProfTestController(ITestProvider testProvider, IUserAnswersProdiver userAnswersProdiver)
+
+        public TestController(ITestProvider testProvider, IAnswersProdiver answersProdiver)
         {
             this.testProvider = testProvider;
             this.userAnswersProdiver = userAnswersProdiver;

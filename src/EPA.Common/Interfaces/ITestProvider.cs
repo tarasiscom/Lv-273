@@ -9,16 +9,16 @@ namespace EPA.Common.Interfaces
     public interface ITestProvider
     {
         /// <summary>
-        ///  This method retrieves list of accessible tests 
+        /// This method retrieves list of accessible tests
         /// </summary>
-        ///  <returns> collection of Tests </returns>
+        /// <returns> collection of Tests </returns>
         IEnumerable<Test> GetTests();
 
         /// <summary>
-        ///  This method retrieves more detailed information about specific test
+        /// This method retrieves more detailed information about specific test
         /// </summary>
-        ///  <param name="id"> id of the test </param>
-        ///  <returns> more detatiled test information </returns>
+        /// <param name="id"> id of the test </param>
+        /// <returns> more detatiled test information </returns>
         TestInfo GetTestInfo(int id);
 
         /// <summary>
@@ -29,9 +29,8 @@ namespace EPA.Common.Interfaces
         IEnumerable<Question> GetQuestions(int testId);
 
         /// <summary>
-        /// This method returns information about general direction 
+        /// This method returns information about general direction
         /// </summary>
-        /// <param name="dirId">id of direction</param>
         /// <returns>Direction information</returns>
         IEnumerable<GeneralDirection> GetDirectionsInfo();
 

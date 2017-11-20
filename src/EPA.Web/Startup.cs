@@ -41,7 +41,7 @@ namespace EPA.Web
             services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
-            services.AddTransient<IUserAnswersProdiver, UserAnswersProvider>();
+            services.AddTransient<IAnswersProdiver, AnswersProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,9 +70,7 @@ namespace EPA.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
             });
-
 
             app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             {
