@@ -76,6 +76,7 @@ namespace EPA.Web.Controllers
             directionInfo.Page = page;
             return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(directionInfo);
         }
+
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
@@ -87,6 +88,17 @@ namespace EPA.Web.Controllers
         public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody] DirectionInfo directionInfo)
         {
             return this.specialtyProvider.GetSpecialtiesByDirection(directionInfo);
+        }
+
+        [Route("api/ChooseSpecialties/count/{idDirection}/{idDistrict}/{page}")]
+        [HttpGet]
+        public Count GetCountByDirection(int idDirection, int idDistrict, int page)
+        {
+            DirectionInfo d = new DirectionInfo();
+            d.District = idDistrict;
+            d.GeneralDirection = idDirection;
+            d.Page = page;
+            return this.specialtyProvider.GetCountByDirection(d);
         }
     }
 }

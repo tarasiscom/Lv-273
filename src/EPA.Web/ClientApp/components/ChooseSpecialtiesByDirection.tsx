@@ -17,6 +17,13 @@ interface Specialties {
     univers: Univer[];
     districtId: number;
     directionId: number;
+    count: Count;
+}
+
+interface Count {
+   
+    allElements: number;
+    forOnePage: number;
 }
 
 interface GeneralDirectionDTO {
@@ -64,10 +71,6 @@ interface Univer {
     subjects: Subject[];
 }
 
-interface SpecialtyInfo {
-    list: Univer[];
-    count: number;
-}
 
 
 
@@ -76,7 +79,6 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     constructor() {
         
         super();
-        var countOfElementsOnPage = 10;
         this.state = {
             directions: [],
             selectValueDirection: { value: 0, label: "Всі" },
@@ -84,7 +86,8 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             districts: [],
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
-            directionId: 0
+            directionId: 0,
+            count: { allElements: 1, forOnePage:1  }
         }
         
     }
@@ -118,7 +121,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: 10, page: selected }
+        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.count.forOnePage, page: selected }
         this.fetchData(directionAndDistrict);
     }
 
@@ -134,8 +137,13 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         if (selectValueSubmit && districtValueSubmit)
         {
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
-
-            this.fetchData(directionAndDistrict); 
+            
+            fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
+                .then(response => response.json() as Promise<Count>)
+                .then(data => {
+                    this.setState({ count: data })
+                })
+            this.fetchData(directionAndDistrict);
 
             this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
         }
@@ -148,23 +156,23 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     render() {
 
         let tabbord;
-        if (this.state.univers.count == 0) {
+        if (this.state.count.allElements == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
             </div>
         }
         else {
-            tabbord = <ListSpecialties specialties={this.state.univers.list} />
+            tabbord = <ListSpecialties specialties={this.state.univers} />
         }
 
         let pagin;
-        if (this.state.univers.count > 10) {
+        if (this.state.count.allElements > 10) {
             pagin = <ReactPaginate
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
                 breakClassName={"break-me"}
-                pageCount={this.state.univers.count / 10}
+                pageCount={this.state.count.allElements / this.state.count.forOnePage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}

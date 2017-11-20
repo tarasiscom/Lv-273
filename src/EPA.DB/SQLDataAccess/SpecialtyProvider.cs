@@ -155,22 +155,24 @@ namespace EPA.MSSQL.SQLDataAccess
             if (directioninfo.District == this.constValues.Value.AllDistricts)
             {
                 var count = (from s in this.context.Specialties
-                             where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
-                             join u in this.context.Universities on s.University.Id equals u.Id
-                             join d in this.context.Districts on u.District.Id equals d.Id
-                             where d.Id == directioninfo.District
-                             select this.context.Specialties).Count();
+                                   where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
+                                   join u in this.context.Universities on s.University.Id equals u.Id
+                                   join d in this.context.Districts on u.District.Id equals d.Id
+                                   where d.Id == directioninfo.District
+                                   select new Common.DTO.Specialty()).Count();
+
 
                 result.AllElements = count;
             }
             else
             {
                 var count = (from s in this.context.Specialties
-                             where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
-                             join u in this.context.Universities on s.University.Id equals u.Id
-                             join d in this.context.Districts on u.District.Id equals d.Id
-                             where d.Id == directioninfo.District
-                             select this.context.Specialties).Count();
+                                   where s.Direction.GeneralDirection.Id == directioninfo.GeneralDirection
+                                   join u in this.context.Universities on s.University.Id equals u.Id
+                                   join d in this.context.Districts on u.District.Id equals d.Id
+                                   where d.Id == directioninfo.District
+                                   select new Common.DTO.Specialty()).Count();
+
 
                 result.AllElements = count;
             }
