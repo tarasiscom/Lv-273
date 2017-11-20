@@ -86,7 +86,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
 
     fetchDataSubject() {
-        fetch('api/ChooseUniversity/ChoseSpecBySub')
+        fetch('api/ChooseSpecialties/ChoseSpecBySub')
             .then(response => response.json() as Promise<SubjectDTO[]>)
             .then(data => {
                 this.setState({
@@ -95,7 +95,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             });
     }
     fetchAllDistricts() {
-        fetch('api/ChooseUniversity/ChoseSpecDistrictList')
+        fetch('api/ChooseSpecialties/ChoseSpecDistrictList')
             .then(response => response.json() as Promise<DistrictDTO[]>)
             .then(data => {
                 this.setState({
@@ -135,7 +135,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     private fetchDataSpecialties(subjectsAndDistrict: object)
     {
-        fetch('api/ChooseUniversity/ChoseSpecBySublist', {
+        fetch('api/ChooseSpecialties/ChoseSpecBySublist', {
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
             headers: { 'Content-Type': 'application/json' }
