@@ -57,7 +57,6 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}>&ErrorHandl
             testResult: [],
         }
         this.onAnswerChoose = this.onAnswerChoose.bind(this);
-        this.submitTest = this.submitTest.bind(this);
     }
 
     onAnswerChoose(answId: number): void 
