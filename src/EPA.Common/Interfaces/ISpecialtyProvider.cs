@@ -37,7 +37,7 @@ namespace EPA.Common.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        Count GetCountByDirection(DirectionInfo directioninfo);
+        Count GetCountByDirection(int directionId, int districtId);
 
         /// <summary>
         /// 
@@ -50,13 +50,13 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(DirectionInfo directioninfo);
+        IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction 
         /// </summary>
         /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
         /// <returns> Limited list of specialties and count of all specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(DirectionInfo directionInfo);
+        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection, int page);
     }
 }
