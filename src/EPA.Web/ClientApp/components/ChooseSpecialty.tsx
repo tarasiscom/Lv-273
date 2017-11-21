@@ -15,7 +15,8 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за вибраною
                         галуззю знань. Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <Link to={'/ChooseSpecialties/ByDirection'} className="btn btn-link btn-block">  Розпочати      </Link>
+                        <Link to={'/ChooseSpecialties/ByDirection'} className="btn btn-link btn-block">  Розпочати
+                            </Link>
                     </div>
                 </div>
 
@@ -28,7 +29,8 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
                         Ви отримаєте інформацію про вищі навчальні заклади в яких проводиться набір на спеціальності за відповідними предметами ЗНО.
                         Розділ допоможе вибрати ВНЗ за регіоном та рейтингом.</p>
                     <div className="card-read-more">
-                        <Link to="/ChooseSpecialties/BySubject" className="btn btn-link btn-block">  Розпочати      </Link>
+                        <Link to="/ChooseSpecialties/BySubject" className="btn btn-link btn-block">  Розпочати
+                            </Link>
                     </div>
                 </div>
             </div>

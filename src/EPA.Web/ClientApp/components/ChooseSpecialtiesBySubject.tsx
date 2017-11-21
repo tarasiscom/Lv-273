@@ -80,79 +80,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         }
     }
 
-    componentDidMount() {
-        this.fetchDataSubject();
-        this.fetchAllDistricts();
-    }
-
-    fetchDataSubject() {
-        fetch('api/ChooseSpecialties/subjectsList')
-            .then(response => response.json() as Promise<SubjectDTO[]>)
-            .then(data => {
-                this.setState({
-                    subjects: data.map<Subject>(subject => new Subject(subject.id, subject.name))
-                });
-            });
-    }
-    fetchAllDistricts() {
-        fetch('api/ChooseSpecialties/districtsList')
-            .then(response => response.json() as Promise<DistrictDTO[]>)
-            .then(data => {
-                this.setState({
-                    districts:
-                    data.map<District>(district => new District(district.id, district.name))
-                })
-            });        
-    }
     
-    submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit!=null && selectValueSubmit.length > 0 && districtValueSubmit) {
-            let result: number[];
-            result = [];
-            for (let i = 0; i < selectValueSubmit.length; i++) {
-                result.push(selectValueSubmit[i].value)
-            }
-
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.count.allElements, page: 0 }
-
-            fetch('api/ChooseSpecialties/count/bySubjects', {
-                method: 'POST',
-                body: JSON.stringify(subjectsAndDistrict),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<Count>)
-                .then(data => {
-                    this.setState({ count: data })
-                })
-
-            this.fetchDataSpecialties(subjectsAndDistrict);
-
-            this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
-        }
-        else
-        {
-            alert('Pick out some subjects or select district');
-        }
-    }
-
-
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
-
-        this.fetchDataSpecialties(subjectsAndDistrict);
-    }
-
-    private fetchDataSpecialties(subjectsAndDistrict: object)
-    {
-        fetch('api/ChooseSpecialties/bySubject', {
-            method: 'POST',
-            body: JSON.stringify(subjectsAndDistrict),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Specialty[]>)
-            .then(data => {
-                this.setState({ specialties: data })
-            })
-    }
          
     public render() {
         
@@ -188,21 +116,23 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                     <div className="container">
                         <div className="navigate">
                             <div className="virtselect col-md-4 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Предмети</p>
-                                <VirtualizedSelect multi={true} options={this.state.subjects} onChange={
-                                    (valueArray) => this.setState({ selectValueSubjects: valueArray }
-                                    )}
-                                    value={this.state.selectValueSubjects}></VirtualizedSelect>
+                                <VirtualizedSelect multi={true}
+                                    options={this.state.subjects}
+                                    onChange={this.handleOnChangeSubjects}
+                                    value={this.state.selectValueSubjects}>
+                                </VirtualizedSelect>
                             </div>
                             <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                                <VirtualizedSelect multi={false} options={this.state.districts} onChange={(selectDistricty) => this.setState({ selectDistrict: selectDistricty })}
-
-                                    value={this.state.selectDistrict} ></VirtualizedSelect>
+                                <VirtualizedSelect multi={false}
+                                    options={this.state.districts}
+                                    onChange={this.handleOnChangeDistrict}
+                                    value={this.state.selectDistrict}>
+                                </VirtualizedSelect>
                             </div>
                             <div>
                                 <button className="col-md-offset-1  col-md-1 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
-                                    onClick={
-                                        () => this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)
-                                    }> Пошук</button>
+                                    onClick={this.handleOnClick}> Пошук
+                                    </button>
                             </div>
                         </div>
                     </div>
@@ -218,5 +148,89 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             </div>
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
+    }
+
+    componentDidMount() {
+        this.fetchDataSubject();
+        this.fetchAllDistricts();
+    }
+
+    fetchDataSubject() {
+        fetch('api/ChooseSpecialties/subjectsList')
+            .then(response => response.json() as Promise<SubjectDTO[]>)
+            .then(data => {
+                this.setState({
+                    subjects: data.map<Subject>(subject => new Subject(subject.id, subject.name))
+                });
+            });
+    }
+    fetchAllDistricts() {
+        fetch('api/ChooseSpecialties/districtsList')
+            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(data => {
+                this.setState({
+                    districts:
+                    data.map<District>(district => new District(district.id, district.name))
+                })
+            });
+    }
+
+    submitFilter(selectValueSubmit, districtValueSubmit) {
+        if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit) {
+            let result: number[];
+            result = [];
+            for (let i = 0; i < selectValueSubmit.length; i++) {
+                result.push(selectValueSubmit[i].value)
+            }
+
+            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.count.allElements, page: 0 }
+
+            fetch('api/ChooseSpecialties/count/bySubjects', {
+                method: 'POST',
+                body: JSON.stringify(subjectsAndDistrict),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json() as Promise<Count>)
+                .then(data => {
+                    this.setState({ count: data })
+                })
+
+            this.fetchDataSpecialties(subjectsAndDistrict);
+
+            this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
+        }
+        else {
+            alert('Pick out some subjects or select district');
+        }
+    }
+
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
+
+        this.fetchDataSpecialties(subjectsAndDistrict);
+    }
+
+    private fetchDataSpecialties(subjectsAndDistrict: object) {
+        fetch('api/ChooseSpecialties/bySubject', {
+            method: 'POST',
+            body: JSON.stringify(subjectsAndDistrict),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => response.json() as Promise<Specialty[]>)
+            .then(data => {
+                this.setState({ specialties: data })
+            })
+    }
+
+    handleOnChangeSubjects = (valueArray) => {
+        this.setState({ selectValueSubjects: valueArray })
+    }
+
+    handleOnChangeDistrict = (selectDistricty) => {
+        this.setState({ selectDistrict: selectDistricty })
+    }
+
+    handleOnClick = () => {
+        this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)
     }
 }

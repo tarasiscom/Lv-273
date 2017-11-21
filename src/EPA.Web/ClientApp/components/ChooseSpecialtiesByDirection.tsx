@@ -87,81 +87,12 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         
     }
 
-    componentDidMount() {
-        this.fetchDataDirections();
-        this.fetchAllDistricts();
-    }
-
-    fetchDataDirections() {
-        fetch('api/ChooseSpecialties/directionsList')
-            .then(response => response.json() as Promise<GeneralDirectionDTO[]>)
-            .then(data => {
-                this.setState({
-                    directions:
-                    data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
-                });
-            });
-    }
-
-    fetchAllDistricts() {
-        fetch('api/ChooseSpecialties/districtsList')
-            .then(response => response.json() as Promise<DistrictDTO[]>)
-            .then(data => {
-                this.setState({
-                    districts:
-                    data.map<District>(district => new District(district.id, district.name))
-                })
-            });  
-    }
-
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.count.forOnePage, page: selected }
-        this.fetchData(directionAndDistrict);
-    }
-
-    private fetchData(directionAndDistrict) {
-        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
-            .then(response => response.json() as Promise<Specialty[]>)
-            .then(data => {
-                this.setState({specialties: data})
-            })
-    }
-
-    submitFilter(selectValueSubmit, districtValueSubmit) {
-        if (selectValueSubmit && districtValueSubmit)
-        {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
-            
-            fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
-                .then(response => response.json() as Promise<Count>)
-                .then(data => {
-                    this.setState({ count: data })
-                })
-            this.fetchData(directionAndDistrict);
-
-            this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
-        }
-        else {
-            alert('Pick out direction or select district');
-        }
-    }
-
-    handleOnChangeDirection = (value) => {
-        this.setState( { selectValueDirection: value })
-    }
-
-    handleOnChangeDistrict = (selectDistricty) => {
-        this.setState( { selectDistrict: selectDistricty })
-    }
-
-    handleOnClick = () => {
-        this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)
-    }
+   
 
     render() {
 
         let tabbord;
+        let pagin;
         if (this.state.count.allElements == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
@@ -171,7 +102,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             tabbord = <ListSpecialties specialties={this.state.specialties} />
         }
 
-        let pagin;
+        
         if (this.state.count.allElements > 10) {
             pagin = <ReactPaginate
                 previousLabel={"Попередня"}
@@ -223,4 +154,80 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
     }
+
+    componentDidMount() {
+        this.fetchDataDirections();
+        this.fetchAllDistricts();
+    }
+
+    fetchDataDirections() {
+        fetch('api/ChooseSpecialties/directionsList')
+            .then(response => response.json() as Promise<GeneralDirectionDTO[]>)
+            .then(data => {
+                this.setState({
+                    directions:
+                    data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
+                });
+            });
+    }
+
+    fetchAllDistricts() {
+        fetch('api/ChooseSpecialties/districtsList')
+            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(data => {
+                this.setState({
+                    districts:
+                    data.map<District>(district => new District(district.id, district.name))
+                })
+            });
+    }
+
+    handleOnChangeDirection = (value) => {
+        this.setState({ selectValueDirection: value })
+    }
+
+    handleOnChangeDistrict = (selectDistricty) => {
+        this.setState({ selectDistrict: selectDistricty })
+    }
+
+    handleOnClick = () => {
+        this.submitFilter(this.state.selectValueDirection, this.state.selectDistrict)
+    }    
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.count.forOnePage, page: selected }
+        this.fetchData(directionAndDistrict);
+    }
+
+    private fetchData(directionAndDistrict) {
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
+            .then(response => response.json() as Promise<Specialty[]>)
+            .then(data => {
+                this.setState({ specialties: data })
+            })
+    }
+
+    submitFilter(selectValueSubmit, districtValueSubmit) {
+        if (selectValueSubmit && districtValueSubmit) {
+            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
+
+            fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
+                .then(response => response.json() as Promise<Count>)
+                .then(data => {
+                    this.setState({ count: data })
+                })
+
+            this.fetchData(directionAndDistrict);
+
+
+
+            this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
+        }
+        else {
+            alert('Pick out direction or select district');
+        }
+    } 
+
 }
+

@@ -76,7 +76,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
-                                pageCount={this.state.count.allElements / this.state.count.forOnePage} //ACHTUNG! HARDCODE!
+                                pageCount={this.state.count.allElements / this.state.count.forOnePage}
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
@@ -105,7 +105,8 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
+                            label: <a className="labelradar"
+                            onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -138,6 +139,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                     specialties: data,
                 }) })
     }
+
     private GetDomainMax() {
         var max = this.GetGeneralDirectionWithMaxScore().score;
         max = (max & 1) == 0 ? max : max + 1;
