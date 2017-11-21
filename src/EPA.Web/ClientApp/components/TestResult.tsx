@@ -30,9 +30,9 @@ interface Specialty {
 
 }
 
-interface SpecialtyInfo {
-    list: Specialty[];
-    count: number;
+interface Count {
+    allElements: number;
+    forOnePage: number;
 }
 
 interface Subject {
@@ -41,17 +41,20 @@ interface Subject {
 }
 
 interface GeneralTest {
-    specialties: SpecialtyInfo;
-    countsOfElementsOnPage: number
+    specialties: Specialty[];
     idCurrentDirection: number;
     maxScore: number;
+    count: Count;
 }
 
 export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
 
     constructor(props) {
         super(props);
-        this.state = { specialties: { list:[], count:0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
+        this.state = {
+            specialties: [], maxScore: this.GetDomainMax(), idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id,
+            count: { allElements: 10, forOnePage: 15 }
+        }
         this.GetSpecialties(this.state.idCurrentDirection, 1);
     }
     public render() {
@@ -67,13 +70,13 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                             </div>
                             <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
 
-                <ListSpecialties specialties={this.state.specialties.list} />
+                <ListSpecialties specialties={this.state.specialties} />
                 <div className="pageBar">
                     <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
-                                pageCount={this.state.specialties.count / this.state.countsOfElementsOnPage} //ACHTUNG! HARDCODE!
+                                pageCount={this.state.count.allElements / this.state.count.forOnePage} //ACHTUNG! HARDCODE!
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
@@ -123,13 +126,13 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
 
         this.setState({idCurrentDirection: id});
         let directionInfo = {
-            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
+            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.count.forOnePage
         }
-        fetch('api/choosespeciality/bydirectiononly', {
+        fetch('api/ChooseSpecialties/byDirection', {
             method: 'POST',
             body: JSON.stringify(directionInfo),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.ok ? response.json() as Promise<SpecialtyInfo> : this.props.onError(response.status.toString()))
+        }).then(response => response.ok ? response.json() as Promise<Specialty[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     specialties: data,

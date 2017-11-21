@@ -20,8 +20,8 @@ namespace EPA.MSSQL.Calculations
         /// <summary>
         /// This method  calculating speciality rating
         /// </summary>
-        /// <param name="numApplication">Amount of all entrants applications</param>
-        /// <param name="numEnrolled">Amount of enrolled students</param>
+        /// <param name="numApplication">Number of all entrants applications</param>
+        /// <param name="numEnrolled">Number of enrolled students</param>
         /// <returns>Speciality rating</returns>
         public static double GetRating(int numApplication, int numEnrolled)
         {

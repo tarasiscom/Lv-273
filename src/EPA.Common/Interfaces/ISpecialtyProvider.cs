@@ -31,7 +31,7 @@ namespace EPA.Common.Interfaces
         /// </summary>
         ///  <param name="listOfSubjects"> subjects for the ZNO </param>
         ///  <returns> List of Specialties </returns>
-        IEnumerable<Specialty> GetSpecialtyBySubjects(SubjectsInfo listOfSubjects);
+        IEnumerable<Specialty> GetSpecialtyBySubjects(List<int> listSubjects, int idDistrict, int page);
 
         /// <summary>
         /// 
@@ -43,7 +43,7 @@ namespace EPA.Common.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        Count GetCountBySubjects(SubjectsInfo listOfSubjects);
+        Count GetCountBySubjects(List<int> listSubjects, int idDistrict);
 
         /// <summary>
         /// This method retrives list of specialties according to general direction and district

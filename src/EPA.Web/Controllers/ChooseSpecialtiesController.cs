@@ -50,7 +50,7 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjects)
         {
-            return this.specialtyProvider.GetSpecialtyBySubjects(subjects);
+            return this.specialtyProvider.GetSpecialtyBySubjects(subjects.ListSubjects, subjects.District, subjects.Page);
         }
 
         /// <summary>
@@ -70,12 +70,6 @@ namespace EPA.Web.Controllers
         [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
         {
-            /*
-            DirectionInfo directionInfo = new DirectionInfo();
-            directionInfo.District = idDistrict;
-            directionInfo.GeneralDirection = idDirection;
-            directionInfo.Page = page;
-            */
             return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(idDirection, idDistrict, page);
         }
 
@@ -103,9 +97,7 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public Count GetCountBySubjects([FromBody] SubjectsInfo subjectsInfo)
         {
-            return this.specialtyProvider.GetCountBySubjects(subjectsInfo);
-
-
+            return this.specialtyProvider.GetCountBySubjects(subjectsInfo.ListSubjects, subjectsInfo.District);
         }
     }
 }
