@@ -2,9 +2,6 @@
 using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using EPA.Common.Interfaces;
-using EPA.Common.DTO;
 
 namespace EPA.Web.Controllers
 {
@@ -48,44 +45,21 @@ namespace EPA.Web.Controllers
         /// <returns>List of specialties </returns>
         [Route("api/ChooseSpecialties/bySubject")]
         [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjects)
+        public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjectInfo)
         {
-            return this.specialtyProvider.GetSpecialtyBySubjects(subjects.ListSubjects, subjects.District, subjects.Page);
+            return this.specialtyProvider.GetSpecialtyBySubjects(subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
         }
-
-        /// <summary>
-        /// This method retrives list of specialties according to general direction and district
-        /// </summary>
-        /// <param name="direction"> Contains id of the general direction,
-        /// district id, number of page and bumber of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialities</returns>
-        //[Route("api/ChooseSpecialties/byDirectionAndDistrict")]
-        //[HttpPost]
-        //public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict([FromBody] DirectionInfo direction)
-        //{
-        //    return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(direction.GeneralDirection, direction.District, direction.Page);
-        //}
-
+        
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
-        /// <param name="directionInfo"> Contains id of the general direction,
-        /// number of page and number of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialities </returns>
-        //[Route("api/ChooseSpecialties/byDirection/{idDirection}/{page}")]
-        //[HttpGet]
-        //public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection, int page)
-        //{
-        //    return this.specialtyProvider.GetSpecialtiesByDirection(idDirection, page);
-        //}
-
-        [Route("api/ChooseSpecialties/byDirection")]
-        [HttpPost]
-        public IEnumerable<Specialty> GetSpecialtiesByDirection([FromBody] DirectionInfo direction)
-        {
-            return this.specialtyProvider.GetSpecialtiesByDirection(direction.GeneralDirection, direction.Page);
-        }
-
+        /// <param name="idDirection"></param>
+        /// id of the general direction
+        /// <param name="idDistrict"></param>
+        /// number of page and number of elements per page
+        /// <param name="page"></param>
+        /// Limited list of specialties and count of all specialities
+        /// <returns></returns>
         [Route("api/ChooseSpecialties/byDirectionAndDistrict/{idDirection}/{idDistrict}/{page}")]
         [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
@@ -93,20 +67,18 @@ namespace EPA.Web.Controllers
             return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(idDirection, idDistrict, page);
         }
 
-        
-
-        [Route("api/ChooseSpecialties/count/{idDirection}/{idDistrict}/{page}")]
+        [Route("api/ChooseSpecialties/count/{idDirection}/{idDistrict}")]
         [HttpGet]
-        public Count GetCountByDirection(int idDirection, int idDistrict, int page)
+        public Count GetCountByDirection(int idDirection, int idDistrict)
         {
             return this.specialtyProvider.GetCountByDirection(idDirection, idDistrict);
         }
 
         [Route("api/ChooseSpecialties/count/bySubjects")]
         [HttpPost]
-        public Count GetCountBySubjects([FromBody] SubjectsInfo subjectsInfo)
+        public Count GetCountBySubjects([FromBody] SubjectsInfo subjectInfo)
         {
-            return this.specialtyProvider.GetCountBySubjects(subjectsInfo.ListSubjects, subjectsInfo.District);
+            return this.specialtyProvider.GetCountBySubjects(subjectInfo.ListSubjects, subjectInfo.District);
         }
     }
 }

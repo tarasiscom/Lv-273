@@ -44,8 +44,6 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <summary>
         /// This method retrieves collection of specialties which relates to chosen direction and district
         /// </summary>
-        /// <param name="directionInfo">Information about direction for which specialties are filtered</param>
-        /// <returns></returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
         {
             IEnumerable<Specialty> specialties;
@@ -123,8 +121,6 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <summary>
         /// This method retrieves collection of specialties that relates to chosen subjets and district
         /// </summary>
-        /// <param name="subjectsInfo"></param>
-        /// <returns></returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(List<int> listSubjects, int idDistrict, int page)
         {
           
@@ -150,11 +146,7 @@ namespace EPA.MSSQL.SQLDataAccess
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="directioninfo"></param>
-        /// <returns></returns>
+       
         public Count GetCountByDirection(int directionId, int districtId)
         {
             Count result = new Count();
@@ -164,7 +156,6 @@ namespace EPA.MSSQL.SQLDataAccess
                              where s.Direction.GeneralDirection.Id == directionId
                              join u in this.context.Universities on s.University.Id equals u.Id
                              join d in this.context.Districts on u.District.Id equals d.Id
-                             where d.Id == districtId
                              select new Common.DTO.Specialty()).Count();
 
 
@@ -187,12 +178,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="subjectsInfo"></param>
-        /// <returns></returns>
-        public Count GetCountBySubjects(List<int> listSubjects, int idDistrict)
+       public Count GetCountBySubjects(List<int> listSubjects, int idDistrict)
         {
             Count result = new Count();
             if (idDistrict == this.constValues.Value.AllDistricts)

@@ -52,11 +52,5 @@ namespace EPA.Common.Interfaces
         /// <returns> Limited list of specialties and count of all specialties </returns>
         IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page);
 
-        /// <summary>
-        /// This method retrives list of specialties according to general direction 
-        /// </summary>
-        /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialties </returns>
-        IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection, int page);
     }
 }

@@ -158,6 +158,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     componentDidMount() {
         this.fetchDataDirections();
         this.fetchAllDistricts();
+
     }
 
     fetchDataDirections() {
@@ -212,7 +213,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         if (selectValueSubmit && districtValueSubmit) {
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
 
-            fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
+            fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/')
                 .then(response => response.json() as Promise<Count>)
                 .then(data => {
                     this.setState({ count: data })

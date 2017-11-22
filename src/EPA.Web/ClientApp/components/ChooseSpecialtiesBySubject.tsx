@@ -79,9 +79,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             count: { allElements: 1, forOnePage: 1 }
         }
     }
-
-    
-         
+            
     public render() {
         
         let tabbord;
@@ -155,7 +153,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         this.fetchAllDistricts();
     }
 
-    fetchDataSubject() {
+    private fetchDataSubject() {
         fetch('api/ChooseSpecialties/subjectsList')
             .then(response => response.json() as Promise<SubjectDTO[]>)
             .then(data => {
@@ -164,7 +162,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 });
             });
     }
-    fetchAllDistricts() {
+    private fetchAllDistricts() {
         fetch('api/ChooseSpecialties/districtsList')
             .then(response => response.json() as Promise<DistrictDTO[]>)
             .then(data => {
@@ -175,7 +173,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             });
     }
 
-    submitFilter(selectValueSubmit, districtValueSubmit) {
+    private submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit) {
             let result: number[];
             result = [];
@@ -183,12 +181,12 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 result.push(selectValueSubmit[i].value)
             }
 
-            let subjectsAndDistrict = { ListSubjects: result, District: districtValueSubmit.value, countOfElementsOnPage: this.state.count.allElements, page: 0 }
+            let subjectsAndDistrict = { listSubjects: result, district: districtValueSubmit.value }
 
             fetch('api/ChooseSpecialties/count/bySubjects', {
                 method: 'POST',
-                body: JSON.stringify(subjectsAndDistrict),
-                headers: { 'Content-Type': 'application/json' }
+                body: JSON.stringify({ listSubjects: result, district: districtValueSubmit.value }),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
             }).then(response => response.json() as Promise<Count>)
                 .then(data => {
                     this.setState({ count: data })
@@ -204,9 +202,9 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
 
 
-    handlePageClick = (data) => {
+    private handlePageClick = (data) => {
         let selected = data.selected;
-        let subjectsAndDistrict = { ListSubjects: this.state.subjectsIds, District: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
+        let subjectsAndDistrict = { listSubjects: this.state.subjectsIds, district: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
 
         this.fetchDataSpecialties(subjectsAndDistrict);
     }
@@ -222,15 +220,15 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             })
     }
 
-    handleOnChangeSubjects = (valueArray) => {
+    private handleOnChangeSubjects = (valueArray) => {
         this.setState({ selectValueSubjects: valueArray })
     }
 
-    handleOnChangeDistrict = (selectDistricty) => {
+    private handleOnChangeDistrict = (selectDistricty) => {
         this.setState({ selectDistrict: selectDistricty })
     }
 
-    handleOnClick = () => {
+    private handleOnClick = () => {
         this.submitFilter(this.state.selectValueSubjects, this.state.selectDistrict)
     }
 }
