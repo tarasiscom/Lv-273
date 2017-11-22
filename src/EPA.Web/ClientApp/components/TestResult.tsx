@@ -31,9 +31,9 @@ interface Specialty {
 
 }
 
-interface SpecialtyInfo {
-    list: Specialty[];
-    count: number;
+interface Count {
+    allElements: number;
+    forOnePage: number;
 }
 
 interface Subject {
@@ -42,18 +42,23 @@ interface Subject {
 }
 
 interface GeneralTest {
-    specialties: SpecialtyInfo;
-    countsOfElementsOnPage: number
+    specialties: Specialty[];
     idCurrentDirection: number;
     maxScore: number;
+    count: Count;
 }
 
 export default class TestResults extends React.Component<GeneralDirectionResult & ErrorHandlerProp, GeneralTest> {
 
     constructor(props) {
         super(props);
-        this.state = { specialties: { list: [], count: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
-        this.GetSpecialties(this.state.idCurrentDirection, 1);
+        this.state = {
+            specialties: [],
+            maxScore: this.getDomainMax(),
+            idCurrentDirection: this.getGeneralDirectionWithMaxScore().generalDir.id,
+            count: { allElements: 1, forOnePage: 1 }
+        }
+        this.fetchAllSpecialties(this.state.idCurrentDirection, 0);
     }
     public render() {
         let loading = <Loading />
@@ -62,27 +67,27 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                 {this.drawRadar()}
                 <div className="row">
                     <h3 className="text-center">
-                        Ваш результат - {this.GetGeneralDirectionWithMaxScore().generalDir.name}
+                        Ваш результат - {this.getGeneralDirectionWithMaxScore().generalDir.name}
                     </h3>
                 </div>
             </div>
             <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
 
-                <ListSpecialties specialties={this.state.specialties.list} />
-                <div className="pageBar">
-                    <ReactPaginate
-                        previousLabel={"Попередня"}
-                        nextLabel={"Наступна"}
-                        breakLabel={<a>...</a>}
+                <ListSpecialties specialties={this.state.specialties} />
+                    <div className="pageBar">
+                        <ReactPaginate
+                                previousLabel={"Попередня"}
+                                nextLabel={"Наступна"}
+                                breakLabel={<a>...</a>}
                         breakClassName={"break-me"}
-                        pageCount={this.state.specialties.count / this.state.countsOfElementsOnPage}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                </div>
+                                pageCount={this.state.count.allElements / this.state.count.forOnePage}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                       </div>
             </div>
         </div>
         return <div>{content}</div>
@@ -90,7 +95,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        this.GetSpecialties(this.state.idCurrentDirection, selected);
+        this.getSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {
         return <div className="text-center" >
@@ -104,7 +109,9 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
+                            label: <a className="labelradar"
+                                onClick={this.fetchAllSpecialties.bind(this, gen.generalDir.id, 0)}>
+                                {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -121,29 +128,33 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         </div>
     }
 
-    GetSpecialties = (id, selectedPage) => {
-
-        this.setState({ idCurrentDirection: id });
-        let directionInfo = {
-            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
-        }
-        fetch('api/ChooseSpecialties/bydirectiononly', {
-            method: 'POST',
-            body: JSON.stringify(directionInfo),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.ok ? response.json() as Promise<SpecialtyInfo> : this.props.onError(response.status.toString()))
+    private getSpecialties = (id, selectedPage) => {
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + this.state.idCurrentDirection + '/' + 0 + '/' + selectedPage)
+            .then(response => response.ok ? response.json() as Promise<Specialty[]> : this.props.onError(response.status.toString()))
             .then(data => {
                 this.setState({
                     specialties: data,
                 })
             })
     }
-    private GetDomainMax() {
-        var max = this.GetGeneralDirectionWithMaxScore().score;
+
+     private fetchAllSpecialties=(id, selectedPage) => {
+        fetch('api/ChooseSpecialties/count/' + this.state.idCurrentDirection + '/' + 0 + '/')
+            .then(response => response.json() as Promise<Count>)
+            .then(data => {
+                this.setState({ count: data })
+            })
+        console.log("count all is " + this.state.count.allElements);
+        this.getSpecialties(id, selectedPage);
+        this.setState({ idCurrentDirection: id });
+    }
+
+    private getDomainMax() {
+        var max = this.getGeneralDirectionWithMaxScore().score;
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }
-    private GetGeneralDirectionWithMaxScore() {
+    private getGeneralDirectionWithMaxScore() {
         var arrScores = this.props.testresult;
         var max = arrScores[0];
 
@@ -154,4 +165,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         }
         return max;
     }
+
+
 }

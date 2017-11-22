@@ -19,7 +19,7 @@ export class Footer extends React.Component<{}, {}> {
                         ·
 					    <Link to={'/ChooseSpecialty'}> Обрати Спеціальність </Link>
                     </p>
-                    <p>Educational Profession Adviser &copy; 2017</p>
+                    <p>Educational Program Adviser &copy; 2017</p>
                 </div>
         </div>
     }

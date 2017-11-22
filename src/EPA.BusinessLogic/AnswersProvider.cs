@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace EPA.BusinessLogic
 {
-    public class UserAnswersProvider : IUserAnswersProdiver
+    public class AnswersProvider : IAnswersProdiver
     {
         private readonly ITestProvider testProvider;
 
-        public UserAnswersProvider(ITestProvider testProvider)
+        public AnswersProvider(ITestProvider testProvider)
         {
             this.testProvider = testProvider;
         }

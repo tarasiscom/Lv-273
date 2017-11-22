@@ -6,7 +6,7 @@ namespace EPA.Common.Interfaces
     /// <summary>
     /// Interface that contains methods for calculating scores of test quiz and getting result
     /// </summary>
-    public interface IUserAnswersProdiver
+    public interface IAnswersProdiver
     {
         /// <summary>
         /// Calculates scores for each direction depends on user answers

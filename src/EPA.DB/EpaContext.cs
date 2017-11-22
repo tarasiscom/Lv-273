@@ -44,11 +44,5 @@ namespace EPA.MSSQL
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
             modelBuilder.Entity<District>().ToTable("Districts");
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            Debug.WriteLine("dispose");
-        }
     }
 }
