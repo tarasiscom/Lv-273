@@ -58,15 +58,15 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
     public render() {
         let loading = <Loading />
         let content = <div className="row">
-            <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 center-block">
                 {this.drawRadar()}
                 <div className="row">
-                    <h3>
+                    <h3 className="text-center">
                         Ваш результат - {this.GetGeneralDirectionWithMaxScore().generalDir.name}
                     </h3>
                 </div>
             </div>
-            <div className="pad-for-nav col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6" >
+            <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
 
                 <ListSpecialties specialties={this.state.specialties.list} />
                 <div className="pageBar">
@@ -93,11 +93,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         this.GetSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {
-        return <div className="text-left">
+        return <div className="text-center" >
             <Radar className="radar"
                 width={450}
                 height={450}
                 padding={60}
+                
                 domainMax={this.state.maxScore}
                 data={{
                     variables: this.props.testresult.map(gen =>

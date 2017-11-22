@@ -29,13 +29,13 @@ export default class ListSpecialties extends React.Component<Specialties, {} > {
 
     public render() {
 
-        return <div className="col-md-offset-1  col-md-10 col-sm-offset-1 col-sm-10  C col-xs-offset-1">
+        return <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <Tabbordion animateContent="height" className="accordion" mode="toggle" role="tablist">
                 {this.props.specialties.map((specialty, id) =>
                     <TabPanel key={id} className="my-cursor">
                         <div className="panel panel-default">
-                            <div className="panel-heading">
-                                <TabLabel className="my-cursor panel-heading">
+                            <div className="panel-heading" >
+                                <TabLabel className="my-cursor panel-heading tab-width" >
                                     <p>Спеціальність: {specialty.name} </p>
                                     <p>Університет: {specialty.university}</p>
                                     <p>Область: {specialty.district}</p>
