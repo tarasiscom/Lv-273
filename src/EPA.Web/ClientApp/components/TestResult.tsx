@@ -67,7 +67,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                 {this.drawRadar()}
                 <div className="row">
                     <h3 className="text-center">
-                        Ваш результат - {this.GetGeneralDirectionWithMaxScore().generalDir.name}
+                        Ваш результат - {this.getGeneralDirectionWithMaxScore().generalDir.name}
                     </h3>
                 </div>
             </div>
