@@ -46,7 +46,18 @@ namespace EPA.MSSQL
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
             modelBuilder.Entity<District>().ToTable("Districts");
 
+            /*
+             * Delete coment if need change name in Azure DB 
+             * 
+             modelBuilder.Entity<User>().ToTable("Users");
 
+            modelBuilder.Entity<IdentityRole<string>>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+             */
         }
 
         public override void Dispose()
