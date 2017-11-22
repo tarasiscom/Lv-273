@@ -4,8 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class Footer extends React.Component<{}, {}> {
     public render() {
-        return <footer className="navbar-fixed-bottom ">
-            <footer className="footer-distributed">
+        return <div className="footer-distributed">
                 <div className="footer-right">
                     <a target="_blank" href="https://www.facebook.com/natasha.svystun"><i className="fa fa-facebook"></i></a>
                     <a target="_blank" href="https://twitter.com/svystunlife?lang=uk"><i className="fa fa-twitter"></i></a>
@@ -22,7 +21,6 @@ export class Footer extends React.Component<{}, {}> {
                     </p>
                     <p>Educational Program Adviser &copy; 2017</p>
                 </div>
-            </footer>
-        </footer>
+        </div>
     }
 }

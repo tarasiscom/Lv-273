@@ -4,6 +4,7 @@ import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
 import ReactPaginate from 'react-paginate';
 import { ErrorHandlerProp } from './App';
+import { Loading } from './Loading';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -47,7 +48,7 @@ interface GeneralTest {
     count: Count;
 }
 
-export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
+export default class TestResults extends React.Component<GeneralDirectionResult & ErrorHandlerProp, GeneralTest> {
 
     constructor(props) {
         super(props);
@@ -60,23 +61,25 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
         this.fetchAllSpecialties(this.state.idCurrentDirection, 0);
     }
     public render() {
-        let loading = <p><em>Loading...</em></p>
+        let loading = <Loading />
         let content = <div className="row">
-            <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 center-block">
                 {this.drawRadar()}
                 <div className="row">
-                    <h3>
-                        Ваш результат - {this.getGeneralDirectionWithMaxScore().generalDir.name}
+                    <h3 className="text-center">
+                        Ваш результат - {this.GetGeneralDirectionWithMaxScore().generalDir.name}
                     </h3>
                 </div>
-             </div>
-             <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
+            </div>
+            <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+
                 <ListSpecialties specialties={this.state.specialties} />
                     <div className="pageBar">
                         <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
+                        breakClassName={"break-me"}
                                 pageCount={this.state.count.allElements / this.state.count.forOnePage}
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
@@ -85,9 +88,8 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
                        </div>
-                       <div className="col-md-6 col-sm-12 col-xs-12 pad-for-footer2"></div>
-                    </div>
-             </div>
+            </div>
+        </div>
         return <div>{content}</div>
     }
 
@@ -96,11 +98,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
         this.getSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {
-        return <div className="text-left">
+        return <div className="text-center" >
             <Radar className="radar"
                 width={450}
                 height={450}
                 padding={60}
+                
                 domainMax={this.state.maxScore}
                 data={{
                     variables: this.props.testresult.map(gen =>
@@ -131,7 +134,8 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
             .then(data => {
                 this.setState({
                     specialties: data,
-                }) })
+                })
+            })
     }
 
      private fetchAllSpecialties=(id, selectedPage) => {

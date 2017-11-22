@@ -6,6 +6,7 @@ import {
     Route
 } from 'react-router-dom';
 import { ErrorHandlerProp } from './App';
+import { Loading } from './Loading';
 
 //import { Error404inComp } from './errors/404';
 
@@ -71,11 +72,11 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
     }
 
     public render() {
-        let content = this.state.loading ?
-            <p>Loading...</p>:
+        return  this.state.loading ?
+            <Loading />:
             this.renderTestInfo();
 
-        return content;
+       
     }
 }
 

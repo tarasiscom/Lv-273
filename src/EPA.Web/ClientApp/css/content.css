@@ -1,11 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=EB+Garamond|Fira+Sans+Condensed|Fjalla+One');
 html {
-    min-height: 100%
+    min-height: 100%;
+    height: 100%;
 }
 
 body {
     min-height: 100%;
-    
+    height: 100%;
+}
+
+#react-app {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
 }
 
 .uni-recom {
@@ -22,6 +29,10 @@ body {
     height: 120px;
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.logo1:hover {
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .text-univer {
@@ -101,12 +112,7 @@ body {
     
 }
 
-.row {
-<<<<<<< HEAD
-    
-    /*margin-left:15px;*/
-=======
->>>>>>> origin/develop
+.row {    
     margin-right: 3%;
     margin-left: 3%;
 }
@@ -117,9 +123,10 @@ body {
 }
 
 .pad-for-footer {
-    margin-bottom: 130px;
+    min-height:100%;
+    height:100%;
+    padding-bottom: 120px;
     position: relative;
-    /*margin-top: 20px;*/
 }
 .card-read-more {
     border-top: 1px solid #D4D4D4;
@@ -256,21 +263,10 @@ h1.heading {
     vertical-align: bottom;
 }
 
-    .btn-primary:hover {
-        color: #fff;
-        background-color: #2d2d2d;
-        border-color: #2d2d2d;
+.btn-primary:active {
+        background-color: #fff        
     }
-    .btn-primary:focus {
-        color: #fff;
-        background-color: #2d2d2d;
-        border-color: #2d2d2d;
-    }
-    .btn-primary:active {
-        color: #fff;
-        background-color: #2d2d2d;
-        border-color: #2d2d2d;
-    }
+
 .paddin {
     margin-top: 10px;
 }
@@ -300,3 +296,86 @@ h1.heading {
     margin-bottom : 50px;
 }
 
+.loadImgRotate {
+    background: url("http://downloadicons.net/sites/default/files/graduation-icon-66502.png");
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: spin 1s linear infinite;
+}
+
+.loadImgMove {
+    text-align: -webkit-center;
+    animation: move 3s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+.loadImgOpac {
+    animation: fadeInFromNone 0.5s ease-out;
+}
+
+.loadScreen {
+}
+
+@keyframes move {
+    50% {
+        transform: translate(0px, 90vh);
+    }
+}
+
+
+@keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    20% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.color-radar {
+
+background-color:black;
+}
+
+@media screen and (max-width: 576px) and (min-width: 391px) {
+    svg {
+        transform: scale(0.77,0.77);
+        margin-left:-10%;
+    }
+
+}
+
+@media screen and (max-width: 390px) and (min-width: 330px) {
+    svg {
+        transform: scale(0.7,0.7);
+        margin-left: -21%;
+    }
+}
+@media screen and (max-width: 329px) and (min-width: 300px) {
+    svg {
+        transform: scale(0.65,0.65);
+        margin-left: -32%;
+    }
+}
+.tab-width {
+width:100%;
+}

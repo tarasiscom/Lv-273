@@ -38,7 +38,7 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
     }
     public render() {
         let content = this.renderSelect();
-        return <div>
+        return <div className="pad-for-footer col-md-12">
             {content}
             <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>

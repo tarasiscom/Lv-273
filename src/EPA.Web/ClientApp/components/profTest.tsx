@@ -6,6 +6,7 @@ import {
     Route
 } from 'react-router-dom';
 import { ErrorHandlerProp } from './App';
+import { Loading } from './Loading';
 
 interface TestsDataState {
     tests: DataAPI[];
@@ -17,13 +18,13 @@ interface DataAPI {
     name: string;
 }
 
-export class ProfTest extends React.Component<RouteComponentProps<{}>&ErrorHandlerProp, TestsDataState> {
+export class ProfTest extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, TestsDataState> {
     constructor() {
         super();
         this.state = { tests: [], loading: true };
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         fetch('api/profTest/list')
             .then(response => response.ok ? response.json() as Promise<DataAPI[]> : this.props.onError(response.status))
@@ -31,44 +32,44 @@ export class ProfTest extends React.Component<RouteComponentProps<{}>&ErrorHandl
                 this.setState({ tests: data, loading: false });
             });
     }
-    
+
 
     public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+        return this.state.loading
+            ? <Loading />
             : this.renderTestsList();
+        
+    }
 
-        return <div className="pad-for-footer">
+    private renderTestsList() {
+
+        return (<div className="pad-for-footer">
             <section className="jumbotron text-center">
                 <div className="container">
                     <h1 className="jumbotron-heading">Профорієнтаційні тести</h1>
                     <p className="lead text-muted">Тут Ви можете переглянути список тестів</p>
                 </div>
             </section>
-            {contents}
-        </div>;
-    }
-
-    private renderTestsList() {
-        return <div className="container">
-            <table className="table table-striped table table-hover table-sm">
-                <thead className="thread-dark">
-                    <tr>
-                        <th className="text-center" scope="col">Номер Тесту</th>
-                        <th className="text-center" scope="col">Назва тесту</th>
-                        <th className="text-center" scope="col">Переглянути тест</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.tests.map((tests, id) =>
-                        <tr key={id}>
-                            <td className="text-center">{id+1}</td>
-                            <td className="text-center"> {tests.name}</td>
-                            <td className="text-center"><Link to={'/testInfo/' + tests.id} ><span className="glyphicon glyphicon-list-alt"></span></Link></td>
+            <div className="container">
+                <table className="table table-striped table table-hover table-sm">
+                    <thead className="thread-dark">
+                        <tr>
+                            <th className="text-center" scope="col">Номер Тесту</th>
+                            <th className="text-center" scope="col">Назва тесту</th>
+                            <th className="text-center" scope="col">Переглянути тест</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {this.state.tests.map((tests, id) =>
+                            <tr key={id}>
+                                <td className="text-center">{id + 1}</td>
+                                <td className="text-center"> {tests.name}</td>
+                                <td className="text-center"><Link to={'/testInfo/' + tests.id} ><span className="glyphicon glyphicon-list-alt"></span></Link></td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>);
     }
 }
