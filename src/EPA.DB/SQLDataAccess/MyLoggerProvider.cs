@@ -23,7 +23,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
             public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
             {
-                File.AppendAllText(@"I:\Tools\log.txt", formatter(state, exception));
+                File.AppendAllText(@"D:\log.txt", formatter(state, exception));
                 Console.WriteLine(formatter(state, exception));
             }
 

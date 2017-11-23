@@ -13,8 +13,11 @@
     <None Remove="ClientApp\components\App.tsx" />
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\List.tsx" />
+    <None Remove="ClientApp\components\loading.tsx" />
+    <None Remove="ClientApp\components\Login.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
+    <None Remove="ClientApp\components\Registration.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 
@@ -30,7 +33,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="StackifyMiddleware" Version="2.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,8 +49,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\App.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Registration.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
   </ItemGroup>
 

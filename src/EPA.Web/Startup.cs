@@ -43,7 +43,7 @@ namespace EPA.Web
             services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
-            services.AddTransient<IUserAnswersProdiver, UserAnswersProvider>();
+            services.AddTransient<IAnswersProdiver, AnswersProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
@@ -56,7 +56,6 @@ namespace EPA.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
@@ -75,13 +74,7 @@ namespace EPA.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                /*
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });//*/
             });
-
 
             app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             {
@@ -92,8 +85,7 @@ namespace EPA.Web
                         defaults: new { controller = "Home", action = "Index" });
                 });
             });
-            loggerFactory.AddProvider(new MyLoggerProvider());
-            new Mapping().Create();
+            Mapping.Create();
         }
     }
 }

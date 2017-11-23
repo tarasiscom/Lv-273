@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
     ///  This class describes general information of the Subject
@@ -13,6 +9,7 @@ namespace EPA.Common.DTO
         /// ID of subject
         /// </summary>
         public int Id { get; set; }
+       
         /// <summary>
         ///  Name of the Subject
         /// </summary>
