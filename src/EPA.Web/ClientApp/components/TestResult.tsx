@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
 import ReactPaginate from 'react-paginate';
-import { ErrorHandlerProp } from './App';
+import { ErrorHandlerProp , ResponseChecker } from './App';
 import { Loading } from './Loading';
 
 interface TestResult {
@@ -130,7 +130,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
 
     private getSpecialties = (id, selectedPage) => {
         fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + this.state.idCurrentDirection + '/' + 0 + '/' + selectedPage)
-            .then(response => response.ok ? response.json() as Promise<Specialty[]> : this.props.onError(response.status.toString()))
+            .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({
                     specialties: data,
@@ -140,11 +140,10 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
 
      private fetchAllSpecialties=(id, selectedPage) => {
         fetch('api/ChooseSpecialties/count/' + this.state.idCurrentDirection + '/' + 0 + '/')
-            .then(response => response.json() as Promise<Count>)
+            .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({ count: data })
             })
-        console.log("count all is " + this.state.count.allElements);
         this.getSpecialties(id, selectedPage);
         this.setState({ idCurrentDirection: id });
     }

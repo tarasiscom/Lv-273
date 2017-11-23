@@ -8,6 +8,7 @@ import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
 import 'isomorphic-fetch';
 
+import { ErrorHandlerProp, ResponseChecker } from './App';
 
 interface Specialties {
     directions: GeneralDirection[];
@@ -69,7 +70,8 @@ interface Specialty {
     subjects: Subject[];
 }
 
-export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}>, Specialties>
+
+export class ChooseSpecialtiesByDirection extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, Specialties>
 {
     constructor() {
         
@@ -158,27 +160,26 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     componentDidMount() {
         this.fetchDataDirections();
         this.fetchAllDistricts();
-
     }
+
 
     fetchDataDirections() {
         fetch('api/ChooseSpecialties/directionsList')
-            .then(response => response.json() as Promise<GeneralDirectionDTO[]>)
+            //.then(response => response.json() as Promise<GeneralDirectionDTO[]>)            
+            .then(response => ResponseChecker<GeneralDirectionDTO[]>(response, this.props.onError))            
             .then(data => {
                 this.setState({
-                    directions:
-                    data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
+                    directions: data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
                 });
             });
     }
 
     fetchAllDistricts() {
         fetch('api/ChooseSpecialties/districtsList')
-            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(response => ResponseChecker<DistrictDTO[]>(response, this.props.onError))
             .then(data => {
                 this.setState({
-                    districts:
-                    data.map<District>(district => new District(district.id, district.name))
+                    districts: data.map<District>(district => new District(district.id, district.name))
                 })
             });
     }
@@ -203,7 +204,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     private fetchData(directionAndDistrict) {
         fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
-            .then(response => response.json() as Promise<Specialty[]>)
+            .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({ specialties: data })
             })
@@ -214,7 +215,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
 
             fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/')
-                .then(response => response.json() as Promise<Count>)
+                .then(response => ResponseChecker<any>(response, this.props.onError))
                 .then(data => {
                     this.setState({ count: data })
                 })

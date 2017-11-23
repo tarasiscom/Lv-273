@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp } from './App';
+import { ErrorHandlerProp, ResponseChecker } from './App';
 import { Loading } from './Loading';
 
 //import { Error404inComp } from './errors/404';
@@ -43,7 +43,7 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
         fetch(path)
-            .then(response => response.ok ? response.json() as Promise<TestDetailInformation> : this.props.onError(response.status.toString()) )
+            .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
             })

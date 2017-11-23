@@ -5,7 +5,8 @@ import ListSpecialties from './ListSpecialties'
 import 'react-virtualized/styles.css'
 import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
-import  ReactPaginate  from 'react-paginate';
+import ReactPaginate from 'react-paginate';
+import { ErrorHandlerProp, ResponseChecker } from './App';
 
 interface Specialities {
     districtId: number;
@@ -62,7 +63,7 @@ interface Specialty {
     subjects: SubjectDTO[];
 }
 
-export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}>, Specialities> {
+export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, Specialities> {
 
     constructor()
     {
@@ -155,7 +156,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     private fetchDataSubject() {
         fetch('api/ChooseSpecialties/subjectsList')
-            .then(response => response.json() as Promise<SubjectDTO[]>)
+            .then(response => ResponseChecker<SubjectDTO[]>(response, this.props.onError))
             .then(data => {
                 this.setState({
                     subjects: data.map<Subject>(subject => new Subject(subject.id, subject.name))
@@ -164,7 +165,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
     private fetchAllDistricts() {
         fetch('api/ChooseSpecialties/districtsList')
-            .then(response => response.json() as Promise<DistrictDTO[]>)
+            .then(response => ResponseChecker<DistrictDTO[]>(response, this.props.onError))
             .then(data => {
                 this.setState({
                     districts:
@@ -187,7 +188,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 method: 'POST',
                 body: JSON.stringify({ listSubjects: result, district: districtValueSubmit.value }),
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-            }).then(response => response.json() as Promise<Count>)
+            }).then(response => ResponseChecker<any>(response, this.props.onError))
                 .then(data => {
                     this.setState({ count: data })
                 })
@@ -214,7 +215,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             method: 'POST',
             body: JSON.stringify(subjectsAndDistrict),
             headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.json() as Promise<Specialty[]>)
+        }).then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({ specialties: data })
             })

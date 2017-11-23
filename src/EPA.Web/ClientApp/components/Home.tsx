@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router';
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
 
-        return <div className="pad-for-footer col-md-12">         
+        return <div>         
             <section className="main-container">
                 <div className="title grey-background col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                     <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
