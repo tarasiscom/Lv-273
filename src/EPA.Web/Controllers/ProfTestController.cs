@@ -8,15 +8,15 @@ namespace EPA.Web.Controllers
     /// <summary>
     ///  API for Test and TestInfo draws
     /// </summary>
-    public class TestController : Controller
+    public class ProfTestController : Controller
     {
         private readonly ITestProvider testProvider;
-        private readonly IUserAnswersProdiver userAnswersProdiver;
+        private readonly IAnswersProdiver answersProdiver;
 
-        public TestController(ITestProvider testProvider, IUserAnswersProdiver userAnswersProdiver)
+        public ProfTestController(ITestProvider testProvider, IAnswersProdiver answersProdiver)
         {
             this.testProvider = testProvider;
-            this.userAnswersProdiver = userAnswersProdiver;
+            this.answersProdiver = answersProdiver;
         }
 
         /// <summary>
@@ -51,11 +51,13 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This method retrieves general directions with scores based on user answers
         /// </summary>
-        /// <param name="listansw">Take list of objects, that contains id question and answer number</param>
+        /// <param name="listAnswers">Take list of objects, that contains id question and answer number</param>
         /// <returns>List of general directions with scores</returns>
-        [Route("api/profTest/{testId}/result")]
+        [Route("api/profTest/result")]
         [HttpPost]
-        public IEnumerable<DirectionScores> GetDirection_Score([FromBody]List<UserAnswer> listansw)
-                 => this.userAnswersProdiver.CalculateScores(listansw);
+        public IEnumerable<DirectionScores> GetDirectionsScore([FromBody]List<UserAnswer> listAnswers)
+        {
+            return this.answersProdiver.CalculateScores(listAnswers);
+        }
     }
 }

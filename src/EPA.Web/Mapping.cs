@@ -1,8 +1,8 @@
 ﻿namespace EPA.Web
 {
-    public class Mapping
+    public static class Mapping
     {
-        public void Create()
+        public static void Create()
         {
             AutoMapper.Mapper.Initialize(
                     cfg =>

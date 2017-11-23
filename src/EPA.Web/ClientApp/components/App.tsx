@@ -11,6 +11,19 @@ import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
 import PropTypes from 'prop-types';
 
+
+export function ResponseChecker<T>(response: Response, ErrorHandler): Promise<T> {
+    return new Promise((resolve, reject) => {
+        if (response.ok) {
+            resolve(response.json())
+        }
+        else {
+            ErrorHandler(response.status);
+            reject(response.status);
+        }
+    });
+}
+
 export interface ErrorHandlerProp {
     onError: PropTypes.func
 }
@@ -51,8 +64,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecBySub' component={ChooseSpecialtiesBySubject} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecByDir' component={ChooseSpecialtiesByDirection} />
+                            <Route exact path='/ChooseSpecialties/bySubject' render={(props) => (<ChooseSpecialtiesBySubject {...props} onError={this.onError} />)}  />
+                            <Route exact path='/ChooseSpecialties/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)}  />
                             {errRoute}
                         </Switch>
                 }

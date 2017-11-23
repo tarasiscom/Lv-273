@@ -3,7 +3,8 @@ import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
 import ReactPaginate from 'react-paginate';
-import { ErrorHandlerProp } from './App';
+import { ErrorHandlerProp , ResponseChecker } from './App';
+import { Loading } from './Loading';
 
 interface TestResult {
     generalDir: GeneralDir;
@@ -30,9 +31,9 @@ interface Specialty {
 
 }
 
-interface SpecialtyInfo {
-    listSpecialties: Specialty[];
-    countOfAllElements: number;
+interface Count {
+    allElements: number;
+    forOnePage: number;
 }
 
 interface Subject {
@@ -41,62 +42,76 @@ interface Subject {
 }
 
 interface GeneralTest {
-    specialties: SpecialtyInfo;
-    countsOfElementsOnPage: number
+    specialties: Specialty[];
     idCurrentDirection: number;
     maxScore: number;
+    count: Count;
 }
 
-export default class TestResults extends React.Component<GeneralDirectionResult&ErrorHandlerProp, GeneralTest> {
+export default class TestResults extends React.Component<GeneralDirectionResult & ErrorHandlerProp, GeneralTest> {
 
     constructor(props) {
         super(props);
-        this.state = { specialties: { listSpecialties: [], countOfAllElements: 0 }, maxScore: this.GetDomainMax(), countsOfElementsOnPage: 15, idCurrentDirection: this.GetGeneralDirectionWithMaxScore().generalDir.id }
-        this.GetSpecialties(this.state.idCurrentDirection, 1);
+        this.state = {
+            specialties: [],
+            maxScore: this.getDomainMax(),
+            idCurrentDirection: this.getGeneralDirectionWithMaxScore().generalDir.id,
+            count: { allElements: 1, forOnePage: 1 }
+        }
+        this.fetchAllSpecialties(this.state.idCurrentDirection, 0);
     }
     public render() {
-        let loading = <p><em>Loading...</em></p>
+        let loading = <Loading />
         let content = <div className="row">
-            <div className="radar-position col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-9 col-xs-offset-3 col-lg-offset-1 col-lg-4 col-xl-6">
-                                {this.drawRadar()}
-                            </div>
-                            <div className="col-lg-offset-5 col-md-12  col-sm-12 col-xs-12 col-lg-7 col-xl-6">
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 center-block">
+                {this.drawRadar()}
+                <div className="row">
+                    <h3 className="text-center">
+                        Ваш результат - {this.getGeneralDirectionWithMaxScore().generalDir.name}
+                    </h3>
+                </div>
+            </div>
+            <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
 
-                <ListSpecialties specialties={this.state.specialties.listSpecialties} />
-                                <ReactPaginate
+                <ListSpecialties specialties={this.state.specialties} />
+                    <div className="pageBar">
+                        <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
-                                breakClassName={"break-me"}
-                                pageCount={this.state.specialties.countOfAllElements / this.state.countsOfElementsOnPage} 
+                        breakClassName={"break-me"}
+                                pageCount={this.state.count.allElements / this.state.count.forOnePage}
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
                                 containerClassName={"pagination"}
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
-                                <div className="col-md-6 col-sm-12 col-xs-12 pad-for-footer2"></div>
-                            </div>
-                    </div>
+                       </div>
+            </div>
+        </div>
         return <div>{content}</div>
     }
 
     handlePageClick = (data) => {
-        let selected = data.selected + 1;
-        this.GetSpecialties(this.state.idCurrentDirection, selected);
+        let selected = data.selected;
+        this.getSpecialties(this.state.idCurrentDirection, selected);
     }
     drawRadar() {
-        return <div className="text-left">
+        return <div className="text-center" >
             <Radar className="radar"
                 width={450}
                 height={450}
                 padding={60}
+                
                 domainMax={this.state.maxScore}
                 data={{
                     variables: this.props.testresult.map(gen =>
                         ({
                             key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelradar" onClick={this.GetSpecialties.bind(this, gen.generalDir.id, 1)}>{gen.generalDir.name}</a>
+                            label: <a className="labelradar"
+                                onClick={this.fetchAllSpecialties.bind(this, gen.generalDir.id, 0)}>
+                                {gen.generalDir.name}</a>
                         }),
                     ),
                     sets:
@@ -113,28 +128,32 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
         </div>
     }
 
-    GetSpecialties = (id, selectedPage) => {
-
-        this.setState({idCurrentDirection: id});
-        let directionInfo = {
-            generaldirection: this.state.idCurrentDirection, page: selectedPage, countofelementsonpage: this.state.countsOfElementsOnPage
-        }
-        fetch('api/choosespeciality/bydirectiononly', {
-            method: 'POST',
-            body: JSON.stringify(directionInfo),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => response.ok ? response.json() as Promise<SpecialtyInfo> : this.props.onError(response.status.toString()))
+    private getSpecialties = (id, selectedPage) => {
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + this.state.idCurrentDirection + '/' + 0 + '/' + selectedPage)
+            .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({
                     specialties: data,
-                }) })
+                })
+            })
     }
-    private GetDomainMax() {
-        var max = this.GetGeneralDirectionWithMaxScore().score;
+
+     private fetchAllSpecialties=(id, selectedPage) => {
+        fetch('api/ChooseSpecialties/count/' + this.state.idCurrentDirection + '/' + 0 + '/')
+            .then(response => ResponseChecker<any>(response, this.props.onError))
+            .then(data => {
+                this.setState({ count: data })
+            })
+        this.getSpecialties(id, selectedPage);
+        this.setState({ idCurrentDirection: id });
+    }
+
+    private getDomainMax() {
+        var max = this.getGeneralDirectionWithMaxScore().score;
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }
-    private GetGeneralDirectionWithMaxScore() {
+    private getGeneralDirectionWithMaxScore() {
         var arrScores = this.props.testresult;
         var max = arrScores[0];
 
@@ -145,4 +164,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult&
         }
         return max;
     }
+
+
 }

@@ -59,11 +59,5 @@ namespace EPA.MSSQL
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
              */
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            Debug.WriteLine("dispose");
-        }
     }
 }
