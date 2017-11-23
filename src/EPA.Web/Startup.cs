@@ -43,7 +43,7 @@ namespace EPA.Web
             services.AddTransient<EpaContext>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
-            services.AddTransient<IAnswersProdiver, AnswersProvider>();
+            services.AddTransient<IScoreProdiver, AnswersProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));

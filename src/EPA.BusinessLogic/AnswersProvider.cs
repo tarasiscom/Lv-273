@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace EPA.BusinessLogic
 {
-    public class AnswersProvider : IAnswersProdiver
+    public class AnswersProvider : IScoreProdiver
     {
         private readonly ITestProvider testProvider;
 
