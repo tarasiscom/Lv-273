@@ -179,9 +179,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             <Loading /> :
             this.renderListSpecialies();
     }
-
-
-
+    
     componentDidMount() {
         this.fetchAllDirections();
         this.fetchAllDistricts();
