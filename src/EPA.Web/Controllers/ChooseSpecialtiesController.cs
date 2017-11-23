@@ -75,5 +75,44 @@ namespace EPA.Web.Controllers
         /// <returns> List of general directions </returns>
         [Route("api/ChooseSpecialties/getdirection")]
         public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
+
+        [Route("api/Registration/send")]
+        [HttpPost]
+        public void S([FromBody]User directionInfo)
+        {
+           
+        }
+
+        [Route("api/Registration/sendU")]
+        [HttpPost]
+        public void Sw([FromBody]User directionInfo)
+        {
+            User u = new User();
+            
+        }
+
+
+        [Route("api/Registration/{l}/{f}/{m}/{e}/{p}")]
+        public void P(string l, string f, string m, string e, string p)
+        {
+            //string[] pas = p.Split('/');
+            User u = new User();
+            u.LastName = l;
+            u.FirstName = f;
+            u.MiddleName = m;
+            u.Email = e;
+            u.Password = p;
+        }
+
+        [Route("api/Login/{e}/{p}")]
+        public void Login(string e, string p)
+        {
+            User u = new User();
+           
+            u.Email = e;
+            u.Password = p;
+        }
+
+
     }
 }

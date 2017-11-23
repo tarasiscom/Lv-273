@@ -9,6 +9,8 @@ import { ChooseSpecialty } from './ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './ChooseSpecialtiesByDirection';
 import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
+import { Registration } from './Registration';
+import { Login } from './Login';
 import PropTypes from 'prop-types';
 
 export interface ErrorHandlerProp {
@@ -53,6 +55,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
                             <Route exact path='/ChooseSpecialty/BySubject' component={ChooseSpecialtiesBySubject} />
                             <Route exact path='/ChooseSpecialty/ByDirection' component={ChooseSpecialtiesByDirection} />
+                            <Route exact path='/Registration' component={Registration} />
+                            <Route exact path='/Login' component={Login} />
                             {errRoute}
                         </Switch>
                 }

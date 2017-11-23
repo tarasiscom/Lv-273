@@ -361,3 +361,30 @@ h1.heading {
         transform: rotate(360deg);
     }
 }
+
+.registration div{
+    width:300px;
+    margin:auto;
+    margin-bottom: 15px;
+}
+
+.registration div input{
+    border:solid grey 1px;
+}
+
+.registration div input:invalid {
+  border-color:red;  
+}
+
+#passToReg {
+width:100%;
+text-align: center;
+}
+
+.userSubmit {
+    text-align:center;
+}
+
+.registration {
+    margin-top:50px;
+}
