@@ -61,7 +61,10 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}> & ErrorHan
 
     onAnswerChoose(answId: number): void {
         let updatedAnswers = this.state.userAnswers.slice();
-        updatedAnswers.push({ idQuestion: this.state.questions[this.state.currentPage - 1].id, idAnswer: answId });
+        updatedAnswers.push({
+            idQuestion: this.state.questions[this.state.currentPage - 1].id,
+            idAnswer: answId
+        });
 
         let nextPage = this.state.currentPage + 1;
         this.setState({

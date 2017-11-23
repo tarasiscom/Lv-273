@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace EPA.BusinessLogic
 {
-    public class AnswersProvider : IAnswersProdiver
+    public class ScoreProvider : IScoreProdiver
     {
         private readonly ITestProvider testProvider;
 
-        public AnswersProvider(ITestProvider testProvider)
+        public ScoreProvider(ITestProvider testProvider)
         {
             this.testProvider = testProvider;
         }
 
         public List<DirectionScores> CalculateScores (List<UserAnswer> userAnswers)
-        { 
+        {
             if (userAnswers != null)
             {
                 List<DirectionScores> result = new List<DirectionScores>();
@@ -32,6 +32,7 @@ namespace EPA.BusinessLogic
                         result[answ.IdAnswer - 1].Score++;
                     else throw new System.ArgumentException("Invalid answer number");
                 }
+
                 return result;
             }
             else throw new System.ArgumentException("Empty user answers");

@@ -22,8 +22,8 @@ export class NavigationMenu extends React.Component<{}, {}> {
                             <li><Link to={'/ChooseSpecialty'}>Обрати Спеціальність</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><Link to={'/'}>Вхід</Link></li>
-                            <li><Link to={'/'}>Реєстрація</Link></li>
+                            <li><Link to={'/Login'}>Вхід</Link></li>
+                            <li><Link to={'/Registration'}>Реєстрація</Link></li>
                         </ul>
                     </div>
                 </div>
