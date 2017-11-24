@@ -85,6 +85,8 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
                                 containerClassName={"pagination"}
+                                page={0}
+                                selected={0}
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
                        </div>

@@ -130,7 +130,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 {
                     this.state.isSubmitted ?
                         this.renderSubmitted() :
-                        this.renderListSpecialies()
+                        <div></div>
                 }
                 <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
             </div>
@@ -158,8 +158,9 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}
-                containerClassName={"pagination"}
+                containerClassName={"pagination"}                
                 subContainerClassName={"pages pagination"}
+                selected={0}
                 activeClassName={"active"} />
         }
 
@@ -240,6 +241,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit) {
+            this.setState({isSubmitted:false, loading:true});
             let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
 
             fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/')
