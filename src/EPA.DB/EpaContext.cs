@@ -32,6 +32,8 @@ namespace EPA.MSSQL
 
         public DbSet<District> Districts { get; set; }
 
+        public DbSet<User_Specialty> User_Specialty { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             base.OnModelCreating(modelBuilder);
@@ -45,6 +47,7 @@ namespace EPA.MSSQL
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
             modelBuilder.Entity<District>().ToTable("Districts");
+            modelBuilder.Entity<User_Specialty>().ToTable("User_Specialty");
 
             /*
              * Delete coment if need change name in Azure DB 

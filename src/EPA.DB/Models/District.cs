@@ -10,6 +10,8 @@ namespace EPA.MSSQL.Models
 
         public string Name { get; set; }
 
+        public User User { get; set; }
+
         public Common.DTO.District ToCommon()
         {
             return Mapper.Map<Common.DTO.District>(this);
