@@ -101,7 +101,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             return <Loading />
         }
         else {
-            return <div>
+            return <div className="pad-for-footer">
                 <div className="delete-margin">
                     <section className="jumbotron center-block">
                         <div className="container">
@@ -188,8 +188,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
 
     private fetchAllDirections() {
-        fetch('api/ChooseSpecialties/directionsList')
-            //.then(response => response.json() as Promise<GeneralDirectionDTO[]>)            
+        fetch('api/ChooseSpecialties/directionsList')           
             .then(response => ResponseChecker<GeneralDirectionDTO[]>(response, this.props.onError))            
             .then(data => {
                 this.setState({
@@ -224,7 +223,12 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.count.forOnePage, page: selected }
+        let directionAndDistrict = {
+            GeneralDirection: this.state.directionId,
+            District: this.state.districtId,
+            countOfElementsOnPage: this.state.count.forOnePage,
+            page: selected
+        }
         this.fetchData(directionAndDistrict);
     }
 
@@ -241,8 +245,15 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit) {
-            this.setState({isSubmitted:false, loading:true});
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
+            this.setState({
+                isSubmitted: false,
+                loading: true
+            });
+            let directionAndDistrict = {
+                GeneralDirection: selectValueSubmit.value,
+                District: districtValueSubmit.value,
+                page: 0
+            }
 
             fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/')
                 .then(response => ResponseChecker<any>(response, this.props.onError))
@@ -254,7 +265,10 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 })
 
             this.fetchData(directionAndDistrict);
-            this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
+            this.setState({
+                districtId: districtValueSubmit.value,
+                directionId: selectValueSubmit.value
+            });
         }
         else {
             alert('Pick out direction or select district');

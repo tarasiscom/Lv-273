@@ -93,7 +93,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             return <Loading />
         }
         else {
-            return <div>
+            return <div className="pad-for-footer">
                 <div className="delete-margin">
                     <section className="jumbotron center-block">
                         <div className="container">
@@ -155,6 +155,7 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 onPageChange={this.handlePageClick}
                 containerClassName={"pagination"}
                 subContainerClassName={"pages pagination"}
+                selected={0}
                 activeClassName={"active"} />
         }
 
@@ -174,7 +175,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
             <Loading /> :
             this.renderListSpecialies();
     }
-
 
     componentDidMount() {
         this.fetchAllSubjects();
@@ -204,13 +204,20 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
 
     private submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit != null && selectValueSubmit.length > 0 && districtValueSubmit) {
+            this.setState({
+                isSubmitted: false,
+                loading: true
+            });
             let result: number[];
             result = [];
             for (let i = 0; i < selectValueSubmit.length; i++) {
                 result.push(selectValueSubmit[i].value)
             }
 
-            let subjectsAndDistrict = { listSubjects: result, district: districtValueSubmit.value }
+            let subjectsAndDistrict = {
+                listSubjects: result,
+                district: districtValueSubmit.value
+            }
 
             fetch('api/ChooseSpecialties/count/bySubjects', {
                 method: 'POST',
@@ -225,7 +232,6 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 })
 
             this.fetchDataSpecialties(subjectsAndDistrict);
-
             this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
         }
         else {
@@ -233,10 +239,14 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
         }
     }
 
-
     private handlePageClick = (data) => {
         let selected = data.selected;
-        let subjectsAndDistrict = { listSubjects: this.state.subjectsIds, district: this.state.districtId, countOfElementsOnPage: this.state.count.allElements, page: selected }
+        let subjectsAndDistrict = {
+            listSubjects: this.state.subjectsIds,
+            district: this.state.districtId,
+            countOfElementsOnPage: this.state.count.allElements,
+            page: selected
+        }
 
         this.fetchDataSpecialties(subjectsAndDistrict);
     }
