@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171124114136_AddUser_Spec")]
+    partial class AddUser_Spec
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +60,11 @@ namespace EPA.MSSQL.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Districts");
                 });
@@ -200,8 +205,6 @@ namespace EPA.MSSQL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int?>("DistrictId");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -235,8 +238,6 @@ namespace EPA.MSSQL.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -389,6 +390,13 @@ namespace EPA.MSSQL.Migrations
                         .HasForeignKey("GeneralDirectionId");
                 });
 
+            modelBuilder.Entity("EPA.MSSQL.Models.District", b =>
+                {
+                    b.HasOne("EPA.MSSQL.Models.User", "User")
+                        .WithMany("District")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("EPA.MSSQL.Models.Question", b =>
                 {
                     b.HasOne("EPA.MSSQL.Models.TestDetailedInfo", "Test")
@@ -422,13 +430,6 @@ namespace EPA.MSSQL.Migrations
                 {
                     b.HasOne("EPA.MSSQL.Models.District", "District")
                         .WithMany()
-                        .HasForeignKey("DistrictId");
-                });
-
-            modelBuilder.Entity("EPA.MSSQL.Models.User", b =>
-                {
-                    b.HasOne("EPA.MSSQL.Models.District", "District")
-                        .WithMany("User")
                         .HasForeignKey("DistrictId");
                 });
 

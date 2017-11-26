@@ -1,19 +1,18 @@
 ﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  This class describes general directions 
+    ///  Describes poor information for the test(needed for showing test lists)
     /// </summary>
-    public class GeneralDirection
+    public class Test
     {
         /// <summary>
-        ///  ID of the general direction
+        ///  ID of the test
         /// </summary>
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
-        ///  Name of the general direction
+        ///  Name of the test
         /// </summary>
         public string Name { get; set; }
-
     }
 }

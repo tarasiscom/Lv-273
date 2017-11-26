@@ -11,12 +11,12 @@ namespace EPA.Web.Controllers
     public class ProfTestController : Controller
     {
         private readonly ITestProvider testProvider;
-        private readonly IUserAnswersProdiver userAnswersProdiver;
+        private readonly IScoreProdiver answersProdiver;
 
-        public ProfTestController(ITestProvider testProvider, IUserAnswersProdiver userAnswersProdiver)
+        public ProfTestController(ITestProvider testProvider, IScoreProdiver answersProdiver)
         {
             this.testProvider = testProvider;
-            this.userAnswersProdiver = userAnswersProdiver;
+            this.answersProdiver = answersProdiver;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public IEnumerable<DirectionScores> GetDirectionsScore([FromBody]List<UserAnswer> listAnswers)
         {
-            return this.userAnswersProdiver.CalculateScores(listAnswers);
+            return this.answersProdiver.CalculateScores(listAnswers);
         }
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171122164522_Initiall")]
+    partial class Initiall
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,8 +180,6 @@ namespace EPA.MSSQL.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Rating");
-
                     b.Property<string>("Site");
 
                     b.HasKey("Id");
@@ -200,14 +199,10 @@ namespace EPA.MSSQL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int?>("DistrictId");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -227,16 +222,12 @@ namespace EPA.MSSQL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("Surname");
-
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -247,24 +238,6 @@ namespace EPA.MSSQL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("EPA.MSSQL.Models.User_Specialty", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("SpecialtyId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SpecialtyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("User_Specialty");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -423,24 +396,6 @@ namespace EPA.MSSQL.Migrations
                     b.HasOne("EPA.MSSQL.Models.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId");
-                });
-
-            modelBuilder.Entity("EPA.MSSQL.Models.User", b =>
-                {
-                    b.HasOne("EPA.MSSQL.Models.District", "District")
-                        .WithMany("User")
-                        .HasForeignKey("DistrictId");
-                });
-
-            modelBuilder.Entity("EPA.MSSQL.Models.User_Specialty", b =>
-                {
-                    b.HasOne("EPA.MSSQL.Models.Specialty", "Specialty")
-                        .WithMany("UserSpecialt")
-                        .HasForeignKey("SpecialtyId");
-
-                    b.HasOne("EPA.MSSQL.Models.User", "User")
-                        .WithMany("UserSpecialty")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

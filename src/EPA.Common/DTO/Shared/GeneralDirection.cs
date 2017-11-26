@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    /// Represents District
+    ///  This class describes general directions 
     /// </summary>
-    public class District
+    public class GeneralDirection
     {
         /// <summary>
-        /// District's Id
+        ///  ID of the general direction
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// District's Name
+        ///  Name of the general direction
         /// </summary>
         public string Name { get; set; }
+
     }
 }

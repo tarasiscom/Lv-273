@@ -1,4 +1,4 @@
-using EPA.BusinessLogic;
+/*using EPA.BusinessLogic;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using Moq;
@@ -9,6 +9,7 @@ namespace EPA.UnitTests
 {
     public class UserAnswersProviderTest
     {
+        /*
         private List<UserAnswer> userAnswers;
         private readonly List<GeneralDirection> directions;
 
@@ -79,3 +80,4 @@ namespace EPA.UnitTests
         
     }
 }
+*/
