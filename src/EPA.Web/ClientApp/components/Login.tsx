@@ -20,40 +20,38 @@ export class Login extends React.Component<RouteComponentProps<{}>, UserInfo>
     }
 
     sendData = () => {
-        let hash = Crypto.SHA512(this.state.password);
-        /*
+        var hash = Crypto.MD5(this.state.password);
+        
             let userInfo = {
                 email: this.state.email,
-                password: this.state.password,
+                password: hash.toString(Crypto.enc.Base64),
                 lastname: "",
                 firstName: "",
                 middleName: ""
             }
-        
-            fetch('api/Registration/sendU', {
+
+            fetch('api/Login/send', {
                 method: 'POST',
                 body: JSON.stringify(userInfo),
                 headers: { 'Content-Type': 'application/json' }
-            })*/
-
-            fetch('api/Login/' + this.state.email + "/" + hash)
+            })
         }
 
     render() {
 
         return <div className="registration">
-            <form role="form">
+            <form role="form" onSubmit={this.sendData}>
                 
             <div className="input-group">
-                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" data-error="Дана електонна пошта недійсна" required
+                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
                         onChange={(event) => this.setState({ email: event.target.value })}></input>
             </div>
             <div className="input-group">
-                    <input type="password" name="password" data-minlength="6" className="form-control" id="inputPassword" placeholder="Пароль" required
+                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
                         onChange={(event) => this.setState({ password: event.target.value })}></input>
             </div>
             <div className="form-group userSubmit">
-                    <button type="submit" className="btn btn-primary cus-margin" onClick={this.sendData}>Вхід</button>
+                    <button type="submit" className="btn btn-primary cus-margin">Вхід</button>
             </div>               
             </form>
             <div id = "passToReg">
