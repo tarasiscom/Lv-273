@@ -41,7 +41,7 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This method retrives list of specialties according to subjects
         /// </summary>
-        /// <param name="subjects">List of subject</param>
+        /// <param name="subjectInfo">List of subject</param>
         /// <returns>List of specialties </returns>
         [Route("api/ChooseSpecialties/bySubject")]
         [HttpPost]
@@ -49,17 +49,17 @@ namespace EPA.Web.Controllers
         {
             return this.specialtyProvider.GetSpecialtyBySubjects(subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
         }
-        
+
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
-        /// <param name="idDirection"></param>
+        /// <param name="idDirection">Direction id</param>
         /// id of the general direction
-        /// <param name="idDistrict"></param>
+        /// <param name="idDistrict">District id</param>
         /// number of page and number of elements per page
-        /// <param name="page"></param>
+        /// <param name="page">Page number</param>
         /// Limited list of specialties and count of all specialities
-        /// <returns></returns>
+        /// <returns>List if specialties</returns>
         [Route("api/ChooseSpecialties/byDirectionAndDistrict/{idDirection}/{idDistrict}/{page}")]
         [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
