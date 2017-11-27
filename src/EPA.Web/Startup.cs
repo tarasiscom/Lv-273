@@ -3,6 +3,7 @@ using EPA.Common.Interfaces;
 using EPA.MSSQL;
 using EPA.MSSQL.Models;
 using EPA.MSSQL.SQLDataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EPA.Web
 {
@@ -48,7 +51,9 @@ namespace EPA.Web
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<EpaContext>();
+                .AddEntityFrameworkStores<EpaContext>()
+                .AddDefaultTokenProviders(); 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +73,7 @@ namespace EPA.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
