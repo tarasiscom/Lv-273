@@ -1,4 +1,6 @@
-﻿namespace EPA.Common.DTO
+﻿using System.Collections.Generic;
+
+namespace EPA.Common.DTO
 {
     /// <summary>
     ///  This class describes university
@@ -14,11 +16,17 @@
         ///  Name of the university
         /// </summary>
         public string Name { get; set; }
-        public string Site { get; set; }
+
+        public District District { get; set; }
+
         public string Address { get; set; }
+
+        public string Site { get; set; }
+
         public int Rating { get; set; }
 
-        public byte[] Logo { get; set; }
+        public List<Specialty> Specialties { get; set; }
 
+        public byte[] Logo { get; set; }
     }
 }
