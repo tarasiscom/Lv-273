@@ -1,4 +1,5 @@
-﻿import * as React from 'react';
+﻿/// <reference path="personalcabinet.tsx" />
+import * as React from 'react';
 import { RouteComponentProps, withRouter, Switch, Redirect } from 'react-router';
 import 'isomorphic-fetch';
 import {

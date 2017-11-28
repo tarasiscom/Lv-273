@@ -41,6 +41,7 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<EpaContext>();
+            services.AddTransient<IUserInformationProvider, UserInformationProvider>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
             services.AddTransient<IScoreProdiver, ScoreProvider>();
