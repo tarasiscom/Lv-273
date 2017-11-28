@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace EPA.IntegrationTests
@@ -8,7 +7,6 @@ namespace EPA.IntegrationTests
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace EPA.MSSQL.Models
 {
-    public class User: IdentityUser
+    public class User : IdentityUser
     {
         public List<User_Specialty> UserSpecialty { get; set; }
         public string FirstName { get; set; }

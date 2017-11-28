@@ -47,8 +47,12 @@ namespace EPA.Web
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<EpaContext>();
+            services.AddIdentity<User, IdentityRole>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<EpaContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +73,8 @@ namespace EPA.Web
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

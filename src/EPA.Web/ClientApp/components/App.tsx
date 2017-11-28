@@ -70,6 +70,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)}  />
                             <Route exact path='/Registration' component={Registration} />
                             <Route exact path='/Login' component={Login} />
+                            <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
                             {errRoute}
                         </Switch>
                 }
