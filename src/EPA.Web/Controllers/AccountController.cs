@@ -23,7 +23,8 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public async Task RegisterAsync([FromBody]MSSQL.Models.User newUser)
         {
-            var result = await this.userManager.CreateAsync(newUser);
+            string password = "lolkek12UU*&";
+            var result = await this.userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
             {
                 // email confirm
@@ -78,32 +79,20 @@ namespace EPA.Web.Controllers
             }
         }
         
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
-        public async Task<string> LoginUser([FromBody]LoginUser loginUser)
+        [AllowAnonymous]
+        public async Task<bool> LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
-            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, false, false);
+            MSSQL.Models.User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
+            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false);
             if (result.Succeeded)
             {
-                logger.LogInformation(1, "User logged in.");
-                return "ok";
+               // logger.LogInformation(1, "User logged in.");
+                return true;
             }
-            if (result.IsNotAllowed)
-            {
-                return "not allowed";
-            }
-            if (result.RequiresTwoFactor)
-            {
-                return "RequiresTwoFactor";
-            }
-            if (result.IsLockedOut)
-            {
-                return "IsLockedOut";
-            }
-
-            return "oops";
+            return false;
         }
     }
 }
