@@ -51,6 +51,12 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
         this.fetchFavoriteSpecialties();
     }
 
+    private fetchCountOfSpecialties()
+    {
+
+
+    }
+
     private fetchFavoriteSpecialties()
     {
         let path = 'api/User/FavoriteSpecialties'
@@ -117,8 +123,8 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
         </div>
     }
 
-    private renderHeader()
-    {
+    private handlePageClick = (data) => {
         
+                this.fetchFavoriteSpecialties();
     }
 }
