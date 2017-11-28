@@ -31,7 +31,7 @@ export function PostFetch<T>(path: string, body: any): Promise<T> {
             .then(response => ResponseChecker<T>(response))      
 }
 
-export function ResponseChecker<T>(response: Response): Promise<T> {
+function ResponseChecker<T>(response: Response): Promise<T> {
     return new Promise((resolve, reject) => {
         if (response.ok) {
             resolve(response.json())

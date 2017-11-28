@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp, ResponseChecker, GetFetch } from './App';
+import { ErrorHandlerProp, GetFetch } from './App';
 import { Loading } from './Loading';
 
 //import { Error404inComp } from './errors/404';
