@@ -34,7 +34,6 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     constructor() {
         super();
-        localStorage.
         this.state = {
             loading: true,
             specialties: [],
@@ -45,6 +44,12 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     componentDidMount() {
 
+    }
+
+    private fetchFavotiteSpecialties()
+    {
+        fetch('api/User/FavoriteSpecialties')
+            .then(Response => ResponseChecker<Specialty[]>(Response, this.props.onError))
     }
 
     render()
