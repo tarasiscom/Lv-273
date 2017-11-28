@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp, ResponseChecker } from './App';
+import { ErrorHandlerProp, GetFetch } from './App';
 import { Loading } from './Loading';
 
 //import { Error404inComp } from './errors/404';
@@ -42,8 +42,8 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
     fetchData() {
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
-        fetch(path)
-            .then(response => ResponseChecker<any>(response, this.props.onError))
+        
+        GetFetch<any>(path)
             .then(data => {
                 this.setState({
                     id: data.id,
@@ -54,10 +54,10 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
                     loading: false
                 });
             })
+            .catch(er => this.props.onError(er))
     }
 
-    private renderTestInfo()
-    {
+    private renderTestInfo() {
         return <div className="pad-for-footer">
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
@@ -79,11 +79,11 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
     }
 
     public render() {
-        return  this.state.loading ?
-            <Loading />:
+        return this.state.loading ?
+            <Loading /> :
             this.renderTestInfo();
 
-       
+
     }
 }
 

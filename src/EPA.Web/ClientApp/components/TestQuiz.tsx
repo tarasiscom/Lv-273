@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import Paginate from 'react-pagination-component'
 import { Question } from './Question';
 import TestResults from './TestResult';
-import { ErrorHandlerProp , ResponseChecker} from './App';
+import { ErrorHandlerProp , GetFetch, PostFetch} from './App';
 import { Loading } from './Loading';
 
 
@@ -76,30 +76,16 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}> & ErrorHan
     loadQuestions() {
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/questions';
-        fetch(path)
-            .then(response => ResponseChecker<any>(response, this.props.onError))
+
+        GetFetch<any>(path)
             .then(data => {
                 this.setState({
                     questions: data,
                     loading: false
                 });
             })
-
-        /*
-        fetch(path)
-            .then(response => response.ok ?
-
-                (response.json() as Promise<TestQuestion[]>) 
-                .then(data => {
-                    this.setState({
-                        questions: data,
-                        loading: false
-                    }); })
-
-                :
-
-                this.props.onError(response.status.toString())
-        )*/
+            .catch(er => this.props.onError(er))
+        
     }
 
     componentWillMount() {
@@ -113,19 +99,15 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}> & ErrorHan
     };
 
     submitTest() {
-        fetch("api/profTest/result", {
-            method: 'POST',
-            body: JSON.stringify(this.state.userAnswers),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => ResponseChecker<any>(response, this.props.onError))
+
+        PostFetch<any>("api/profTest/result", this.state.userAnswers)
             .then(data => {
                 this.setState({
                     testResult: data,
                     isSubmitted: true
                 });
-            });
+            })
+            .catch(er => this.props.onError(er))
     }
 
     render() {
