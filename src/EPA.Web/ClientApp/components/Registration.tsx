@@ -19,7 +19,7 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
         this.state = {
             firstName: "",
             lastName: "",
-            middleName: " ",
+            middleName: "",
             email: "",
             password: "",
             confirmPassword: ""
@@ -33,7 +33,7 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
         }
         else {
             let hash = Crypto.SHA512(this.state.password);
-            /*
+            
             let userInfo = {
                 lastname: this.state.lastName,
                 firstName: this.state.firstName,
@@ -76,21 +76,22 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="middleName" pattern="^([^\u0000-\u007F]|[ -])+$" className="form-control" placeholder="По батькові" 
+                    <input type="text" name="middleName" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" placeholder="По батькові" 
                         value={this.state.middleName} onChange={(event) => this.setState({ middleName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
+                    <input type="email" name="email"  className="form-control" id="inputEmail" placeholder="Email" required
                         value={this.state.email} onChange={(event) => this.setState({ email: event.target.value })}></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
-                        value={this.state.password} onChange={(event) => this.setState({ password: event.target.value })}></input>
+                    <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
+                        value={this.state.password} onChange={(event) => this.setState({ password: event.target.value })}
+                        title="Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів"></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" placeholder="Підтвердити пароль" required
-                        value={this.state.confirmPassword} onChange={(event) =>  this.setState({ confirmPassword: event.target.value })}></input>
+                    <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" placeholder="Підтвердити пароль" required
+                        value={this.state.confirmPassword} onChange={(event) => this.setState({ confirmPassword: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
                     <button type="submit" className="btn btn-primary">Відправити</button>
