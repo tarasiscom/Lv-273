@@ -6,6 +6,8 @@ using EPA.Common.DTO;
 using EPA.Common.DTO.UserProvider;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Calculations;
+using EPA.MSSQL.Models;
+using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -13,15 +15,18 @@ namespace EPA.MSSQL.SQLDataAccess
     {
         private readonly EpaContext context;
 
-        public UserInformationProvider(EpaContext context)
+        private readonly IOptions<ConstSettings> constValues;
+
+        public UserInformationProvider(EpaContext context, IOptions<ConstSettings> constValues)
         {
             this.context = context;
+            this.constValues = constValues;
         }
 
-        public IEnumerable<Specialty> GetFavoriteSpecialty()
+        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page)
         {
             id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
-            var temp = from user in this.context.User_Specialty where user.User.Id == id
+            var specialties = from user in this.context.User_Specialty where user.User.Id == id
                        join special in this.context.Specialties on user.Specialty.Id equals special.Id
                        join univer in this.context.Universities on special.University.Id equals univer.Id
                        join d in this.context.Districts on univer.District.Id equals d.Id
@@ -37,7 +42,7 @@ namespace EPA.MSSQL.SQLDataAccess
                                        where ss.Specialty.Id == special.Id
                                        select ss.Subject.ToCommon()).ToList()
                        };
-            return temp.ToList();
+            return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
         string id;
@@ -48,6 +53,24 @@ namespace EPA.MSSQL.SQLDataAccess
             var userInfo = this.context.Users.Where(x => x.Id == id).ToList();
             userPersonalInfo.District = userInfo[0].District.Name;
             throw new NotImplementedException();
+        }
+
+        public void AddSpecialtyToFavorite(string UserId, int SpecialtyId)
+        {
+            User_Specialty add = new User_Specialty();
+            add.Specialty.Id = SpecialtyId;
+            add.User.Id = UserId;
+            this.context.User_Specialty.Contains(add);
+            var rez=this.context.User_Specialty.Select(x => x.Specialty.Id == SpecialtyId && x.User.Id == UserId);
+            if (rez != null) return;
+            this.context.User_Specialty.Add(add);
+            this.context.SaveChanges();
+        }
+
+        public int CountOfFavoriteSpecialtys()
+        {
+            id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
+            return this.context.User_Specialty.Select(x => x.User.Id == id).Count();
         }
     }
 }
