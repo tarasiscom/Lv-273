@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import Radar from 'react-d3-radar';
 import ListSpecialties from './ListSpecialties'
 import ReactPaginate from 'react-paginate';
-import { ErrorHandlerProp , ResponseChecker } from './App';
+import { ErrorHandlerProp , GetFetch } from './App';
 import { Loading } from './Loading';
 
 interface TestResult {
@@ -134,22 +134,23 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
     }
 
     private getSpecialties = (id, selectedPage) => {
-        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + id + '/' + 0 + '/' + selectedPage)
-            .then(response => ResponseChecker<any>(response, this.props.onError))
+        GetFetch<any>('api/ChooseSpecialties/byDirectionAndDistrict/' + id + '/' + 0 + '/' + selectedPage)
             .then(data => {
                 this.setState({
                     specialties: data, loadingSpecialties: false
                 })
             })
+            .catch(er => this.props.onError(er))
     }
 
     private fetchAllSpecialties = (id) => {
         this.setState({ loadingSpecialties: true });
-        fetch('api/ChooseSpecialties/count/' + id + '/' + 0 + '/')
-            .then(response => ResponseChecker<any>(response, this.props.onError))
+        GetFetch<any>('api/ChooseSpecialties/count/' + id + '/' + 0 + '/')
             .then(data => {
                 this.setState({ count: data })
             })
+            .catch(er => this.props.onError(er))
+
         this.setState({ idCurrentDirection: id });
         this.getSpecialties(id, 0);
     }
