@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import ListSpecialties from './ListSpecialties';
+import { Loading } from './Loading';
 import ReactPaginate from 'react-paginate';
 import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
@@ -19,6 +20,9 @@ interface Specialties {
     districtId: number;
     directionId: number;
     count: Count;
+    loading: boolean;
+    loadingDirectionsAndDistricts: boolean;
+    isSubmitted: boolean;
 }
 
 interface Count {
@@ -84,17 +88,58 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
             selectDistrict: { value: 0, label: "Всі" },
             districtId: 0,
             directionId: 0,
-            count: { allElements: 1, forOnePage:1  }
+            count: { allElements: 1, forOnePage: 1 },
+            loading: true,
+            loadingDirectionsAndDistricts: true,
+            isSubmitted: false
         }
         
     }
-
-   
-
+    
     render() {
+        if (this.state.loadingDirectionsAndDistricts) {
+            return <Loading />
+        }
+        else {
+            return <div className="pad-for-footer">
+                <div className="delete-margin">
+                    <section className="jumbotron center-block">
+                        <div className="container">
+                            <div className="navigate">
+                                <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
+                                    <VirtualizedSelect multi={false}
+                                        options={this.state.directions}
+                                        onChange={this.handleOnChangeDirection}
+                                        value={this.state.selectValueDirection}>
+                                    </VirtualizedSelect>
+                                </div>
+                                <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
+                                    <VirtualizedSelect multi={false}
+                                        options={this.state.districts}
+                                        onChange={this.handleOnChangeDistrict}
+                                        value={this.state.selectDistrict} >
+                                    </VirtualizedSelect>
+                                </div>
+                                <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
+                                    onClick={this.handleOnClick}> Пошук
+                               </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                {
+                    this.state.isSubmitted ?
+                        this.renderSubmitted() :
+                        <div></div>
+                }
+                <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
+            </div>
+        }
+    }
 
+    private renderListSpecialies() {
         let tabbord;
-        let pagin;
+
         if (this.state.count.allElements == 0) {
             tabbord = <div>
                 <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
@@ -103,8 +148,7 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         else {
             tabbord = <ListSpecialties specialties={this.state.specialties} />
         }
-
-        
+        let pagin;
         if (this.state.count.allElements > 10) {
             pagin = <ReactPaginate
                 previousLabel={"Попередня"}
@@ -114,72 +158,53 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}
-                containerClassName={"pagination"}
+                containerClassName={"pagination"}                
                 subContainerClassName={"pages pagination"}
+                selected={0}
                 activeClassName={"active"} />
         }
 
-           return <div>
-            <div className="delete-margin">
-                <section className="jumbotron center-block">
-                    <div className="container">
-                        <div className="navigate">
-                               <div className="virtselect  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2"><p>Галузі</p>
-                                   <VirtualizedSelect multi={false}
-                                        options={this.state.directions}
-                                        onChange={this.handleOnChangeDirection}
-                                        value={this.state.selectValueDirection}>
-                                   </VirtualizedSelect>
-                               </div>
-                               <div className="virtselect col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-                                   <VirtualizedSelect multi={false}
-                                       options={this.state.districts}
-                                       onChange={this.handleOnChangeDistrict}
-                                       value={this.state.selectDistrict} >
-                                   </VirtualizedSelect>
-                                </div>
-                               <button className="col-md-offset-1  col-md-2 col-sm-offset-1 col-sm-2  col-xs-8 col-xs-offset-2 btn btn-primary cus-margin"
-                                   onClick={this.handleOnClick}> Пошук
-                               </button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div className="container">
-                <div className="col-md-10 col-md-offset-1">
-                       {tabbord}
-                       <div className="pageBar">
-                           {pagin}
-                       </div>
+        return <div className="container">
+            <div className="col-md-10 col-md-offset-1">
+                {tabbord}
+                <div className="pageBar">
+                    {pagin}
                 </div>
             </div>
-            <div className="col-md-6 col-sm-6 col-xs-12 pad-for-footer2"></div>
         </div>
+
     }
 
+    private renderSubmitted() {
+        return this.state.loading ?
+            <Loading /> :
+            this.renderListSpecialies();
+    }
+    
     componentDidMount() {
-        this.fetchDataDirections();
+        this.fetchAllDirections();
         this.fetchAllDistricts();
     }
 
 
-    fetchDataDirections() {
-        fetch('api/ChooseSpecialties/directionsList')
-            //.then(response => response.json() as Promise<GeneralDirectionDTO[]>)            
+    private fetchAllDirections() {
+        fetch('api/ChooseSpecialties/directionsList')           
             .then(response => ResponseChecker<GeneralDirectionDTO[]>(response, this.props.onError))            
             .then(data => {
                 this.setState({
-                    directions: data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name))
+                    directions: data.map<GeneralDirection>(direction => new GeneralDirection(direction.id, direction.name)),
+                    loadingDirectionsAndDistricts: false
                 });
             });
     }
 
-    fetchAllDistricts() {
+    private fetchAllDistricts() {
         fetch('api/ChooseSpecialties/districtsList')
             .then(response => ResponseChecker<DistrictDTO[]>(response, this.props.onError))
             .then(data => {
                 this.setState({
-                    districts: data.map<District>(district => new District(district.id, district.name))
+                    districts: data.map<District>(district => new District(district.id, district.name)),
+                    loadingDirectionsAndDistricts: false
                 })
             });
     }
@@ -198,7 +223,12 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
 
     handlePageClick = (data) => {
         let selected = data.selected;
-        let directionAndDistrict = { GeneralDirection: this.state.directionId, District: this.state.districtId, countOfElementsOnPage: this.state.count.forOnePage, page: selected }
+        let directionAndDistrict = {
+            GeneralDirection: this.state.directionId,
+            District: this.state.districtId,
+            countOfElementsOnPage: this.state.count.forOnePage,
+            page: selected
+        }
         this.fetchData(directionAndDistrict);
     }
 
@@ -206,25 +236,39 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
         fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/' + directionAndDistrict.page)
             .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
-                this.setState({ specialties: data })
+                this.setState({
+                    specialties: data,
+                    loading: false
+                })
             })
     }
 
     submitFilter(selectValueSubmit, districtValueSubmit) {
         if (selectValueSubmit && districtValueSubmit) {
-            let directionAndDistrict = { GeneralDirection: selectValueSubmit.value, District: districtValueSubmit.value, page: 0 }
+            this.setState({
+                isSubmitted: false,
+                loading: true
+            });
+            let directionAndDistrict = {
+                GeneralDirection: selectValueSubmit.value,
+                District: districtValueSubmit.value,
+                page: 0
+            }
 
             fetch('api/ChooseSpecialties/count/' + directionAndDistrict.GeneralDirection + '/' + directionAndDistrict.District + '/')
                 .then(response => ResponseChecker<any>(response, this.props.onError))
                 .then(data => {
-                    this.setState({ count: data })
+                    this.setState({
+                        count: data,
+                        isSubmitted: true
+                    })
                 })
 
             this.fetchData(directionAndDistrict);
-
-
-
-            this.setState({ districtId: districtValueSubmit.value, directionId: selectValueSubmit.value });
+            this.setState({
+                districtId: districtValueSubmit.value,
+                directionId: selectValueSubmit.value
+            });
         }
         else {
             alert('Pick out direction or select district');

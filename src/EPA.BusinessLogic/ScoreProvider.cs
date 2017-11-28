@@ -15,7 +15,7 @@ namespace EPA.BusinessLogic
         }
 
         public List<DirectionScores> CalculateScores (List<UserAnswer> userAnswers)
-        { 
+        {
             if (userAnswers != null)
             {
                 List<DirectionScores> result = new List<DirectionScores>();

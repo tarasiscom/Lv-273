@@ -45,7 +45,14 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
         fetch(path)
             .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
-                this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
+                this.setState({
+                    id: data.id,
+                    name: data.name,
+                    description: data.description,
+                    approximateTime: data.approximateTime,
+                    questionsCount: data.questionsCount,
+                    loading: false
+                });
             })
     }
 

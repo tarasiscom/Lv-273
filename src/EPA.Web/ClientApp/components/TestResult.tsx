@@ -46,6 +46,7 @@ interface GeneralTest {
     idCurrentDirection: number;
     maxScore: number;
     count: Count;
+    loadingSpecialties: boolean;
 }
 
 export default class TestResults extends React.Component<GeneralDirectionResult & ErrorHandlerProp, GeneralTest> {
@@ -56,12 +57,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
             specialties: [],
             maxScore: this.getDomainMax(),
             idCurrentDirection: this.getGeneralDirectionWithMaxScore().generalDir.id,
-            count: { allElements: 1, forOnePage: 1 }
+            count: { allElements: 1, forOnePage: 1 },
+            loadingSpecialties: true
         }
-        this.fetchAllSpecialties(this.state.idCurrentDirection, 0);
+        this.fetchAllSpecialties(this.state.idCurrentDirection);
     }
     public render() {
-        let loading = <Loading />
         let content = <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 center-block">
                 {this.drawRadar()}
@@ -72,22 +73,27 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                 </div>
             </div>
             <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
-
+            { this.state.loadingSpecialties ? <div className= "text-center"><Loading /></div>
+                :<div>
                 <ListSpecialties specialties={this.state.specialties} />
                     <div className="pageBar">
                         <ReactPaginate
                                 previousLabel={"Попередня"}
                                 nextLabel={"Наступна"}
                                 breakLabel={<a>...</a>}
-                        breakClassName={"break-me"}
+                                breakClassName={"break-me"}
                                 pageCount={this.state.count.allElements / this.state.count.forOnePage}
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
                                 containerClassName={"pagination"}
+                                page={0}
+                                selected={0}
                                 subContainerClassName={"pages pagination"}
                                 activeClassName={"active"} />
                        </div>
+                </div>
+            }
             </div>
         </div>
         return <div>{content}</div>
@@ -99,53 +105,53 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
     }
     drawRadar() {
         return <div className="text-center" >
-            <Radar className="radar"
-                width={450}
-                height={450}
-                padding={60}
+                    <Radar className="radar"
+                        width={450}
+                        height={450}
+                        padding={60}
                 
-                domainMax={this.state.maxScore}
-                data={{
-                    variables: this.props.testresult.map(gen =>
-                        ({
-                            key: gen.generalDir.name.toLowerCase(),
-                            label: <a className="labelradar"
-                                onClick={this.fetchAllSpecialties.bind(this, gen.generalDir.id, 0)}>
-                                {gen.generalDir.name}</a>
-                        }),
-                    ),
-                    sets:
-                    [{
-                        key: 'user',
-                        label: 'User Results',
-                        values: this.props.testresult.reduce((o, testres) =>
-                            ({ ...o, [testres.generalDir.name.toLowerCase()]: testres.score }), {}),
-                    },
-                    ],
-                }}
-
-            />
-        </div>
+                        domainMax={this.state.maxScore}
+                        data={{
+                            variables: this.props.testresult.map(gen =>
+                                ({
+                                    key: gen.generalDir.name.toLowerCase(),
+                                    label: <a className="labelradar"
+                                        onClick={this.fetchAllSpecialties.bind(this, gen.generalDir.id)}>
+                                        {gen.generalDir.name}</a>
+                                }),
+                            ),
+                            sets:
+                            [{
+                                key: 'user',
+                                label: 'User Results',
+                                values: this.props.testresult.reduce((o, testres) =>
+                                    ({ ...o, [testres.generalDir.name.toLowerCase()]: testres.score }), {}),
+                            },
+                            ],
+                        }}
+                    />
+                </div>
     }
 
     private getSpecialties = (id, selectedPage) => {
-        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + this.state.idCurrentDirection + '/' + 0 + '/' + selectedPage)
+        fetch('api/ChooseSpecialties/byDirectionAndDistrict/' + id + '/' + 0 + '/' + selectedPage)
             .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({
-                    specialties: data,
+                    specialties: data, loadingSpecialties: false
                 })
             })
     }
 
-     private fetchAllSpecialties=(id, selectedPage) => {
-        fetch('api/ChooseSpecialties/count/' + this.state.idCurrentDirection + '/' + 0 + '/')
+    private fetchAllSpecialties = (id) => {
+        this.setState({ loadingSpecialties: true });
+        fetch('api/ChooseSpecialties/count/' + id + '/' + 0 + '/')
             .then(response => ResponseChecker<any>(response, this.props.onError))
             .then(data => {
                 this.setState({ count: data })
             })
-        this.getSpecialties(id, selectedPage);
         this.setState({ idCurrentDirection: id });
+        this.getSpecialties(id, 0);
     }
 
     private getDomainMax() {
@@ -153,6 +159,7 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         max = (max & 1) == 0 ? max : max + 1;
         return max;
     }
+    
     private getGeneralDirectionWithMaxScore() {
         var arrScores = this.props.testresult;
         var max = arrScores[0];
@@ -164,6 +171,5 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         }
         return max;
     }
-
 
 }

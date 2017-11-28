@@ -16,6 +16,8 @@ namespace EPA.MSSQL.Models
 
         public string Site { get; set; }
 
+        public int Rating { get; set; }
+
         public List<Specialty> Specialties { get; set; }
     }
 }

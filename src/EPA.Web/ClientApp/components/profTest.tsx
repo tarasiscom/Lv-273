@@ -64,7 +64,11 @@ export class ProfTest extends React.Component<RouteComponentProps<{}> & ErrorHan
                             <tr key={id}>
                                 <td className="text-center">{id + 1}</td>
                                 <td className="text-center"> {tests.name}</td>
-                                <td className="text-center"><Link to={'/testInfo/' + tests.id} ><span className="glyphicon glyphicon-list-alt"></span></Link></td>
+                                <td className="text-center">
+                                    <Link to={'/testInfo/' + tests.id} >
+                                        <span className="glyphicon glyphicon-list-alt"></span>
+                                    </Link>
+                                </td>
                             </tr>
                         )}
                     </tbody>
