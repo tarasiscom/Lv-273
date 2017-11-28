@@ -12,7 +12,6 @@
                         cfg.CreateMap<MSSQL.Models.TestDetailedInfo, Common.DTO.TestInfo>();
                         cfg.CreateMap<MSSQL.Models.Specialty, Common.DTO.Specialty>();
                         cfg.CreateMap<MSSQL.Models.GeneralDirection, Common.DTO.GeneralDirection>();
-                        cfg.CreateMap<MSSQL.Models.Specialty, Common.DTO.Specialty>();
                         cfg.CreateMap<MSSQL.Models.Subject, Common.DTO.Subject>();
                         cfg.CreateMap<MSSQL.Models.District, Common.DTO.District>();
                     });
