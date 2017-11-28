@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EPA.Common.DTO.UserProvider
 {
-    class UserPersonalInfo
+    public class UserPersonalInfo
     {
         public string Name { get; set; }
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EPA.Common.Interfaces
 {
-    interface IUserInformationProvider
+    public interface IUserInformationProvider
     {
         /// <summary>
         /// This method retrieves user personal information
@@ -18,6 +18,6 @@ namespace EPA.Common.Interfaces
         /// This method retrieves user favorites specialtys
         /// </summary>
         /// <returns>Favorites specialtys list</returns>
-        IEnumerable<Specialty> GetSpecialty();
+        IEnumerable<Specialty> GetFavoriteSpecialty();
     }
 }
