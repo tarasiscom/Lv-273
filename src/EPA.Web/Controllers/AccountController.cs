@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EPA.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -11,11 +13,13 @@ namespace EPA.Web.Controllers
     {
         private readonly UserManager<MSSQL.Models.User> userManager;
         private readonly SignInManager<MSSQL.Models.User> signInManager;
+        private readonly IOptions<ConstSettings> constValues;
 
-        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager)
+        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IOptions<ConstSettings> constValues)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.constValues = constValues;
         }
 
         [Route("api/registration")]
@@ -23,7 +27,7 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public async Task RegisterAsync([FromBody]MSSQL.Models.User newUser)
         {
-            var result = await this.userManager.CreateAsync(newUser);
+            var result = await this.userManager.CreateAsync(newUser, newUser.PasswordHash);
             if (result.Succeeded)
             {
                 // email confirm
@@ -34,32 +38,37 @@ namespace EPA.Web.Controllers
                                                     new { userid = newUser.Id, token = confirmationToken },
                                                     protocol: this.HttpContext.Request.Scheme);
 
-                var fromAddress = new MailAddress("epadvisor17@gmail.com");
-                var fromPassword = "epadvisor2017";
                 var toAddress = new MailAddress(newUser.Email);
-
-                SmtpClient client = new SmtpClient
-                {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                };
-
-                MailMessage message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = "Account confirm",
-                    Body = "Для підтвердження перейдіть за посиланням: " + confirmationLink
-                };
-
-                client.Send(message);
+                this.SendMail(toAddress, confirmationLink);
             }
 
             // else
             // {
             // }
+        }
+
+        public void SendMail(MailAddress toAddress, string confirmationLink)
+        {
+            var fromAddress = new MailAddress(this.constValues.Value.Email);
+            var fromPassword = this.constValues.Value.EmailPassword;
+
+            SmtpClient client = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            MailMessage message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = "Account confirm",
+                Body = "Для підтвердження перейдіть за посиланням: " + confirmationLink
+            };
+
+            client.Send(message);
         }
 
         [HttpGet]
