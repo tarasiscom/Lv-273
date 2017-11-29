@@ -8,10 +8,10 @@ interface User {
     middleName: string;
     email: string;
     password: string;
-    confirmPassword: string
+    confirmPassword: string;
 }
 
-export class Registration extends React.Component<RouteComponentProps<{}>, User>
+export class Registration extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, User >
 {
     constructor(props) {
 
@@ -39,17 +39,20 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
                 firstName: this.state.firstName,
                 middleName: this.state.middleName,
                 email: this.state.email,
-                password: hash.toString(Crypto.enc.Base64)
+                passwordHash: this.state.password
             }
-                        
-            fetch('api/Registration', {
+
+            alert();
+
+            fetch('api/registration', {
                 method: 'POST',
                 body: JSON.stringify(userInfo),
                 headers: { 'Content-Type': 'application/json' }
             })
-
+               
         }
     }
+            
 
     /*
     handleChange(event)
@@ -63,20 +66,20 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
     */
 
     render() {
-        return <div className = "registration">
+        return <div className="registration">
             <form role="form" onSubmit={this.sendData}>
                 <div className="input-group">
-                    <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -])+$" className="form-control" placeholder="Прізвище" required
+                    <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="Прізвище" required
                         value={this.state.lastName} onChange={(event) => this.setState({ lastName: event.target.value })}
-                        title="Поле може містити літери, відступи і дефіс"  ></input>
+                        title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="firstName" pattern="^([^\u0000-\u007F]|[ -])+$" className="form-control" placeholder="Імя" required
+                    <input type="text" name="firstName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="Імя" required
                         value={this.state.firstName} onChange={(event) => this.setState({ firstName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="middleName" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" placeholder="По батькові" 
+                    <input type="text" name="middleName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="По батькові" 
                         value={this.state.middleName} onChange={(event) => this.setState({ middleName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
@@ -94,7 +97,7 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
                         value={this.state.confirmPassword} onChange={(event) => this.setState({ confirmPassword: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
-                    <button type="submit" className="btn btn-primary">Відправити</button>
+                    <button type="submit" className="btn btn-primary" >Відправити</button>
                 </div>               
             </form>
         </div>

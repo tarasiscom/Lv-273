@@ -24,7 +24,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
         
             let loginInfo = {
                 email: this.state.email,
-                password: hash.toString(Crypto.enc.Base64),
+                password: this.state.password
             }
 
             fetch('api/Login', {
@@ -32,6 +32,8 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
                 body: JSON.stringify(loginInfo),
                 headers: { 'Content-Type': 'application/json' }
             })
+
+            alert();
         }
 
     render() {

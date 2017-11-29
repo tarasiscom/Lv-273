@@ -1,4 +1,4 @@
-﻿using EPA.Common.Interfaces;
+using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,13 +41,9 @@ namespace EPA.Web.Controllers
                 var toAddress = new MailAddress(newUser.Email);
                 this.SendMail(toAddress, confirmationLink);
             }
-
-            // else
-            // {
-            // }
         }
-
-        public void SendMail(MailAddress toAddress, string confirmationLink)
+       
+            public void SendMail(MailAddress toAddress, string confirmationLink)
         {
             var fromAddress = new MailAddress(this.constValues.Value.Email);
             var fromPassword = this.constValues.Value.EmailPassword;
@@ -85,6 +81,21 @@ namespace EPA.Web.Controllers
             {
                 this.ViewBag.Message = "Error while confirming your email!";
             }
+        }
+        
+        //[ValidateAntiForgeryToken]
+        [Route("api/login")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        {
+            MSSQL.Models.User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
+            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
