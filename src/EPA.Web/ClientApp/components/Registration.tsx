@@ -11,7 +11,7 @@ interface User {
     confirmPassword: string;
 }
 
-export class Registration extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, User >
+export class Registration extends React.Component<RouteComponentProps<{}>, User >
 {
     constructor(props) {
 
