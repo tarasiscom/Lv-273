@@ -22,7 +22,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
                     </div>
                 </div>
                 <h2 className="text-center second-title">Топ-5 університетів</h2>
-                <section className="univer-in-row">
+                <section className="univer-in-row container-fluid">
                     <div className="uni-padding col-md-1 "></div>
 
                     <div className="uni-padding col-md-2 col-sm-6 col-xs-12">

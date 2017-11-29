@@ -9,6 +9,8 @@ body {
     height: 100%;
 }
 
+
+
 #react-app {
     position: relative;
     min-height: 100%;
@@ -114,6 +116,7 @@ body {
 .uni-padding {
     padding-right: 45px;
     padding-bottom: 25px;
+    min-height:450px;
     
 }
 
@@ -151,6 +154,7 @@ body {
 .pad-for-nav {
     margin-top: 40px;
 }
+
 
 .pad-for-footer2 {
     position: relative;

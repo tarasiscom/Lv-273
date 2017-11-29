@@ -47,19 +47,28 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
         }
     }
 
-    componentDidMount() {
+    componentDidMount()
+    {
+        this.fetchCountOfSpecialties();
         this.fetchFavoriteSpecialties();
     }
 
     private fetchCountOfSpecialties()
     {
+        let path = 'api/User/GetSpecialtiesCount';
 
-
+        GetFetch<any>(path)
+            .then(data => {
+                this.setState(
+                    {
+                        count: data
+                    })
+            })
     }
 
     private fetchFavoriteSpecialties()
     {
-        let path = 'api/User/FavoriteSpecialties'
+        let path = 'api/User/FavoriteSpecialties';
 
         GetFetch<any>(path)
             .then(data => {

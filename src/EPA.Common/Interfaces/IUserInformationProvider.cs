@@ -20,6 +20,10 @@ namespace EPA.Common.Interfaces
         /// <returns>Favorites specialtys list</returns>
         IEnumerable<Specialty> GetFavoriteSpecialty(int page);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         int CountOfFavoriteSpecialtys();
 
         /// <summary>

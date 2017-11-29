@@ -17,7 +17,18 @@ namespace EPA.Web.Controllers
             this.userInformationProvider = userInformationProvider;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [Route("api/User/FavoriteSpecialties")]
-        public IEnumerable<Specialty> GetFavoriteSpecialties() => this.userInformationProvider.GetFavoriteSpecialty();
+        public IEnumerable<Specialty> GetFavoriteSpecialties() => this.userInformationProvider.GetFavoriteSpecialty(0);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/User/GetSpecialtiesCount")]
+        public int GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys();
     }
 }
