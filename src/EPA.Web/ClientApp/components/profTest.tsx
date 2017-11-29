@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp, ResponseChecker } from './App';
+import { ErrorHandlerProp, GetFetch } from './App';
 import { Loading } from './Loading';
 
 interface TestsDataState {
@@ -26,11 +26,11 @@ export class ProfTest extends React.Component<RouteComponentProps<{}> & ErrorHan
 
     componentDidMount() {
 
-        fetch('api/profTest/list')
-            .then(response => ResponseChecker<any>(response,this.props.onError))
+        GetFetch<any>('api/profTest/list')
             .then(data => {
                 this.setState({ tests: data, loading: false });
-            });
+            })
+            .catch(er => this.props.onError(er))
     }
 
 
