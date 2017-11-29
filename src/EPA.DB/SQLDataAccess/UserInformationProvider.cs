@@ -23,7 +23,7 @@ namespace EPA.MSSQL.SQLDataAccess
             this.constValues = constValues;
         }
 
-        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page)
+        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
         {
             id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
             var specialties = from user in this.context.User_Specialty where user.User.Id == id
@@ -67,10 +67,13 @@ namespace EPA.MSSQL.SQLDataAccess
             this.context.SaveChanges();
         }
 
-        public int CountOfFavoriteSpecialtys()
+        public Count CountOfFavoriteSpecialtys(string UserID)
         {
             id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
-            return this.context.User_Specialty.Select(x => x.User.Id == id).Count();
+            Count result = new Count();
+            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == id).Count();
+            result.ForOnePage = constValues.Value.CountForPage;
+            return result;
         }
     }
 }
