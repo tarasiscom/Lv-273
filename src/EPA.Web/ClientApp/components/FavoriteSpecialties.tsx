@@ -5,7 +5,7 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp, GetFetch } from './App';
+import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 import { Loading } from './Loading';
 import ListSpecialties from './ListSpecialties';
 import ReactPaginate from 'react-paginate';
@@ -21,8 +21,7 @@ interface Count {
     forOnePage: number;
 }
 
-interface Specialty
-{
+interface Specialty {
     name: string;
     university: string;
     address: string;
@@ -41,20 +40,18 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
     constructor() {
         super();
         this.state = {
-            count: { allElements : 1, forOnePage : 10 },
+            count: { allElements: 1, forOnePage: 1 },
             loading: true,
             specialties: [],
         }
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.fetchCountOfSpecialties();
-        this.fetchFavoriteSpecialties();
+        this.fetchFavoriteSpecialties(0);
     }
 
-    private fetchCountOfSpecialties()
-    {
+    private fetchCountOfSpecialties() {
         let path = 'api/User/GetSpecialtiesCount';
 
         GetFetch<any>(path)
@@ -66,11 +63,10 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
             })
     }
 
-    private fetchFavoriteSpecialties()
-    {
+    private fetchFavoriteSpecialties(page) {
         let path = 'api/User/FavoriteSpecialties';
 
-        GetFetch<any>(path)
+        PostFetch<any>(path, page)
             .then(data => {
                 this.setState({
                     specialties: data,
@@ -80,22 +76,31 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
             .catch(er => this.props.onError(er))
     }
 
-    render()
-    {
+    render() {
 
         if (this.state.loading) {
             return <Loading />
         }
         else {
-            return <div className="container caption text-font-favorite-sp">
+            return <div className="  text-font-favorite-sp">
                 {this.renderSpecialtiesList()}
-                </div>
-        }   
+            </div>
+
+        }
     }
 
-    private renderSpecialtiesList()
-    {
+    private renderSpecialtiesList() {
         let tabbord;
+        let header;
+
+        header = <div>
+            <div className="jumbotron ">
+                <div className="container">
+                    <h1 className="display-3">Обрані спеціальності</h1>
+                    <p className="lead"></p>
+                </div>
+            </div>
+        </div>
 
         if (this.state.count.allElements == 0) {
             tabbord = <div>
@@ -122,18 +127,22 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
                 activeClassName={"active"} />
         }
 
-        return <div className="container">
-            <div className="col-md-10 col-md-offset-1">
-                {tabbord}
-                <div className="pageBar">
-                    {pagin}
+        return <div>
+            {header}
+            <div className="container pad-for-footer caption col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div className="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
+                    {tabbord}
+                    <div className="pageBar">
+                        {pagin}
+                    </div>
                 </div>
-            </div>
         </div>
-    }
+        </div>
+            }
 
     private handlePageClick = (data) => {
-        
-                this.fetchFavoriteSpecialties();
+
+                let selected = data.selected;
+        this.fetchFavoriteSpecialties(selected);
     }
 }

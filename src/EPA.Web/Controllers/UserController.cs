@@ -22,13 +22,14 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("api/User/FavoriteSpecialties")]
-        public IEnumerable<Specialty> GetFavoriteSpecialties() => this.userInformationProvider.GetFavoriteSpecialty(0);
+        [HttpPost]
+        public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page) => this.userInformationProvider.GetFavoriteSpecialty(page, null);
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         [Route("api/User/GetSpecialtiesCount")]
-        public int GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys();
+        public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(null);
     }
 }

@@ -6,8 +6,8 @@ import { RouteComponentProps } from 'react-router';
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
 
-        return <div>         
-            <section className="main-container">
+        return <div className="pad-for-footer">         
+            <section>
                 <div className="title grey-background col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                     <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
                     <p className="caption col-md-5 col-sm-5 col-xs-3">Educational Program Advisor</p>
@@ -23,9 +23,9 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
                 </div>
                 <h2 className="text-center second-title">Топ-5 університетів</h2>
                 <section className="univer-in-row container-fluid">
-                    <div className="uni-padding col-md-1 "></div>
-
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
+                    
+                    
+                    <div className="uni-padding col-md-offset-1 col-md-2 col-sm-6 col-xs-12">
                         <img className="img-univer" src="http://kpi.ua/files/kpi_0.png" width="100%" height="100%" />
                         <p className="text-center text-univer">Київський політехнічний інститут імені ігоря Сікорського</p>
                     </div>
