@@ -34,6 +34,11 @@ namespace EPA.Common.Interfaces
         /// <param name="SpecialtyId">Specialty Id </param>
         void AddSpecialtyToFavorite(string UserId,int SpecialtyId);
 
+        /// <summary>
+        /// This method remove specialty from favorite
+        /// </summary>
+        /// <param name="UserId">User Id</param>
+        /// <param name="SpecialtyId">Specialty Id</param>
         void RemoveSpecialtyFromFavorite(string UserId, int SpecialtyId);
     }
 }
