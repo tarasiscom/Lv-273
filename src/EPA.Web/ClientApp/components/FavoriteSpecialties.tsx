@@ -41,7 +41,7 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
     constructor() {
         super();
         this.state = {
-            count: { allElements : 1, forOnePage : 1 },
+            count: { allElements : 1, forOnePage : 10 },
             loading: true,
             specialties: [],
         }
@@ -99,7 +99,7 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
 
         if (this.state.count.allElements == 0) {
             tabbord = <div>
-                <h1 className="uni-recom"> Ви не вподобали жодної спеціальності</h1>
+                <h1>По даному запиту нічого не знайдено. Виберіть інші предмети, або область.</h1>
             </div>
         }
         else {
