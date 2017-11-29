@@ -15,6 +15,7 @@
                         cfg.CreateMap<MSSQL.Models.Specialty, Common.DTO.Specialty>();
                         cfg.CreateMap<MSSQL.Models.Subject, Common.DTO.Subject>();
                         cfg.CreateMap<MSSQL.Models.District, Common.DTO.District>();
+                        cfg.CreateMap<MSSQL.Models.University, Common.DTO.UniversityInfo>();
                     });
         }
     }

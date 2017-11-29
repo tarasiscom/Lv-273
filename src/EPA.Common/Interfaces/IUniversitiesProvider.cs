@@ -12,7 +12,7 @@ namespace EPA.Common.Interfaces
         /// Calculates scores for each direction depends on user answers
         /// </summary>
         /// <returns>list of directions with scores</returns>
-        IEnumerable<University> GetTopUniversities();
+        IEnumerable<UniversityInfo> GetTopUniversities();
 
     }
 }

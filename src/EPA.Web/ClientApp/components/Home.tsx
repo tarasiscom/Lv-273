@@ -1,11 +1,62 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { ErrorHandlerProp, ResponseChecker } from './App';
+
 //import logo from "ClientApp/images/epa1.png";
 
+interface University
+{
+    name: string;
+    site: string;
+    logo: number;
+}
 
-export class Home extends React.Component<RouteComponentProps<{}>, {}> {
+interface Universities
+{
+    listUniversities: University[],
+    imgSrc: string[]
+}
+
+export class Home extends React.Component<RouteComponentProps<{}>, Universities> {
+    constructor() {
+
+        super();
+        this.state = {
+            listUniversities: [],
+            imgSrc: []
+        }
+    }
+
+    componentWillMount() {
+        this.fetchData();
+    }
+
+    private fetchData() {
+        fetch('api/Universities/getTopUniversities')
+            .then(response => response.json() as Promise<University[]>)
+            .then(data => {
+                this.setState({
+                    listUniversities: data
+                });
+                this.fetchImgSrc();
+            })
+    }
+
+    private fetchImgSrc() {
+        fetch('api/Universities/getImgSrc', {
+            method: 'POST',
+            body: JSON.stringify(this.state.listUniversities),
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+        })
+            .then(response => response.json() as Promise<string[]>)
+            .then(data => {
+                this.setState({
+                    imgSrc: data
+                })
+            })
+    }
+
     public render() {
-
         return <div>         
             <section className="main-container">
                 <div className="title grey-background col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
@@ -24,27 +75,12 @@ export class Home extends React.Component<RouteComponentProps<{}>, {}> {
                 <h2 className="text-center second-title">Топ-5 університетів</h2>
                 <section className="univer-in-row">
                     <div className="uni-padding col-md-1 "></div>
-
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                        <img className="img-univer" src="http://kpi.ua/files/kpi_0.png" width="100%" height="100%" />
-                        <p className="text-center text-univer">Київський політехнічний інститут імені ігоря Сікорського</p>
-                    </div>
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                        <img className="img-univer" src="http://vstup.univ.kiev.ua/assets/img/knu.jpg" width="100%" height="100%" />
-                        <p className="text-center text-univer">Київський національний університет імені Тараса Шевченка</p>
-                    </div>
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                        <img className="img-univer img-round" src="http://210years.karazin.ua/images/logo-u.png" width="100%" height="100%" />
-                        <p className="text-center text-univer">	Харківський національний університет імені В.Н. Каразіна</p>
-                    </div>
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                        <img className="img-univer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Kpi.jpg/200px-Kpi.jpg" width="100%" height="100%" />
-                        <p className="text-center text-univer">Національний технічний університет "Харківський політехнічний інститут"</p>
-                    </div>
-                    <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                        <img className="img-univer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Nulp_logo_ukr.jpg/280px-Nulp_logo_ukr.jpg" width="100%" height="100%" />
-                        <p className="text-center text-univer">Національний університет "Львівська політехніка"</p>
-                    </div>
+                    {this.state.listUniversities.map((university, id) =>
+                        <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
+                            <img className="img-univer" src={this.state.imgSrc[id]} width="100%" height="100%" />
+                            <a className="text-center text-univer" href={university.site}> { university.name }</a>
+                        </div>
+                        )}
                 </section>
             </section>
         </div>

@@ -28,20 +28,24 @@ namespace EPA.MSSQL.SQLDataAccess
         /// This method retrieves collection of all subjects from database
         /// </summary>
         /// <returns>Collection of subjects</returns>
-        public IEnumerable<Common.DTO.University> GetTopUniversities() => this.context.Universities.Select(x => x.ToCommon());
-
-        public byte[] imageToByteArray(Image imageIn)
+        public IEnumerable<Common.DTO.UniversityInfo> GetTopUniversities()
         {
-            MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
-            return ms.ToArray();
+            IQueryable<UniversityInfo> universities = this.context.Universities.OrderBy(x => x.Rating).Take(5).Select(x => x.ToCommon());
+            return universities;
         }
 
-        public Image byteArrayToImage(byte[] byteArrayIn)
-        {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
-        }
+        //public byte[] imageToByteArray(Image imageIn)
+        //{
+        //    MemoryStream ms = new MemoryStream();
+        //    imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+        //    return ms.ToArray();
+        //}
+
+        //public Image byteArrayToImage(byte[] byteArrayIn)
+        //{
+        //    MemoryStream ms = new MemoryStream(byteArrayIn);
+        //    Image returnImage = Image.FromStream(ms);
+        //    return returnImage;
+        //}
     }
 }

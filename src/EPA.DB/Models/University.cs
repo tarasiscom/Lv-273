@@ -23,9 +23,9 @@ namespace EPA.MSSQL.Models
 
         public byte[] Logo { get; set; }
 
-        public Common.DTO.University ToCommon()
+        public Common.DTO.UniversityInfo ToCommon()
         {
-            return Mapper.Map<Common.DTO.University>(this);
+            return Mapper.Map<Common.DTO.UniversityInfo>(this);
         }
     }
 }
