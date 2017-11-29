@@ -4,7 +4,7 @@ import { Layout } from './Layout';
 import { Home } from './Home';
 import { ProfTest } from './ProfTest';
 import { TestInfo } from './TestInfo';
-import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject'
+import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject';
 import { ChooseSpecialty } from './ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './ChooseSpecialtiesByDirection';
 import { TestQuiz } from './TestQuiz';

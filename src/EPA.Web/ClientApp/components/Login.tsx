@@ -22,38 +22,38 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
     sendData = () => {
         let hash = Crypto.SHA512(this.state.password);
         
-            let loginInfo = {
-                email: this.state.email,
-                password: this.state.password
-            }
-
-            fetch('api/Login', {
-                method: 'POST',
-                body: JSON.stringify(loginInfo),
-                headers: { 'Content-Type': 'application/json' }
-            })
-
-            alert();
+        let loginInfo = {
+            email: this.state.email,
+            password: this.state.password
         }
+
+        fetch('api/Login', {
+            method: 'POST',
+            body: JSON.stringify(loginInfo),
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        
+    }
 
     render() {
 
         return <div className="registration">
             <form role="form" onSubmit={this.sendData}>
-                
+
                 <div className="input-group">
                     <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
                         onChange={(event) => this.setState({ email: event.target.value })}></input>
-                </div>               
+                </div>
                 <div className="input-group">
                     <input type="password" name="password" pattern="^.{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
                         onChange={(event) => this.setState({ password: event.target.value })}></input>
-            </div>
-            <div className="form-group userSubmit">
-                    <button type="submit" id = "enter" className="btn btn-primary cus-margin">Вхід</button>
-            </div>               
+                </div>
+                <div className="form-group userSubmit">
+                    <button type="submit" id="enter" className="btn btn-primary cus-margin">Вхід</button>
+                </div>
             </form>
-            <div id = "passToReg">
+            <div id="passToReg">
                 <span>Не маєте облікового запису? </span>
                 <Link to={'/Registration'}>Реєстрація</Link>
             </div>

@@ -4,6 +4,7 @@ using EPA.MSSQL;
 using EPA.MSSQL.Models;
 using EPA.MSSQL.SQLDataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -56,6 +57,18 @@ namespace EPA.Web
                 })
                 .AddEntityFrameworkStores<EpaContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.CookieName = "lala";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = System.TimeSpan.FromDays(150);
+                options.LoginPath = "/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
+                options.LogoutPath = "/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
+                options.AccessDeniedPath = "/asdsada"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+                options.SlidingExpiration = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +89,9 @@ namespace EPA.Web
             }
 
             app.UseAuthentication();
+
+
+
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
