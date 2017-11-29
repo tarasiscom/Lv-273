@@ -11,6 +11,7 @@ import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
 import { Registration } from './Registration';
 import { Login } from './Login';
+import { ConfirmEmail } from './ConfirmEmail';
 import PropTypes from 'prop-types';
 
 
@@ -70,7 +71,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)}  />
                             <Route exact path='/Registration' component={Registration} />
                             <Route exact path='/Login' component={Login} />
-                            <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
+                            <Route exact path='/AccountController/ConfirmEmail/:userid/:token' component={ConfirmEmail} />
                             {errRoute}
                         </Switch>
                 }
