@@ -20,6 +20,11 @@ namespace EPA.Common.Interfaces
         /// <returns>Favorites specialtys list</returns>
         IEnumerable<Specialty> GetFavoriteSpecialty(int page, string UserID);
 
+        /// <summary>
+        /// This method retrieves count of Favorite Specialtys
+        /// </summary>
+        /// <param name="UserID">User id</param>
+        /// <returns>Count of favorite specialtys</returns>
         Count CountOfFavoriteSpecialtys(string UserID);
 
         /// <summary>
@@ -28,5 +33,7 @@ namespace EPA.Common.Interfaces
         /// <param name="UserId">User Id</param>
         /// <param name="SpecialtyId">Specialty Id </param>
         void AddSpecialtyToFavorite(string UserId,int SpecialtyId);
+
+        void RemoveSpecialtyFromFavorite(string UserId, int SpecialtyId);
     }
 }
