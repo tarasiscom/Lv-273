@@ -32,11 +32,10 @@ namespace EPA.Web.Controllers
             {
                 // email confirm
                 var confirmationToken = await this.userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                string confirmationLink = this.Url.Action(
-                                                    "ConfirmEmail",
-                                                    "AccountController",
-                                                    new { userid = newUser.Id, token = confirmationToken },
-                                                    protocol: this.HttpContext.Request.Scheme);
+                var confirmationLink = this.Url.RouteUrl(
+                                    "ConfirmEmail",
+                                    new { userid = newUser.Id, token = confirmationToken },
+                                    protocol: this.HttpContext.Request.Scheme);
 
                 var toAddress = new MailAddress(newUser.Email);
                 this.SendMail(toAddress, confirmationLink);
@@ -67,6 +66,7 @@ namespace EPA.Web.Controllers
             client.Send(message);
         }
 
+        [Route("ConfirmEmail/{userid}/{token}", Name = "ConfirmEmail")]
         [HttpGet]
         [AllowAnonymous]
         public void ConfirmEmail(string userid, string token)
