@@ -32,8 +32,9 @@ namespace EPA.Web.Controllers
             {
                 // email confirm
                 var confirmationToken = await this.userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                var confirmationLink = this.Url.RouteUrl(
-                                    "ConfirmEmail",
+                var confirmationLink = this.Url.Action(
+                                    "confirmEmail",
+                                    "account",
                                     new { userid = newUser.Id, token = confirmationToken },
                                     protocol: this.HttpContext.Request.Scheme);
 
@@ -66,23 +67,24 @@ namespace EPA.Web.Controllers
             client.Send(message);
         }
 
-        [Route("ConfirmEmail/{userid}/{token}", Name = "ConfirmEmail")]
+        [Route("account/confirmEmail/")]
         [HttpGet]
         [AllowAnonymous]
-        public void ConfirmEmail(string userid, string token)
+        public void ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
         {
             MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).Result;
             IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).Result;
             if (result.Succeeded)
             {
                 this.ViewBag.Message = "Email confirmed successfully!";
+                this.Redirect("http://localhost:55999/Registration/ConfirmEmail");
             }
             else
             {
                 this.ViewBag.Message = "Error while confirming your email!";
             }
         }
-        
+
         //[ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
