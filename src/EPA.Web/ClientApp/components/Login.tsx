@@ -27,13 +27,13 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
             password: this.state.password
         }
 
-        fetch('api/Login', {
+        fetch('api/login', {
             method: 'POST',
             body: JSON.stringify(loginInfo),
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
+            credentials: 'same-origin'
         })
-        
+        alert();
     }
 
     render() {

@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 
 export function GetFetch<T>(path: string): Promise<T> {
-    return fetch(path)
+    return fetch(path, { credentials: 'same-origin' })
             .then(response => ResponseChecker<T>(response))
       
 }
@@ -26,7 +26,8 @@ export function PostFetch<T>(path: string, body: any): Promise<T> {
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json"
-                    }
+                    },
+                    credentials: 'same-origin'
                 })
             .then(response => ResponseChecker<T>(response))      
 }

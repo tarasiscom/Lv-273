@@ -1,5 +1,6 @@
 ﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ namespace EPA.Web.Controllers
     /// <summary>
     ///  API for Specialty and Direction draws
     /// </summary>
+    [Authorize]
     public class ChooseSpecialtiesController : Controller
     {
         private readonly ISpecialtyProvider specialtyProvider;
