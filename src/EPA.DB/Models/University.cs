@@ -8,10 +8,15 @@ namespace EPA.MSSQL.Models
     {
         [Key]
         public int Id { get; set; }
+        
+        // foreign keys
+        public District District { get; set; }
+
+       // public byte[] Logo { get; set; }
+
+        public Logo_Universities Logo_Universities { get; set; }
 
         public string Name { get; set; }
-
-        public District District { get; set; }
 
         public string Address { get; set; }
 
@@ -21,11 +26,9 @@ namespace EPA.MSSQL.Models
 
         public List<Specialty> Specialties { get; set; }
 
-        public byte[] Logo { get; set; }
-
-        public Common.DTO.UniversityInfo ToCommon()
+        public Common.DTO.University ToCommon()
         {
-            return Mapper.Map<Common.DTO.UniversityInfo>(this);
+            return Mapper.Map<Common.DTO.University>(this);
         }
     }
 }

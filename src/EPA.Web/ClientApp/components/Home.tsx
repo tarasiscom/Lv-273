@@ -57,7 +57,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, Universities>
     }
 
     public render() {
-        return <div>         
+        return <div className="pad-for-footer col-md-12">      
             <section className="main-container">
                 <div className="title grey-background col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                     <div className="logo1 col-md-5 col-sm-5 col-xs-5"></div>
@@ -77,7 +77,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, Universities>
                     <div className="uni-padding col-md-1 "></div>
                     {this.state.listUniversities.map((university, id) =>
                         <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                            <img className="img-univer" src={this.state.imgSrc[id]} width="100%" height="100%" />
+                            <img className="img-univer" src="api/Universities/1/logo" width="100%" height="100%" />
                             <a className="text-center text-univer" href={university.site}> { university.name }</a>
                         </div>
                         )}

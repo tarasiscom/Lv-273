@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171130163103_addTableLogo_Universities")]
+    partial class addTableLogo_Universities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +84,7 @@ namespace EPA.MSSQL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<byte[]>("Logo");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 

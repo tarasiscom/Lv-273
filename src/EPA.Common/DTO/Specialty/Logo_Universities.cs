@@ -5,15 +5,20 @@ namespace EPA.Common.DTO
     /// <summary>
     ///  This class describes university
     /// </summary>
-    public class UniversityInfo
+    public class Logo_Universities
     {
            /// <summary>
         ///  Name of the university
         /// </summary>
-        public string Name { get; set; }
-
-        public string Site { get; set; }
+        public int Id { get; set; }
 
         public byte[] Logo { get; set; }
+
+        public Logo_Universities(int id, byte[] logo)
+        {
+            this.Id = id;
+            this.Logo = logo;
+        }
+        public Logo_Universities() { }
     }
 }

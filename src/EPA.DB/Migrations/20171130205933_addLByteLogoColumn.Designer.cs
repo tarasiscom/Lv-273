@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171130205933_addLByteLogoColumn")]
+    partial class addLByteLogoColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,7 +190,7 @@ namespace EPA.MSSQL.Migrations
 
                     b.Property<int?>("DistrictId");
 
-                    b.Property<int?>("Logo_UniversitiesId");
+                    b.Property<byte[]>("Logo");
 
                     b.Property<string>("Name");
 
@@ -200,8 +201,6 @@ namespace EPA.MSSQL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictId");
-
-                    b.HasIndex("Logo_UniversitiesId");
 
                     b.ToTable("Universities");
                 });
@@ -439,10 +438,6 @@ namespace EPA.MSSQL.Migrations
                     b.HasOne("EPA.MSSQL.Models.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId");
-
-                    b.HasOne("EPA.MSSQL.Models.Logo_Universities", "Logo_Universities")
-                        .WithMany()
-                        .HasForeignKey("Logo_UniversitiesId");
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.User", b =>

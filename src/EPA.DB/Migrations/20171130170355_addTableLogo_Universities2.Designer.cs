@@ -11,9 +11,10 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    partial class EpaContextModelSnapshot : ModelSnapshot
+    [Migration("20171130170355_addTableLogo_Universities2")]
+    partial class addTableLogo_Universities2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
