@@ -16,9 +16,10 @@
                         cfg.CreateMap<MSSQL.Models.District, Common.DTO.District>();
                         cfg.CreateMap<MSSQL.Models.User, Common.DTO.UserProvider.UserPersonalInfo>().
                             ForMember(x=>x.Email,m=>m.MapFrom(a=>a.Email)).
-                            ForMember(x=>x.Name,m=>m.MapFrom(a=>a.FirstName)).
+                            ForMember(x=>x.FirstName,m=>m.MapFrom(a=>a.FirstName)).
                             ForMember(x=>x.Surname,m=>m.MapFrom(a=>a.Surname)).
-                            ForMember(x=>x.District,m=>m.MapFrom(a=>a.District.Name));
+                            ForMember(x=>x.District,m=>m.MapFrom(a=>a.District.Name)).
+                        ForMember(x => x.Phone, m => m.MapFrom(a => a.PhoneNumber));
                     });
         }
     }

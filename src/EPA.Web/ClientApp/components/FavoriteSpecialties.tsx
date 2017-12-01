@@ -60,7 +60,7 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
                     {
                         count: data
                     })
-            })
+            }).catch(er => this.props.onError(er))
     }
 
     private fetchFavoriteSpecialties(page) {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
+using EPA.Common.DTO.UserProvider;
 
 namespace EPA.Web.Controllers
 {
@@ -31,7 +32,7 @@ namespace EPA.Web.Controllers
         {
             var a = this.GetUserId(this.User);
             return this.userInformationProvider.GetFavoriteSpecialty(page, a);
-        } 
+        }
 
         public string GetUserId(ClaimsPrincipal principal)
         {
@@ -44,5 +45,18 @@ namespace EPA.Web.Controllers
         /// <returns></returns>
         [Route("api/User/GetSpecialtiesCount")]
         public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [Route("api/User/GetUserPersonalInformation")]
+        public UserPersonalInfo GetUserPersonalInfo()
+        {
+            var a = this.GetUserId(this.User);
+            var abc = this.userInformationProvider.GetPersonalInfo(a);
+            return abc;
+        }
     }
 }

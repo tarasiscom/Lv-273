@@ -25,6 +25,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
         {
+            var specialties = from user in this.context.User_Specialty
                               where user.User.Id == UserID
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
@@ -44,7 +45,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
-        public UserPersonalInfo PersonalInfo(string UserID)
+        public UserPersonalInfo GetPersonalInfo(string UserID)
         {
             return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
         }

@@ -14,9 +14,11 @@ interface StateTypes {
 }
 
 interface User {
-    name: string;
+    firstName: string;
+    surname: string;
     email: string;
     phone: string;
+    district: string;
 }
 
 export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, StateTypes> {
@@ -24,13 +26,13 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     constructor() {
         super();
         this.state = {
-            userInfo: { name: "", email: "", phone: "" },
-            loading: false
+            userInfo: { firstName: "",surname:"", email: "", phone: "", district: "" },
+            loading: true
         }
     }
 
     componentDidMount() {
-
+        this.fetchUserPersonalInformation();
     }
 
     render() {
@@ -54,34 +56,8 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
             <div className="row">
                 <section className="col-md-9 col-lg-9 col-sm-12 col-xs-12 container-fluid">
-
-                    <div >
-                        <div className="panel-group">
-
-                            <div className="panel panel-default panel-scale">
-                                <div className="panel-heading">
-                                    <h4 className="panel-title">
-                                        <a data-toggle="collapse" href="#collapse1">Результати тестів</a>
-                                    </h4>
-                                </div>
-                                <div id="collapse1" className="panel-collapse collapse">
-                                    <div className="panel-body">Тут будуть результати тестів...</div>
-                                    <div className="panel-body">Тест 1</div>
-                                    <div className="panel-body">Тест 2</div>
-
-                                </div>
-                            </div>
-
-
-                            <div className="panel panel-default panel-scale">
-                                <div className="panel-heading">
-                                    <h4 className="panel-title">
-                                        <Link to={'/FavoriteSpecialties'}>Обрані Спеціальності</Link>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {this.renderUsersPreference()}
+                    {this.renderUserPersonalInformation()}
                 </section>
 
                 <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
@@ -96,4 +72,76 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
         </div>
     }
 
+    private renderUsersPreference()
+    {
+
+        return <div>
+            <div className="panel-group">
+                <div className="panel panel-default panel-scale">
+                    <div className="panel-heading">
+                        <h4 className="panel-title">
+                            <a data-toggle="collapse" href="#collapse1">Результати тестів</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" className="panel-collapse collapse">
+                        <div className="panel-body">Тут будуть результати тестів...</div>
+                        <div className="panel-body">Тест 1</div>
+                        <div className="panel-body">Тест 2</div>
+                    </div>
+                </div>
+
+                <div className="panel panel-default panel-scale">
+                    <div className="panel-heading">
+                        <h4 className="panel-title">
+                            <Link to={'/FavoriteSpecialties'}>Обрані Спеціальності</Link>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+
+    private renderUserPersonalInformation()
+    {
+        return <div>
+            <div className="row">
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Ім'я :</p>
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.firstName}</p>
+            </div>
+            <div className="row">
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Прізвище :</p>
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.surname}</p>
+            </div>
+            <div className="row">
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">e-mail :</p>
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.email}</p>
+            </div>
+            <div className="row">
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Область :</p>
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.district}</p>
+            </div>
+            <div className="row">
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Телефон :</p>
+                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.phone}</p>
+            </div>
+        </div>
+
+
+    }
+
+    private fetchUserPersonalInformation()
+    {
+        let path = 'api/User/GetUserPersonalInformation';
+
+        GetFetch<any>(path)
+            .then(data => {
+                this.setState(
+                    {
+                        userInfo: data,
+                        loading: false
+                    })
+            }).catch(er => this.props.onError(er))
+    }
 }
