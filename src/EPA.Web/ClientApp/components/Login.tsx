@@ -32,14 +32,15 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
             body: JSON.stringify(loginInfo),
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin'
-        })
-        alert();
+        }).then(data => { if (data) this.props.history.push('/') })
+        
+        alert()
     }
 
     render() {
-
         return <div className="registration">
             <form role="form" onSubmit={this.sendData}>
+                
 
                 <div className="input-group">
                     <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required

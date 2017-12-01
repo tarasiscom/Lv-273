@@ -16,11 +16,11 @@ namespace EPA.Web.Controllers
         private readonly IOptions<ConstSettings> constValues;
 
         public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IOptions<ConstSettings> constValues)
-        {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             this.constValues = constValues;
-        }
+        }
 
         [Route("api/registration")]
         [HttpPost]
@@ -42,8 +42,8 @@ namespace EPA.Web.Controllers
                 this.SendMail(toAddress, confirmationLink);
             }
         }
-       
-            public void SendMail(MailAddress toAddress, string confirmationLink)
+
+        public void SendMail(MailAddress toAddress, string confirmationLink)
         {
             var fromAddress = new MailAddress(this.constValues.Value.Email);
             var fromPassword = this.constValues.Value.EmailPassword;
@@ -82,15 +82,33 @@ namespace EPA.Web.Controllers
                 this.ViewBag.Message = "Error while confirming your email!";
             }
         }
-        
+
+        [Route("api/CheckAuth")]
+        [HttpGet]
+        [AllowAnonymous]
+        public bool CheckAuth()
+        {
+            return this.User.Identity.IsAuthenticated;
+        }
+
+        [Route("account/Logout")]
+        [AllowAnonymous]
+        public IActionResult Logout()
+        {
+            signInManager.SignOutAsync();
+            return this.Redirect("/");
+        }
+
+
         //[ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<bool> LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        public bool LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            MSSQL.Models.User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
-            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false);
+            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).Result;
+            /*userManager.AddClaimAsync(signedUser, new System.Security.Claims.Claim("role", "trulyalya"));*/
+            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false).Result;
             if (result.Succeeded)
             {
                 return true;
