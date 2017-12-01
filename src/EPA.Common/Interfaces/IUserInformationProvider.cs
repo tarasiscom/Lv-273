@@ -11,8 +11,9 @@ namespace EPA.Common.Interfaces
         /// <summary>
         /// This method retrieves user personal information
         /// </summary>
+        /// <param name="Id">User Id</param>
         /// <returns>User personal information</returns>
-        UserPersonalInfo PersonalInfo();
+        UserPersonalInfo PersonalInfo(string Id);
 
         /// <summary>
         /// This method retrieves user favorites specialtys

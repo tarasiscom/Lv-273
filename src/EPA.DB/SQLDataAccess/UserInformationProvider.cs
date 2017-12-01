@@ -47,12 +47,9 @@ namespace EPA.MSSQL.SQLDataAccess
 
         string id;
 
-        public UserPersonalInfo PersonalInfo()
+        public UserPersonalInfo PersonalInfo(string Id)
         {
-            UserPersonalInfo userPersonalInfo = new UserPersonalInfo();
-            var userInfo = this.context.Users.Where(x => x.Id == id).ToList();
-            userPersonalInfo.District = userInfo[0].District.Name;
-            throw new NotImplementedException();
+            return this.context.Users.Where(x => x.Id == id).First().ToPersonalInfo();
         }
 
         public void AddSpecialtyToFavorite(string UserId, int SpecialtyId)
@@ -61,7 +58,7 @@ namespace EPA.MSSQL.SQLDataAccess
             add.Specialty.Id = SpecialtyId;
             add.User.Id = UserId;
             this.context.User_Specialty.Contains(add);
-            var rez = this.context.User_Specialty.Select(x => x.Specialty.Id == SpecialtyId && x.User.Id == UserId);
+            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == SpecialtyId && x.User.Id == UserId).First();
             if (rez != null) return;
             this.context.User_Specialty.Add(add);
             this.context.SaveChanges();
