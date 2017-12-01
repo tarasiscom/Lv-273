@@ -2,8 +2,7 @@ using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Net;
+using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -13,13 +12,13 @@ namespace EPA.Web.Controllers
     {
         private readonly UserManager<MSSQL.Models.User> userManager;
         private readonly SignInManager<MSSQL.Models.User> signInManager;
-        private readonly IOptions<ConstSettings> constValues;
+        private readonly IMailProvider mailProvider;
 
-        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IOptions<ConstSettings> constValues)
+        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IMailProvider mailProvider)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.constValues = constValues;
+            this.mailProvider = mailProvider;
         }
 
         [Route("api/registration")]
@@ -30,7 +29,6 @@ namespace EPA.Web.Controllers
             var result = await this.userManager.CreateAsync(newUser, newUser.PasswordHash);
             if (result.Succeeded)
             {
-                // email confirm
                 var confirmationToken = await this.userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 var confirmationLink = this.Url.Action(
                                     "confirmEmail",
@@ -39,49 +37,23 @@ namespace EPA.Web.Controllers
                                     protocol: this.HttpContext.Request.Scheme);
 
                 var toAddress = new MailAddress(newUser.Email);
-                this.SendMail(toAddress, confirmationLink);
+                this.mailProvider.SendMail(toAddress, confirmationLink);
             }
         }
 
-        public void SendMail(MailAddress toAddress, string confirmationLink)
-        {
-            var fromAddress = new MailAddress(this.constValues.Value.Email);
-            var fromPassword = this.constValues.Value.EmailPassword;
-
-            SmtpClient client = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-
-            MailMessage message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = "Account confirm",
-                Body = "Для підтвердження перейдіть за посиланням: " + confirmationLink
-            };
-
-            client.Send(message);
-        }
-
-        [Route("account/confirmEmail/")]
-        [HttpGet]
+        [Route("account/confirmEmail")]
         [AllowAnonymous]
-        public void ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
+        public IActionResult ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
         {
             MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).Result;
             IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).Result;
             if (result.Succeeded)
             {
-                this.ViewBag.Message = "Email confirmed successfully!";
-                this.Redirect("http://localhost:55999/Registration/ConfirmEmail");
+                return this.Redirect("/Login");
             }
             else
             {
-                this.ViewBag.Message = "Error while confirming your email!";
+                throw new ArgumentException("Invalid token");
             }
         }
 
@@ -97,6 +69,7 @@ namespace EPA.Web.Controllers
             {
                 return true;
             }
+
             return false;
         }
     }
