@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using EPA.Common.DTO;
 using EPA.Common.DTO.UserProvider;
 using EPA.Common.Interfaces;
@@ -23,10 +21,10 @@ namespace EPA.MSSQL.SQLDataAccess
             this.constValues = constValues;
         }
 
-        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
+        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string userID)
         {
             var specialties = from user in this.context.User_Specialty
-                              where user.User.Id == UserID
+                              where user.User.Id == userID
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
                               join d in this.context.Districts on univer.District.Id equals d.Id
@@ -45,18 +43,18 @@ namespace EPA.MSSQL.SQLDataAccess
             return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
-        public UserPersonalInfo PersonalInfo(string UserID)
+        public UserPersonalInfo GetPersonalInfo(string userID)
         {
-            return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
+            return this.context.Users.Where(x => x.Id == userID).First().ToPersonalInfo();
         }
 
-        public void AddSpecialtyToFavorite(string UserId, int UserID)
+        public void AddSpecialtyToFavorite(string UserId, int specialtyId)
         {
             User_Specialty add = new User_Specialty();
-            add.Specialty.Id = UserID;
+            add.Specialty.Id = specialtyId;
             add.User.Id = UserId;
             this.context.User_Specialty.Contains(add);
-            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == UserID && x.User.Id == UserId).First();
+            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == specialtyId && x.User.Id == UserId).First();
             if (rez != null) return;
             this.context.User_Specialty.Add(add);
             this.context.SaveChanges();
@@ -69,10 +67,10 @@ namespace EPA.MSSQL.SQLDataAccess
             this.context.SaveChanges();
         }
 
-        public Count CountOfFavoriteSpecialtys(string UserID)
+        public Count CountOfFavoriteSpecialtys(string userID)
         {
             Count result = new Count();
-            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == UserID).Count();
+            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == userID).Count();
             result.ForOnePage = constValues.Value.CountForPage;
             return result;
         }

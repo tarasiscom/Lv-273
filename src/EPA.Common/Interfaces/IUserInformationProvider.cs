@@ -13,7 +13,7 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="Id">User Id</param>
         /// <returns>User personal information</returns>
-        UserPersonalInfo PersonalInfo(string Id);
+        UserPersonalInfo GetPersonalInfo(string Id);
 
         /// <summary>
         /// This method retrieves user favorites specialtys
