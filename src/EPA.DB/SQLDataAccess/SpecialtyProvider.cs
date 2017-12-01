@@ -4,6 +4,10 @@ using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using EPA.MSSQL.Calculations;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
@@ -95,7 +99,9 @@ namespace EPA.MSSQL.SQLDataAccess
         private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(int idDirection, int idDistrict, int page)
         {
             IEnumerable<Specialty> result;
-
+            var serviceProvider = context.GetInfrastructure<IServiceProvider>();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            loggerFactory.AddProvider(new MyLoggerProvider());
             var specialties = from s in this.context.Specialties
                               where s.Direction.GeneralDirection.Id == idDirection
                               join u in this.context.Universities on s.University.Id equals u.Id

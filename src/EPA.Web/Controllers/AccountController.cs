@@ -87,15 +87,15 @@ namespace EPA.Web.Controllers
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<bool> LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        public StatusCodeResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            MSSQL.Models.User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
-            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false);
+            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
+            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false).GetAwaiter().GetResult();
             if (result.Succeeded)
             {
-                return true;
+                return this.Ok();
             }
-            return false;
+            return this.BadRequest();
         }
     }
 }
