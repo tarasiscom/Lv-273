@@ -107,24 +107,24 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     {
         return <div>
             <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Ім'я :</p>
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.firstName}</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Ім'я :</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.firstName}</p>
             </div>
             <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Прізвище :</p>
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.surname}</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Прізвище :</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.surname}</p>
             </div>
             <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">e-mail :</p>
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.email}</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">e-mail :</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.email}</p>
             </div>
             <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Область :</p>
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.district}</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Область :</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.district}</p>
             </div>
             <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">Телефон :</p>
-                <p className="col-md-6 col-lg-6 col-sm-12 col-xs-12">{this.state.userInfo.phone}</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Телефон :</p>
+                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.phone}</p>
             </div>
         </div>
 

@@ -424,7 +424,7 @@ h1.heading {
 
 .panel.panel-scale:hover {
     transition: 0.8s;
-    transform: scale(1.07);
+    transform: scale(1.03);
     margin-bottom: 12px;
     background-color: gainsboro;
     text-decoration-line: none;
