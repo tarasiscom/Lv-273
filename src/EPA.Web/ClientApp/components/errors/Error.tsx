@@ -10,12 +10,17 @@ interface ErrorProps {
 export class ErrorPage extends React.Component<RouteComponentProps<{}> & ErrorProps, {}> {
     constructor(props) {
         super();
+
+
     }
 
     componentDidMount() {
         this.props.history.listen((location, action) => {
             this.props.onRouteChange();
         });
+        if (this.props.message == '401') {
+            this.props.history.push('/Login');
+        }
     }
     public render() {
         return <div className="erdiv pad-for-footer">
