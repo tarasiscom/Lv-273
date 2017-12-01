@@ -2,6 +2,7 @@ using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -13,23 +14,25 @@ namespace EPA.Web.Controllers
         private readonly UserManager<MSSQL.Models.User> userManager;
         private readonly SignInManager<MSSQL.Models.User> signInManager;
         private readonly IMailProvider mailProvider;
+        private readonly IOptions<ConstSettings> constValues;
 
-        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IMailProvider mailProvider)
+        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IMailProvider mailProvider, IOptions<ConstSettings> constValues)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mailProvider = mailProvider;
+            this.constValues = constValues;
         }
 
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task RegisterAsync([FromBody]MSSQL.Models.User newUser)
+        public ObjectResult Register([FromBody]MSSQL.Models.User newUser)
         {
-            var result = await this.userManager.CreateAsync(newUser, newUser.PasswordHash);
+            var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
             if (result.Succeeded)
             {
-                var confirmationToken = await this.userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var confirmationToken = this.userManager.GenerateEmailConfirmationTokenAsync(newUser).GetAwaiter().GetResult();
                 var confirmationLink = this.Url.Action(
                                     "confirmEmail",
                                     "account",
@@ -38,6 +41,18 @@ namespace EPA.Web.Controllers
 
                 var toAddress = new MailAddress(newUser.Email);
                 this.mailProvider.SendMail(toAddress, confirmationLink);
+                return this.Ok(this.constValues.Value.RegistrSuccess);
+            }
+            else
+            {
+                string errorDecription = null;
+                foreach (var error in result.Errors)
+                {
+                    errorDecription = error.Description;
+                    break;
+                }
+
+                return this.BadRequest(errorDecription);
             }
         }
 
@@ -45,8 +60,8 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public IActionResult ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
         {
-            MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).Result;
-            IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).Result;
+            MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).GetAwaiter().GetResult();
+            IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).GetAwaiter().GetResult();
             if (result.Succeeded)
             {
                 return this.Redirect("/Login");
