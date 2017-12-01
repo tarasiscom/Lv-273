@@ -25,8 +25,9 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
         {
-            id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
-            var specialties = from user in this.context.User_Specialty where user.User.Id == id
+            UserID = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
+            var specialties = from user in this.context.User_Specialty
+                              where user.User.Id == UserID
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
                               join d in this.context.Districts on univer.District.Id equals d.Id
@@ -45,20 +46,18 @@ namespace EPA.MSSQL.SQLDataAccess
             return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
-        string id;
-
-        public UserPersonalInfo PersonalInfo(string Id)
+        public UserPersonalInfo PersonalInfo(string UserID)
         {
-            return this.context.Users.Where(x => x.Id == id).First().ToPersonalInfo();
+            return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
         }
 
-        public void AddSpecialtyToFavorite(string UserId, int SpecialtyId)
+        public void AddSpecialtyToFavorite(string UserId, int UserID)
         {
             User_Specialty add = new User_Specialty();
-            add.Specialty.Id = SpecialtyId;
+            add.Specialty.Id = UserID;
             add.User.Id = UserId;
             this.context.User_Specialty.Contains(add);
-            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == SpecialtyId && x.User.Id == UserId).First();
+            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == UserID && x.User.Id == UserId).First();
             if (rez != null) return;
             this.context.User_Specialty.Add(add);
             this.context.SaveChanges();
@@ -73,9 +72,8 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public Count CountOfFavoriteSpecialtys(string UserID)
         {
-            id = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
             Count result = new Count();
-            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == id).Count();
+            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == UserID).Count();
             result.ForOnePage = constValues.Value.CountForPage;
             return result;
         }
