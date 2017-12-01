@@ -25,7 +25,6 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
         {
-            UserID = "0698a357-1e00-4c93-8c64-c9b262ff8b4e";
             var specialties = from user in this.context.User_Specialty
                               where user.User.Id == UserID
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
