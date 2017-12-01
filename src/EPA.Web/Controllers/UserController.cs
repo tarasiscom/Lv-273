@@ -1,7 +1,10 @@
 ﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace EPA.Web.Controllers
 {
@@ -23,7 +26,17 @@ namespace EPA.Web.Controllers
         /// <returns></returns>
         [Route("api/User/FavoriteSpecialties")]
         [HttpPost]
-        public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page) => this.userInformationProvider.GetFavoriteSpecialty(page, null);
+        [Authorize]
+        public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page)
+        {
+            var a = this.GetUserId(this.User);
+            return this.userInformationProvider.GetFavoriteSpecialty(page, a);
+        } 
+
+        public string GetUserId(ClaimsPrincipal principal)
+        {
+              return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        }
 
         /// <summary>
         /// 
