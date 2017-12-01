@@ -17,9 +17,10 @@ export class NavigationMenu extends React.Component<{}, {}> {
 
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
-                            <li><Link to={'/FavoriteSpecialties'}>Усі Університети</Link></li>
+                            <li><Link to={'/#'}>Усі Університети</Link></li>
                             <li><Link to={'/profTest'}>Профорієнтаційні Тести</Link></li>
                             <li><Link to={'/ChooseSpecialty'}>Обрати Спеціальність</Link></li>
+                            <li><Link to={'/PersonalCabinet'}>Кабінет</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li><Link to={'/Login'}>Вхід</Link></li>

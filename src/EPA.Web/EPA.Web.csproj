@@ -16,6 +16,7 @@
     <None Remove="ClientApp\components\loading.tsx" />
     <None Remove="ClientApp\components\Login.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
+    <None Remove="ClientApp\components\PersonalCabinet.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\Registration.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
@@ -53,6 +54,7 @@
     <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\FavoriteSpecialties.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\PersonalCabinet.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Registration.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
