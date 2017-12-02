@@ -8,7 +8,7 @@ interface University
 {
     name: string;
     site: string;
-    logo: number;
+    logoId: number;
 }
 
 interface Universities
@@ -38,7 +38,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, Universities>
                 this.setState({
                     listUniversities: data
                 });
-                this.fetchImgSrc();
+                //this.fetchImgSrc();
             })
     }
 
@@ -77,7 +77,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, Universities>
                     <div className="uni-padding col-md-1 "></div>
                     {this.state.listUniversities.map((university, id) =>
                         <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                            <img className="img-univer" src="api/Universities/1/logo" width="100%" height="100%" />
+                            <img className="img-univer" src={"api/Universities/" + university.logoId + "/logo"} width="100%" height="100%" />
                             <a className="text-center text-univer" href={university.site}> { university.name }</a>
                         </div>
                         )}
