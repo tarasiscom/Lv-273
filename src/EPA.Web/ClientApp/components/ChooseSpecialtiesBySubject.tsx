@@ -7,7 +7,7 @@ import 'react-virtualized/styles.css'
 import 'react-select/dist/react-select.css'
 import 'isomorphic-fetch';
 import ReactPaginate from 'react-paginate';
-import { ErrorHandlerProp, ResponseChecker } from './App';
+import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 
 interface Specialities {
     districtId: number;
@@ -182,24 +182,26 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
 
     private fetchAllSubjects() {
-        fetch('api/ChooseSpecialties/subjectsList')
-            .then(response => ResponseChecker<SubjectDTO[]>(response, this.props.onError))
+
+        GetFetch<SubjectDTO[]>( 'api/ChooseSpecialties/subjectsList')
             .then(data => {
                 this.setState({
                     subjects: data.map<Subject>(subject => new Subject(subject.id, subject.name)),
                     loadingDirectionsAndDistricts: false
                 });
-            });
+            })
+            .catch(er => this.props.onError(er))
     }
     private fetchAllDistricts() {
-        fetch('api/ChooseSpecialties/districtsList')
-            .then(response => ResponseChecker<DistrictDTO[]>(response, this.props.onError))
+
+        GetFetch<DistrictDTO[]>('api/ChooseSpecialties/districtsList')
             .then(data => {
                 this.setState({
                     districts: data.map<District>(district => new District(district.id, district.name)),
                     loadingDirectionsAndDistricts: false
                 })
-            });
+            })
+            .catch(er => this.props.onError(er))
     }
 
     private submitFilter(selectValueSubmit, districtValueSubmit) {
@@ -219,17 +221,14 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
                 district: districtValueSubmit.value
             }
 
-            fetch('api/ChooseSpecialties/count/bySubjects', {
-                method: 'POST',
-                body: JSON.stringify({ listSubjects: result, district: districtValueSubmit.value }),
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-            }).then(response => ResponseChecker<any>(response, this.props.onError))
+            PostFetch<any>('api/ChooseSpecialties/count/bySubjects', { listSubjects: result, district: districtValueSubmit.value })
                 .then(data => {
                     this.setState({
                         count: data,
                         isSubmitted: true
                     })
                 })
+                .catch(er => this.props.onError(er))
 
             this.fetchDataSpecialties(subjectsAndDistrict);
             this.setState({ districtId: districtValueSubmit.value, subjectsIds: result });
@@ -252,17 +251,15 @@ export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentPr
     }
 
     private fetchDataSpecialties(subjectsAndDistrict: object) {
-        fetch('api/ChooseSpecialties/bySubject', {
-            method: 'POST',
-            body: JSON.stringify(subjectsAndDistrict),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => ResponseChecker<any>(response, this.props.onError))
+
+        PostFetch<any>('api/ChooseSpecialties/bySubject', subjectsAndDistrict)
             .then(data => {
                 this.setState({
                     specialties: data,
                     loading: false
                 })
             })
+            .catch(er => this.props.onError(er))
     }
 
     private handleOnChangeSubjects = (valueArray) => {

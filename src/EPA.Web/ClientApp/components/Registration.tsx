@@ -32,27 +32,24 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
 
         }
         else {
-            let hash = Crypto.SHA512(this.state.password);
-            /*
+            let hash = Crypto.MD5(this.state.password);
+            
             let userInfo = {
                 lastname: this.state.lastName,
                 firstName: this.state.firstName,
                 middleName: this.state.middleName,
                 email: this.state.email,
-                password: hash
+                password: hash.toString(Crypto.enc.Base64)
             }
-            */
-
-            //alert(hash);
-            /*
+                        
             fetch('api/Registration/send', {
                 method: 'POST',
                 body: JSON.stringify(userInfo),
                 headers: { 'Content-Type': 'application/json' }
-            })*/
+            })
 
-            fetch('api/Registration/' + this.state.lastName + "/" + this.state.firstName + "/" + this.state.middleName + "/" + this.state.email + "/" + hash)
-            //alert("end")
+           
+            alert(userInfo.password);
         }
     }
 
@@ -69,11 +66,11 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
 
     render() {
         return <div className = "registration">
-            <form role="form">
+            <form role="form" onSubmit={this.sendData}>
                 <div className="input-group">
                     <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -])+$" className="form-control" placeholder="Прізвище" required
                         value={this.state.lastName} onChange={(event) => this.setState({ lastName: event.target.value })}
-                        title="Поле може містити літери, відступи і дефіс" data-error="This is a custom Errot Text fot patern and fill blank" ></input>
+                        title="Поле може містити літери, відступи і дефіс"  ></input>
                 </div>
                 <div className="input-group">
                     <input type="text" name="firstName" pattern="^([^\u0000-\u007F]|[ -])+$" className="form-control" placeholder="Імя" required
@@ -86,19 +83,19 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User>
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" data-error="Дана електонна пошта недійсна" required
+                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
                         value={this.state.email} onChange={(event) => this.setState({ email: event.target.value })}></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password"  data-minlength="6" className="form-control" id="inputPassword" placeholder="Пароль" required
+                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
                         value={this.state.password} onChange={(event) => this.setState({ password: event.target.value })}></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password" className="form-control" placeholder="Підтвердити пароль" required
+                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" placeholder="Підтвердити пароль" required
                         value={this.state.confirmPassword} onChange={(event) =>  this.setState({ confirmPassword: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
-                    <button type="submit" className="btn btn-primary" onClick={this.sendData}>Відправити</button>
+                    <button type="submit" className="btn btn-primary">Відправити</button>
                 </div>               
             </form>
         </div>
