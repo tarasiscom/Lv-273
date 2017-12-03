@@ -54,7 +54,7 @@ namespace EPA.MSSQL.SQLDataAccess
             }
             else
             {
-                specialties = this.GetSpecialtiesByDirectionAndDistrictAll(idDirection, idDistrict, page);
+                specialties = this.GetSpecialtiesByDirectionAndDistrictAll("0698a357-1e00-4c93-8c64-c9b262ff8b4e", idDirection, idDistrict, page);
             }
 
             return specialties;
@@ -74,6 +74,7 @@ namespace EPA.MSSQL.SQLDataAccess
                               orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
+                                  Id = s.Id,
                                   Name = s.Name,
                                   Address = u.Address,
                                   District = d.Name,
@@ -92,9 +93,21 @@ namespace EPA.MSSQL.SQLDataAccess
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
-        private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(int idDirection, int idDistrict, int page)
+        private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(string userId, int idDirection, int idDistrict, int page)
         {
             IEnumerable<Specialty> result;
+
+            //var x = ((from us in this.context.User_Specialty where us.User.Id == userId && us.Specialty.Id == 200 select us.Id).ToList().Count > 0) ? true : false;
+            /*
+            bool[] x = new bool[50];
+
+            for(int i =0; i < 50; i++)
+            {
+
+                x[i] = (from us in this.context.User_Specialty
+                      where us.User.Id == userId && us.Specialty.Id == i
+                      select us.Id).Any() ? true : false;
+            }*/
 
             var specialties = from s in this.context.Specialties
                               where s.Direction.GeneralDirection.Id == idDirection
@@ -104,6 +117,7 @@ namespace EPA.MSSQL.SQLDataAccess
                               orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
+                                  Id = s.Id,
                                   Name = s.Name,
                                   Address = u.Address,
                                   District = d.Name,
@@ -111,7 +125,12 @@ namespace EPA.MSSQL.SQLDataAccess
                                   University = u.Name,
                                   Subjects = (from ss in this.context.Specialty_Subjects
                                               where ss.Specialty.Id == s.Id
-                                              select ss.Subject.ToCommon()).ToList()
+                                              select ss.Subject.ToCommon()).ToList(),
+
+                                  isFavorite = (from us in this.context.User_Specialty
+                                                where us.User.Id == userId && us.Specialty.Id == s.Id
+                                                select us.Id ).Any()
+
                               };
 
             result = specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
@@ -147,7 +166,7 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
        
-        public Count GetCountByDirection(int directionId, int districtId)
+       public Count GetCountByDirection(int directionId, int districtId)
         {
             Count result = new Count();
             if (districtId == this.constValues.Value.AllDistricts)
@@ -215,6 +234,7 @@ namespace EPA.MSSQL.SQLDataAccess
                     orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
+                        Id = s.Id,
                         Name = s.Name,
                         Address = u.Address,
                         District = u.District.Name,
@@ -222,7 +242,7 @@ namespace EPA.MSSQL.SQLDataAccess
                         University = u.Name,
                         Subjects = (from ss in this.context.Specialty_Subjects
                                     where ss.Specialty.Id == s.Id
-                                    select ss.Subject.ToCommon()).ToList()
+                                    select ss.Subject.ToCommon()).ToList()                        
                     }).Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
     }

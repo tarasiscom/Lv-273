@@ -30,7 +30,7 @@ namespace EPA.Web.Controllers
         /// This method retrives list of general directions
         /// </summary>
         /// <returns> List of general directions </returns>
-        [Authorize(Roles = "trulyalya")]
+        //[Authorize(Roles = "trulyalya")]
         [Route("api/ChooseSpecialties/directionsList")]
         public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
 
@@ -50,7 +50,11 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjectInfo)
         {
-            return this.specialtyProvider.GetSpecialtyBySubjects(subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
+            return //this.User.Identity.IsAuthenticated ? 
+                //this.specialtyProvider.GetSpecialtyBySubjects("0698a357-1e00-4c93-8c64-c9b262ff8b4e",subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page)
+                //:
+                this.specialtyProvider.GetSpecialtyBySubjects(subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
+
         }
 
         /// <summary>

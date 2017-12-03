@@ -59,12 +59,14 @@ class Subject {
 }
 
 interface Specialty {
+    id: number;
     name: string;
     university: string;
     address: string;
     district: string;
     site: string;
     subjects: SubjectDTO[];
+    isFavorite: boolean;
 }
 
 export class ChooseSpecialtiesBySubject extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, Specialities> {

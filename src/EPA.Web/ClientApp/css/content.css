@@ -405,3 +405,16 @@ text-align: center;
 .registration {
     margin-top:50px;
 }
+
+.favButton {
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    font-weight: 900;
+    font-size: 20px;
+    background-color: white;
+    display: block;
+    float: right;
+    border-radius: 5px;
+    color: #337ab7;
+}
