@@ -34,13 +34,6 @@ namespace EPA.Web.Controllers
             return this.universitiesProvider.GetTopUniversities();
         }
 
-        [Route("api/Universities/listId")]
-        [HttpGet]
-        public List<int> GetId()
-        {
-            return this.universitiesProvider.GetId();
-        }
-
 
         [Route("api/Universities/{id:int}/logo")]
         [HttpGet]
@@ -48,29 +41,7 @@ namespace EPA.Web.Controllers
         {
             var data = this.universitiesProvider.GetLogoById(id);
             byte[] imgData = data.FirstOrDefault();
-            return File(imgData, "image/jpeg");
-
-   
-            //MemoryStream ms = new MemoryStream(imgData);
-            //HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            //response.Content = new StreamContent(ms);
-            //response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
-            //return response;
+            return this.File(imgData, "image/jpeg");
         }
-
-
-
-        //[Route("api/Universities/getImgSrc")]
-        //[HttpPost]
-        //public List<string> GetImgSrc([FromBody] IEnumerable<University> listUniversities)
-        //{
-        //    List<string> listImgSrc = new List<string>();
-        //    foreach (var university in listUniversities)
-        //    {
-        //        listImgSrc.Add("data:image/jpg;base64," + Convert.ToBase64String(university.Logo));
-        //    }
-        //    // <img className="img-univer" src={this.state.imgSrc[id]} width="100%" height="100%" />
-        //    return listImgSrc;
-        //}
     }
 }

@@ -13,7 +13,6 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <returns>list of directions with scores</returns>
         IEnumerable<University> GetTopUniversities();
-        List<int> GetId();
         IEnumerable<byte[]> GetLogoById(int id);
     }
 }

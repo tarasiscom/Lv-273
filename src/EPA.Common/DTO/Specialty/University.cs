@@ -16,9 +16,6 @@ namespace EPA.Common.DTO
 
         public int Rating { get; set; }
 
-        //public byte[] Logo { get; set; }
-
-        // public Logo_Universities Logo_Universities { get; set; }
         public int? LogoId { get; set; }
     }
 }

@@ -12,10 +12,6 @@ namespace EPA.MSSQL.Models
         // foreign keys
         public District District { get; set; }
 
-        // public byte[] Logo { get; set; }
-
-        // public Logo_Universities Logo_Universities { get; set; }
-
         public int? LogoId { get; set; }
 
         public string Name { get; set; }

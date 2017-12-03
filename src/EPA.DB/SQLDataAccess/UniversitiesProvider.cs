@@ -34,13 +34,6 @@ namespace EPA.MSSQL.SQLDataAccess
             return universities;
         }
 
-        public List<int> GetId()
-        {
-            var data = from i in this.context.Logo_Universities
-                       select i.Id;
-            return data.ToList();
-        }
-
         public IEnumerable<byte[]> GetLogoById(int id)
         {
             var data = from i in this.context.Logo_Universities
@@ -48,19 +41,5 @@ namespace EPA.MSSQL.SQLDataAccess
                        select i.ToCommon().Logo;
             return data;
         }
-
-        //public byte[] imageToByteArray(Image imageIn)
-        //{
-        //    MemoryStream ms = new MemoryStream();
-        //    imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
-        //    return ms.ToArray();
-        //}
-
-        //public Image byteArrayToImage(byte[] byteArrayIn)
-        //{
-        //    MemoryStream ms = new MemoryStream(byteArrayIn);
-        //    Image returnImage = Image.FromStream(ms);
-        //    return returnImage;
-        //}
     }
 }
