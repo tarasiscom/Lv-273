@@ -5,5 +5,6 @@
         public float KoefOfNumApplication { get; set; }
         public int AllDistricts { get; set; }
         public int CountForPage { get; set; }
+        public int TopUniversities { get; set; }
     }
 }

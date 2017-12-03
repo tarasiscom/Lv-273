@@ -16,10 +16,12 @@ namespace EPA.MSSQL.SQLDataAccess
     public class UniversitiesProvider : IUniversitiesProvider
     {
         private readonly EpaContext context;
+        private readonly IOptions<ConstSettings> constSettings;
 
-        public UniversitiesProvider(EpaContext context)
+        public UniversitiesProvider(EpaContext context, IOptions<ConstSettings> constSettings)
         {
             this.context = context;
+            this.constSettings = constSettings;
         }
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of top universities</returns>
         public IEnumerable<Common.DTO.University> GetTopUniversities()
         {
-            IQueryable<University> universities = this.context.Universities.OrderBy(x => x.Rating).Take(5).Select(x => x.ToCommon());
+            IQueryable<University> universities = this.context.Universities.OrderBy(x => x.Rating).Take(this.constSettings.Value.TopUniversities).Select(x => x.ToCommon());
             return universities;
         }
 
