@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { ErrorHandlerProp, ResponseChecker } from './App';
+import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 import { Loading } from './Loading';
 
 interface University
@@ -30,14 +30,14 @@ export class Home extends React.Component<RouteComponentProps<{}> & ErrorHandler
     }
 
     private fetchData() {
-        fetch('api/Universities/getTopUniversities')
-            .then(response => ResponseChecker<University[]>(response, this.props.onError))
+        GetFetch<University[]>('api/Universities/getTopUniversities')
             .then(data => {
                 this.setState({
                     listUniversities: data,
                     loading: false
                 });
             })
+            .catch(er => this.props.onError(er))
     }
 
     public render() {
