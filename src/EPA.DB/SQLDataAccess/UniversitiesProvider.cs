@@ -16,24 +16,27 @@ namespace EPA.MSSQL.SQLDataAccess
     public class UniversitiesProvider : IUniversitiesProvider
     {
         private readonly EpaContext context;
-        private readonly IOptions<ConstSettings> constValues;
 
-        public UniversitiesProvider(EpaContext context, IOptions<ConstSettings> constValues)
+        public UniversitiesProvider(EpaContext context)
         {
             this.context = context;
-            this.constValues = constValues;
         }
 
         /// <summary>
-        /// This method retrieves collection of all subjects from database
+        /// This method retrieves collection of top universities from database
         /// </summary>
-        /// <returns>Collection of subjects</returns>
+        /// <returns>Collection of top universities</returns>
         public IEnumerable<Common.DTO.University> GetTopUniversities()
         {
             IQueryable<University> universities = this.context.Universities.OrderBy(x => x.Rating).Take(5).Select(x => x.ToCommon());
             return universities;
         }
 
+        /// <summary>
+        /// This method retrieves Logo of University by column LogoId in the table Universities
+        /// </summary>
+        /// <param name="id">Id from table Logo_Universities</param>
+        /// <returns>logo of University</returns>
         public IEnumerable<byte[]> GetLogoById(int id)
         {
             var data = from i in this.context.Logo_Universities

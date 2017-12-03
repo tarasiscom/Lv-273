@@ -24,7 +24,7 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// This mehod retrives list of subjects
+        /// This mehod retrives list of top universities
         /// </summary>
         /// <returns>List of subjects</returns>
         [Route("api/Universities/getTopUniversities")]
@@ -34,7 +34,11 @@ namespace EPA.Web.Controllers
             return this.universitiesProvider.GetTopUniversities();
         }
 
-
+        /// <summary>
+        /// This method returns image(logo) of University by id
+        /// </summary>
+        /// <param name="id">Id of Logo from the table Logo_Universities</param>
+        /// <returns>Logo of University</returns>
         [Route("api/Universities/{id:int}/logo")]
         [HttpGet]
         public IActionResult Get(int id)
