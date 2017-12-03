@@ -77,7 +77,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                         errRoute
                         :
                         <Switch>
-                            <Route exact path='/' render={(props) => (<Home {...props} />)} />
+                            <Route exact path='/' render={(props) => (<Home {...props} onError={this.onError} />)} />
                             <Route exact path='/profTest' render={(props) => (<ProfTest {...props} onError={this.onError} />)} />
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
