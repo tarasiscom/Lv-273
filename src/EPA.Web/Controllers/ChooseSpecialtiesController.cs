@@ -30,7 +30,7 @@ namespace EPA.Web.Controllers
         /// This method retrives list of general directions
         /// </summary>
         /// <returns> List of general directions </returns>
-        [Authorize(Roles = "trulyalya")]
+        
         [Route("api/ChooseSpecialties/directionsList")]
         public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
 
