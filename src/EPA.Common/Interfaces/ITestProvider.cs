@@ -34,5 +34,6 @@ namespace EPA.Common.Interfaces
         /// <returns>Direction information</returns>
         IEnumerable<GeneralDirection> GetDirectionsInfo();
 
+        bool AddTestResult(List<DirectionScores> list,string UserID,int testId);
     }
 }

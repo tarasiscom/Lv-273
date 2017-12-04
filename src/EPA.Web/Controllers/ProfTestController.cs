@@ -2,6 +2,7 @@
 using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace EPA.Web.Controllers
 {
@@ -53,11 +54,22 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <param name="listAnswers">Take list of objects, that contains id question and answer number</param>
         /// <returns>List of general directions with scores</returns>
-        [Route("api/profTest/result")]
+        [Route("api/profTest/{testId:int}/result")]
         [HttpPost]
-        public IEnumerable<DirectionScores> GetDirectionsScore([FromBody]List<UserAnswer> listAnswers)
+        public IEnumerable<DirectionScores> GetDirectionsScore([FromBody]List<UserAnswer> listAnswers, int testId)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var a = this.GetUserId(this.User);
+                this.testProvider.AddTestResult(this.answersProdiver.CalculateScores(listAnswers), a, testId);
+            }
+
             return this.answersProdiver.CalculateScores(listAnswers);
+        }
+
+        public string GetUserId(ClaimsPrincipal principal)
+        {
+            return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
     }
 }

@@ -78,7 +78,7 @@ namespace EPA.MSSQL.SQLDataAccess
         public void RemoveSpecialtyFromFavorite(string userId, int specialtyId)
         {
             User_Specialty remove = this.context.User_Specialty.First(x => x.Specialty.Id == specialtyId && x.User.Id == userId);
-            this.context.User_Specialty.Remove(remove);
+            //this.context.User_Specialty.Remove(remove).;
             this.context.SaveChanges();
         }
 

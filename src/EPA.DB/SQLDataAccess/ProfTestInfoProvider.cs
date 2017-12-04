@@ -67,5 +67,34 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of general directions</returns>
         public IEnumerable<GeneralDirection> GetDirectionsInfo() =>
                     this.context.GeneralDirections.Select(item => item.ToCommon());
+
+
+        public bool AddTestResult( List<DirectionScores> list, string userId,int testId)
+        {
+            var user = this.context.Users.Where(x => x.Id == userId).FirstOrDefault();
+            var testDetailIfo = this.context.Tests.Where(x => x.Id == testId).FirstOrDefault();
+            var testScore = list.Select(
+                x => new Models.TestScore()
+                {
+                    GeneralDirection = this.context.GeneralDirections.Where(y => y.Id == x.GeneralDir.Id).First(),
+                    Score = x.Score
+                }).ToList();
+            Models.TestResult result = new Models.TestResult()
+            {
+                User = user,
+                TestDetailedInfo = testDetailIfo,
+                TestScore = testScore
+            };
+            var flag = this.context.TestResult.Where(x=>x.TestDetailedInfo.Id==result.TestDetailedInfo.Id&&x.User.Id== result.User.Id).FirstOrDefault();
+            if (flag != null)
+            {
+                this.context.TestResult.Remove(flag);
+                this.context.SaveChanges();
+            }
+
+            this.context.TestResult.Add(result);
+            this.context.SaveChanges();
+            return false;
+        }
     }
 }

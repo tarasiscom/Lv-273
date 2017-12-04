@@ -20,6 +20,8 @@ namespace EPA.MSSQL.Models
 
         public District District { get; set; }
 
+        public List<TestResult> TestResult { get; set; }
+
         public EPA.Common.DTO.UserProvider.UserPersonalInfo ToPersonalInfo()
         {
             return Mapper.Map<Common.DTO.UserProvider.UserPersonalInfo>(this);

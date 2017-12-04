@@ -99,8 +99,8 @@ export class TestQuiz extends React.Component<RouteComponentProps<{}> & ErrorHan
     };
 
     submitTest() {
-
-        PostFetch<any>("api/profTest/result", this.state.userAnswers)
+        let pathId = this.props.match.params['id'];
+        PostFetch<any>("api/profTest/" + pathId +"/result", this.state.userAnswers)
             .then(data => {
                 this.setState({
                     testResult: data,
