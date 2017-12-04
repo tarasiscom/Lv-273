@@ -68,8 +68,8 @@ export default class ListSpecialties extends React.Component<Specialties, Specia
                     <TabPanel key={id} className="my-cursor">
                         <div className="panel panel-default">
                             <div className="panel-heading" >
-                                {this.state.isAuthenticated? <div className="favButton" onClick={() => this.favHandle(id)}>{specialty.isFavorite ? "-" : "+"}</div> : <div></div>}
-                                
+
+                                {this.state.isAuthenticated ? <div className="favButton" onClick={() => this.favHandle(id)}>{specialty.isFavorite ? "-" : "+"}</div> : <div></div>}      
                                 <TabLabel className="my-cursor panel-heading tab-width" >
                                     <p>Спеціальність: {specialty.name} </p>
                                     <p>Університет: {specialty.university}</p>

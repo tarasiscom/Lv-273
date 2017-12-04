@@ -261,7 +261,6 @@ namespace EPA.MSSQL.SQLDataAccess
                     }).Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
-
         private IEnumerable<Common.DTO.Specialty> GetSpecialtyForAuthorized(string userId, int page, List<int> listId)
         {
             return (from s in this.context.Specialties
