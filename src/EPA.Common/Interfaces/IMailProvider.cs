@@ -4,6 +4,6 @@ namespace EPA.Common.Interfaces
 {
     public interface IMailProvider
     {
-        void SendMail(MailAddress toAddress, string confirmationLink);
+        void SendMail(MailAddress toAddress, string confirmationLink, string userName);
     }
 }

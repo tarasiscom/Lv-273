@@ -14,7 +14,7 @@ namespace EPA.BusinessLogic
             this.constValues = constValues;
         }
 
-        public void SendMail(MailAddress toAddress, string confirmationLink)
+        public void SendMail(MailAddress toAddress, string confirmationLink, string userName)
         {
             var fromAddress = new MailAddress(this.constValues.Value.Email);
             var fromPassword = this.constValues.Value.EmailPassword;
@@ -29,11 +29,13 @@ namespace EPA.BusinessLogic
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
 
+            MailMessageTemplate mailMessageBody = new MailMessageTemplate();
             MailMessage message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = "Account confirm",
-                Body = "Для підтвердження перейдіть за посиланням: " + confirmationLink
+                Body = mailMessageBody.GetConfirmMailMessage(confirmationLink, userName)
             };
+            message.IsBodyHtml = true;
 
             client.Send(message);
         }

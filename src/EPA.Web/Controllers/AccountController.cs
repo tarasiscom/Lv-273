@@ -40,7 +40,7 @@ namespace EPA.Web.Controllers
                                     protocol: this.HttpContext.Request.Scheme);
 
                 var toAddress = new MailAddress(newUser.Email);
-                this.mailProvider.SendMail(toAddress, confirmationLink);
+                this.mailProvider.SendMail(toAddress, confirmationLink, newUser.FirstName);
                 return this.Ok(this.constValues.Value.RegistrSuccess);
             }
             else
