@@ -15,6 +15,8 @@ namespace EPA.MSSQL.Models
 
         public List<Direction> Directions { get; set; }
 
+        public List<TestScore> TestScore { get; set; }
+
         public Common.DTO.GeneralDirection ToCommon()
         {
             return Mapper.Map<Common.DTO.GeneralDirection>(this);

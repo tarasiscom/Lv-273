@@ -36,6 +36,10 @@ namespace EPA.MSSQL
 
         public DbSet<User_Specialty> User_Specialty { get; set; }
 
+        public DbSet<TestResult> TestResult { get; set; }
+
+        public DbSet<TestScore> TestScore { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             base.OnModelCreating(modelBuilder);
@@ -51,6 +55,9 @@ namespace EPA.MSSQL
             modelBuilder.Entity<District>().ToTable("Districts");
             modelBuilder.Entity<User_Specialty>().ToTable("User_Specialty");
             modelBuilder.Entity<Logo_Universities>().ToTable("Logo_Universities");
+            modelBuilder.Entity<TestResult>().ToTable("TestResult");
+            modelBuilder.Entity<TestResult>().HasMany(x => x.TestScore).WithOne(p => p.TestResult).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<TestScore>().ToTable("TestScore");
 
             /*
              * Delete coment if need change name in Azure DB 
