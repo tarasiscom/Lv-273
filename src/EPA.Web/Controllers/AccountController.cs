@@ -83,14 +83,13 @@ namespace EPA.Web.Controllers
             }
         }
         
-        //[ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
         public StatusCodeResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
             MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
-            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false).GetAwaiter().GetResult();
+            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
             if (result.Succeeded)
             {
                 return this.Ok();
