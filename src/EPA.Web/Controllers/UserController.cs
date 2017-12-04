@@ -58,12 +58,20 @@ namespace EPA.Web.Controllers
         /// This method retrieves Users Personal Information 
         /// </summary>
         /// <returns> UserPersonalInfo </returns>
-        [Authorize]
         [Route("api/User/GetUserPersonalInformation")]
         public UserPersonalInfo GetUserPersonalInfo()
         {
             var userId = this.GetUserId(this.User); 
             return this.userInformationProvider.GetPersonalInfo(userId);
+        }
+
+        [Route("api/User/GetTestResults")]
+        [HttpGet]
+        public IEnumerable<Test> GetTestResults()
+        {
+
+            var userId = this.GetUserId(this.User);
+            return this.userInformationProvider.GetTestResults(userId);
         }
 
 

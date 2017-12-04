@@ -71,6 +71,22 @@ namespace EPA.MSSQL.SQLDataAccess
             return y;
         }
 
+        public IEnumerable<Test> GetTestResults(string userId)
+        {/*
+            from tr in this.context.
+            where user.Id == UserID
+            join district in this.context.Districts on user.District.Id equals district.Id
+            select new UserPersonalInfo()
+            {
+                District = district.Name,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                Surname = user.Surname,
+                Phone = user.PhoneNumber
+            }).ToList()*/
+            return new List<Test>(){ new Test() };
+        }
+
         public bool AddSpecialtyToFavorite(string UserId, int specialtyId)
         {
             

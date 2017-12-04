@@ -21,6 +21,11 @@ const customStyles = {
         height: '380px'
     }
 };
+interface TestRes {
+    id: number;
+    name: string;
+}
+
 interface ChangePassword {
     oldPassword: string;
     newPassword: string;
@@ -34,6 +39,7 @@ interface StateTypes {
     modalIsOpen: boolean;
     changePassword: ChangePassword;
     message: string;
+    tests: TestRes[];
 }
 
 interface User {
@@ -53,7 +59,8 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
             loading: true,
             modalIsOpen: false,
             changePassword: { oldPassword: "", newPassword: "", confirmPassword: "" },
-            message: ""
+            message: "",
+            tests: []
         }
 
         this.openModal = this.openModal.bind(this);
@@ -112,6 +119,8 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                         </h4>
                     </div>
                     <div id="collapse1" className="panel-collapse collapse">
+
+                        {/*  */}
                         <div className="panel-body">Тут будуть результати тестів...</div>
                         <div className="panel-body">Тест 1</div>
                         <div className="panel-body">Тест 2</div>
@@ -177,8 +186,10 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     }
 
     private fetchUserPersonalInformation() {
-        let path = 'api/User/GetUserPersonalInformation';
+        GetFetch<TestRes[]>('api/User/GetTestResults')
+            .then(data => this.setState({tests: data}))
 
+        let path = 'api/User/GetUserPersonalInformation';        
         GetFetch<any>(path)
             .then(data => {
                 this.setState(
