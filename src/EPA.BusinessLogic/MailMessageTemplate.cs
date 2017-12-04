@@ -12,17 +12,19 @@
                 "<br/>" +
                 "<br/>" +
                 "</p>" +
-                "<br/> " +
                 "<p> Привіт " + userName + ", <br />" +
                 "Дякуємо за створення облікового запису EPA. " +
                 "Для продовження, підтвердіть реєстрації перейшовши за посиланням. </p>" +
                 "<br/>" +
-                "<br/>" +
-                "<a href= " + link + " class=\"btn btn-primary\" role=\"button\">" +
-                "<button style=\"border: none; color: white; padding: 14px 28px; background-color: #4CAF50; \">" +
-                "Підтвердити реєстрацію<button>" +
+                "<a href= " + link + " class=\"btn btn-primary\" role=\"button\" style=\"text-decoration: none;\">" +
+                "<table>" +
+                "<tr>" +
+                "<td style=\"border: none; color: white; padding: 5px 28px; background-color: #4CAF50; \">" +
+                "<p>Підтвердити реєстрацію</p>" +
+                "</td>" +
+                "</tr>" +
+                "</table>" +
                 "</a>" +
-                "<br/><br/>" +
                 "<p>З повагою, <br /> Команда EPA</p>";
 
             return messageBody;
