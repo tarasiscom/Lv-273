@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace EPA.Web.Controllers
 {
+    /// <summary>
+    /// API for user creation and sign in
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly UserManager<MSSQL.Models.User> userManager;
@@ -24,6 +27,11 @@ namespace EPA.Web.Controllers
             this.constValues = constValues;
         }
 
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <param name="newUser">Full information about new user</param>
+        /// <returns>Returns status</returns>
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
@@ -56,6 +64,12 @@ namespace EPA.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Confirm account when user click on link in email
+        /// </summary>
+        /// <param name="userid">User identifier</param>
+        /// <param name="token">Token</param>
+        /// <returns>Returns status</returns>
         [Route("account/confirmEmail")]
         [AllowAnonymous]
         public IActionResult ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
