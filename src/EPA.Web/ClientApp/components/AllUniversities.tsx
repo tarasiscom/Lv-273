@@ -3,12 +3,32 @@ import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 import { Loading } from './Loading';
 import { Link, NavLink } from 'react-router-dom';
+import VirtualizedSelect from 'react-virtualized-select';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
 
+interface DistrictDTO {
+    name: string;
+    id: number;
+}
+
+class District {
+    value: number;
+    label: string;
+    constructor(value: number, label: string) {
+        this.value = value;
+        this.label = label;
+    }
+}
 
 interface StateTypes {
     universities: University[];
     loading: boolean;
     hoveredUniversity: number;
+    districts: District[];
+    selectDistrict: District;
+    loadingDistricts: boolean;
 }
 
 interface University {
@@ -25,14 +45,16 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         this.state = {
             universities: [],
             loading: true,
-            hoveredUniversity: -1
+            hoveredUniversity: -1,
+            districts: [],
+            selectDistrict: { label: "Виберіть область", value: -1 },
+            loadingDistricts: true
         }
     }
 
-    loadUniversities() {
-        // let pathId = this.props.match.params['direction'];
-        let path = 'api/universities/2';
-
+    loadUniversities(districtid) {
+        let path = 'api/universities/' + districtid;
+        console.log(districtid);
         GetFetch<any>(path)
             .then(data => {
                 this.setState({
@@ -44,17 +66,44 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
 
     }
 
-    componentWillMount() {
-        this.loadUniversities();
+    componentDidMount() {
+        this.fetchAllDistricts();
     }
 
+    private fetchAllDistricts() {
+        GetFetch<DistrictDTO[]>('api/ChooseSpecialties/districtsList')
+            .then(data => {
+                this.setState({
+                    districts: data.map<District>(district => new District(district.id, district.name)),
+                    loadingDistricts: false
+                })
+            })
+            .catch(er => this.props.onError(er))
+    }
     someHandler(cardId: number) {
         this.setState({
             hoveredUniversity: cardId
         });
     }
-
-    render() {
+    handleOnChangeDistrict = (selectDistricty) => {
+        this.setState({ selectDistrict: selectDistricty })
+        this.loadUniversities(selectDistricty.value)
+    }
+    public render() {
+        return <div className="virtselect pad-for-nav col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
+            <div>
+            <VirtualizedSelect multi={false}
+                options={this.state.districts}
+                onChange={this.handleOnChangeDistrict}
+                value={this.state.selectDistrict} >
+            </VirtualizedSelect>
+            </div>
+            <div>
+                {this.allUniv()}
+            </div>
+        </div>
+    }
+    allUniv() {
         const { hoveredUniversity, universities, loading } = this.state
         if (loading) {
             return <Loading />

@@ -105,10 +105,13 @@ namespace EPA.Web.Controllers
         public StatusCodeResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
             MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
-            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
-            if (result.Succeeded)
+            if (signedUser != null)
             {
-                return this.Ok();
+                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
+                if (result.Succeeded)
+                {
+                    return this.Ok();
+                }
             }
             return this.BadRequest();
         }
