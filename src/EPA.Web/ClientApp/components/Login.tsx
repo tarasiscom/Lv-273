@@ -7,7 +7,7 @@ import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 interface LoginInfo {
     email: string;
     password: string;
-    error: string;
+    msg: string;
 }
 
 interface Status {
@@ -23,11 +23,11 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
         this.state = {
             email: "",
             password: "",
-            error: ""
+            msg: ""
         }
     }
 
-    sendData = () => {
+    sendData(){
         let hash = Crypto.SHA512(this.state.password);
         
         let loginInfo = {
@@ -35,10 +35,11 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
             password: this.state.password
         }
 
-        PostFetch<Status>('api/login', loginInfo)
-            .then(data => {
+        PostFetch<any>('api/login', loginInfo)
+            .then(() => {
                 this.props.history.push('/PersonalCabinet');
-            }).catch(error => this.setState({ error: "Електронна пошта, або пароль введені невірно." }))
+                //window.location.assign('/PersonalCabinet'
+            }).catch(error => this.setState({ msg: "Електронна пошта, або пароль введені невірно." }))
         
     }
 
@@ -47,11 +48,11 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
         let password = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$");
        
         if (!email.test(this.state.email)) {
-            this.setState({ error: "Електрнна пошта повинна містити символ @" });
+            this.setState({ msg: "Електрнна пошта повинна містити символ @" });
             return;
         }
         if (!password.test(this.state.password)) {
-            this.setState({ error: "Пароль введено невіно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
+            this.setState({ msg: "Пароль введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
             return;
         }
         else {
@@ -71,14 +72,16 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
                         onChange={(event) => this.setState({ password: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
-                    <button type="submit" id="enter" className="btn btn-primary cus-margin" onClick={this.sendData}>Вхід</button>
+                    <button type="submit" id="enter" className="btn btn-primary cus-margin" onClick={this.validate}>Вхід</button>
                 </div>
             </div>
             <div id="passToReg">
                 <span>Не маєте облікового запису? </span>
                 <Link to={'/Registration'}>Реєстрація</Link>
             </div>
-            <p id="errorMsg">{this.state.error}</p>
+            <div>
+                <p id="errorMsg">{this.state.msg}</p>
+            </div>
         </div>
     }
 }

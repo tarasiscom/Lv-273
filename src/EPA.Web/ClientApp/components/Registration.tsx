@@ -3,7 +3,6 @@ import { RouteComponentProps, Redirect} from 'react-router';
 import Crypto from 'crypto-js';
 import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 
-
 interface User {
     firstName: string;
     lastName: string;
@@ -11,15 +10,15 @@ interface User {
     email: string;
     password: string;
     confirmPassword: string;
+    msg: string;
     error: string;
 }
 
-interface Status
+interface Result
 {
     statusCode: number;
     message: string;
 }
-
 
 export class Registration extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, User>
 {
@@ -33,6 +32,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             email: "",
             password: "",
             confirmPassword: "",
+            msg: "",
             error: ""
         }
     }
@@ -49,11 +49,11 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             userName: this.state.email
         }
 
-        PostFetch<Status>('api/registration', userInfo)
+        PostFetch<any>('api/registration', userInfo)
             .then(data =>
             {
-                    this.setState({ error: "Реєстрація пройшла успішно. Перевірте електронну пошту." });
-            }).catch(error => this.setState({ error: "Реєстрація невдала." }))
+                this.setState({ msg: "Реєстрація пройшла успішно. Перевірте електронну пошту."});
+            }).catch(error => this.setState({ msg: "Реєстрація невдала." }))
     }
 
     validate = () => {
@@ -62,32 +62,32 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
         let email = new RegExp("^(?=.*[@]{1}).{5,}$");
         let password = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$");
         if (!name.test(this.state.lastName)) {
-            this.setState({ error: "Прізвище введено невірно. Поле може містити літери, відступи і дефіс" });
+            this.setState({ msg: "Прізвище введено невірно. Поле може містити літери, відступи і дефіс" });
             return;
         }
         if (!name.test(this.state.firstName)) {
-            this.setState({ error: "Імя введено невірно. Поле може містити літери, відступи і дефіс" });
+            this.setState({ msg: "Імя введено невірно. Поле може містити літери, відступи і дефіс" });
             return;
         }
         if (!middleName.test(this.state.middleName)) {
-            this.setState({ error: "По батькові введено невірно. Поле може містити літери, відступи і дефіс" });
+            this.setState({ msg: "По батькові введено невірно. Поле може містити літери, відступи і дефіс" });
             return;
         }
         if (!email.test(this.state.email)) {
-            this.setState({ error: "Електрнна пошта повинна містити символ @" });
+            this.setState({ msg: "Електрнна пошта повинна містити символ @" });
             return;
         }
         if (!password.test(this.state.password)) {
-            this.setState({ error: "Пароль введено невіно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
+            this.setState({ msg: "Пароль введено невіно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
             return;
         }
         if (!password.test(this.state.confirmPassword)) {
-            this.setState({ error: "ПІдтвердження паролю введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів6" });
+            this.setState({ msg: "ПІдтвердження паролю введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів6" });
             return;
         }
 
         if (this.state.password != this.state.confirmPassword) {
-            this.setState({ error: 'Підтвердження паролю ' });
+            this.setState({ msg: 'Підтвердження паролю введено невірно. Підтвердження паролю не співпадає з введеним паролем.' });
             return;
         }
         else {
@@ -130,7 +130,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
                 <div className="form-group userSubmit">
                     <button className="btn btn-primary" onClick={this.validate}>Відправити</button>
                 </div>
-                <p id="errorMsg"> {this.state.error} </p>
+                <p id="errorMsg"> {this.state.msg} </p>
             </div>
         </div>
     }

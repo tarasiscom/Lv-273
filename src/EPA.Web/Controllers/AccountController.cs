@@ -40,9 +40,11 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
         {
+            /*
             EPA.MSSQL.Models.District district = new EPA.MSSQL.Models.District();
             district.Id = 0;
             newUser.District = district;
+            */
             var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
             Status status = new Status();
 
@@ -116,11 +118,13 @@ namespace EPA.Web.Controllers
         public IActionResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
             MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
-            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
-
-            if (result.Succeeded)
+            if (signedUser != null)
             {
-                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess });
+                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent: true, lockoutOnFailure: false).GetAwaiter().GetResult();
+                if (result.Succeeded)
+                {
+                    return this.Ok(new { Message = this.constValues.Value.RegistrSuccess });
+                }
             }
             return this.BadRequest();
         }
