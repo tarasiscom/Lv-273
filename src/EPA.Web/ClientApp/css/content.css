@@ -461,9 +461,15 @@ a:hover {
 }
 
 .personal-info {
-margin-top:15px;
+margin-top:10px;
+margin-bottom:10px;
 }
 
  .personal-info-row {
     padding-bottom:8px;
 }
+
+.personal-info-header {
+padding-bottom:20px;
+}
+

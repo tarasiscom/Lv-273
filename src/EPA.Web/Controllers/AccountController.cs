@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EPA.Web.Controllers
@@ -99,7 +100,6 @@ namespace EPA.Web.Controllers
             return this.Redirect("/");
         }
 
-
         //[ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
@@ -115,5 +115,23 @@ namespace EPA.Web.Controllers
             }
             return false;
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("api/User/ChangePassword")]
+        public string ChangePassword([FromBody]EPA.Common.DTO.ChangePassword passwords)
+        {
+            var user = userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
+            var a = userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword).GetAwaiter().GetResult();
+            var b = userManager.UpdateAsync(user);
+            
+            return a.Succeeded.ToString();
+        }
+
+        public string GetUserId(ClaimsPrincipal principal)
+        {
+            return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        }
+
     }
 }

@@ -7,10 +7,33 @@ import {
 } from 'react-router-dom';
 import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 import { Loading } from './Loading';
+import ReactModal from 'react-modal';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '530px',
+        height: '380px'
+    }
+};
+interface ChangePassword {
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    
+}
 
 interface StateTypes {
     userInfo: User;
     loading: boolean;
+    modalIsOpen: boolean;
+    changePassword: ChangePassword;
+    message: string;
 }
 
 interface User {
@@ -27,8 +50,14 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
         super();
         this.state = {
             userInfo: { firstName: "", surname: "", email: "", phone: "", district: "" },
-            loading: true
+            loading: true,
+            modalIsOpen: false,
+            changePassword: { oldPassword: "", newPassword: "", confirmPassword: "" },
+            message: ""
         }
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
@@ -56,8 +85,8 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
             <div className="row">
                 <section className="col-md-9 col-lg-9 col-sm-12 col-xs-12 container-fluid">
-                    {this.renderUsersPreference()}
                     {this.renderUserPersonalInformation()}
+                    {this.renderUsersPreference()}
                 </section>
 
                 <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
@@ -104,21 +133,24 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     private renderUserPersonalInformation() {
         return <div className="personal-info">
-            <h3 className="text-center">Персональна інформація</h3>
+            <h3 className="text-left personal-info-header">
+                Персональна інформація</h3>
             <div className="row personal-info-row">
                 <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Ім'я </p>
-                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.firstName}</p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary "> Change</button>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.firstName} </p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
             </div>
+
             <div className="row personal-info-row">
-                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Прізвище </p>
-                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.surname}</p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary"> Change</button>
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">прізвище </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5"> {this.state.userInfo.surname}</p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
             </div>
+
             <div className="row personal-info-row">
                 <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">e-mail </p>
                 <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.email}</p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary"> Change</button>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
             </div>
 
             <div className="row personal-info-row">
@@ -132,9 +164,16 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                 <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.phone}</p>
                 {this.renderButtonForPhone()}
             </div>
+
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Пароль</p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">**********</p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary" onClick={this.openModal}> Змінити</button>
+            </div>
+
+            {this.renderModalForm()}
+            
         </div>
-
-
     }
 
     private fetchUserPersonalInformation() {
@@ -151,6 +190,30 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
         
     }
 
+    private ChangePassword()
+    {
+        if (this.state.changePassword.confirmPassword == this.state.changePassword.newPassword) {
+            let path = 'api/User/ChangePassword';
+            let passwordInfo = {
+                oldPassword: this.state.changePassword.oldPassword,
+                newPassword: this.state.changePassword.newPassword
+            }
+
+            PostFetch<any>(path, passwordInfo)
+                .then(data => {
+                    alert(data);
+                })
+                .catch(er => this.props.onError(er))
+            this.closeModal();
+            
+        }
+        else {
+            this.setState({
+                message:"Не правильне підтвердження паролю."
+            });
+            }
+    }
+
     private renderButtonForDistrict()
     {
         
@@ -158,7 +221,7 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
             return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
         }
         else {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Змінити</button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
             
         }
     }
@@ -169,8 +232,103 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
             return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
         }
         else {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Змінити</button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
 
         }
     }
+
+    private renderModalForm()
+    {
+        return <div>
+            <ReactModal
+                isOpen={this.state.modalIsOpen}
+                onRequestClose={this.closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <h2 className="personal-info-row">Зміна паролю</h2>
+                <div className="input-group personal-info-row">
+                    <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                    <input id="old-password" type="password" className="form-control" pattern="^.{6,}$"
+                        name="password" placeholder="Старий пароль" required onChange={(event) =>
+                            this.setState({
+                                changePassword: {
+                                    oldPassword: event.target.value,
+                                    newPassword: this.state.changePassword.newPassword,
+                                    confirmPassword: this.state.changePassword.confirmPassword
+                                }
+                            })}></input>
+                </div>
+
+                <div className="input-group personal-info-row">
+                    <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                    <input id="new-password" type="password" className="form-control" pattern="^.{6,}$"
+                        name="new-password" placeholder="Новий пароль" required onChange={(event) =>
+                            this.setState({
+                                changePassword: {
+                                    oldPassword: this.state.changePassword.oldPassword,
+                                    newPassword: event.target.value,
+                                    confirmPassword: this.state.changePassword.confirmPassword
+                                }
+                            })}></input>
+                </div>
+
+                <div className="input-group personal-info-row">
+                    <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                    <input id="confirm-new-password" type="password" className="form-control" pattern="^.{6,}$"
+                        name="confirm-new-password" placeholder="Підтвердіть новий пароль" required onChange={(event) =>
+                            this.setState({
+                                changePassword: {
+                                    oldPassword: this.state.changePassword.oldPassword,
+                                    newPassword: this.state.changePassword.newPassword,
+                                    confirmPassword: event.target.value
+                                }
+                            })}></input>
+                </div>
+
+                {this.errorOutput()}
+
+                <div className="text-right">
+                    <button className="btn" onClick={this.handleChangePassword}>Підтвердити</button>
+                </div>
+
+                
+            </ReactModal>
+        </div>
+    }
+
+    private handleChangePassword = () => {
+
+        this.ChangePassword();
+    }
+
+    private errorOutput()
+    {
+        if (this.state.message == "") {
+            return <div></div>
+        }
+        else {
+            return <div className="alert alert-danger" role="alert">
+                <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span className="sr-only">Error:</span>
+                <span className="h5">{this.state.message}</span>
+                
+            </div>
+
+            
+        }
+    }
+
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal() {
+        this.setState({
+            modalIsOpen: false,
+            message: ""
+        });
+        
+    }
+
 }

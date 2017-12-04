@@ -22,41 +22,47 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// This method retrieve Users Favorite Specialties for page
         /// </summary>
-        /// <returns></returns>
+        /// <param name="page"> Page </param>
+        /// <returns>List of Specialties</returns>
         [Route("api/User/FavoriteSpecialties")]
         [HttpPost]
         [Authorize]
         public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page)
         {
-            var a = this.GetUserId(this.User);
-            return this.userInformationProvider.GetFavoriteSpecialty(page, a);
+            var userId = this.GetUserId(this.User);
+            return this.userInformationProvider.GetFavoriteSpecialty(page, userId);
         }
 
+        /// <summary>
+        /// This Method retrives authorized User Id
+        /// </summary>
+        /// <param name="principal"></param>
+        /// <returns>User Id</returns>
         public string GetUserId(ClaimsPrincipal principal)
         {
               return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
 
         /// <summary>
-        /// 
+        /// This method retrieves count of users favorite specialties
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Count</returns>
+        [Authorize]
         [Route("api/User/GetSpecialtiesCount")]
-        public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(null);
+        public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(this.GetUserId(this.User));
 
         /// <summary>
-        /// 
+        /// This method retrieves Users Personal Information 
         /// </summary>
-        /// <returns></returns>
+        /// <returns> UserPersonalInfo </returns>
         [Authorize]
         [Route("api/User/GetUserPersonalInformation")]
         public UserPersonalInfo GetUserPersonalInfo()
         {
-            var a = this.GetUserId(this.User);
-            var abc = this.userInformationProvider.GetPersonalInfo(a);
-            return abc;
+            var userId = this.GetUserId(this.User); 
+            return this.userInformationProvider.GetPersonalInfo(userId);
         }
     }
 }
