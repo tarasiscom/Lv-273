@@ -22,6 +22,7 @@
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\Registration.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
+    <None Remove="ClientApp\MapContainer.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,7 +54,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\App.tsx" />
-    <TypeScriptCompile Include="ClientApp\components\AutocompleteMap.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
