@@ -405,3 +405,9 @@ text-align: center;
 .registration {
     margin-top:50px;
 }
+
+#errorMsg {
+
+    color:red;
+    text-align:justify;
+}

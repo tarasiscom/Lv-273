@@ -2,20 +2,30 @@
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import Crypto from 'crypto-js';
+import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 
 interface LoginInfo {
     email: string;
-    password: string
+    password: string;
+    error: string;
 }
 
-export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
+interface Status {
+    statusCode: number;
+    message: string
+}
+
+
+
+export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, LoginInfo>
 {
     constructor() {
 
         super();
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            error: ""
         }
     }
 
@@ -27,36 +37,67 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
             password: this.state.password
         }
 
+        /*
         fetch('api/login', {
             method: 'POST',
             body: JSON.stringify(loginInfo),
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin'
-        })
-        alert();
+        }).then(() => 
+            {
+                if (st)
+                )
+        */
+        PostFetch<Status>('api/registration', loginInfo)
+            .then(data => {
+                if (data.statusCode == 0) {
+                    window.location.href = '/PersonalCabinet';
+                }
+                else {
+                    this.setState({ error: "Електронна пошта, або пароль введені невірно." + data.message });
+                }
+            }).catch(error => this.props.onError(error))
+        
+    }
+
+    validate = () => {
+        let email = new RegExp("^(?=.*[@]{1}).{5,}$");
+        let password = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$");
+       
+        if (!email.test(this.state.email)) {
+            this.setState({ error: "Електрнна пошта повинна містити символ @" });
+            return;
+        }
+        if (!password.test(this.state.password)) {
+            this.setState({ error: "Пароль введено невіно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
+            return;
+        }
+        else {
+            this.sendData();
+        }
     }
 
     render() {
-
         return <div className="registration">
-            <form role="form" onSubmit={this.sendData}>
-
+            <div>
                 <div className="input-group">
                     <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
                         onChange={(event) => this.setState({ email: event.target.value })}></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password" pattern="^.{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
+                    <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
                         onChange={(event) => this.setState({ password: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
-                    <button type="submit" id="enter" className="btn btn-primary cus-margin">Вхід</button>
+                    <button type="submit" id="enter" className="btn btn-primary cus-margin" onClick={this.sendData}>Вхід</button>
                 </div>
-            </form>
+            </div>
             <div id="passToReg">
                 <span>Не маєте облікового запису? </span>
                 <Link to={'/Registration'}>Реєстрація</Link>
             </div>
+            <p id="errorMsg">{this.state.error}</p>
         </div>
     }
 }
+
