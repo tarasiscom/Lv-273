@@ -3,13 +3,14 @@ using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace EPA.Web.Controllers
 {
     /// <summary>
     ///  API for Specialty and Direction draws
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class ChooseSpecialtiesController : Controller
     {
         private readonly ISpecialtyProvider specialtyProvider;
@@ -50,10 +51,14 @@ namespace EPA.Web.Controllers
         [HttpPost]
         public IEnumerable<Specialty> GetSpecialtyBySubjects([FromBody] SubjectsInfo subjectInfo)
         {
-            return //this.User.Identity.IsAuthenticated ? 
-                //this.specialtyProvider.GetSpecialtyBySubjects("0698a357-1e00-4c93-8c64-c9b262ff8b4e",subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page)
-                //:
-                this.specialtyProvider.GetSpecialtyBySubjects(subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.specialtyProvider.GetSpecialtyBySubjects(this.User.FindFirstValue(ClaimTypes.NameIdentifier), subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
+            }
+            else
+            {
+                return this.specialtyProvider.GetSpecialtyBySubjects(string.Empty, subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
+            }
 
         }
 
@@ -71,8 +76,17 @@ namespace EPA.Web.Controllers
         [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
         {
-            return this.specialtyProvider.GetSpecialtiesByDirectionAndDistrict(idDirection, idDistrict, page);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.specialtyProvider.GetSpecialtiesByDirection(this.User.FindFirstValue(ClaimTypes.NameIdentifier),idDirection, idDistrict, page);
+            }
+            else
+            {
+                return this.specialtyProvider.GetSpecialtiesByDirection(string.Empty,idDirection, idDistrict, page);
+            }            
         }
+
+
 
         [Route("api/ChooseSpecialties/count/{idDirection}/{idDistrict}")]
         [HttpGet]
