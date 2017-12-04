@@ -1,7 +1,7 @@
-﻿using EPA.Common.Interfaces;
-using EPA.Common.DTO;
-using System.Collections.Generic;
+﻿using EPA.Common.DTO;
+using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace EPA.Web.Controllers
 {

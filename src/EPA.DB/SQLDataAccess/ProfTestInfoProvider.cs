@@ -39,7 +39,7 @@ namespace EPA.MSSQL.SQLDataAccess
         /// </summary>
         /// <param name="testId">ID of the test</param>
         /// <returns>Collection of questions</returns>
-        public IEnumerable<Common.DTO.Question> GetQuestions(int testId)
+        public IEnumerable<Question> GetQuestions(int testId)
         {
             var questions = this.context.Questions
                                     .Where(q => q.Test.Id == testId)
@@ -54,7 +54,10 @@ namespace EPA.MSSQL.SQLDataAccess
                                     }.ToCommon());
 
             if (questions.Count() < 1)
+            {
                 throw new System.ArgumentException("No matching data available");
+            }
+
             return questions;
         }
 
@@ -62,7 +65,7 @@ namespace EPA.MSSQL.SQLDataAccess
         /// This method retrieves collection of all general directions from database
         /// </summary>
         /// <returns>Collection of general directions</returns>
-        public IEnumerable<Common.DTO.GeneralDirection> GetDirectionsInfo() =>
+        public IEnumerable<GeneralDirection> GetDirectionsInfo() =>
                     this.context.GeneralDirections.Select(item => item.ToCommon());
     }
 }

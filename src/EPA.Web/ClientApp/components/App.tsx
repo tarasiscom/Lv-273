@@ -4,18 +4,21 @@ import { Layout } from './Layout';
 import { Home } from './Home';
 import { ProfTest } from './ProfTest';
 import { TestInfo } from './TestInfo';
-import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject'
+import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject';
 import { ChooseSpecialty } from './ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './ChooseSpecialtiesByDirection';
 import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
 import { Registration } from './Registration';
 import { Login } from './Login';
+import { FavoriteSpecialties } from './FavoriteSpecialties';
+import { PersonalCabinet } from './PersonalCabinet';
+
 import PropTypes from 'prop-types';
 
 
 export function GetFetch<T>(path: string): Promise<T> {
-    return fetch(path)
+    return fetch(path, { credentials: 'same-origin' })
             .then(response => ResponseChecker<T>(response))
       
 }
@@ -26,7 +29,8 @@ export function PostFetch<T>(path: string, body: any): Promise<T> {
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json"
-                    }
+                    },
+                    credentials: 'same-origin'
                 })
             .then(response => ResponseChecker<T>(response))      
 }
@@ -86,6 +90,9 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)} />
                             <Route exact path='/Registration' component={Registration} />
                             <Route exact path='/Login' component={Login} />
+                            <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
+                            <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
+                            <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
                             {errRoute}
                         </Switch>
                 }

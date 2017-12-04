@@ -76,8 +76,6 @@ namespace EPA.UnitTests
 
             Assert.Equal("Invalid answer number", ex.Message);
         }
-
-        
     }
 }
 */

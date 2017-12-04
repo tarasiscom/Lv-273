@@ -19,7 +19,7 @@ namespace EPA.BusinessLogic
             if (userAnswers != null)
             {
                 List<DirectionScores> result = new List<DirectionScores>();
-                result.AddRange(testProvider.GetDirectionsInfo()
+                result.AddRange(this.testProvider.GetDirectionsInfo()
                                             .Select(direction => new DirectionScores()
                                             {
                                                 GeneralDir = direction,
@@ -29,13 +29,21 @@ namespace EPA.BusinessLogic
                 foreach (var answ in userAnswers)
                 {
                     if (answ.IdAnswer > 0 && answ.IdAnswer <= result.Count)
+                    {
                         result[answ.IdAnswer - 1].Score++;
-                    else throw new System.ArgumentException("Invalid answer number");
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("Invalid answer number");
+                    }
                 }
 
                 return result;
             }
-            else throw new System.ArgumentException("Empty user answers");
+            else
+            {
+                throw new System.ArgumentException("Empty user answers");
+            }
         }
     }
 }
