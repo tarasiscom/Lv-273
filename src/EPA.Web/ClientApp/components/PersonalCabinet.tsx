@@ -26,7 +26,7 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     constructor() {
         super();
         this.state = {
-            userInfo: { firstName: "",surname:"", email: "", phone: "", district: "" },
+            userInfo: { firstName: "", surname: "", email: "", phone: "", district: "" },
             loading: true
         }
     }
@@ -72,8 +72,7 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
         </div>
     }
 
-    private renderUsersPreference()
-    {
+    private renderUsersPreference() {
 
         return <div>
             <div className="panel-group">
@@ -103,36 +102,42 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     }
 
-    private renderUserPersonalInformation()
-    {
-        return <div>
-            <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Ім'я :</p>
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.firstName}</p>
+    private renderUserPersonalInformation() {
+        return <div className="personal-info">
+            <h3 className="text-center">Персональна інформація</h3>
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Ім'я </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.firstName}</p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary "> Change</button>
             </div>
-            <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Прізвище :</p>
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.surname}</p>
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Прізвище </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.surname}</p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary"> Change</button>
             </div>
-            <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">e-mail :</p>
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.email}</p>
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">e-mail </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.email}</p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary"> Change</button>
             </div>
-            <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Область :</p>
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.district}</p>
+
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Область </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.district}</p>
+                {this.renderButtonForDistrict()}
             </div>
-            <div className="row">
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">Телефон :</p>
-                <p className="col-md-6 col-lg-6 col-sm-6 col-xs-6">{this.state.userInfo.phone}</p>
+            
+            <div className="row personal-info-row">
+                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Телефон </p>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.phone}</p>
+                {this.renderButtonForPhone()}
             </div>
         </div>
 
 
     }
 
-    private fetchUserPersonalInformation()
-    {
+    private fetchUserPersonalInformation() {
         let path = 'api/User/GetUserPersonalInformation';
 
         GetFetch<any>(path)
@@ -143,5 +148,29 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                         loading: false
                     })
             }).catch(er => this.props.onError(er))
+        
+    }
+
+    private renderButtonForDistrict()
+    {
+        
+        if (this.state.userInfo.district == null) {
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
+        }
+        else {
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Змінити</button>
+            
+        }
+    }
+
+    private renderButtonForPhone() {
+
+        if (this.state.userInfo.phone == null) {
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
+        }
+        else {
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Змінити</button>
+
+        }
     }
 }

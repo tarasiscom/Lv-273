@@ -459,3 +459,11 @@ img.user-logo:hover {
 a:hover {
     text-decoration: none;
 }
+
+.personal-info {
+margin-top:15px;
+}
+
+ .personal-info-row {
+    padding-bottom:8px;
+}
