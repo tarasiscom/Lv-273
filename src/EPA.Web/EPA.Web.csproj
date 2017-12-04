@@ -11,10 +11,12 @@
   <ItemGroup>
     <None Remove="ClientApp\components\404.tsx" />
     <None Remove="ClientApp\components\App.tsx" />
+    <None Remove="ClientApp\components\AutocompleteMap.tsx" />
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\List.tsx" />
     <None Remove="ClientApp\components\loading.tsx" />
     <None Remove="ClientApp\components\Login.tsx" />
+    <None Remove="ClientApp\components\Map.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
     <None Remove="ClientApp\components\PersonalCabinet.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
@@ -51,9 +53,11 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\App.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\AutocompleteMap.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Map.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\FavoriteSpecialties.tsx" />
     <TypeScriptCompile Include="ClientApp\components\PersonalCabinet.tsx" />

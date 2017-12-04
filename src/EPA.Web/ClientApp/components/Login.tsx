@@ -32,7 +32,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginInfo>
             body: JSON.stringify(loginInfo),
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin'
-        }).then(data => { if (data) this.props.history.push('/') })
+        }).then(data => console.log(data.status))
         
         alert()
     }

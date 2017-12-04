@@ -48,6 +48,7 @@ export class NavigationMenu extends React.Component<{}, NavState> {
                             <li><Link to={'/#'}>Усі Університети</Link></li>
                             <li><Link to={'/profTest'}>Профорієнтаційні Тести</Link></li>
                             <li><Link to={'/ChooseSpecialty'}>Обрати Спеціальність</Link></li>
+                            <li><Link to={'/Map'}>Карта</Link></li>
                         </ul>
 
                         {

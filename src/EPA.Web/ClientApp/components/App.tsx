@@ -13,6 +13,7 @@ import { Registration } from './Registration';
 import { Login } from './Login';
 import { FavoriteSpecialties } from './FavoriteSpecialties';
 import { PersonalCabinet } from './PersonalCabinet';
+import { MapContainer } from './Map';
 
 import PropTypes from 'prop-types';
 
@@ -92,6 +93,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/Login' component={Login} />
                             <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
                             <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
+                            <Route exact path='/Map' render={(props) => (<MapContainer {...props} onError={this.onError} />)} />
                             <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
                             {errRoute}
                         </Switch>
