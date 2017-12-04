@@ -20,6 +20,8 @@ namespace EPA.MSSQL
 
         public DbSet<University> Universities { get; set; }
 
+        public DbSet<Logo_Universities> Logo_Universities { get; set; }
+
         public DbSet<Direction> Directions { get; set; }
 
         public DbSet<Specialty> Specialties { get; set; }
@@ -48,6 +50,7 @@ namespace EPA.MSSQL
             modelBuilder.Entity<Specialty_Subject>().ToTable("Specialty_Subjects");
             modelBuilder.Entity<District>().ToTable("Districts");
             modelBuilder.Entity<User_Specialty>().ToTable("User_Specialty");
+            modelBuilder.Entity<Logo_Universities>().ToTable("Logo_Universities");
 
             /*
              * Delete coment if need change name in Azure DB 

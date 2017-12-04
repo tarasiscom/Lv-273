@@ -1,10 +1,28 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using AutoMapper;
 
 namespace EPA.MSSQL.Models
 {
     public class User : IdentityUser
     {
+        public List<User_Specialty> UserSpecialty { get; set; }
+
         public string FirstName { get; set; }
+
+        public string Surname { get; set; }
+
+        public District District { get; set; }
+
+        public EPA.Common.DTO.UserProvider.UserPersonalInfo ToPersonalInfo()
+        {
+            return Mapper.Map<Common.DTO.UserProvider.UserPersonalInfo>(this);
+        }
     }
 }

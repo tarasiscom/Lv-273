@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EPA.Web
 {
@@ -45,8 +46,10 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<EpaContext>();
+            services.AddTransient<IUserInformationProvider, UserInformationProvider>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
+            services.AddTransient<IUniversitiesProvider, UniversitiesProvider>();
             services.AddTransient<IScoreProdiver, ScoreProvider>();
             services.AddTransient<IMailProvider, MailProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
@@ -69,7 +72,31 @@ namespace EPA.Web
                 options.LogoutPath = "/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
                 options.AccessDeniedPath = "/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
                 options.SlidingExpiration = true;
-            });
+                options.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 401;
+                        }
+                        else
+                            ctx.Response.Redirect(ctx.RedirectUri);
+
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 403;
+                        }
+                        else
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        return Task.CompletedTask;
+                    }
+                };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,9 +117,7 @@ namespace EPA.Web
             }
 
             app.UseAuthentication();
-
-
-
+            
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {

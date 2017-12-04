@@ -22,12 +22,14 @@ interface GeneralDirectionResult {
 }
 
 interface Specialty {
+    id: number;
     name: string;
     university: string;
     address: string;
     district: string;
     site: string;
     subjects: Subject[];
+    isFavorite: boolean;
 
 }
 

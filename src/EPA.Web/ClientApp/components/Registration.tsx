@@ -12,7 +12,6 @@ interface User {
     password: string;
     confirmPassword: string;
     error: string;
-    status: number;
 }
 
 interface Status
@@ -34,54 +33,27 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             email: "",
             password: "",
             confirmPassword: "",
-            error: "",
-            status: 0
+            error: ""
         }
     }
-
 
     sendData() {
         let hash = Crypto.SHA512(this.state.password);
 
         let userInfo = {
-            lastname: this.state.lastName,
-            surname: this.state.firstName,
+            firstName: this.state.firstName,
+            surname: this.state.lastName,
             middleName: this.state.middleName,
             email: this.state.email,
-            passwordHash: hash.toString(Crypto.enc.Base64)
+            passwordHash: this.state.password,
+            userName: this.state.email
         }
-
-
-        /*
-        fetch('api/registration', {
-            method: 'POST',
-            body: JSON.stringify(userInfo),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(data => this.setState({ status: data.status })).then(data => {
-            if (this.state.status == 200) {
-                alert()
-                this.setState({ error: "Реєстрація пройшла успішно. Перевірте електронну почту." });
-            }
-            else {
-                this.setState({ error: "Реєстрація невдала." });
-                //window.location.href = '/Login';
-            }
-        }
-    }*/
 
         PostFetch<Status>('api/registration', userInfo)
             .then(data =>
             {
-                if (data.statusCode == 0) {
-                    this.setState({ error: "Реєстрація пройшла успішно. Перевірте електронну почту." });
-                    //alert(data.message);
-                }
-                else {
-                this.setState({ error: "Реєстрація невдала." + data.message });
-                    //alert(data.message);
-                    //window.location.href = '/Login';
-                }
-            })//.catch(error => this.props.onError(error))
+                    this.setState({ error: "Реєстрація пройшла успішно. Перевірте електронну пошту." });
+            }).catch(error => this.setState({ error: "Реєстрація невдала." }))
     }
 
     validate = () => {
@@ -115,7 +87,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
         }
 
         if (this.state.password != this.state.confirmPassword) {
-            this.setState({ error: 'Підтвердження паролю не співпадає' });
+            this.setState({ error: 'Підтвердження паролю ' });
             return;
         }
         else {

@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using EPA.Common.DTO;
+using System;
 
 namespace EPA.Web.Controllers
 {
@@ -25,6 +26,7 @@ namespace EPA.Web.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mailProvider = mailProvider;
+            this.signInManager = signInManager;
             this.constValues = constValues;
         }
 
@@ -36,11 +38,14 @@ namespace EPA.Web.Controllers
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
-        public Status  Register([FromBody]MSSQL.Models.User newUser)
+        public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
         {
+            EPA.MSSQL.Models.District district = new EPA.MSSQL.Models.District();
+            district.Id = 0;
+            newUser.District = district;
             var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
             Status status = new Status();
-    
+
             if (result.Succeeded)
             {
                 var confirmationToken = this.userManager.GenerateEmailConfirmationTokenAsync(newUser).GetAwaiter().GetResult();
@@ -52,10 +57,7 @@ namespace EPA.Web.Controllers
 
                 var toAddress = new MailAddress(newUser.Email);
                 this.mailProvider.SendMail(toAddress, confirmationLink, newUser.FirstName);
-                //return this.Ok(new { Message = this.constValues.Value.RegistrSuccess});
-                status.Message = this.constValues.Value.RegistrSuccess;
-                status.StatusCode = 0;
-                return status;
+                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess});
             }
             else
             {
@@ -66,10 +68,7 @@ namespace EPA.Web.Controllers
                     break;
                 }
 
-                //return this.BadRequest( new {Message = errorDecription });
-                status.Message = errorDecription;
-                status.StatusCode = -1;
-                return status;
+                return this.BadRequest( new {Message = errorDecription });
             }
         }
 
@@ -95,20 +94,35 @@ namespace EPA.Web.Controllers
             }
         }
 
-        //[ValidateAntiForgeryToken]
+        [Route("api/CheckAuth")]
+        [HttpGet]
+        [AllowAnonymous]
+        public bool CheckAuth()
+        {
+            return this.User.Identity.IsAuthenticated;
+        }
+
+        [Route("account/Logout")]
+        [AllowAnonymous]
+        public IActionResult Logout()
+        {
+            signInManager.SignOutAsync();
+            return this.Redirect("/");
+        }
+
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<bool> LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        public IActionResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            MSSQL.Models.User signedUser = await userManager.FindByEmailAsync(loginUser.Email);
-            var result = await signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false);
+            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
+            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
+
             if (result.Succeeded)
             {
-                return true;
+                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess });
             }
-
-            return false;
+            return this.BadRequest();
         }
     }
 }

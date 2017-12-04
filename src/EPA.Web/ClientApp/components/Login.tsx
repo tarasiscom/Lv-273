@@ -15,8 +15,6 @@ interface Status {
     message: string
 }
 
-
-
 export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, LoginInfo>
 {
     constructor() {
@@ -37,26 +35,10 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
             password: this.state.password
         }
 
-        /*
-        fetch('api/login', {
-            method: 'POST',
-            body: JSON.stringify(loginInfo),
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin'
-        }).then(() => 
-            {
-                if (st)
-                )
-        */
-        PostFetch<Status>('api/registration', loginInfo)
+        PostFetch<Status>('api/login', loginInfo)
             .then(data => {
-                if (data.statusCode == 0) {
-                    window.location.href = '/PersonalCabinet';
-                }
-                else {
-                    this.setState({ error: "Електронна пошта, або пароль введені невірно." + data.message });
-                }
-            }).catch(error => this.props.onError(error))
+                this.props.history.push('/PersonalCabinet');
+            }).catch(error => this.setState({ error: "Електронна пошта, або пароль введені невірно." }))
         
     }
 
