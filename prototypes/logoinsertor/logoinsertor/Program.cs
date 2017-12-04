@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Drawing;
-using System.Data;
 
 namespace logoinsertor
 {
@@ -14,10 +9,13 @@ namespace logoinsertor
     {
         static void Main(string[] args)
         {
-            string connectionString = "Server=ssu-sql12\\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne;";
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
-            byte[] readText = File.ReadAllBytes("F:\\Kpi.jpg");
+            string input = "F:\\Kpi.jpg";
+            byte[] readText = File.ReadAllBytes(input);
+            
+            //used stored procedure from database for SqlCommand
             SqlCommand sqlCommand = new SqlCommand("Logo_Universities_INS", sqlConnection);
             sqlCommand.CommandType = CommandType.StoredProcedure;
             var logoParam = new SqlParameter("logo", SqlDbType.VarBinary);

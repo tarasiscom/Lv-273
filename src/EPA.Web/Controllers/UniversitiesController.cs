@@ -1,18 +1,13 @@
 ﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 
 namespace EPA.Web.Controllers
 {
     /// <summary>
-    ///  API for Specialty and Direction draws
+    ///  API for University draws
     /// </summary>
     public class UniversitiesController : Controller
     {
@@ -26,7 +21,7 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This mehod retrives list of top universities
         /// </summary>
-        /// <returns>List of subjects</returns>
+        /// <returns>List of top universities</returns>
         [Route("api/Universities/getTopUniversities")]
         [HttpGet]
         public IEnumerable<University> GetTopUniversities()
