@@ -117,11 +117,17 @@ namespace EPA.Web.Controllers
         }
 
         [Route("api/user/AddToFav/{id:int}")]
-        [HttpPost]
-        [AllowAnonymous]
-        public bool AddToFavor(int id)
+        [HttpGet]
+        public bool AddToFavorite(int id)
         {
+            return true;
+        }
 
+        [Route("api/user/RemoveFromFav/{id:int}")]
+        [HttpGet]
+        public bool RemoveFromFavorite(int id)
+        {
+            return true;
         }
 
     }
