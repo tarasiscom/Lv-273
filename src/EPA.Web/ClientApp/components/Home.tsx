@@ -65,7 +65,7 @@ export class Home extends React.Component<RouteComponentProps<{}> & ErrorHandler
                         <div className="uni-padding col-md-1 "></div>
                         {this.state.listUniversities.map((university, id) =>
                             <div className="uni-padding col-md-2 col-sm-6 col-xs-12">
-                                <img className="img-univer" src={"api/Universities/" + university.logoId + "/logo"} width="100%" height="100%" />
+                                <img className="img-univer" target="_blank" src={"api/Universities/" + university.logoId + "/logo"} width="100%" height="100%" />
                                 <a className="text-center text-univer" href={university.site}> {university.name}</a>
                             </div>
                         )}
