@@ -18,11 +18,13 @@ namespace EPA.MSSQL.SQLDataAccess
     {
         private readonly EpaContext context;
         private readonly IOptions<ConstSettings> constValues;
+        private RatingProvider ratingProvider;
 
         public SpecialtyProvider(EpaContext context, IOptions<ConstSettings> constValues)
         {
             this.context = context;
             this.constValues = constValues;
+            ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace EPA.MSSQL.SQLDataAccess
                               where s.Direction.GeneralDirection.Id == idDirection
                               join u in this.context.Universities on s.University.Id equals u.Id
                               join d in this.context.Districts on u.District.Id equals d.Id
-                              orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
                                   Name = s.Name,
@@ -99,15 +101,12 @@ namespace EPA.MSSQL.SQLDataAccess
         private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(int idDirection, int idDistrict, int page)
         {
             IEnumerable<Specialty> result;
-            var serviceProvider = context.GetInfrastructure<IServiceProvider>();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-            loggerFactory.AddProvider(new MyLoggerProvider());
             var specialties = from s in this.context.Specialties
                               where s.Direction.GeneralDirection.Id == idDirection
                               join u in this.context.Universities on s.University.Id equals u.Id
                               join d in this.context.Districts on u.District.Id equals d.Id
                               where d.Id == idDistrict
-                              orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
                                   Name = s.Name,
@@ -218,7 +217,7 @@ namespace EPA.MSSQL.SQLDataAccess
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where listId.Contains(s.Id)
-                    orderby RatingProvider.GetRating(s.NumApplication, s.NumEnrolled) descending
+                    orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Name = s.Name,
