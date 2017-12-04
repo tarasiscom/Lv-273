@@ -9,25 +9,26 @@ namespace EPA.MSSQL.Calculations
     /// </summary>
     public class RatingProvider
     {
-        private static IOptions<ConstSettings> constValues;
-        private const double KoefOfNumApplication = 0.01;
 
-        public RatingProvider(IOptions<ConstSettings> constSettings)
+        private readonly double koefOfNumApplication;
+
+        public RatingProvider(double koefOfNumApplication)
         {
-                        constValues = constSettings;
+            this.koefOfNumApplication = koefOfNumApplication;
         }
 
         /// <summary>
         /// This method  calculating speciality rating
         /// </summary>
+        /// <param name="univerRating">Rating of university</param>
         /// <param name="numApplication">Number of all entrants applications</param>
         /// <param name="numEnrolled">Number of enrolled students</param>
         /// <returns>Speciality rating</returns>
-        public static double GetRating(int numApplication, int numEnrolled)
+        public double GetRating(int univerRating, int numApplication, int numEnrolled)
         {
             if(numEnrolled != 0)
             { 
-                return (double)numApplication / numEnrolled + numApplication * KoefOfNumApplication;
+                return -univerRating + (double)numApplication / numEnrolled + numApplication * koefOfNumApplication;
             }
             else
             { 
