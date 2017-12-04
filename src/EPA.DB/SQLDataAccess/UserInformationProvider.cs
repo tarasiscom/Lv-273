@@ -26,10 +26,10 @@ namespace EPA.MSSQL.SQLDataAccess
             ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
-        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(string userId, int page, string UserID)
+        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty( string userId, int page)
         {
             var specialties = from user in this.context.User_Specialty
-                              where user.User.Id == UserID
+                              where user.User.Id == userId
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
                               join d in this.context.Districts on univer.District.Id equals d.Id

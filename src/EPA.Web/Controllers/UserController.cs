@@ -33,7 +33,7 @@ namespace EPA.Web.Controllers
         public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page)
         {
             var userId = this.GetUserId(this.User);
-            return this.userInformationProvider.GetFavoriteSpecialty(page, userId);
+            return this.userInformationProvider.GetFavoriteSpecialty(userId, page);
         }
 
         /// <summary>

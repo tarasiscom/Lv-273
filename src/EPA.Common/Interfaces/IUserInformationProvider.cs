@@ -19,7 +19,7 @@ namespace EPA.Common.Interfaces
         /// This method retrieves user favorites specialtys
         /// </summary>
         /// <returns>Favorites specialtys list</returns>
-        IEnumerable<Specialty> GetFavoriteSpecialty(string userId, int page, string UserID);
+        IEnumerable<Specialty> GetFavoriteSpecialty(string userId, int page);
 
         /// <summary>
         /// This method retrieves count of Favorite Specialtys

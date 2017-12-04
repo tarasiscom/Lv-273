@@ -108,7 +108,7 @@ namespace EPA.Web.Controllers
             MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
             if (signedUser != null)
             {
-                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
+                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent: true, lockoutOnFailure: false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
                     return this.Ok();
@@ -124,8 +124,7 @@ namespace EPA.Web.Controllers
         {
             var user = userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
             var a = userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword).GetAwaiter().GetResult();
-            var b = userManager.UpdateAsync(user);
-            
+
             return a.Succeeded.ToString();
         }
 
