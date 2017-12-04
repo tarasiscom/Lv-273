@@ -51,8 +51,6 @@ namespace EPA.MSSQL.SQLDataAccess
                 listId = (from s in this.context.Specialties
                           where s.Direction.GeneralDirection.Id == idDirection
                           select s.Id).ToList();
-
-                return this.GetSpecialty(page, listId);
             }
             else
             {
@@ -74,7 +72,7 @@ namespace EPA.MSSQL.SQLDataAccess
             }
 
         }
-
+        /*
         /// <summary>
         /// This method retrieves collection of specialties which relates to chosen direction
         /// </summary>
@@ -139,6 +137,7 @@ namespace EPA.MSSQL.SQLDataAccess
             result = specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
             return result;
         }
+        */
 
         /// <summary>
         /// This method retrieves collection of specialties that relates to chosen subjets and district
@@ -153,7 +152,6 @@ namespace EPA.MSSQL.SQLDataAccess
                           where listSubjects.All(x => grouped.Contains(x)) &&
                           grouped.Count() >= listSubjects.Count()
                           select grouped.Key).ToList();
-
             }
             else
             {

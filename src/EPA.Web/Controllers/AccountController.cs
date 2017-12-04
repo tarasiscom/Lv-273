@@ -116,19 +116,6 @@ namespace EPA.Web.Controllers
             return false;
         }
 
-        [Route("api/user/AddToFav/{id:int}")]
-        [HttpGet]
-        public bool AddToFavorite(int id)
-        {
-            return true;
-        }
-
-        [Route("api/user/RemoveFromFav/{id:int}")]
-        [HttpGet]
-        public bool RemoveFromFavorite(int id)
-        {
-            return true;
-        }
 
     }
 }

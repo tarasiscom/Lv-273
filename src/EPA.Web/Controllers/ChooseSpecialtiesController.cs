@@ -74,7 +74,7 @@ namespace EPA.Web.Controllers
         /// <returns>List if specialties</returns>
         [Route("api/ChooseSpecialties/byDirectionAndDistrict/{idDirection}/{idDistrict}/{page}")]
         [HttpGet]
-        public IEnumerable<Specialty> GetSpecialtiesByDirectionAndDistrict(int idDirection, int idDistrict, int page)
+        public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection, int idDistrict, int page)
         {
             if (this.User.Identity.IsAuthenticated)
             {

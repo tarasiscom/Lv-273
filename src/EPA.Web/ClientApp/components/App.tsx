@@ -11,6 +11,9 @@ import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
 import { Registration } from './Registration';
 import { Login } from './Login';
+import { FavoriteSpecialties } from './FavoriteSpecialties';
+import { PersonalCabinet } from './PersonalCabinet';
+
 import PropTypes from 'prop-types';
 
 
@@ -78,7 +81,7 @@ export class App extends React.Component<{}, AppErrorHandler> {
                         errRoute
                         :
                         <Switch>
-                            <Route exact path='/' render={(props) => (<Home {...props} />)} />
+                            <Route exact path='/' render={(props) => (<Home {...props} onError={this.onError} />)} />
                             <Route exact path='/profTest' render={(props) => (<ProfTest {...props} onError={this.onError} />)} />
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
@@ -87,6 +90,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)} />
                             <Route exact path='/Registration' component={Registration} />
                             <Route exact path='/Login' component={Login} />
+                            <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
+                            <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
                             <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
                             {errRoute}
                         </Switch>

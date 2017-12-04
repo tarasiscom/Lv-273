@@ -16,6 +16,7 @@
     <None Remove="ClientApp\components\loading.tsx" />
     <None Remove="ClientApp\components\Login.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
+    <None Remove="ClientApp\components\PersonalCabinet.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\Registration.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
@@ -53,6 +55,8 @@
     <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\FavoriteSpecialties.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\PersonalCabinet.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Registration.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />

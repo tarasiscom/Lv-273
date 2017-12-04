@@ -8,8 +8,10 @@
 
         public int CountForPage { get; set; }
 
-        public string Email { get; set; }
+        public int TopUniversities { get; set; }
 
         public string EmailPassword { get; set; }
+
+        public string Email { get; set; }
     }
 }
