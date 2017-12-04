@@ -19,7 +19,7 @@ namespace EPA.Common.Interfaces
         /// This method retrieves user favorites specialtys
         /// </summary>
         /// <returns>Favorites specialtys list</returns>
-        IEnumerable<Specialty> GetFavoriteSpecialty(int page, string UserID);
+        IEnumerable<Specialty> GetFavoriteSpecialty(string userId, int page, string UserID);
 
         /// <summary>
         /// This method retrieves count of Favorite Specialtys
@@ -33,13 +33,13 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="UserId">User Id</param>
         /// <param name="SpecialtyId">Specialty Id </param>
-        void AddSpecialtyToFavorite(string UserId,int SpecialtyId);
+        bool AddSpecialtyToFavorite(string UserId,int SpecialtyId);
 
         /// <summary>
         /// This method remove specialty from favorite
         /// </summary>
         /// <param name="UserId">User Id</param>
         /// <param name="SpecialtyId">Specialty Id</param>
-        void RemoveSpecialtyFromFavorite(string UserId, int SpecialtyId);
+        bool RemoveSpecialtyFromFavorite(string UserId, int SpecialtyId);
     }
 }

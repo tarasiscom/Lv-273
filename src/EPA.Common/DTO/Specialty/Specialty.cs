@@ -7,6 +7,12 @@ namespace EPA.Common.DTO
     /// </summary>
     public class Specialty
     {
+
+        /// <summary>
+        ///  Id of the specialty
+        /// </summary>
+        public int Id{ get; set; }
+
         /// <summary>
         ///  Name of the specialty
         /// </summary>
@@ -18,7 +24,7 @@ namespace EPA.Common.DTO
         public string University { get; set; }
 
         /// <summary>
-        ///  Name of the district in which the university is placed
+        ///  Gets or sets Name of the district in which the university is placed
         /// </summary>
         public string District { get; set; }
 
@@ -33,7 +39,12 @@ namespace EPA.Common.DTO
         public string Site { get; set; }
 
         /// <summary>
-        ///  Subjects that are needed for ZNO 
+        /// checks if this specialty is favorite for current user
+        /// </summary>
+        public bool isFavorite{ get; set; }
+
+        /// <summary>
+        ///  Subjects that are needed for ZNO
         /// </summary>
         public List<Subject> Subjects { get; set; }
     }

@@ -12,6 +12,7 @@ namespace EPA.Web.Controllers
     /// <summary>
     ///  API for User opearations
     /// </summary>
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserInformationProvider userInformationProvider;
@@ -31,7 +32,7 @@ namespace EPA.Web.Controllers
         public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page)
         {
             var a = this.GetUserId(this.User);
-            return this.userInformationProvider.GetFavoriteSpecialty(page, a);
+            return this.userInformationProvider.GetFavoriteSpecialty(this.GetUserId(this.User),page, a);
         }
 
         public string GetUserId(ClaimsPrincipal principal)
@@ -57,6 +58,21 @@ namespace EPA.Web.Controllers
             var a = this.GetUserId(this.User);
             var abc = this.userInformationProvider.GetPersonalInfo(a);
             return abc;
+        }
+
+
+        [Route("api/user/AddToFav/{id:int}")]
+        [HttpGet]
+        public bool AddToFavorite(int id)
+        {
+            return userInformationProvider.AddSpecialtyToFavorite(this.GetUserId(this.User), id);
+        }
+
+        [Route("api/user/RemoveFromFav/{id:int}")]
+        [HttpGet]
+        public bool RemoveFromFavorite(int id)
+        {
+            return userInformationProvider.RemoveSpecialtyFromFavorite(this.GetUserId(this.User), id);
         }
     }
 }
