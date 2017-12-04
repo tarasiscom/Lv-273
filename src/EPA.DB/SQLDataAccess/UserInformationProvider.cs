@@ -17,10 +17,13 @@ namespace EPA.MSSQL.SQLDataAccess
 
         private readonly IOptions<ConstSettings> constValues;
 
+        private readonly RatingProvider ratingProvider;
+
         public UserInformationProvider(EpaContext context, IOptions<ConstSettings> constValues)
         {
             this.context = context;
             this.constValues = constValues;
+            ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
         public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(int page, string UserID)
@@ -30,7 +33,7 @@ namespace EPA.MSSQL.SQLDataAccess
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
                               join d in this.context.Districts on univer.District.Id equals d.Id
-                              orderby RatingProvider.GetRating(special.NumApplication, special.NumEnrolled) descending
+                              orderby ratingProvider.GetRating(univer.Rating, special.NumApplication, special.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
                                   Name = special.Name,

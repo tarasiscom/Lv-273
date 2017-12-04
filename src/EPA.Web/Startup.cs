@@ -116,9 +116,7 @@ namespace EPA.Web
             }
 
             app.UseAuthentication();
-
-
-
+            
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {

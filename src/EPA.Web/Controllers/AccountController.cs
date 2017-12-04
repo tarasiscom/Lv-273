@@ -99,21 +99,18 @@ namespace EPA.Web.Controllers
             return this.Redirect("/");
         }
 
-
-        //[ValidateAntiForgeryToken]
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
-        public bool LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        public StatusCodeResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).Result;
-            /*userManager.AddClaimAsync(signedUser, new System.Security.Claims.Claim("role", "trulyalya"));*/
-            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, true, false).Result;
+            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
+            var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
             if (result.Succeeded)
             {
-                return true;
+                return this.Ok();
             }
-            return false;
+            return this.BadRequest();
         }
     }
 }
