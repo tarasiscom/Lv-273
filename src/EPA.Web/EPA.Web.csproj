@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\AllUniversities.tsx" />
     <None Remove="ClientApp\components\404.tsx" />
     <None Remove="ClientApp\components\App.tsx" />
     <None Remove="ClientApp\components\Footer.tsx" />
@@ -20,6 +21,7 @@
     <None Remove="ClientApp\components\profTest.tsx" />
     <None Remove="ClientApp\components\Registration.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
+    <None Remove="ClientApp\components\UniversitySpecialties.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\AllUniversities.tsx" />
     <TypeScriptCompile Include="ClientApp\components\App.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
@@ -60,6 +63,7 @@
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Registration.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\UniversitySpecialties.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

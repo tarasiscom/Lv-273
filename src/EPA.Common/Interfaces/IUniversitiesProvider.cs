@@ -20,5 +20,12 @@ namespace EPA.Common.Interfaces
         /// <param name="id">Id from table Logo_Universities</param>
         /// <returns>logo of University</returns>
         IEnumerable<byte[]> GetLogoById(int id);
+
+        /// <summary>
+        /// Retrieves all universities in current district
+        /// </summary>
+        /// <param name="district">District Id</param>
+        /// <returns>List of universities</returns>
+        IEnumerable<University> GetAllUniversitiesInDistrict(int district);
     }
 }

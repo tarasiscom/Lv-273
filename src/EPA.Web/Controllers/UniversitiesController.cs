@@ -47,5 +47,11 @@ namespace EPA.Web.Controllers
             byte[] imgData = data.FirstOrDefault();
             return this.File(imgData, "image/jpeg");
         }
+
+        [Route("api/universities/{district}")]
+        public IEnumerable<University> GetAllUniversitiesInDistrict(int district)
+        {
+            return this.universitiesProvider.GetAllUniversitiesInDistrict(district);
+        }
     }
 }

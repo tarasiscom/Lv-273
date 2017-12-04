@@ -1,0 +1,96 @@
+﻿.universities-container {
+    margin: 30px 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.university-card {
+    float: left;
+}
+
+.university-card h4 {
+        padding-top: 26%;
+}
+
+.flip {
+    -webkit-perspective: 800;
+    perspective: 800;
+    position: relative;
+    text-align: center;
+}
+
+    .flip .card.flipped {
+        -webkit-transform: rotatey(-180deg);
+        transform: rotatey(-180deg);
+        transition: 1s;
+    }
+
+.flip .card {
+    width: 270px;
+    height: 210px;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: 0.5s;
+    transform-style: preserve-3d;
+    transition: 1s;
+    background: rgba(138, 175, 168, 0.4);
+    vertical-align:middle;
+}
+
+.flip .card .face {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 2;
+}
+
+.flip .card .front {
+    position: absolute;
+    width: 270px;
+    height:100%;
+    z-index: 1;
+}
+
+    .flip .card .back {
+        padding-top: 10%;
+        -webkit-transform: rotatey(-180deg);
+        -webkit-animation-timing-function: ease-in-out;
+        transform: rotatey(-180deg);
+        transition: 1s;
+    }
+
+.left {
+    position: absolute;
+    height: 100%;
+    margin-bottom: 110px;
+    padding-top: 5px;
+    float: left;
+    background: #eee;
+    display: inline-block;
+    white-space: nowrap;
+    width: 90px;
+    transition: width 1s;
+}
+
+.left:hover {
+    width: 270px;
+}
+
+.left img {
+    margin: 5px 10px;
+    height: 70px;
+}
+
+.left p {
+    display: inline;
+    color: #000;
+}
+
+.item {
+    overflow: hidden;
+    color: #fff;
+}
+
+.item:hover {
+    background-color: #ccc;
+}

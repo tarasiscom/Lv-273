@@ -46,5 +46,33 @@ namespace EPA.MSSQL.SQLDataAccess
                        select i.ToCommon().Logo;
             return data;
         }
+
+        /// <summary>
+        /// Retrieves all universities in current district
+        /// </summary>
+        /// <param name="districtId">District Id</param>
+        /// <returns>List of universities</returns>
+        public IEnumerable<University> GetAllUniversitiesInDistrict(int districtId)
+        {
+            return this.context.Universities.Join(
+                                                   this.context.Districts,
+                                                   university => university.District.Id,
+                                                   district => district.Id,
+                                                   (university, district) => new University
+                                                   {
+                                                       Id = university.Id,
+                                                       Address = university.Address,
+                                                       District = new District
+                                                       {
+                                                           Id = district.Id,
+                                                           Name = district.Name
+                                                       },
+                                                       Name = university.Name,
+                                                       Rating = university.Rating,
+                                                       Site = university.Site
+                                                   })
+                                             .Where(university => university.District.Id == districtId)
+                                             .OrderBy(x => x.Rating);
+        }
     }
 }
