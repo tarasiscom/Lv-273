@@ -59,7 +59,8 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
             .then(data => {
                 this.setState({
                     universities: data,                   
-                    loading: false
+                    loading: false,
+                    selectDistrict: districtid
                 });
             })
             .catch(er => this.props.onError(er))
@@ -89,7 +90,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         });
     }
     handleOnChangeDistrict = (selectDistricty) => {
-        this.setState({ selectDistrict: selectDistricty, loading: true })
+        this.setState({ loading: true })
         this.loadUniversities(selectDistricty.value)
     }
     public render() {
