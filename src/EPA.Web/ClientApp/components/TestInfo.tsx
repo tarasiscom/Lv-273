@@ -8,8 +8,6 @@ import {
 import { ErrorHandlerProp, GetFetch } from './App';
 import { Loading } from './Loading';
 
-//import { Error404inComp } from './errors/404';
-
 interface TestDetailInformation {
     id: number;
     name: string;
@@ -18,10 +16,6 @@ interface TestDetailInformation {
     questionsCount: number;
     loading: boolean;
 }
-/*
-interface ErrorHandlerProp {
-    onError: PropTypes.func    
-}*/
 
 export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, TestDetailInformation> {
     constructor(props) {

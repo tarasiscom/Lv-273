@@ -54,7 +54,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
 
     loadUniversities(districtid) {
         let path = 'api/universities/' + districtid;
-        console.log(districtid);
+
         GetFetch<any>(path)
             .then(data => {
                 this.setState({
@@ -84,15 +84,18 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
             })
             .catch(er => this.props.onError(er))
     }
-    someHandler(cardId: number) {
+    
+    hoverHandler(cardId: number) {
         this.setState({
             hoveredUniversity: cardId
         });
     }
+    
     handleOnChangeDistrict = (selectDistricty) => {
         this.setState({ loading: true })
         this.loadUniversities(selectDistricty.value)
     }
+    
     public render() {
         return <div>
             <div className="delete-margin">
@@ -124,7 +127,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         else {
             const listUniversities = universities.map((item, id) => {
                 return (
-                    <div key={id} className="university-card" onMouseOver={() => this.someHandler(id)}>
+                    <div key={id} className="university-card" onMouseOver={() => this.hoverHandler(id)}>
                         <div className="flip">
                             <div className={(id == hoveredUniversity ? "card flipped" : "card")}>
                                 <div className="face front align-middle">
