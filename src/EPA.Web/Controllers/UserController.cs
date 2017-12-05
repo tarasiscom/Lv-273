@@ -75,7 +75,7 @@ namespace EPA.Web.Controllers
 
         [Route("api/User/GetTestResult/{id:int}")]
         [HttpGet]
-        public IEnumerable<DirectionScores> GetTestResults(int id)
+        public IEnumerable<DirectionScores> GetTestResult(int id)
         {
             var userId = this.GetUserId(this.User);
             return this.userInformationProvider.GetTestResult(id, userId);
