@@ -37,7 +37,7 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
 
         PostFetch<any>('api/login', loginInfo)
             .then(() => {
-                this.props.history.push('/PersonalCabinet');
+                window.document.location.replace('/PersonalCabinet');
             }).catch(error => this.setState({ msg: "Електронна пошта, або пароль введені невірно." }))
         
     }
