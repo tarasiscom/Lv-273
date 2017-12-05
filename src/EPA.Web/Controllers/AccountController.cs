@@ -41,7 +41,6 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
         {
-            
             var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
     
 

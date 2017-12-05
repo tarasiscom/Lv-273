@@ -14,7 +14,8 @@ import { Login } from './Login';
 import { FavoriteSpecialties } from './FavoriteSpecialties';
 import { PersonalCabinet } from './PersonalCabinet'; 
 import { SavedTestResult } from './SavedTestResult';
-
+import { AllUniversities } from './AllUniversities';
+import { UniversitySpecialties } from './UniversitySpecialties'
 
 import PropTypes from 'prop-types';
 
@@ -96,6 +97,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
                             <Route exact path='/PersonalCabinet/TestResult/:id' render={(props) => (<SavedTestResult {...props} onError={this.onError} />)} />
                             <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
+							<Route exact path='/AllUniversities' render={(props) => (<AllUniversities {...props} onError={this.onError} />)} />
+                            <Route exact path='/University/:universityId' render={(props) => (<UniversitySpecialties {...props} onError={this.onError} />)} />
                             {errRoute}
                         </Switch>
                 }

@@ -9,7 +9,15 @@ body {
     min-height: 100%;
     height: 100%;
 }
-
+.pad-for-nav-testres{
+    padding-top:15px;
+}
+.direction-label-pad {
+    margin: 15px;
+    padding: 10px;
+    padding-left: 30px;
+    background-color: rgba(31, 119, 180, 0.25);
+}
 
 #react-app {
     position: relative;
