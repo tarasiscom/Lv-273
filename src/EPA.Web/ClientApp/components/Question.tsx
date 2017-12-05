@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+﻿;import * as React from 'react';
 import { RadioGroup, Radio } from 'react-radio-group';
 
 interface PropTypes {

@@ -76,73 +76,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
                 return this.GetSpecialtyForAuthorized(userId, page, listId);
             }
-
         }
-        /*
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction
-        /// </summary>
-        /// <param name="directionInfo">Information about direction for which specialties are filtered</param>
-        /// <returns>Collection of specialties with their amount</returns>
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int idDirection, int page)
-        {
-            var specialties = from s in this.context.Specialties
-                              where s.Direction.GeneralDirection.Id == idDirection
-                              join u in this.context.Universities on s.University.Id equals u.Id
-                              join d in this.context.Districts on u.District.Id equals d.Id
-                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
-                              select new Common.DTO.Specialty()
-                              {
-                                  Id = s.Id,
-                                  Name = s.Name,
-                                  Address = u.Address,
-                                  District = d.Name,
-                                  Site = u.Site,
-                                  University = u.Name,
-                                  Subjects = (from ss in this.context.Specialty_Subjects
-                                              where ss.Specialty.Id == s.Id
-                                              select ss.Subject.ToCommon()).ToList()
-                              };
-
-            return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
-        }
-
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
-        private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(string userId, int idDirection, int idDistrict, int page)
-        {
-            IEnumerable<Specialty> result;
-            var specialties = from s in this.context.Specialties
-                              where s.Direction.GeneralDirection.Id == idDirection
-                              join u in this.context.Universities on s.University.Id equals u.Id
-                              join d in this.context.Districts on u.District.Id equals d.Id
-                              where d.Id == idDistrict
-                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
-                              select new Common.DTO.Specialty()
-                              {
-                                  Id = s.Id,
-                                  Name = s.Name,
-                                  Address = u.Address,
-                                  District = d.Name,
-                                  Site = u.Site,
-                                  University = u.Name,
-                                  Subjects = (from ss in this.context.Specialty_Subjects
-                                              where ss.Specialty.Id == s.Id
-                                              select ss.Subject.ToCommon()).ToList(),
-
-                                  isFavorite = (from us in this.context.User_Specialty
-                                                where us.User.Id == userId && us.Specialty.Id == s.Id
-                                                select us.Id).Any()
-
-                              };
-
-            result = specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
-            return result;
-        }
-        */
 
         /// <summary>
         /// This method retrieves collection of specialties that relates to chosen subjets and district
@@ -242,6 +176,33 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
+        {
+            IEnumerable<Specialty> need = from s in this.context.Specialties
+                                          join u in this.context.Universities on s.University.Id equals u.Id
+                                          where s.University.Id == universityId && s.Direction.GeneralDirection.Id   == directionId
+                                          orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
+                                          select new Specialty()
+                                          {
+                                              Id = s.Id,
+                                              Name = s.Name,
+                                              Address = u.Address,
+                                              District = u.District.Name,
+                                              Site = u.Site,
+                                              University = u.Name,
+                                              Subjects = (from ss in this.context.Specialty_Subjects
+                                                          where ss.Specialty.Id == s.Id
+                                                          select ss.Subject.ToCommon()).ToList()
+                                          };
+            return need;
+        }
+
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(int page, List<int> listId)
         {
             return (from s in this.context.Specialties
@@ -285,4 +246,3 @@ namespace EPA.MSSQL.SQLDataAccess
         }
     }
 }
-
