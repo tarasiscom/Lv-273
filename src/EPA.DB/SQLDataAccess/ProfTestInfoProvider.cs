@@ -85,7 +85,8 @@ namespace EPA.MSSQL.SQLDataAccess
                 TestDetailedInfo = testDetailIfo,
                 TestScore = testScore
             };
-            var flag = this.context.TestResult.Where(x=>x.TestDetailedInfo.Id==result.TestDetailedInfo.Id&&x.User.Id== result.User.Id).FirstOrDefault();
+            var flag = this.context.TestResult.Where(x => x.TestDetailedInfo.Id == result.TestDetailedInfo.Id &&
+            x.User.Id == result.User.Id).FirstOrDefault();
             if (flag != null)
             {
                 this.context.TestResult.Remove(flag);

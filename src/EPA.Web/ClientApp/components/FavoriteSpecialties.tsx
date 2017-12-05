@@ -127,7 +127,6 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
                 containerClassName={"pagination"}
                 subContainerClassName={"pages pagination"}
                 selected={0}
-                forcePage={this.state.forcePage}
                 activeClassName={"active"} />
         }
 

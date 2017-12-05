@@ -53,11 +53,10 @@ namespace EPA.MSSQL.SQLDataAccess
             return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
         }
 
-        public UserPersonalInfo GetPersonalInfo(string UserID)
+        public UserPersonalInfo GetPersonalInfo(string userID)
         {
-
-            var y = (from user in this.context.Users
-                     where user.Id == UserID
+            var userInfo = (from user in this.context.Users
+                     where user.Id == userID
                      join district in this.context.Districts on user.District.Id equals district.Id
                      select new UserPersonalInfo()
                      {
@@ -67,8 +66,8 @@ namespace EPA.MSSQL.SQLDataAccess
                          Surname = user.Surname,
                          Phone = user.PhoneNumber
                      }).ToList().First();
-            //return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
-            return y;
+
+            return userInfo;
         }
 
         public IEnumerable<Test> GetTestResults(string userId)
@@ -136,7 +135,7 @@ namespace EPA.MSSQL.SQLDataAccess
         public Count CountOfFavoriteSpecialtys(string UserID)
         {
             Count result = new Count();
-            result.AllElements = this.context.User_Specialty.Select(x => x.User.Id == UserID).Count();
+            result.AllElements = this.context.User_Specialty.Where(x => x.User.Id == UserID).Count();
             result.ForOnePage = constValues.Value.CountForPage;
             return result;
         }

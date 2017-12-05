@@ -38,7 +38,7 @@ namespace EPA.Web.Controllers
         /// <summary>
         /// This Method retrives authorized User Id
         /// </summary>
-        /// <param name="principal"></param>
+        /// <param name="principal"> This is ClaimPrincipal</param>
         /// <returns>User Id</returns>
         public string GetUserId(ClaimsPrincipal principal)
         {

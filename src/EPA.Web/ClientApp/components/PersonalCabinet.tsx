@@ -97,7 +97,8 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                     {this.renderUsersPreference()}
                 </section>
                 <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
-                    <img src="http://vaz.od.ua/assets/blank_avatar-b870b9bb4856dbcb4ed86cfed0349975.png" alt="User Logo" className="rounded img-thumbnail user-logo" />
+                    <img src="http://vaz.od.ua/assets/blank_avatar-b870b9bb4856dbcb4ed86cfed0349975.png" alt="User Logo"
+                        className="rounded img-thumbnail user-logo" />
                 </aside>
             </div>
         </main>
@@ -123,12 +124,6 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                             <Link to={'/PersonalCabinet/TestResult/'+ test.id }><div className="panel-body" >{test.name}</div></Link>
 
                         )}
-
-                        {/*
-                        <div className="panel-body">Тут будуть результати тестів...</div>
-                        <div className="panel-body">Тест 1</div>
-                        <div className="panel-body">Тест 2</div>
-                        */}
 
                     </div>
                 </div>
