@@ -18,7 +18,7 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         width: '530px',
-        height: '380px'
+        height: '320px'
     }
 };
 interface ChangePassword {
@@ -88,11 +88,9 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                     {this.renderUserPersonalInformation()}
                     {this.renderUsersPreference()}
                 </section>
-
                 <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
                     <img src="http://vaz.od.ua/assets/blank_avatar-b870b9bb4856dbcb4ed86cfed0349975.png" alt="User Logo" className="rounded img-thumbnail user-logo" />
                 </aside>
-
             </div>
         </main>
 
@@ -102,7 +100,6 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     }
 
     private renderUsersPreference() {
-
         return <div>
             <div className="panel-group">
                 <div className="panel panel-default panel-scale">
@@ -117,7 +114,6 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                         <div className="panel-body">Тест 2</div>
                     </div>
                 </div>
-
                 <div className="panel panel-default panel-scale">
                     <div className="panel-heading">
                         <h4 className="panel-title">
@@ -127,8 +123,6 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                 </div>
             </div>
         </div>
-
-
     }
 
     private renderUserPersonalInformation() {
@@ -137,20 +131,14 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                 Персональна інформація</h3>
             <div className="row personal-info-row">
                 <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">Ім'я </p>
-                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.firstName} </p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
-            </div>
-
-            <div className="row personal-info-row">
-                <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">прізвище </p>
-                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5"> {this.state.userInfo.surname}</p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
+                <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.firstName} {this.state.userInfo.surname} </p>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil " disabled></button>
             </div>
 
             <div className="row personal-info-row">
                 <p className="col-md-3 col-lg-3 col-sm-3 col-xs-3">e-mail </p>
                 <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">{this.state.userInfo.email}</p>
-                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
+                <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil " disabled></button>
             </div>
 
             <div className="row personal-info-row">
@@ -170,9 +158,7 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                 <p className="col-md-5 col-lg-5 col-sm-5 col-xs-5">**********</p>
                 <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary" onClick={this.openModal}> Змінити</button>
             </div>
-
             {this.renderModalForm()}
-            
         </div>
     }
 
@@ -201,10 +187,12 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
             PostFetch<any>(path, passwordInfo)
                 .then(data => {
-                    alert(data);
+                    this.setState(
+                        {
+                            message:data
+                        })
                 })
                 .catch(er => this.props.onError(er))
-            this.closeModal();
             
         }
         else {
@@ -218,10 +206,10 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     {
         
         if (this.state.userInfo.district == null) {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary" disabled>Додати</button>
         }
         else {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil " disabled></button>
             
         }
     }
@@ -229,10 +217,10 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     private renderButtonForPhone() {
 
         if (this.state.userInfo.phone == null) {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary">Додати</button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary" disabled>Додати</button>
         }
         else {
-            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil "></button>
+            return <button type="button" className="col-md-2 col-lg-2 col-sm-2 col-xs-12 btn btn-secondary glyphicon glyphicon-pencil " disabled></button>
 
         }
     }
@@ -286,36 +274,28 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                             })}></input>
                 </div>
 
-                {this.errorOutput()}
+                {this.resultChangePasswordOutput()}
 
                 <div className="text-right">
                     <button className="btn" onClick={this.handleChangePassword}>Підтвердити</button>
                 </div>
-
-                
             </ReactModal>
         </div>
     }
 
     private handleChangePassword = () => {
-
         this.ChangePassword();
     }
 
-    private errorOutput()
+    private resultChangePasswordOutput()
     {
         if (this.state.message == "") {
             return <div></div>
         }
         else {
-            return <div className="alert alert-danger" role="alert">
-                <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <span className="sr-only">Error:</span>
-                <span className="h5">{this.state.message}</span>
-                
+            return <div >
+                <span className="h5 text-center">{this.state.message}</span>
             </div>
-
-            
         }
     }
 

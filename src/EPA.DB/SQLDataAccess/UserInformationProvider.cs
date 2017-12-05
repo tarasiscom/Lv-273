@@ -73,7 +73,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public bool AddSpecialtyToFavorite(string UserId, int specialtyId)
         {
-            
+
             User_Specialty add = new User_Specialty();
             add.Specialty = this.context.Specialties.Where(x => x.Id == specialtyId).First();
             add.User = this.context.Users.Where(x => x.Id == UserId).First();
