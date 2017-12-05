@@ -13,11 +13,6 @@ interface User {
     msg: string;
 }
 
-interface Result
-{
-    statusCode: number;
-    message: string;
-}
 
 export class Registration extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, User>
 {
@@ -43,7 +38,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             surname: this.state.lastName,
             middleName: this.state.middleName,
             email: this.state.email,
-            passwordHash: this.state.password,
+            passwordHash: hash.toString(Crypto.enc.Base64),
             userName: this.state.email
         }
 

@@ -32,7 +32,7 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
         
         let loginInfo = {
             email: this.state.email,
-            password: this.state.password
+            password: hash.toString(Crypto.enc.Base64)
         }
 
         PostFetch<any>('api/login', loginInfo)

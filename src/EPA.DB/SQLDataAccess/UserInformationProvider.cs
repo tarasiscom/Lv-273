@@ -55,38 +55,18 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public UserPersonalInfo GetPersonalInfo(string UserID)
         {
-            UserPersonalInfo y = null;
-            int d = (from user in this.context.Users
-                            where user.Id == UserID
-                            join district in this.context.Districts on user.District.Id equals district.Id select user).Count();
-            if (d != 0)
-            {
-                y = (from user in this.context.Users
-                         where user.Id == UserID
-                         join district in this.context.Districts on user.District.Id equals district.Id
-                         select new UserPersonalInfo()
-                         {
-                             District = district.Name,
-                             Email = user.Email,
-                             FirstName = user.FirstName,
-                             Surname = user.Surname,
-                             Phone = user.PhoneNumber
-                         }).ToList().First();
-            }
-            else
-            {
-                y = (from user in this.context.Users
-                         where user.Id == UserID                       
-                         select new UserPersonalInfo()
-                         {
-                             District = "",
-                             Email = user.Email,
-                             FirstName = user.FirstName,
-                             Surname = user.Surname,
-                             Phone = user.PhoneNumber
-                         }).ToList().First();
-            }
 
+            var y = (from user in this.context.Users
+                     where user.Id == UserID
+                     join district in this.context.Districts on user.District.Id equals district.Id
+                     select new UserPersonalInfo()
+                     {
+                         District = district.Name,
+                         Email = user.Email,
+                         FirstName = user.FirstName,
+                         Surname = user.Surname,
+                         Phone = user.PhoneNumber
+                     }).ToList().First();
             //return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
             return y;
         }
