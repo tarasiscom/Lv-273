@@ -40,8 +40,7 @@ namespace EPA.Web.Controllers
         [HttpGet]
         public IActionResult Get(int id)
         {
-            var data = this.universitiesProvider.GetLogoById(id);
-            byte[] imgData = data.FirstOrDefault();
+            byte[] imgData = this.universitiesProvider.GetLogoById(id);
             return this.File(imgData, "image/jpeg");
         }
 

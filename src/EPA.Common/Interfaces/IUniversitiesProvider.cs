@@ -19,7 +19,7 @@ namespace EPA.Common.Interfaces
         /// </summary>
         /// <param name="id">Id from table Logo_Universities</param>
         /// <returns>logo of University</returns>
-        IEnumerable<byte[]> GetLogoById(int id);
+        byte[] GetLogoById(int id);
 
         /// <summary>
         /// Retrieves all universities in current district

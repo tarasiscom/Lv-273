@@ -38,12 +38,12 @@ namespace EPA.MSSQL.SQLDataAccess
         /// </summary>
         /// <param name="id">Id from table Logo_Universities</param>
         /// <returns>logo of University</returns>
-        public IEnumerable<byte[]> GetLogoById(int id)
+        public byte[] GetLogoById(int id)
         {
-            var data = from i in this.context.Logo_Universities
+            return (from i in this.context.Logo_Universities
                        where i.Id == id
-                       select i.ToCommon().Logo;
-            return data;
+                       select i.Logo)
+                       .FirstOrDefault();
         }
 
         /// <summary>
