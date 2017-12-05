@@ -27,10 +27,9 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <param name="page"> Page </param>
         /// <returns>List of Specialties</returns>
-        [Route("api/User/FavoriteSpecialties")]
-        [HttpPost]
-        [Authorize]
-        public IEnumerable<Specialty> GetFavoriteSpecialties([FromBody] int page)
+        [Route("api/User/FavoriteSpecialties/{page:int}")]
+        [HttpGet]
+        public IEnumerable<Specialty> GetFavoriteSpecialties(int page)
         {
             var userId = this.GetUserId(this.User);
             return this.userInformationProvider.GetFavoriteSpecialty(userId, page);
@@ -55,7 +54,7 @@ namespace EPA.Web.Controllers
         public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(this.GetUserId(this.User));
 
         /// <summary>
-        /// This method retrieves Users Personal Information 
+        /// This method retrieves Users Personal Information
         /// </summary>
         /// <returns> UserPersonalInfo </returns>
         [Route("api/User/GetUserPersonalInformation")]
@@ -85,14 +84,14 @@ namespace EPA.Web.Controllers
         [HttpGet]
         public bool AddToFavorite(int id)
         {
-            return userInformationProvider.AddSpecialtyToFavorite(this.GetUserId(this.User), id);
+            return this.userInformationProvider.AddSpecialtyToFavorite(this.GetUserId(this.User), id);
         }
 
         [Route("api/User/RemoveFromFav/{id:int}")]
         [HttpGet]
         public bool RemoveFromFavorite(int id)
         {
-            return userInformationProvider.RemoveSpecialtyFromFavorite(this.GetUserId(this.User), id);
+            return this.userInformationProvider.RemoveSpecialtyFromFavorite(this.GetUserId(this.User), id);
         }
     }
 }

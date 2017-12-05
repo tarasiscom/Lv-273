@@ -27,27 +27,16 @@ namespace EPA.MSSQL.SQLDataAccess
             ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
-        /// <summary>
-        /// This method retrieves collection of all subjects from database
-        /// </summary>
-        /// <returns>Collection of subjects</returns>
+       
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of all districts from database
-        /// </summary>
-        /// <returns>Collection of districts</returns>
+        
         public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of all general directions
-        /// </summary>
-        /// <returns>Collection of general directions</returns>
+        
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction and district
-        /// </summary>
+        
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page)
         {
 
