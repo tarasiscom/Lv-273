@@ -332,8 +332,8 @@ h1.heading {
     animation: fadeInFromNone 0.5s ease-out;
 }
 
-.loadScreen {
-}
+/*.loadScreen {
+}*/
 
 @keyframes move {
     50% {
@@ -415,6 +415,11 @@ h1.heading {
 #passToReg {
     width: 100%;
     text-align: center;
+}
+
+#errorMsg {
+    color:red;
+    text-align:justify;
 }
 
 .userSubmit {

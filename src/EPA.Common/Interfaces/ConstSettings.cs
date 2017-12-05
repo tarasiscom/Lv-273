@@ -13,5 +13,7 @@
         public string EmailPassword { get; set; }
 
         public string Email { get; set; }
+
+        public string RegistrSuccess { get; set; }
     }
 }

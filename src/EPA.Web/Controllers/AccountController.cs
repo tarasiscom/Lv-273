@@ -6,80 +6,89 @@ using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using EPA.Common.DTO;
+using System;
 
 namespace EPA.Web.Controllers
 {
+    /// <summary>
+    /// API for user creation and sign in
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly UserManager<MSSQL.Models.User> userManager;
         private readonly SignInManager<MSSQL.Models.User> signInManager;
+        private readonly IMailProvider mailProvider;
         private readonly IOptions<ConstSettings> constValues;
 
-        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IOptions<ConstSettings> constValues)
-        {
-            this.userManager = userManager;
+        public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IMailProvider mailProvider, IOptions<ConstSettings> constValues)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.mailProvider = mailProvider;
             this.signInManager = signInManager;
             this.constValues = constValues;
-        }
+        }
 
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <param name="newUser">Full information about new user</param>
+        /// <returns>Returns status</returns>
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task RegisterAsync([FromBody]MSSQL.Models.User newUser)
+        public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
         {
-            var result = await this.userManager.CreateAsync(newUser, newUser.PasswordHash);
+            
+            var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
+    
+
             if (result.Succeeded)
             {
-                // email confirm
-                var confirmationToken = await this.userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                string confirmationLink = this.Url.Action(
-                                                    "ConfirmEmail",
-                                                    "AccountController",
-                                                    new { userid = newUser.Id, token = confirmationToken },
-                                                    protocol: this.HttpContext.Request.Scheme);
+                var confirmationToken = this.userManager.GenerateEmailConfirmationTokenAsync(newUser).GetAwaiter().GetResult();
+                var confirmationLink = this.Url.Action(
+                                    "confirmEmail",
+                                    "account",
+                                    new { userid = newUser.Id, token = confirmationToken },
+                                    protocol: this.HttpContext.Request.Scheme);
 
                 var toAddress = new MailAddress(newUser.Email);
-                this.SendMail(toAddress, confirmationLink);
-            }
-        }
-
-        public void SendMail(MailAddress toAddress, string confirmationLink)
-        {
-            var fromAddress = new MailAddress(this.constValues.Value.Email);
-            var fromPassword = this.constValues.Value.EmailPassword;
-
-            SmtpClient client = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-
-            MailMessage message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = "Account confirm",
-                Body = "Для підтвердження перейдіть за посиланням: " + confirmationLink
-            };
-
-            client.Send(message);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public void ConfirmEmail(string userid, string token)
-        {
-            MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).Result;
-            IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).Result;
-            if (result.Succeeded)
-            {
-                this.ViewBag.Message = "Email confirmed successfully!";
+                this.mailProvider.SendMail(toAddress, confirmationLink, newUser.FirstName);
+                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess});
             }
             else
             {
-                this.ViewBag.Message = "Error while confirming your email!";
+                string errorDecription = null;
+                foreach (var error in result.Errors)
+                {
+                    errorDecription = error.Description;
+                    break;
+                }
+
+                return this.BadRequest( new {Message = errorDecription });
+            }
+        }
+
+        /// <summary>
+        /// Confirm account when user click on link in email
+        /// </summary>
+        /// <param name="userid">User identifier</param>
+        /// <param name="token">Token</param>
+        /// <returns>Returns status</returns>
+        [Route("account/confirmEmail")]
+        [AllowAnonymous]
+        public IActionResult ConfirmEmail([FromQuery]string userid, [FromQuery]string token)
+        {
+            MSSQL.Models.User user = this.userManager.FindByIdAsync(userid).GetAwaiter().GetResult();
+            IdentityResult result = this.userManager.ConfirmEmailAsync(user, token).GetAwaiter().GetResult();
+            if (result.Succeeded)
+            {
+                return this.Redirect("/Login");
+            }
+            else
+            {
+                throw new ArgumentException("Invalid token");
             }
         }
 
@@ -102,15 +111,15 @@ namespace EPA.Web.Controllers
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
-        public StatusCodeResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
+        public IActionResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
             MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
             if (signedUser != null)
             {
-                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent:true, lockoutOnFailure:false).GetAwaiter().GetResult();
+                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent: true, lockoutOnFailure: false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
-                    return this.Ok();
+                    return this.Ok(new { Message = "" });
                 }
             }
             return this.BadRequest();

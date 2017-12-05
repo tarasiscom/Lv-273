@@ -1,4 +1,4 @@
-/*using EPA.BusinessLogic;
+using EPA.BusinessLogic;
 using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using Moq;
@@ -9,7 +9,6 @@ namespace EPA.UnitTests
 {
     public class UserAnswersProviderTest
     {
-        /*
         private List<UserAnswer> userAnswers;
         private readonly List<GeneralDirection> directions;
 
@@ -24,12 +23,12 @@ namespace EPA.UnitTests
 
             this.directions = new List<GeneralDirection>()
             {
-                new GeneralDirection{ ID = 1, Name= "Соціологія та педагогіка"},
-                new GeneralDirection{ ID = 2, Name= "Гуманітарні науки"},
-                new GeneralDirection{ ID = 3, Name= "Природничі науки"},
-                new GeneralDirection{ ID = 4, Name= "Прикладні науки"},
-                new GeneralDirection{ ID = 5, Name= "Медицина"},
-                new GeneralDirection{ ID = 6, Name= "Патріотична сфера"}
+                new GeneralDirection{ Id = 1, Name = "Соціологія та педагогіка"},
+                new GeneralDirection{ Id = 2, Name = "Гуманітарні науки"},
+                new GeneralDirection{ Id = 3, Name = "Природничі науки"},
+                new GeneralDirection{ Id = 4, Name = "Прикладні науки"},
+                new GeneralDirection{ Id = 5, Name = "Медицина"},
+                new GeneralDirection{ Id = 6, Name = "Патріотична сфера"}
             };
         }
 
@@ -40,7 +39,7 @@ namespace EPA.UnitTests
 
             var testProvider = new Mock<ITestProvider>();
             testProvider.Setup(pr => pr.GetDirectionsInfo()).Returns(this.directions);
-            UserAnswersProvider userAnswersProvider = new UserAnswersProvider(testProvider.Object);
+            IScoreProdiver userAnswersProvider = new ScoreProvider(testProvider.Object);
 
             System.Exception ex = Assert.Throws<System.ArgumentException>(
                                                     () => userAnswersProvider.CalculateScores(this.userAnswers));
@@ -53,7 +52,7 @@ namespace EPA.UnitTests
         {
             var testProvider = new Mock<ITestProvider>();
             testProvider.Setup(pr => pr.GetDirectionsInfo()).Returns(this.directions);
-            UserAnswersProvider userAnswersProvider = new UserAnswersProvider(testProvider.Object);
+            IScoreProdiver userAnswersProvider = new ScoreProvider(testProvider.Object);
 
             List<DirectionScores> res = userAnswersProvider.CalculateScores(this.userAnswers);
 
@@ -69,7 +68,7 @@ namespace EPA.UnitTests
 
             var testProvider = new Mock<ITestProvider>();
             testProvider.Setup(pr => pr.GetDirectionsInfo()).Returns(this.directions);
-            UserAnswersProvider userAnswersProvider = new UserAnswersProvider(testProvider.Object);
+            IScoreProdiver userAnswersProvider = new ScoreProvider(testProvider.Object);
 
             System.Exception ex = Assert.Throws<System.ArgumentException>(
                                                     () => userAnswersProvider.CalculateScores(this.userAnswers));
@@ -78,4 +77,3 @@ namespace EPA.UnitTests
         }
     }
 }
-*/
