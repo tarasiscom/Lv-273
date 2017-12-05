@@ -2,23 +2,28 @@
 import { Link, NavLink, RouteComponentProps } from 'react-router-dom'; 
 import PropTypes from 'prop-types';
 
-interface Err {
+interface ErrorProps {
     message: string;
     onRouteChange: PropTypes.func;
 }
 
-export class ErrorPage extends React.Component<RouteComponentProps<{}>&Err, {}> {
+export class ErrorPage extends React.Component<RouteComponentProps<{}> & ErrorProps, {}> {
     constructor(props) {
         super();
+
+
     }
 
     componentDidMount() {
         this.props.history.listen((location, action) => {
             this.props.onRouteChange();
         });
+        if (this.props.message == '401') {
+            this.props.history.push('/Login');
+        }
     }
     public render() {
-        return <div className="erdiv">
+        return <div className="erdiv pad-for-footer">
                     <div className="imgError">
                         <img src="http://downloadicons.net/sites/default/files/graduation-icon-66502.png" alt="EPA" />
                     </div>

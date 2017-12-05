@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace EPA.MSSQL.Models
 {
@@ -20,5 +21,12 @@ namespace EPA.MSSQL.Models
         public int NumEnrolled { get; set; }
 
         public List<Specialty_Subject> SpecialtySubject { get; set; }
+
+        public List<User_Specialty> UserSpecialt { get; set; }
+
+        public Common.DTO.Specialty ToCommon()
+        {
+            return Mapper.Map<Common.DTO.Specialty>(this);
+        }
     }
 }

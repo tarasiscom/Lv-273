@@ -9,14 +9,7 @@ namespace EPA.Common.Interfaces
     public interface ISpecialtyProvider
     {
         /// <summary>
-        ///  This method retrieves more detailed information about specific test
-        /// </summary>
-        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
-        ///  <returns> more detatiled test information </returns>
-        SpecialtiesAndCount GetSpecialtyBySubjects(ListSubjectsAndDistrict listOfSubjects);
-        
-        /// <summary>
-        ///  This method retrives list of all Subjects for ZNO
+        ///  This method retrives list of all Subjects
         /// </summary>
         /// <returns>List of subjects</returns>
         IEnumerable<Subject> GetAllSubjects();
@@ -28,23 +21,43 @@ namespace EPA.Common.Interfaces
         IEnumerable<District> GetAllDistricts();
 
         /// <summary>
-        /// This method retrives list of specialties according to general direction and district
-        /// </summary>
-        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialties </returns>
-        SpecialtiesAndCount GetSpecialtiesByDirectionAndDistrict(DirectionAndDistrictInfo directionAndDistrictInfo);
-
-        /// <summary>
-        /// This method retrives list of specialties according to general direction 
-        /// </summary>
-        /// <param name="directionInfo"> Contains id of the general direction, number of page and bumber of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialties </returns>
-        SpecialtiesAndCount GetSpecialtiesByDirection(DirectionInfo directionInfo);
-
-        /// <summary>
         /// This method retrives list of general directions
         /// </summary>
         /// <returns> List of general directions </returns>
         IEnumerable<GeneralDirection> GetGeneralDirections();
+
+        /// <summary>
+        ///  This method retrieves information about specialties 
+        /// </summary>
+        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
+        ///  <returns> List of Specialties </returns>
+        IEnumerable<Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page);
+
+        /// <summary>
+        /// This method retrives list of specialties according to general direction and district
+        /// </summary>
+        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
+        /// <returns> Limited list of specialties and count of all specialties </returns>
+        IEnumerable<Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Count GetCountByDirection(int directionId, int districtId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Count GetCountBySubjects(List<int> listSubjects, int idDistrict);
+
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId);
     }
 }

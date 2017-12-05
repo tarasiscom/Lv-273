@@ -9,18 +9,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\AllUniversities.tsx" />
     <None Remove="ClientApp\components\404.tsx" />
     <None Remove="ClientApp\components\App.tsx" />
     <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\List.tsx" />
+    <None Remove="ClientApp\components\loading.tsx" />
+    <None Remove="ClientApp\components\Login.tsx" />
     <None Remove="ClientApp\components\NavigationMenu.tsx" />
+    <None Remove="ClientApp\components\PersonalCabinet.tsx" />
     <None Remove="ClientApp\components\profTest.tsx" />
+    <None Remove="ClientApp\components\Registration.tsx" />
+    <None Remove="ClientApp\components\SavedTestResult.tsx" />
     <None Remove="ClientApp\components\TestInfo.tsx" />
+    <None Remove="ClientApp\components\UniversitySpecialties.tsx" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
@@ -28,7 +39,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="StackifyMiddleware" Version="2.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,11 +53,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\AllUniversities.tsx" />
     <TypeScriptCompile Include="ClientApp\components\App.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Loading.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\NavigationMenu.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\FavoriteSpecialties.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\PersonalCabinet.tsx" />
     <TypeScriptCompile Include="ClientApp\components\ProfTest.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Registration.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\SavedTestResult.tsx" />
     <TypeScriptCompile Include="ClientApp\components\TestInfo.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\UniversitySpecialties.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
@@ -77,5 +96,7 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+
+  <ProjectExtensions><VisualStudio><UserProperties package_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

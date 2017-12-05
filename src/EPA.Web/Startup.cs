@@ -1,14 +1,21 @@
 using EPA.BusinessLogic;
 using EPA.Common.Interfaces;
 using EPA.MSSQL;
+using EPA.MSSQL.Models;
 using EPA.MSSQL.SQLDataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EPA.Web
 {
@@ -39,12 +46,57 @@ namespace EPA.Web
         {
             services.AddMvc();
             services.AddTransient<EpaContext>();
+            services.AddTransient<IUserInformationProvider, UserInformationProvider>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
-            services.AddTransient<IUserAnswersProdiver, UserAnswersProvider>();
+            services.AddTransient<IUniversitiesProvider, UniversitiesProvider>();
+            services.AddTransient<IScoreProdiver, ScoreProvider>();
+            services.AddTransient<IMailProvider, MailProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, IdentityRole>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<EpaContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.CookieName = "Authorization";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = System.TimeSpan.FromDays(150);
+                options.LoginPath = "/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
+                options.LogoutPath = "/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
+                options.AccessDeniedPath = "/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+                options.SlidingExpiration = true;
+                options.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 401;
+                        }
+                        else
+                            ctx.Response.Redirect(ctx.RedirectUri);
+
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 403;
+                        }
+                        else
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        return Task.CompletedTask;
+                    }
+                };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +104,6 @@ namespace EPA.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
@@ -65,19 +116,15 @@ namespace EPA.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
+            
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                /*
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });//*/
             });
-
 
             app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             {
@@ -88,8 +135,7 @@ namespace EPA.Web
                         defaults: new { controller = "Home", action = "Index" });
                 });
             });
-            loggerFactory.AddProvider(new MyLoggerProvider());
-            new Mapping().Create();
+            Mapping.Create();
         }
     }
 }

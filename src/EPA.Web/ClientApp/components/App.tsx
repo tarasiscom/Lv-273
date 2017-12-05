@@ -4,18 +4,56 @@ import { Layout } from './Layout';
 import { Home } from './Home';
 import { ProfTest } from './ProfTest';
 import { TestInfo } from './TestInfo';
-import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject'
+import { ChooseSpecialtiesBySubject } from './ChooseSpecialtiesBySubject';
 import { ChooseSpecialty } from './ChooseSpecialty';
 import { ChooseSpecialtiesByDirection } from './ChooseSpecialtiesByDirection';
 import { TestQuiz } from './TestQuiz';
 import { ErrorPage } from './errors/Error';
+import { Registration } from './Registration';
+import { Login } from './Login';
+import { FavoriteSpecialties } from './FavoriteSpecialties';
+import { PersonalCabinet } from './PersonalCabinet'; 
+import { SavedTestResult } from './SavedTestResult';
+import { AllUniversities } from './AllUniversities';
+import { UniversitySpecialties } from './UniversitySpecialties'
+
 import PropTypes from 'prop-types';
+
+
+export function GetFetch<T>(path: string): Promise<T> {
+    return fetch(path, { credentials: 'same-origin' })
+            .then(response => ResponseChecker<T>(response))
+      
+}
+export function PostFetch<T>(path: string, body: any): Promise<T> {
+    return fetch(path, {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    credentials: 'same-origin'
+                })
+            .then(response => ResponseChecker<T>(response))      
+}
+
+function ResponseChecker<T>(response: Response): Promise<T> {
+    return new Promise((resolve, reject) => {
+        if (response.ok) {
+            resolve(response.json())
+        }
+        else {
+            reject(response.status);
+        }
+    });
+}
 
 export interface ErrorHandlerProp {
     onError: PropTypes.func
 }
 
-interface AppErrorHandler{
+interface AppErrorHandler {
     isError: boolean,
     errorMessage: string
 }
@@ -46,19 +84,27 @@ export class App extends React.Component<{}, AppErrorHandler> {
                         errRoute
                         :
                         <Switch>
-                            <Route exact path='/' render={(props) => (<Home {...props} />)} />
+                            <Route exact path='/' render={(props) => (<Home {...props} onError={this.onError} />)} />
                             <Route exact path='/profTest' render={(props) => (<ProfTest {...props} onError={this.onError} />)} />
                             <Route exact path='/testInfo/:id' render={(props) => (<TestInfo {...props} onError={this.onError} />)} />
                             <Route exact path='/quiz/:id' render={(props) => (<TestQuiz {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecBySub' component={ChooseSpecialtiesBySubject} />
-                            <Route exact path='/ChooseSpecialties/ChooseSpecByDir' component={ChooseSpecialtiesByDirection} />
+                            <Route exact path='/ChooseSpecialty/bySubject' render={(props) => (<ChooseSpecialtiesBySubject {...props} onError={this.onError} />)} />
+                            <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)} />
+                            <Route exact path='/Registration' render={(props) => (<Registration {...props} onError={this.onError} />)} />
+                            <Route exact path='/Login' render={(props) => (<Login {...props} onError={this.onError} />)} />
+                            <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
+                            <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
+                            <Route exact path='/PersonalCabinet/TestResult/:id' render={(props) => (<SavedTestResult {...props} onError={this.onError} />)} />
+                            <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
+							<Route exact path='/AllUniversities' render={(props) => (<AllUniversities {...props} onError={this.onError} />)} />
+                            <Route exact path='/University/:universityId' render={(props) => (<UniversitySpecialties {...props} onError={this.onError} />)} />
                             {errRoute}
                         </Switch>
                 }
             </Layout>
-        )        
+        )
     }
 
-    
+
 }

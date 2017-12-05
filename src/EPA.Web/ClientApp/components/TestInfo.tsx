@@ -5,9 +5,8 @@ import {
     Link, NavLink, BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import { ErrorHandlerProp } from './App';
-
-//import { Error404inComp } from './errors/404';
+import { ErrorHandlerProp, GetFetch } from './App';
+import { Loading } from './Loading';
 
 interface TestDetailInformation {
     id: number;
@@ -17,10 +16,6 @@ interface TestDetailInformation {
     questionsCount: number;
     loading: boolean;
 }
-/*
-interface ErrorHandlerProp {
-    onError: PropTypes.func    
-}*/
 
 export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, TestDetailInformation> {
     constructor(props) {
@@ -41,15 +36,22 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
     fetchData() {
         let pathId = this.props.match.params['id'];
         let path = 'api/profTest/' + pathId + '/info';
-        fetch(path)
-            .then(response => response.ok ? response.json() as Promise<TestDetailInformation> : this.props.onError(response.status.toString()) )
+        
+        GetFetch<any>(path)
             .then(data => {
-                this.setState({ id: data.id, name: data.name, description: data.description, approximateTime: data.approximateTime, questionsCount: data.questionsCount, loading: false });
+                this.setState({
+                    id: data.id,
+                    name: data.name,
+                    description: data.description,
+                    approximateTime: data.approximateTime,
+                    questionsCount: data.questionsCount,
+                    loading: false
+                });
             })
+            .catch(er => this.props.onError(er))
     }
 
-    private renderTestInfo()
-    {
+    private renderTestInfo() {
         return <div className="pad-for-footer">
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
@@ -71,11 +73,11 @@ export class TestInfo extends React.Component<RouteComponentProps<{}> & ErrorHan
     }
 
     public render() {
-        let content = this.state.loading ?
-            <p>Loading...</p>:
+        return this.state.loading ?
+            <Loading /> :
             this.renderTestInfo();
 
-        return content;
+
     }
 }
 

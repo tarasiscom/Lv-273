@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EPA.MSSQL.Models
@@ -7,15 +8,25 @@ namespace EPA.MSSQL.Models
     {
         [Key]
         public int Id { get; set; }
+        
+        // foreign keys
+        public District District { get; set; }
+
+        public int? LogoId { get; set; }
 
         public string Name { get; set; }
-
-        public District District { get; set; }
 
         public string Address { get; set; }
 
         public string Site { get; set; }
 
+        public int Rating { get; set; }
+
         public List<Specialty> Specialties { get; set; }
+
+        public Common.DTO.University ToCommon()
+        {
+            return Mapper.Map<Common.DTO.University>(this);
+        }
     }
 }
