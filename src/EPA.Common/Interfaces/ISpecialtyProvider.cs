@@ -52,6 +52,12 @@ namespace EPA.Common.Interfaces
         /// <returns></returns>
         Count GetCountBySubjects(List<int> listSubjects, int idDistrict);
 
-
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId);
     }
 }

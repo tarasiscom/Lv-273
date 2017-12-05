@@ -242,6 +242,19 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
+        {
+            return this.context.Specialties
+                               .Where(x => x.University.Id == universityId && x.Direction.Id == directionId)
+                               .Select(x => x.ToCommon());
+        }
+
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(int page, List<int> listId)
         {
             return (from s in this.context.Specialties
@@ -286,4 +299,3 @@ namespace EPA.MSSQL.SQLDataAccess
         }
     }
 }
-

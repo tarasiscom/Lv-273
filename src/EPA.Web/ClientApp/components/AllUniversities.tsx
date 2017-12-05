@@ -48,7 +48,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         this.loadUniversities();
     }
 
-    someHandler(cardId: number) {
+    hoverHandler(cardId: number) {
         this.setState({
             hoveredUniversity: cardId
         });
@@ -62,7 +62,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         else {
             const listUniversities = universities.map((item, id) => {
                 return (
-                    <div key={id} className="university-card" onMouseOver={() => this.someHandler(id)}>
+                    <div key={id} className="university-card" onMouseOver={() => this.hoverHandler(id)}>
                         <div className="flip">
                             <div className={(id == hoveredUniversity ? "card flipped" : "card")}>
                                 <div className="face front align-middle">

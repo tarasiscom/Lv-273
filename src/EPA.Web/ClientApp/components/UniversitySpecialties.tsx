@@ -53,7 +53,7 @@ export class UniversitySpecialties extends React.Component<RouteComponentProps<{
         }
     }
 
-    loadDirections() {
+    fetchDirections() {
         GetFetch<any>('api/ChooseSpecialties/directionsList')
             .then(data => {
                 this.setState({
@@ -65,23 +65,38 @@ export class UniversitySpecialties extends React.Component<RouteComponentProps<{
 
     }
 
-    loadSpecialties() {
-        GetFetch<any>('api/ChooseSpecialties/' + this.state.universityId + '/' + this.state.directionId)
+    fetchCount() {
+        GetFetch<any>('api/GetSpecialties/count/' + this.state.universityId + '/' + this.state.directionId)
+            .then(data => {
+                this.setState({
+                    count: data
+                });
+            })
+            .catch(er => this.props.onError(er));
+    }
+
+    fetchSpecialties() {
+        GetFetch<any>('api/GetSpecialties/' + this.state.universityId + '/' + this.state.directionId)
             .then(data => {
                 this.setState({
                     specialties: data
                 });
             })
             .catch(er => this.props.onError(er))
+    }
 
+    loadSpecialties() {
+        // this.fetchCount();
+        this.fetchSpecialties();
     }
 
     componentWillMount() {
-        this.loadDirections();
-        //this.setState({
-        //    directionId: this.state.directions[0].id
-        //})
-        // this.loadSpecialties();
+        this.fetchDirections();
+        this.setState({
+            directionId: this.state.directions[0].id,
+            universityId: this.props.match.params['universityId']
+        });
+        this.loadSpecialties();
     }
 
     render() {
@@ -102,7 +117,7 @@ export class UniversitySpecialties extends React.Component<RouteComponentProps<{
                     {listDirection}
                 </div>
                 <div className="specielties-container">
-                    
+                    <ListSpecialties specialties={specialties}></ListSpecialties>
                 </div>
             </div>
         }
