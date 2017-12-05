@@ -21,11 +21,11 @@
     text-align: center;
 }
 
-    .flip .card.flipped {
-        -webkit-transform: rotatey(-180deg);
-        transform: rotatey(-180deg);
-        transition: 1s;
-    }
+.flip .card.flipped {
+    -webkit-transform: rotatey(-180deg);
+    transform: rotatey(-180deg);
+    transition: 1s;
+}
 
 .flip .card {
     width: 270px;
@@ -51,16 +51,15 @@
     z-index: 1;
 }
 
-    .flip .card .back {
-        padding-top: 10%;
-        -webkit-transform: rotatey(-180deg);
-        -webkit-animation-timing-function: ease-in-out;
-        transform: rotatey(-180deg);
-        transition: 1s;
-    }
+.flip .card .back {
+    padding-top: 10%;
+    -webkit-transform: rotatey(-180deg);
+    -webkit-animation-timing-function: ease-in-out;
+    transform: rotatey(-180deg);
+    transition: 1s;
+}
 
 .left {
-    position: absolute;
     height: 100%;
     margin-bottom: 110px;
     padding-top: 5px;
@@ -93,4 +92,8 @@
 
 .item:hover {
     background-color: #ccc;
+}
+
+.specielties-container {
+    float:left;
 }

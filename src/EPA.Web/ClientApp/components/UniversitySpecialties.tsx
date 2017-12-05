@@ -6,12 +6,12 @@ import ListSpecialties from './ListSpecialties';
 
 
 interface StateTypes {
-    universityId: number;
     directionId: number;
     specialties: Specialty[];
     count: Count;
     loading: boolean;
     directions: GeneralDirection[];
+    loadingForSpecialties: boolean;
 }
 
 interface Specialty {
@@ -44,12 +44,12 @@ export class UniversitySpecialties extends React.Component<RouteComponentProps<{
     constructor() {
         super();
         this.state = {
-            universityId: -1,
-            directionId: -1,
+            directionId: 1,
             specialties: [],
             count: { allElements: 1, forOnePage: 1 },
             loading: true,
-            directions: []
+            directions: [],
+            loadingForSpecialties: true
         }
     }
 
@@ -62,62 +62,71 @@ export class UniversitySpecialties extends React.Component<RouteComponentProps<{
                 });
             })
             .catch(er => this.props.onError(er))
-
     }
 
-    fetchCount() {
-        GetFetch<any>('api/GetSpecialties/count/' + this.state.universityId + '/' + this.state.directionId)
+    fetchSpecialties(direction:number) {
+        const universityId = this.props.match.params['universityId'];
+        GetFetch<any>('api/GetSpecialties/' + universityId + '/' + direction)
             .then(data => {
                 this.setState({
-                    count: data
-                });
-            })
-            .catch(er => this.props.onError(er));
-    }
-
-    fetchSpecialties() {
-        GetFetch<any>('api/GetSpecialties/' + this.state.universityId + '/' + this.state.directionId)
-            .then(data => {
-                this.setState({
-                    specialties: data
+                    specialties: data,
+                    directionId: direction,
+                    loadingForSpecialties: false
                 });
             })
             .catch(er => this.props.onError(er))
     }
 
-    loadSpecialties() {
-        // this.fetchCount();
-        this.fetchSpecialties();
-    }
-
     componentWillMount() {
         this.fetchDirections();
+        this.fetchSpecialties(this.state.directionId);
+    }
+
+    changeDirection(id: number) {
         this.setState({
-            directionId: this.state.directions[0].id,
-            universityId: this.props.match.params['universityId']
+            loadingForSpecialties: true
         });
-        this.loadSpecialties();
+        this.fetchSpecialties(id);
     }
 
     render() {
-        const { universityId, directionId, specialties, count, loading, directions } = this.state
+        const { directionId, specialties, count, loading, directions, loadingForSpecialties } = this.state
         if (loading) {
             return <Loading />
         }
         else {
             const listDirection = directions.map((item, id) => {
                 return (
-                    <div key={id} className="item">
+                    <div key={id} className="item" onClick={() => this.changeDirection(directions[id].id)}>
                         <span><img src={"/pictures/directions/" + item.id + ".png"} /></span>
                         <p>{item.name}</p></div>
                 );
             });
+
+            let specialtiesList = <div></div>;
+            if (loadingForSpecialties == true) {
+                specialtiesList = < Loading />;
+            }
+            else {
+                if (specialties.length != 0) {
+                    specialtiesList = <ListSpecialties specialties={specialties}></ListSpecialties>;
+                }
+                else {
+                    let directionName;
+                    for (let i = 0; i < directions.length; i++) {
+                        if (directions[i].id == directionId)
+                            directionName = directions[i].name;
+                    }
+                    specialtiesList = <h4 className="pad-for-nav col-md-offset-1">В цьому університеті немає спеціальностей в галузі '{directionName}'</h4 >
+                }
+            }
+
             return <div>
                 <div className="left">
                     {listDirection}
                 </div>
-                <div className="specielties-container">
-                    <ListSpecialties specialties={specialties}></ListSpecialties>
+                <div className="specielties-container pad-for-footer">
+                    {specialtiesList}
                 </div>
             </div>
         }

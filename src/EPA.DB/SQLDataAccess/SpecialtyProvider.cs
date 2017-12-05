@@ -250,9 +250,23 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of universities</returns>
         public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
         {
-            return this.context.Specialties
-                               .Where(x => x.University.Id == universityId && x.Direction.Id == directionId)
-                               .Select(x => x.ToCommon());
+            IEnumerable<Specialty> need = from s in this.context.Specialties
+                                          join u in this.context.Universities on s.University.Id equals u.Id
+                                          where s.University.Id == universityId && s.Direction.GeneralDirection.Id   == directionId
+                                          orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
+                                          select new Specialty()
+                                          {
+                                              Id = s.Id,
+                                              Name = s.Name,
+                                              Address = u.Address,
+                                              District = u.District.Name,
+                                              Site = u.Site,
+                                              University = u.Name,
+                                              Subjects = (from ss in this.context.Specialty_Subjects
+                                                          where ss.Specialty.Id == s.Id
+                                                          select ss.Subject.ToCommon()).ToList()
+                                          };
+            return need;
         }
 
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(int page, List<int> listId)
