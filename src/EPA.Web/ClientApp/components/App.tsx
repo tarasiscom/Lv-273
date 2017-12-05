@@ -90,8 +90,8 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
                             <Route exact path='/ChooseSpecialty/bySubject' render={(props) => (<ChooseSpecialtiesBySubject {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)} />
-                            <Route exact path='/Registration' component={Registration} />
-                            <Route exact path='/Login' component={Login} />
+                            <Route exact path='/Registration' render={(props) => (<Registration {...props} onError={this.onError} />)} />
+                            <Route exact path='/Login' render={(props) => (<Login {...props} onError={this.onError} />)} />
                             <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
                             <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
                             <Route exact path='/PersonalCabinet/TestResult/:id' render={(props) => (<SavedTestResult {...props} onError={this.onError} />)} />

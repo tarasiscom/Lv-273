@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EPA.MSSQL.Models

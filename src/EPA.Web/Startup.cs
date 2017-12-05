@@ -51,6 +51,7 @@ namespace EPA.Web
             services.AddTransient<ISpecialtyProvider, SpecialtyProvider>();
             services.AddTransient<IUniversitiesProvider, UniversitiesProvider>();
             services.AddTransient<IScoreProdiver, ScoreProvider>();
+            services.AddTransient<IMailProvider, MailProvider>();
             services.Configure<ConstSettings>(this.Configuration.GetSection("ConstSettings"));
             services.AddDbContext<EpaContext>(options =>
                                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
