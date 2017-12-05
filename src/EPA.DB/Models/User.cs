@@ -18,7 +18,11 @@ namespace EPA.MSSQL.Models
 
         public string Surname { get; set; }
 
+        public int DistrictId { get; set; }
+
         public District District { get; set; }
+
+        public List<TestResult> TestResult { get; set; }
 
         public EPA.Common.DTO.UserProvider.UserPersonalInfo ToPersonalInfo()
         {

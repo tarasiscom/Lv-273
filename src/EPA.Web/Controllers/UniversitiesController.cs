@@ -1,32 +1,29 @@
 ﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 
 namespace EPA.Web.Controllers
 {
     /// <summary>
-    ///  API for Specialty and Direction draws
+    ///  API for University draws
     /// </summary>
     public class UniversitiesController : Controller
     {
         private readonly IUniversitiesProvider universitiesProvider;
+        private readonly ISpecialtyProvider specialtyProvider;
 
-        public UniversitiesController(IUniversitiesProvider universitiesProvider)
+        public UniversitiesController(IUniversitiesProvider universitiesProvider, ISpecialtyProvider specialtyProvider)
         {
             this.universitiesProvider = universitiesProvider;
+            this.specialtyProvider = specialtyProvider;
         }
 
         /// <summary>
         /// This mehod retrives list of top universities
         /// </summary>
-        /// <returns>List of subjects</returns>
+        /// <returns>List of top universities</returns>
         [Route("api/Universities/getTopUniversities")]
         [HttpGet]
         public IEnumerable<University> GetTopUniversities()
@@ -46,6 +43,29 @@ namespace EPA.Web.Controllers
             var data = this.universitiesProvider.GetLogoById(id);
             byte[] imgData = data.FirstOrDefault();
             return this.File(imgData, "image/jpeg");
+        }
+
+        /// <summary>
+        /// Retrieves all universities in current district
+        /// </summary>
+        /// <param name="district">District Id</param>
+        /// <returns>List of universities</returns>
+        [Route("api/universities/{district}")]
+        public IEnumerable<University> GetAllUniversitiesInDistrict(int district)
+        {
+            return this.universitiesProvider.GetAllUniversitiesInDistrict(district);
+        }
+
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        [Route("api/GetSpecialties/{universityId}/{directionId}")]
+        public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
+        {
+            return this.specialtyProvider.GetSpecialtiesInUniversity(universityId, directionId);
         }
     }
 }

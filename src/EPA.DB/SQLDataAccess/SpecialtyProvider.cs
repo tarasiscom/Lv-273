@@ -65,10 +65,11 @@ namespace EPA.MSSQL.SQLDataAccess
 
                 return this.GetSpecialtyForAuthorized(userId, page, listId);
             }
-
         }
-       
 
+        /// <summary>
+        /// This method retrieves collection of specialties that relates to chosen subjets and district
+        /// </summary>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page)
         {
             List<int> listId;
@@ -164,6 +165,33 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// Returns specialties of current university and direction
+        /// </summary>
+        /// <param name="universityId">University Id</param>
+        /// <param name="directionId">Direction Id</param>
+        /// <returns>Collection of universities</returns>
+        public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
+        {
+            IEnumerable<Specialty> need = from s in this.context.Specialties
+                                          join u in this.context.Universities on s.University.Id equals u.Id
+                                          where s.University.Id == universityId && s.Direction.GeneralDirection.Id   == directionId
+                                          orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
+                                          select new Specialty()
+                                          {
+                                              Id = s.Id,
+                                              Name = s.Name,
+                                              Address = u.Address,
+                                              District = u.District.Name,
+                                              Site = u.Site,
+                                              University = u.Name,
+                                              Subjects = (from ss in this.context.Specialty_Subjects
+                                                          where ss.Specialty.Id == s.Id
+                                                          select ss.Subject.ToCommon()).ToList()
+                                          };
+            return need;
+        }
+
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(int page, List<int> listId)
         {
             return (from s in this.context.Specialties
@@ -207,4 +235,3 @@ namespace EPA.MSSQL.SQLDataAccess
         }
     }
 }
-

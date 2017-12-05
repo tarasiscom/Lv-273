@@ -54,7 +54,8 @@ export class Home extends React.Component<RouteComponentProps<{}> & ErrorHandler
                     <div className="main-block">
                         <h2 className="text-center second-title">Обери своє майбутнє разом з EPA</h2>
                         <div className="text-description  col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                            <p> Ще не знаєш ким хочеш бути в майбутньому? EPA з радістю тобі допоможе. Все, що тобі потрібно: </p>
+                            <p> Ще не знаєш ким хочеш бути в майбутньому?
+                                EPA з радістю тобі допоможе. Все, що тобі потрібно: </p>
                             <p>1) Пройти тест на профорієнтацію.</p>
                             <p>2) Вибрати університет до вподоби.</p>
                             <p>3) Діяти! </p>
@@ -63,10 +64,14 @@ export class Home extends React.Component<RouteComponentProps<{}> & ErrorHandler
                     <h2 className="text-center second-title">Топ-5 університетів</h2>
                     <section className="univer-in-row">
                         <div className="uni-padding col-md-1 col-sm-1 col-xs-1"></div>
-                        {this.state.listUniversities.map((university, id) =>
-                            <div className="uni-padding col-md-2 col-sm-5 col-xs-12">
-                                <img className="img-univer" target="_blank" src={"api/Universities/" + university.logoId + "/logo"} width="100%" height="100%" />
-                                <a className="text-center text-univer" href={university.site}> {university.name}</a>
+                            {this.state.listUniversities.map((university, id) =>
+                            <div key={id} className="uni-padding col-md-2 col-sm-5 col-xs-12">
+                                <img className="img-univer"
+                                         target="_blank"
+                                         src={"api/Universities/" + university.logoId + "/logo"}
+                                         width="100%" height="100%" />
+                                <a className="text-center text-univer"
+                                        href={university.site}> {university.name}</a>
                             </div>
                         )}
                     </section>

@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect} from 'react-router';
 import Crypto from 'crypto-js';
+import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 
 interface User {
     firstName: string;
@@ -9,9 +10,11 @@ interface User {
     email: string;
     password: string;
     confirmPassword: string;
+    msg: string;
 }
 
-export class Registration extends React.Component<RouteComponentProps<{}>, User >
+
+export class Registration extends React.Component<RouteComponentProps<{}> & ErrorHandlerProp, User>
 {
     constructor(props) {
 
@@ -22,69 +25,89 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User 
             middleName: "",
             email: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            msg: ""
         }
     }
 
-    sendData = () => {
-        if (this.state.password != this.state.confirmPassword) {
-            alert('Підтвердження паролю не співпадає');
+    sendData() {
+        let hash = Crypto.SHA512(this.state.password);
 
+        let userInfo = {
+            firstName: this.state.firstName,
+            surname: this.state.lastName,
+            middleName: this.state.middleName,
+            email: this.state.email,
+            passwordHash: hash.toString(Crypto.enc.Base64),
+            userName: this.state.email
+        }
+
+        PostFetch<any>('api/registration', userInfo)
+            .then(data =>
+            {
+                this.setState({ msg: "Реєстрація пройшла успішно. Перевірте електронну пошту."});
+            }).catch(error => this.setState({ msg: "Реєстрація невдала." }))
+    }
+
+    validate = () => {
+        let name = new RegExp("^([^\u0000-\u007F]|[ -]|[A-Za-z])+$");
+        let middleName = new RegExp("^([^\u0000-\u007F]|[ -]|[A-Za-z])*$");
+        let email = new RegExp("^(?=.*[@]{1}).{5,}$");
+        let password = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$");
+        if (!name.test(this.state.lastName)) {
+            this.setState({ msg: "Прізвище введено невірно. Поле може містити літери, відступи і дефіс" });
+            return;
+        }
+        if (!name.test(this.state.firstName)) {
+            this.setState({ msg: "Імя введено невірно. Поле може містити літери, відступи і дефіс" });
+            return;
+        }
+        if (!middleName.test(this.state.middleName)) {
+            this.setState({ msg: "По батькові введено невірно. Поле може містити літери, відступи і дефіс" });
+            return;
+        }
+        if (!email.test(this.state.email)) {
+            this.setState({ msg: "Електрнна пошта повинна містити символ @" });
+            return;
+        }
+        if (!password.test(this.state.password)) {
+            this.setState({ msg: "Пароль введено невіно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
+            return;
+        }
+        if (!password.test(this.state.confirmPassword)) {
+            this.setState({ msg: "ПІдтвердження паролю введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів6" });
+            return;
+        }
+        if (this.state.password != this.state.confirmPassword) {
+            this.setState({ msg: 'Підтвердження паролю введено невірно. Підтвердження паролю не співпадає з введеним паролем.' });
+            return;
         }
         else {
-            let hash = Crypto.SHA512(this.state.password);
-            
-            let userInfo = {
-                lastname: this.state.lastName,
-                firstName: this.state.firstName,
-                middleName: this.state.middleName,
-                email: this.state.email,
-                passwordHash: this.state.password
-            }
-
-            alert();
-
-            fetch('api/registration', {
-                method: 'POST',
-                body: JSON.stringify(userInfo),
-                headers: { 'Content-Type': 'application/json' }
-            })
-               
+            this.sendData();
         }
     }
-            
 
-    /*
-    handleChange(event)
-    {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({[name]: value })
-    }
-    */
 
     render() {
         return <div className="registration">
-            <form role="form" onSubmit={this.sendData}>
+            <div>
                 <div className="input-group">
-                    <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="Прізвище" required
+                    <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -]|[A-Za-z])+$" className="form-control" placeholder="Прізвище" required
                         value={this.state.lastName} onChange={(event) => this.setState({ lastName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="firstName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="Імя" required
+                    <input type="text" name="firstName" pattern="^([^\u0000-\u007F]|[ -]|[A-Za-z])+$" className="form-control" placeholder="Імя" required
                         value={this.state.firstName} onChange={(event) => this.setState({ firstName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="middleName" pattern="^([^\u0000-\u007F]|[ -]|[Aa-Zz])+$" className="form-control" placeholder="По батькові" 
+                    <input type="text" name="middleName" pattern="^([^\u0000-\u007F]|[ -]|[A-Za-z])+$" className="form-control" placeholder="По батькові"
                         value={this.state.middleName} onChange={(event) => this.setState({ middleName: event.target.value })}
                         title="Поле може містити літери, відступи і дефіс"></input>
                 </div>
                 <div className="input-group">
-                    <input type="email" name="email"  className="form-control" id="inputEmail" placeholder="Email" required
+                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
                         value={this.state.email} onChange={(event) => this.setState({ email: event.target.value })}></input>
                 </div>
                 <div className="input-group">
@@ -97,9 +120,11 @@ export class Registration extends React.Component<RouteComponentProps<{}>, User 
                         value={this.state.confirmPassword} onChange={(event) => this.setState({ confirmPassword: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">
-                    <button type="submit" className="btn btn-primary" >Відправити</button>
-                </div>               
-            </form>
+                    <button className="btn btn-primary" onClick={this.validate}>Відправити</button>
+                </div>
+                <p id="errorMsg"> {this.state.msg} </p>
+            </div>
         </div>
     }
 }
+

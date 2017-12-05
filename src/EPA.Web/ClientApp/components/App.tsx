@@ -12,7 +12,10 @@ import { ErrorPage } from './errors/Error';
 import { Registration } from './Registration';
 import { Login } from './Login';
 import { FavoriteSpecialties } from './FavoriteSpecialties';
-import { PersonalCabinet } from './PersonalCabinet';
+import { PersonalCabinet } from './PersonalCabinet'; 
+import { SavedTestResult } from './SavedTestResult';
+import { AllUniversities } from './AllUniversities';
+import { UniversitySpecialties } from './UniversitySpecialties'
 
 import PropTypes from 'prop-types';
 
@@ -88,11 +91,14 @@ export class App extends React.Component<{}, AppErrorHandler> {
                             <Route exact path='/ChooseSpecialty' component={ChooseSpecialty} />
                             <Route exact path='/ChooseSpecialty/bySubject' render={(props) => (<ChooseSpecialtiesBySubject {...props} onError={this.onError} />)} />
                             <Route exact path='/ChooseSpecialty/byDirection' render={(props) => (<ChooseSpecialtiesByDirection {...props} onError={this.onError} />)} />
-                            <Route exact path='/Registration' component={Registration} />
-                            <Route exact path='/Login' component={Login} />
+                            <Route exact path='/Registration' render={(props) => (<Registration {...props} onError={this.onError} />)} />
+                            <Route exact path='/Login' render={(props) => (<Login {...props} onError={this.onError} />)} />
                             <Route exact path='/FavoriteSpecialties' render={(props) => (<FavoriteSpecialties {...props} onError={this.onError} />)} />
                             <Route exact path='/PersonalCabinet' render={(props) => (<PersonalCabinet {...props} onError={this.onError} />)} />
+                            <Route exact path='/PersonalCabinet/TestResult/:id' render={(props) => (<SavedTestResult {...props} onError={this.onError} />)} />
                             <Route exact path='/AccountController/ConfirmEmail/:userid/:token' />
+							<Route exact path='/AllUniversities' render={(props) => (<AllUniversities {...props} onError={this.onError} />)} />
+                            <Route exact path='/University/:universityId' render={(props) => (<UniversitySpecialties {...props} onError={this.onError} />)} />
                             {errRoute}
                         </Switch>
                 }

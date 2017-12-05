@@ -26,7 +26,7 @@ namespace EPA.MSSQL.SQLDataAccess
             ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
-        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty( string userId, int page)
+        public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(string userId, int page)
         {
             var specialties = from user in this.context.User_Specialty
                               where user.User.Id == userId
@@ -55,6 +55,7 @@ namespace EPA.MSSQL.SQLDataAccess
 
         public UserPersonalInfo GetPersonalInfo(string UserID)
         {
+
             var y = (from user in this.context.Users
                      where user.Id == UserID
                      join district in this.context.Districts on user.District.Id equals district.Id
@@ -66,10 +67,49 @@ namespace EPA.MSSQL.SQLDataAccess
                          Surname = user.Surname,
                          Phone = user.PhoneNumber
                      }).ToList().First();
-
             //return this.context.Users.Where(x => x.Id == UserID).First().ToPersonalInfo();
             return y;
         }
+
+        public IEnumerable<Test> GetTestResults(string userId)
+        {
+            var x = (from tr in this.context.TestResult
+                    where tr.User.Id == userId
+                    join tests in this.context.Tests on tr.TestDetailedInfo.Id equals tests.Id
+                    select new Test()
+                    {
+                        Id = tr.Id,
+                        Name = tests.Name
+                    }).ToList();
+
+            return x;
+
+        }
+
+        public IEnumerable<DirectionScores> GetTestResult(int testId, string userId)
+        {
+            var x = (from str in this.context.TestScore
+                     join tr in this.context.TestResult on str.TestResult.Id equals tr.Id
+                     join gd in this.context.GeneralDirections on str.GeneralDirection.Id equals gd.Id
+                     where tr.Id == testId &&
+                     tr.User.Id == userId
+                     select new DirectionScores()
+                     {
+                         GeneralDir = new Common.DTO.GeneralDirection() { Id = gd.Id, Name = gd.Name },
+                         Score = str.Score
+                     }
+                     ).ToList();
+
+            if (x.Count > 0)
+            {
+                return x;
+            }
+            else
+            {
+                throw new ArgumentException(String.Format("No TestResults by Id of {0} were found" , testId));
+            }
+        }
+
 
         public bool AddSpecialtyToFavorite(string UserId, int specialtyId)
         {

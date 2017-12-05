@@ -50,7 +50,7 @@ export default class ListSpecialties extends React.Component<Specialties, Specia
     private favHandle(id){
         //alert(id);
         let specs = this.state.specialties;
-        let path = specs[id].isFavorite ? 'api/user/RemoveFromFav/' : 'api/user/AddToFav/'
+        let path = specs[id].isFavorite ? 'api/User/RemoveFromFav/' : 'api/User/AddToFav/'
         specs[id].isFavorite = !specs[id].isFavorite;
         GetFetch(path + specs[id].id).then(data => {
             if (data)

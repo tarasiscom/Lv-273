@@ -42,7 +42,7 @@ namespace EPA.Web.Controllers
         /// <returns>User Id</returns>
         public string GetUserId(ClaimsPrincipal principal)
         {
-              return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+            return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
 
         /// <summary>
@@ -57,7 +57,6 @@ namespace EPA.Web.Controllers
         /// This method retrieves Users Personal Information
         /// </summary>
         /// <returns> UserPersonalInfo </returns>
-        [Authorize]
         [Route("api/User/GetUserPersonalInformation")]
         public UserPersonalInfo GetUserPersonalInfo()
         {
@@ -65,14 +64,30 @@ namespace EPA.Web.Controllers
             return this.userInformationProvider.GetPersonalInfo(userId);
         }
 
-        [Route("api/user/AddToFav/{id:int}")]
+        [Route("api/User/GetTestResults")]
+        [HttpGet]
+        public IEnumerable<Test> GetTestResults()
+        {
+            var userId = this.GetUserId(this.User);
+            return this.userInformationProvider.GetTestResults(userId);
+        }
+
+        [Route("api/User/GetTestResult/{id:int}")]
+        [HttpGet]
+        public IEnumerable<DirectionScores> GetTestResult(int id)
+        {
+            var userId = this.GetUserId(this.User);
+            return this.userInformationProvider.GetTestResult(id, userId);
+        }
+
+        [Route("api/User/AddToFav/{id:int}")]
         [HttpGet]
         public bool AddToFavorite(int id)
         {
             return this.userInformationProvider.AddSpecialtyToFavorite(this.GetUserId(this.User), id);
         }
 
-        [Route("api/user/RemoveFromFav/{id:int}")]
+        [Route("api/User/RemoveFromFav/{id:int}")]
         [HttpGet]
         public bool RemoveFromFavorite(int id)
         {

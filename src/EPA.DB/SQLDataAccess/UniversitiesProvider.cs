@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EPA.Common.DTO;
+﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
-using EPA.MSSQL.Calculations;
 using Microsoft.Extensions.Options;
-using System.Drawing;
-using System.IO;
-using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
     /// <summary>
-    /// This class contains methods for obtaining specialties data from database
+    /// This class contains methods for obtaining universities data from database
     /// </summary>
     public class UniversitiesProvider : IUniversitiesProvider
     {
@@ -30,7 +26,10 @@ namespace EPA.MSSQL.SQLDataAccess
         /// <returns>Collection of top universities</returns>
         public IEnumerable<Common.DTO.University> GetTopUniversities()
         {
-            IQueryable<University> universities = this.context.Universities.OrderBy(x => x.Rating).Take(this.constSettings.Value.TopUniversities).Select(x => x.ToCommon());
+            IQueryable<University> universities = this.context.Universities.
+                OrderBy(x => x.Rating).
+                Take(this.constSettings.Value.TopUniversities).
+                Select(x => x.ToCommon());
             return universities;
         }
 
@@ -45,6 +44,34 @@ namespace EPA.MSSQL.SQLDataAccess
                        where i.Id == id
                        select i.ToCommon().Logo;
             return data;
+        }
+
+        /// <summary>
+        /// Retrieves all universities in current district
+        /// </summary>
+        /// <param name="districtId">District Id</param>
+        /// <returns>List of universities</returns>
+        public IEnumerable<University> GetAllUniversitiesInDistrict(int districtId)
+        {
+            return this.context.Universities.Join(
+                                                   this.context.Districts,
+                                                   university => university.District.Id,
+                                                   district => district.Id,
+                                                   (university, district) => new University
+                                                   {
+                                                       Id = university.Id,
+                                                       Address = university.Address,
+                                                       District = new District
+                                                       {
+                                                           Id = district.Id,
+                                                           Name = district.Name
+                                                       },
+                                                       Name = university.Name,
+                                                       Rating = university.Rating,
+                                                       Site = university.Site
+                                                   })
+                                             .Where(university => university.District.Id == districtId)
+                                             .OrderBy(x => x.Rating);
         }
     }
 }

@@ -64,6 +64,12 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
         }
         this.fetchAllSpecialties(this.state.idCurrentDirection);
     }
+    
+    getDirectionName(id: number) {
+        let name = this.props.testresult;
+        return name;
+    }
+
     public render() {
         let content = <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 center-block">
@@ -74,9 +80,10 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                     </h3>
                 </div>
             </div>
-            <div className="pad-for-nav col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+            <div className="pad-for-nav-testres col-xs-12 col-sm-12 col-md-6 col-lg-6" >
             { this.state.loadingSpecialties ? <div className= "text-center"><Loading /></div>
-                :<div>
+                    : <div>
+                 <h4 className="direction-label-pad">Галузь - {this.props.testresult[this.state.idCurrentDirection-1].generalDir.name}</h4>
                 <ListSpecialties specialties={this.state.specialties} />
                     <div className="pageBar">
                         <ReactPaginate
