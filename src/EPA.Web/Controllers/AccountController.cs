@@ -39,10 +39,9 @@ namespace EPA.Web.Controllers
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
+        public IActionResult Register([FromBody]MSSQL.Models.User newUser)
         {
             var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
-    
 
             if (result.Succeeded)
             {
@@ -116,14 +115,17 @@ namespace EPA.Web.Controllers
             MSSQL.Models.User signedUser = this.userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
             if (signedUser != null)
             {
-                var result = this.signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent: true, lockoutOnFailure: false).GetAwaiter().GetResult();
+                var result = this.signInManager.PasswordSignInAsync(signedUser.UserName, 
+                                                                loginUser.Password, 
+                                                                isPersistent: true, 
+                                                                lockoutOnFailure: false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
-                    return this.Ok(new { Message = "" });
+                    return this.Ok(new { Message = "Авторизація пройшла успішно" });
                 }
             }
 
-            return this.BadRequest();
+            return this.BadRequest(new { Message = "Неправильно введений логін або пароль" });
         }
 
         [Authorize]

@@ -39,7 +39,7 @@ namespace EPA.MSSQL.SQLDataAccess
         
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page)
         {
-
+            IEnumerable<EPA.Common.DTO.Specialty> result;
             List<int> listId;
             if (idDistrict == this.constValues.Value.AllDistricts)
             {
@@ -54,24 +54,24 @@ namespace EPA.MSSQL.SQLDataAccess
                           s.University.District.Id == idDistrict
                           select s.Id).ToList();
             }
-
+            result = SelectSpecialties(userId, page, listId);
+            return result;
+        }
+        public IEnumerable<EPA.Common.DTO.Specialty> SelectSpecialties(string userId, int page, List<int> listId)
+        {
             if (userId == string.Empty)
             {
 
                 return this.GetSpecialty(page, listId);
             }
-            else
-            {
-
-                return this.GetSpecialtyForAuthorized(userId, page, listId);
-            }
+            return this.GetSpecialtyForAuthorized(userId, page, listId);
         }
-
         /// <summary>
         /// This method retrieves collection of specialties that relates to chosen subjets and district
         /// </summary>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page)
         {
+            IEnumerable<EPA.Common.DTO.Specialty> result;
             List<int> listId;
             if (idDistrict == this.constValues.Value.AllDistricts)
             {
@@ -91,17 +91,8 @@ namespace EPA.MSSQL.SQLDataAccess
                           select grouped.Key).ToList();
             }
 
-
-            if (userId == string.Empty)
-            {
-
-                return this.GetSpecialty(page, listId);
-            }
-            else
-            {
-
-                return this.GetSpecialtyForAuthorized(userId, page, listId);
-            }
+            result = SelectSpecialties(userId, page, listId);
+            return result;
         }
 
 

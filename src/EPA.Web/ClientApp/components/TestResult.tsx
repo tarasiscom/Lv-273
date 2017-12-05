@@ -118,7 +118,6 @@ export default class TestResults extends React.Component<GeneralDirectionResult 
                         width={450}
                         height={450}
                         padding={60}
-                
                         domainMax={this.state.maxScore}
                         data={{
                             variables: this.props.testresult.map(gen =>
