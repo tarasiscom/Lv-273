@@ -1,9 +1,17 @@
-﻿.universities-container {
+﻿.content-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.universities-container {
     margin: 30px 50px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .university-card {

@@ -44,7 +44,7 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         super();
         this.state = {
             universities: [],
-            loading: true,
+            loading: false,
             hoveredUniversity: -1,
             districts: [],
             selectDistrict: { label: "Виберіть область", value: -1 },
@@ -74,7 +74,10 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         GetFetch<DistrictDTO[]>('api/ChooseSpecialties/districtsList')
             .then(data => {
                 this.setState({
-                    districts: data.map<District>(district => new District(district.id, district.name)),
+                    districts: data.map<District>(district => new District(district.id, district.name))
+                    .filter(function (dis) {
+                        return dis.label !="Всі";
+                    }),
                     loadingDistricts: false
                 })
             })
@@ -86,24 +89,33 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
         });
     }
     handleOnChangeDistrict = (selectDistricty) => {
-        this.setState({ selectDistrict: selectDistricty })
+        this.setState({ selectDistrict: selectDistricty, loading: true })
         this.loadUniversities(selectDistricty.value)
     }
     public render() {
-        return <div className="virtselect pad-for-nav col-md-offset-1  col-md-3 col-sm-offset-1 col-sm-3  col-xs-8 col-xs-offset-2"><p>Області</p>
-            <div>
-            <VirtualizedSelect multi={false}
-                options={this.state.districts}
-                onChange={this.handleOnChangeDistrict}
-                value={this.state.selectDistrict} >
-            </VirtualizedSelect>
-            </div>
-            <div>
-                {this.allUniv()}
-            </div>
+        return <div>
+            <div className="delete-margin">
+                <section className="jumbotron center-block">
+                    <div className="container content-center">
+                        <div className="col-md-4 col-sm-4  col-xs-8 navigate">
+                            <div className="virtselect"><p className="text-center">Області</p>
+                            <VirtualizedSelect multi={false}
+                                options={this.state.districts}
+                                onChange={this.handleOnChangeDistrict}
+                                value={this.state.selectDistrict} >
+                            </VirtualizedSelect>
+                        </div>
+                     </div> 
+                   </div>
+                </section>
+               </div>
+               <div>
+                {this.renderAllUniversities()}
+                </div>
         </div>
     }
-    allUniv() {
+
+    renderAllUniversities() {
         const { hoveredUniversity, universities, loading } = this.state
         if (loading) {
             return <Loading />
