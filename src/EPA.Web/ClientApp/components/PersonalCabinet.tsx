@@ -119,11 +119,19 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
                         </h4>
                     </div>
                     <div id="collapse1" className="panel-collapse collapse">
+                        
+                        {this.state.tests.map((test) => 
 
-                        {/*  */}
+                            <Link to={'/PersonalCabinet/TestResult/'+ test.id }><div className="panel-body" >{test.name}</div></Link>
+
+                        )}
+
+                        {/*
                         <div className="panel-body">Тут будуть результати тестів...</div>
                         <div className="panel-body">Тест 1</div>
                         <div className="panel-body">Тест 2</div>
+                        */}
+
                     </div>
                 </div>
 

@@ -29,10 +29,17 @@ namespace EPA.Common.Interfaces
         Count CountOfFavoriteSpecialtys(string UserID);
 
         /// <summary>
-        /// This method returns test results
+        /// This method returns a list of test for which we have saved results
         /// </summary>
         /// <returns>  </returns>
         IEnumerable<Test> GetTestResults(string userId);
+
+
+        /// <summary>
+        /// This method returns test results for a specific test for a specific user
+        /// </summary>
+        /// <returns>  </returns>
+        IEnumerable<DirectionScores> GetTestResult(int testId, string userId);
 
         /// <summary>
         /// Add selected specialty to favorites

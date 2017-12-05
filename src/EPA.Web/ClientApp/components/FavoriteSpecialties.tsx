@@ -144,7 +144,9 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
 
     private handlePageClick = (data) => {
 
-                let selected = data.selected;
+        
+        let selected = data.selected;
+        
         this.fetchFavoriteSpecialties(selected);
     }
 }
