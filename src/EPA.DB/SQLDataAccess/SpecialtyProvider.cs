@@ -27,27 +27,16 @@ namespace EPA.MSSQL.SQLDataAccess
             ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
-        /// <summary>
-        /// This method retrieves collection of all subjects from database
-        /// </summary>
-        /// <returns>Collection of subjects</returns>
+       
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of all districts from database
-        /// </summary>
-        /// <returns>Collection of districts</returns>
+        
         public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of all general directions
-        /// </summary>
-        /// <returns>Collection of general directions</returns>
+        
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction and district
-        /// </summary>
+        
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page)
         {
 
@@ -78,75 +67,8 @@ namespace EPA.MSSQL.SQLDataAccess
             }
 
         }
-        /*
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction
-        /// </summary>
-        /// <param name="directionInfo">Information about direction for which specialties are filtered</param>
-        /// <returns>Collection of specialties with their amount</returns>
-        public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(int idDirection, int page)
-        {
-            var specialties = from s in this.context.Specialties
-                              where s.Direction.GeneralDirection.Id == idDirection
-                              join u in this.context.Universities on s.University.Id equals u.Id
-                              join d in this.context.Districts on u.District.Id equals d.Id
-                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
-                              select new Common.DTO.Specialty()
-                              {
-                                  Id = s.Id,
-                                  Name = s.Name,
-                                  Address = u.Address,
-                                  District = d.Name,
-                                  Site = u.Site,
-                                  University = u.Name,
-                                  Subjects = (from ss in this.context.Specialty_Subjects
-                                              where ss.Specialty.Id == s.Id
-                                              select ss.Subject.ToCommon()).ToList()
-                              };
+       
 
-            return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
-        }
-
-        /// <summary>
-        /// This method retrieves collection of specialties which relates to chosen direction
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
-        private IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirectionAndDistrictAll(string userId, int idDirection, int idDistrict, int page)
-        {
-            IEnumerable<Specialty> result;
-            var specialties = from s in this.context.Specialties
-                              where s.Direction.GeneralDirection.Id == idDirection
-                              join u in this.context.Universities on s.University.Id equals u.Id
-                              join d in this.context.Districts on u.District.Id equals d.Id
-                              where d.Id == idDistrict
-                              orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
-                              select new Common.DTO.Specialty()
-                              {
-                                  Id = s.Id,
-                                  Name = s.Name,
-                                  Address = u.Address,
-                                  District = d.Name,
-                                  Site = u.Site,
-                                  University = u.Name,
-                                  Subjects = (from ss in this.context.Specialty_Subjects
-                                              where ss.Specialty.Id == s.Id
-                                              select ss.Subject.ToCommon()).ToList(),
-
-                                  isFavorite = (from us in this.context.User_Specialty
-                                                where us.User.Id == userId && us.Specialty.Id == s.Id
-                                                select us.Id).Any()
-
-                              };
-
-            result = specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage);
-            return result;
-        }
-        */
-
-        /// <summary>
-        /// This method retrieves collection of specialties that relates to chosen subjets and district
-        /// </summary>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page)
         {
             List<int> listId;

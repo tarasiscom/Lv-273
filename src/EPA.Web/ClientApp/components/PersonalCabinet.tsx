@@ -8,6 +8,7 @@ import {
 import { ErrorHandlerProp, GetFetch, PostFetch } from './App';
 import { Loading } from './Loading';
 import ReactModal from 'react-modal';
+import Crypto from 'crypto-js';
 
 const customStyles = {
     content: {
@@ -178,11 +179,14 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     private ChangePassword()
     {
+        let hashOldPassword = Crypto.SHA512(this.state.changePassword.oldPassword);
+        let hashNewPassword = Crypto.SHA512(this.state.changePassword.newPassword);
+
         if (this.state.changePassword.confirmPassword == this.state.changePassword.newPassword) {
             let path = 'api/User/ChangePassword';
             let passwordInfo = {
-                oldPassword: this.state.changePassword.oldPassword,
-                newPassword: this.state.changePassword.newPassword
+                oldPassword: hashOldPassword.toString(Crypto.enc.Base64),
+                newPassword: hashNewPassword.toString(Crypto.enc.Base64)
             }
 
             PostFetch<any>(path, passwordInfo)
