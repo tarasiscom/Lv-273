@@ -39,10 +39,9 @@ namespace EPA.Web.Controllers
         [Route("api/registration")]
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult  Register([FromBody]MSSQL.Models.User newUser)
+        public IActionResult Register([FromBody]MSSQL.Models.User newUser)
         {
             var result = this.userManager.CreateAsync(newUser, newUser.PasswordHash).GetAwaiter().GetResult();
-    
 
             if (result.Succeeded)
             {
@@ -104,7 +103,7 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public IActionResult Logout()
         {
-            signInManager.SignOutAsync();
+            this.signInManager.SignOutAsync();
             return this.Redirect("/");
         }
 
@@ -113,16 +112,20 @@ namespace EPA.Web.Controllers
         [AllowAnonymous]
         public IActionResult LoginUser([FromBody]EPA.Common.DTO.LoginUser loginUser)
         {
-            MSSQL.Models.User signedUser = userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
+            MSSQL.Models.User signedUser = this.userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
             if (signedUser != null)
             {
-                var result = signInManager.PasswordSignInAsync(signedUser.UserName, loginUser.Password, isPersistent: true, lockoutOnFailure: false).GetAwaiter().GetResult();
+                var result = this.signInManager.PasswordSignInAsync(signedUser.UserName, 
+                                                                loginUser.Password, 
+                                                                isPersistent: true, 
+                                                                lockoutOnFailure: false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
-                    return this.Ok(new { Message = "" });
+                    return this.Ok(new { Message = "Авторизація пройшла успішно" });
                 }
             }
-            return this.BadRequest();
+
+            return this.BadRequest(new { Message = "Неправильно введений логін або пароль" });
         }
 
         [Authorize]
@@ -130,8 +133,8 @@ namespace EPA.Web.Controllers
         [Route("api/User/ChangePassword")]
         public string ChangePassword([FromBody]EPA.Common.DTO.ChangePassword passwords)
         {
-            var user = userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
-            var a = userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword).GetAwaiter().GetResult();
+            var user = this.userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
+            var a = this.userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword).GetAwaiter().GetResult();
 
             return a.Succeeded.ToString();
         }
