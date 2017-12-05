@@ -11,7 +11,6 @@ interface User {
     password: string;
     confirmPassword: string;
     msg: string;
-    error: string;
 }
 
 interface Result
@@ -32,8 +31,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             email: "",
             password: "",
             confirmPassword: "",
-            msg: "",
-            error: ""
+            msg: ""
         }
     }
 
@@ -85,7 +83,6 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
             this.setState({ msg: "ПІдтвердження паролю введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів6" });
             return;
         }
-
         if (this.state.password != this.state.confirmPassword) {
             this.setState({ msg: 'Підтвердження паролю введено невірно. Підтвердження паролю не співпадає з введеним паролем.' });
             return;
