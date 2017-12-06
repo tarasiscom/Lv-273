@@ -65,7 +65,7 @@ namespace EPA.MSSQL.SQLDataAccess
                          FirstName = user.FirstName,
                          Surname = user.Surname,
                          Phone = user.PhoneNumber
-                     }).ToList().First();
+                     }).First();
 
             return userInfo;
         }

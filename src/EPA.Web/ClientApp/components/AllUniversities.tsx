@@ -137,10 +137,10 @@ export class AllUniversities extends React.Component<RouteComponentProps<{}> & E
                                 </div>
                                 <div className="face back">
                                     <div className="inner text-center">
-                                        <p>Рейтинг: {item.rating}</p>
+                                        <p>Позиція у рейтингу: {item.rating}</p>
                                         <p>Адреса: {item.address}</p>
                                         <p>Сайт: <a>{item.site}</a></p>
-                                        <Link to={'/University/' + item.id} className="btn btn-link btn-block">Розпочати</Link>
+                                        <Link to={'/University/' + item.id} className="btn btn-link btn-block">Детільніше</Link>
                                     </div>
                                 </div>
                             </div>

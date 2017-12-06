@@ -10,9 +10,9 @@ namespace logoinsertor
         static void Main(string[] args)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection("Server=tcp:epadb.database.windows.net,1433;Initial Catalog=Lv-273.Net.Epa;Persist Security Info=False;User ID=Lv273Net;Password=!netLv273;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-            string input = "F:\\Kpi.jpg";
+            string input = "D:\\knu.jpg";
             byte[] readText = File.ReadAllBytes(input);
             
             //used stored procedure from database for SqlCommand
