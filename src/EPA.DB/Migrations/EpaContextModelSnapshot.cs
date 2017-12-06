@@ -252,7 +252,7 @@ namespace EPA.MSSQL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int?>("DistrictId");
+                    b.Property<int>("DistrictId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -484,12 +484,13 @@ namespace EPA.MSSQL.Migrations
             modelBuilder.Entity("EPA.MSSQL.Models.TestScore", b =>
                 {
                     b.HasOne("EPA.MSSQL.Models.GeneralDirection", "GeneralDirection")
-                        .WithMany()
+                        .WithMany("TestScore")
                         .HasForeignKey("GeneralDirectionId");
 
                     b.HasOne("EPA.MSSQL.Models.TestResult", "TestResult")
                         .WithMany("TestScore")
-                        .HasForeignKey("TestResultId");
+                        .HasForeignKey("TestResultId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.University", b =>
@@ -503,7 +504,8 @@ namespace EPA.MSSQL.Migrations
                 {
                     b.HasOne("EPA.MSSQL.Models.District", "District")
                         .WithMany("User")
-                        .HasForeignKey("DistrictId");
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.User_Specialty", b =>
