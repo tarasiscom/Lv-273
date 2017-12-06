@@ -133,11 +133,22 @@ namespace EPA.Web.Controllers
         [Route("api/User/ChangePassword")]
         public string ChangePassword([FromBody]EPA.Common.DTO.ChangePassword passwords)
         {
+            string resultMessage;
             var user = this.userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
-            var changePasswordStatus = this.userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword).GetAwaiter().GetResult();
-            if (changePasswordStatus.Succeeded) return "Ви успішно змінили пароль.";
+            var changePasswordStatus = this.userManager
+                .ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword)
+                .GetAwaiter().GetResult();
 
-            return "Пароль не вдалось змінити.";
+            if (changePasswordStatus.Succeeded)
+            {
+               resultMessage = "Ви успішно змінили пароль.";
+            }
+            else
+            {
+                resultMessage = "Пароль не вдалось змінити.";
+            }
+
+            return resultMessage;
         }
 
         public string GetUserId(ClaimsPrincipal principal)

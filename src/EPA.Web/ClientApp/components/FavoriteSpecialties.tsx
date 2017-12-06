@@ -93,7 +93,7 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
     }
 
     private renderSpecialtiesList() {
-        let tabbord;
+        let specialtyTab;
         let header;
 
         header = <div>
@@ -106,17 +106,17 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
         </div>
 
         if (this.state.count.allElements == 0) {
-            tabbord = <div>
+            specialtyTab = <div>
                 <h1>Ви не вподобали жодної спеціальності</h1>
             </div>
         }
         else {
-            tabbord = <ListSpecialties specialties={this.state.specialties} />
+            specialtyTab = <ListSpecialties specialties={this.state.specialties} />
         }
 
-        let pagin;
+        let pagination;
         if (this.state.count.allElements > 10) {
-            pagin = <ReactPaginate
+            pagination= <ReactPaginate
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
@@ -134,33 +134,29 @@ export class FavoriteSpecialties extends React.Component<RouteComponentProps<{}>
             {header}
             <div className="container pad-for-footer caption col-md-12 col-lg-12 col-sm-12 col-xs-12">
                 <div className="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
-                    {tabbord}
+                    {specialtyTab}
                     <div className="pageBar">
-                        {pagin}
+                        {pagination}
                     </div>
                 </div>
         </div>
         </div>
             }
 
-    private handlePageClick = (data1) => {
-        let selected = data1.selected;
-        
-        let path = 'api/User/GetSpecialtiesCount';
-        GetFetch<any>(path)
+    private handlePageClick = (paginationData) => {
+        GetFetch<any>('api/User/GetSpecialtiesCount')
             .then(data => {
                 this.setState(
                     {
                         count: data
                     }),
-                    this.output(Math.ceil(this.state.count.allElements / this.state.count.forOnePage),data1 )
+                    this.output(Math.ceil(this.state.count.allElements / this.state.count.forOnePage), paginationData)
             }).catch(er => this.props.onError(er))
 
     }
 
     private output(curr, data)
     {
-        
         if (curr < data.selected + 1) {
             data.selected = data.selected - 1;
             this.handlePageClick(data);

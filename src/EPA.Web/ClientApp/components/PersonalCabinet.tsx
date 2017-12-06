@@ -84,28 +84,22 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
     }
 
     private renderPersonalCabinet() {
-        let pageSkeleton;
-        pageSkeleton = < main className="container " >
+        return <main className="container">
+                    <header className="text-center">
+                        <h1 className="padding-personal-cabinet">Особистий кабінет</h1>
+                    </header>
+                    <div className="row">
+                        <section className="col-md-9 col-lg-9 col-sm-12 col-xs-12 container-fluid">
+                            {this.renderUserPersonalInformation()}
+                            {this.renderUsersPreference()}
+                        </section>
+                        <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
+                            <img src={"/pictures/user_ico.png"} alt="User Logo"
+                                className="rounded img-thumbnail user-logo" />
+                        </aside>
+                    </div>
+                </main>
 
-            <header className="text-center">
-                <h1 className="padding-personal-cabinet">Особистий кабінет</h1>
-            </header>
-
-            <div className="row">
-                <section className="col-md-9 col-lg-9 col-sm-12 col-xs-12 container-fluid">
-                    {this.renderUserPersonalInformation()}
-                    {this.renderUsersPreference()}
-                </section>
-                <aside className=" col-md-3 col-lg-3 col-sm-12 col-xs-12 container-fluid text-center">
-                    <img src="http://vaz.od.ua/assets/blank_avatar-b870b9bb4856dbcb4ed86cfed0349975.png" alt="User Logo"
-                        className="rounded img-thumbnail user-logo" />
-                </aside>
-            </div>
-        </main>
-
-        return <div>
-            {pageSkeleton}
-        </div>
     }
 
     private renderUsersPreference() {
@@ -193,10 +187,9 @@ export class PersonalCabinet extends React.Component<RouteComponentProps<{}> & E
 
     private ChangePassword()
     {
-        let hashOldPassword = Crypto.SHA512(this.state.changePassword.oldPassword);
-        let hashNewPassword = Crypto.SHA512(this.state.changePassword.newPassword);
-
         if (this.state.changePassword.confirmPassword == this.state.changePassword.newPassword) {
+            let hashOldPassword = Crypto.SHA512(this.state.changePassword.oldPassword);
+            let hashNewPassword = Crypto.SHA512(this.state.changePassword.newPassword);
             let path = 'api/User/ChangePassword';
             let passwordInfo = {
                 oldPassword: hashOldPassword.toString(Crypto.enc.Base64),

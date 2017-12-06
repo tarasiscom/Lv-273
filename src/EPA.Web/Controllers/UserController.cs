@@ -40,7 +40,7 @@ namespace EPA.Web.Controllers
         /// </summary>
         /// <param name="principal"> This is ClaimPrincipal</param>
         /// <returns>User Id</returns>
-        public string GetUserId(ClaimsPrincipal principal)
+        private string GetUserId(ClaimsPrincipal principal)
         {
             return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
