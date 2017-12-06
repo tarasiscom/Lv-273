@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using HtmlAgilityPack;
+﻿using System.Collections.Generic;
 using Parsing.DataClasses;
 
 
@@ -8,9 +6,9 @@ namespace Parsing
 {
     public interface IParser
     {
-        string Url { get; set; }
+        //string Url { get; set; }
 
-        void ChangeUrl(string url);
+        //void ChangeUrl(string url);
 
         List<Direction> Directions { get; }
 
@@ -24,10 +22,14 @@ namespace Parsing
 
         List<District> Districts { get; }
 
-        HtmlNodeCollection RetreiveNodes(string xPath);
+        //HtmlNodeCollection RetreiveNodes(string xPath);
 
-        HtmlNode RetreiveNode(string xPath);
+        //HtmlNode RetreiveNode(string xPath);
 
-        void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
+        //void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
+        
+        string StartParsing();
+
+
     }
 }

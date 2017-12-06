@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Parsing.DataClasses;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -9,14 +10,20 @@ namespace Parsing
     public class Parser : IParser
     {
         private static int idSpeciality = 1;
-
         private static int idDirection = 1;
-
         private static int idSubject = 1;
-
         private static int idSpecSub = 1;
-
+        private string district;
+        private HtmlNode universityNode;
+        //private string year = "/2017";
+        private string indexPage;
+        private int universityID = 1;
+        private int districtID = 1;
         private string url;
+        private Dictionary<string, string> nodesXPaths;
+        private HtmlNodeCollection specialitiesNodes;
+        private HtmlNodeCollection universitiesNodes;
+        private HtmlNodeCollection districtNodes;
 
         public List<Direction> Directions { get; private set; }
 
@@ -30,17 +37,11 @@ namespace Parsing
 
         public List<District> Districts { get; private set; }
 
-        Dictionary<string, string> specFields;
-
-        public string Url
+        public Parser(Dictionary<string, string> specFields)
         {
-            get { return url; }
-            set { url = value; }
-        }
-
-        public Parser(string url)
-        {
-            this.url = url;
+            this.nodesXPaths = specFields;
+            indexPage = nodesXPaths["URL"];
+            url = indexPage;
             this.Directions = new List<Direction>();
             this.Specialities = new List<Speciality>();
             this.Universities = new List<University>();
@@ -49,12 +50,12 @@ namespace Parsing
             this.Districts = new List<District>();
         }
 
-        public void ChangeUrl(string url)
+        private void ChangeUrl(string url)
         {
             this.url = url;
         }
 
-        public string GetDocument()
+        private string GetDocument()
         {
             WebRequest request = WebRequest.Create(url);
             request.Method = "GET";
@@ -71,19 +72,19 @@ namespace Parsing
             }
         }
 
-        public HtmlNodeCollection RetreiveNodes(string xPath)
+        private HtmlNodeCollection RetreiveNodes(string xPath)
         {
             HtmlDocument doc = LoadHtmlDocument();
             return doc.DocumentNode.SelectNodes(xPath);
         }
 
-        public HtmlNode RetreiveNode(string xPath)
+        private HtmlNode RetreiveNode(string xPath)
         {
             HtmlDocument doc = LoadHtmlDocument();
             return doc.DocumentNode.SelectSingleNode(xPath);
         }
 
-        public HtmlDocument LoadHtmlDocument()
+        private HtmlDocument LoadHtmlDocument()
         {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(GetDocument());
@@ -133,16 +134,16 @@ namespace Parsing
             if (nameSpeciality != namePrevSpeciality)
             {
                 Specialities.Add(new Speciality(idSpeciality, idDirection, idUniv, ToUpper(nameSpeciality), applicationsAmount, enrolledAmount));
-                AddSpecSub(node.SelectSingleNode(specFields["SubjectNode"]).InnerText);
+                AddSpecSub(node.SelectSingleNode(nodesXPaths["SubjectNode"]).InnerText);
                 idSpeciality++;
                 namePrevSpeciality = nameSpeciality;
             }
             return namePrevSpeciality;
         }
 
-        public void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
+        private void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
         {
-            this.specFields = specFields;
+            this.nodesXPaths = specFields;
             string namePrevDirection = string.Empty;
             string namePrevSpeciality = string.Empty;
             string nameDirection;
@@ -156,6 +157,7 @@ namespace Parsing
                 Districts.Add(new District(idDistrict, district));
             }
 
+            //some universities has other paths to nodes
             if (univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText.Contains("</td>"))
             {
                 Universities.Add(new University(idUniv, idDistrict, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText,
@@ -276,6 +278,56 @@ namespace Parsing
             return subNames;
         }
 
-    
+        private void ParseSpecialities()
+        {
+            specialitiesNodes = RetreiveNodes(nodesXPaths["SpecialitiesNodes"]);
+
+            if (specialitiesNodes != null)
+            {
+                GetInfo(districtID, universityID, district, universityNode, specialitiesNodes, nodesXPaths);
+            }
+        }
+
+        private void ParseUniverities()
+        {
+            universitiesNodes = RetreiveNodes(nodesXPaths["UniversitiesTypesNode"]);
+
+            if (universitiesNodes != null)
+            {
+                foreach (HtmlNode univ in universitiesNodes)
+                {
+                    //some university links return 404 code
+                    if (ErrorsLog.IsAvailable(indexPage + "/" + DateTime.Now.Year.ToString() + univ.Attributes["href"].Value.Remove(0, 1)))
+                    {
+                        ChangeUrl(indexPage + "/" + DateTime.Now.Year.ToString() + univ.Attributes["href"].Value.Remove(0, 1));
+                        universityNode = RetreiveNode(nodesXPaths["UniversitiesNode"]);
+                        ParseSpecialities();
+                    }
+                    universityID++;
+                    Console.WriteLine(universityID);
+                }
+            }
+        }
+
+        public string StartParsing()
+        {           
+            districtNodes = RetreiveNodes(nodesXPaths["DistrictsNode"]);
+            foreach (HtmlNode node in districtNodes)
+            {
+                district = node.InnerText;
+                if (district == "Вінницька область")
+                {
+                if (node.InnerText != string.Empty)
+                {
+                    ChangeUrl(indexPage + node.Attributes["href"].Value);
+                    ParseUniverities();
+                    return String.Format("District {0}", district);
+                }
+                }
+                
+                districtID++;
+            }
+            return String.Format("Parsing completed");
+        }
     }
 }

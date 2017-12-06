@@ -10,7 +10,7 @@ namespace Parsing
     {
         private static readonly int size = 500;
 
-        private string connectionString = @"Server=ssu-sql12\tc;Database=EpaDb;User Id=Lv-273.Net;Password=Lv-273.Ne";
+        private string connectionString = @"Server=.\SQLEXPRESS;Database=EPA;Integrated security=true";
         private string formDistrict = "({0},N'{1}')";
         private string formUniversity = "({0},N'{1}',{2},N'{3}',N'{4}')";
         private string formDirection = "({0},N'{1}',{2})";

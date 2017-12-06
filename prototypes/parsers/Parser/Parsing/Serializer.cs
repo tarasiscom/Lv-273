@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -21,6 +20,7 @@ namespace Parsing
 
         private void FillDictionary()
         {
+            nodesPaths.Add("URL", "http://vstup.info");
             nodesPaths.Add("DistrictsNode", "//table[@id='abet']/tbody/tr/td/a");
             //University, institute etc.
             nodesPaths.Add("UniversitiesTypesNode", "//table[@id='vnzt0']/tbody/tr/td/a | //table[@id='vnzt1']/tbody/tr/td/a | //table[@id='vnzt2']/tbody/tr/td/a");

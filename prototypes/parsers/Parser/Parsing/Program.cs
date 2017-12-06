@@ -7,10 +7,12 @@ namespace Parsing
     {
         private static void Main(string[] args)
         {
+            
             Serializer serializer = new Serializer();
             serializer.Serialize();
+            
             Dictionary<string, string> nodeXPaths = Deserializer.Deserialize();
-            ParseController parse = new ParseController(new DatabaseSaver(), new Parser("http://vstup.info"), nodeXPaths);
+            ParseController parse = new ParseController(new DatabaseSaver(), new Parser(nodeXPaths));
             parse.Start();
             Console.ReadKey();
         }
