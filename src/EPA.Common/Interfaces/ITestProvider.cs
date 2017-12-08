@@ -4,36 +4,43 @@ using EPA.Common.DTO;
 namespace EPA.Common.Interfaces
 {
     /// <summary>
-    ///  This interface describes methods that are available for getting test related data
+    ///  This interface describes methods for getting test related data
     /// </summary>
     public interface ITestProvider
     {
         /// <summary>
-        /// This method retrieves list of accessible tests
+        /// This method retrieves collection of all tests
         /// </summary>
-        /// <returns> collection of Tests </returns>
+        /// <returns> Collection of tests </returns>
         IEnumerable<Test> GetTests();
 
         /// <summary>
         /// This method retrieves more detailed information about specific test
         /// </summary>
-        /// <param name="id"> id of the test </param>
-        /// <returns> more detatiled test information </returns>
+        /// <param name="id"> Id of the test </param>
+        /// <returns> More detatiled test information </returns>
         TestInfo GetTestInfo(int id);
 
         /// <summary>
         /// This method returns a collection of questions for a specific test
         /// </summary>
-        /// <param name="testId">ID of the test, whose questions we need</param>
+        /// <param name="testId">ID of the test</param>
         /// <returns>Collection of questions</returns>
         IEnumerable<Question> GetQuestions(int testId);
 
         /// <summary>
-        /// This method returns information about general direction
+        /// This method returns general directions
         /// </summary>
-        /// <returns>Direction information</returns>
+        /// <returns>Collection of general directions</returns>
         IEnumerable<GeneralDirection> GetDirectionsInfo();
 
-        bool AddTestResult(List<DirectionScores> list,string UserID,int testId);
+        /// <summary>
+        /// This method saves test results for user
+        /// </summary>
+        /// <param name="list">Test Results</param>
+        /// <param name="userId">User's ID</param>
+        /// <param name="testId">Test for which results are beign saved</param>
+        /// <returns>Logical flag that represents operation status</returns>
+        bool AddTestResult(List<DirectionScores> list, string userId, int testId);
     }
 }

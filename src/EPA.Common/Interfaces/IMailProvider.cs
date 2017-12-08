@@ -3,12 +3,12 @@
 namespace EPA.Common.Interfaces
 {
     /// <summary>
-    /// Interface that contains methods for manipulations with mail
+    /// This interface describes methods for manipulations with mail
     /// </summary>
     public interface IMailProvider
     {
         /// <summary>
-        /// Method that send mail for account confirmation
+        /// Method that sends letter for account confirmation
         /// </summary>
         /// <param name="toAddress">Recipient's address</param>
         /// <param name="confirmationLink">Link to confirm account</param>

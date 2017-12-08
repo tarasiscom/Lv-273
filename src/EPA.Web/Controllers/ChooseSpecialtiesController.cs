@@ -1,6 +1,5 @@
 ﻿using EPA.Common.DTO;
 using EPA.Common.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -8,9 +7,8 @@ using System.Security.Claims;
 namespace EPA.Web.Controllers
 {
     /// <summary>
-    ///  API for Specialty and Direction draws
+    ///  API for Specialty data draws
     /// </summary>
-    //[Authorize]
     public class ChooseSpecialtiesController : Controller
     {
         private readonly ISpecialtyProvider specialtyProvider;
@@ -31,7 +29,6 @@ namespace EPA.Web.Controllers
         /// This method retrives list of general directions
         /// </summary>
         /// <returns> List of general directions </returns>
-        //[Authorize(Roles = "trulyalya")]
         [Route("api/ChooseSpecialties/directionsList")]
         public IEnumerable<GeneralDirection> GetGeneralDirection() => this.specialtyProvider.GetGeneralDirections();
 
@@ -59,35 +56,35 @@ namespace EPA.Web.Controllers
             {
                 return this.specialtyProvider.GetSpecialtyBySubjects(string.Empty, subjectInfo.ListSubjects, subjectInfo.District, subjectInfo.Page);
             }
-
         }
 
         /// <summary>
         /// This method retrives list of specialties according to general direction
         /// </summary>
-        /// <param name="idDirection">Direction id</param>
-        /// id of the general direction
-        /// <param name="idDistrict">District id</param>
-        /// number of page and number of elements per page
-        /// <param name="page">Page number</param>
-        /// Limited list of specialties and count of all specialities
-        /// <returns>List if specialties</returns>
+        /// <param name="idDirection">Id of the general direction</param>
+        /// <param name="idDistrict">Id of the district</param>
+        /// <param name="page">Page iterator</param>
+        /// <returns>List of specialties</returns>
         [Route("api/ChooseSpecialties/byDirectionAndDistrict/{idDirection}/{idDistrict}/{page}")]
         [HttpGet]
         public IEnumerable<Specialty> GetSpecialtiesByDirection(int idDirection, int idDistrict, int page)
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.specialtyProvider.GetSpecialtiesByDirection(this.User.FindFirstValue(ClaimTypes.NameIdentifier),idDirection, idDistrict, page);
+                return this.specialtyProvider.GetSpecialtiesByDirection(this.User.FindFirstValue(ClaimTypes.NameIdentifier), idDirection, idDistrict, page);
             }
             else
             {
-                return this.specialtyProvider.GetSpecialtiesByDirection(string.Empty,idDirection, idDistrict, page);
-            }            
+                return this.specialtyProvider.GetSpecialtiesByDirection(string.Empty, idDirection, idDistrict, page);
+            }
         }
 
-
-
+        /// <summary>
+        /// This method retrieves count of pages for getting specialties by general direction
+        /// </summary>
+        /// <param name="idDirection">Id of the general direction</param>
+        /// <param name="idDistrict">Id of the district</param>
+        /// <returns>Count</returns>
         [Route("api/ChooseSpecialties/count/{idDirection}/{idDistrict}")]
         [HttpGet]
         public Count GetCountByDirection(int idDirection, int idDistrict)
@@ -95,6 +92,11 @@ namespace EPA.Web.Controllers
             return this.specialtyProvider.GetCountByDirection(idDirection, idDistrict);
         }
 
+        /// <summary>
+        /// This method retrieves count of pages for getting specialties by subjects
+        /// </summary>
+        /// <param name="subjectInfo">Subjects information</param>
+        /// <returns>Count</returns>
         [Route("api/ChooseSpecialties/count/bySubjects")]
         [HttpPost]
         public Count GetCountBySubjects([FromBody] SubjectsInfo subjectInfo)

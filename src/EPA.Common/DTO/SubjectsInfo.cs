@@ -3,22 +3,22 @@
 namespace EPA.Common.DTO
 {
     /// <summary>
-    /// This class describes information that need for request to DB - GetSpecialtiesBySubjects
+    /// This class describes subject data draws that are related to specialties
     /// </summary>
     public class SubjectsInfo
     {
         /// <summary>
-        /// List of Subjects
+        /// Gets or sets list of subjects
         /// </summary>
         public List<int> ListSubjects { get; set; }
 
         /// <summary>
-        /// Pagination page
+        /// Gets or sets page at which user is currently on
         /// </summary>
         public int Page { get; set; }
 
         /// <summary>
-        ///District Id 
+        /// Gets or sets district
         /// </summary>
         public int District { get; set; }
     }

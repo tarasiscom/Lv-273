@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace EPA.MSSQL.SQLDataAccess
 {
     /// <summary>
-    /// This class contains methods for obtaining tests data from database
+    /// This class contains methods for obtaining test data from database
     /// </summary>
     public class ProfTestInfoProvider : ITestProvider
     {
@@ -22,20 +22,20 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
         /// <summary>
-        /// This method retrieves information about test by test id
+        /// This method retrieves more detailed information about specific test
         /// </summary>
-        /// <param name="id">ID of the test</param>
-        /// <returns>Information about test</returns>
+        /// <param name="id"> Id of the test </param>
+        /// <returns> More detatiled test information </returns>
         public TestInfo GetTestInfo(int id) => this.context.Tests.Find(id).ToCommon();
 
         /// <summary>
         /// This method retrieves collection of all tests
         /// </summary>
-        /// <returns>Collection of all tests</returns>
+        /// <returns> Collection of tests </returns>
         public IEnumerable<Test> GetTests() => this.context.Tests.Select(item => item.ToCommon());
 
         /// <summary>
-        /// This method retrieves questions  by testId from database
+        /// This method returns a collection of questions for a specific test
         /// </summary>
         /// <param name="testId">ID of the test</param>
         /// <returns>Collection of questions</returns>
@@ -62,14 +62,20 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
         /// <summary>
-        /// This method retrieves collection of all general directions from database
+        /// This method returns general directions
         /// </summary>
         /// <returns>Collection of general directions</returns>
         public IEnumerable<GeneralDirection> GetDirectionsInfo() =>
                     this.context.GeneralDirections.Select(item => item.ToCommon());
 
-
-        public bool AddTestResult( List<DirectionScores> list, string userId,int testId)
+        /// <summary>
+        /// This method saves test results for user
+        /// </summary>
+        /// <param name="list">Test Results</param>
+        /// <param name="userId">User's ID</param>
+        /// <param name="testId">Test for which results are beign saved</param>
+        /// <returns>Logical flag that represents operation status</returns>
+        public bool AddTestResult(List<DirectionScores> list, string userId, int testId)
         {
             var user = this.context.Users.Where(x => x.Id == userId).FirstOrDefault();
             var testDetailIfo = this.context.Tests.Where(x => x.Id == testId).FirstOrDefault();

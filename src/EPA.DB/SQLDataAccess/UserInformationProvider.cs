@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using EPA.Common.DTO;
 using EPA.Common.DTO.UserProvider;
 using EPA.Common.Interfaces;
@@ -11,21 +10,28 @@ using Microsoft.Extensions.Options;
 
 namespace EPA.MSSQL.SQLDataAccess
 {
+    /// <summary>
+    /// This class obtain methods for getting user related data
+    /// </summary>
     public class UserInformationProvider : IUserInformationProvider
     {
         private readonly EpaContext context;
-
         private readonly IOptions<ConstSettings> constValues;
-
         private readonly RatingProvider ratingProvider;
 
         public UserInformationProvider(EpaContext context, IOptions<ConstSettings> constValues)
         {
             this.context = context;
             this.constValues = constValues;
-            ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
+            this.ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
+        /// <summary>
+        /// This method retrieves user's favorite specialties
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="page">page iterator</param>
+        /// <returns>Collection of favorite specialties</returns>
         public IEnumerable<Common.DTO.Specialty> GetFavoriteSpecialty(string userId, int page)
         {
             var specialties = from user in this.context.User_Specialty
@@ -33,7 +39,7 @@ namespace EPA.MSSQL.SQLDataAccess
                               join special in this.context.Specialties on user.Specialty.Id equals special.Id
                               join univer in this.context.Universities on special.University.Id equals univer.Id
                               join d in this.context.Districts on univer.District.Id equals d.Id
-                              orderby ratingProvider.GetRating(univer.Rating, special.NumApplication, special.NumEnrolled) descending
+                              orderby this.ratingProvider.GetRating(univer.Rating, special.NumApplication, special.NumEnrolled) descending
                               select new Common.DTO.Specialty()
                               {
                                   Id = special.Id,
@@ -45,34 +51,41 @@ namespace EPA.MSSQL.SQLDataAccess
                                   Subjects = (from ss in this.context.Specialty_Subjects
                                               where ss.Specialty.Id == special.Id
                                               select ss.Subject.ToCommon()).ToList(),
-                                  isFavorite = (from us in this.context.User_Specialty
-                                                where us.User.Id == userId && us.Specialty.Id == special.Id
-                                                select us.Id).Any()
-
+                                  IsFavorite = true
                               };
-            return specialties.Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
+            return specialties.Skip(page * this.constValues.Value.CountForPage).Take(this.constValues.Value.CountForPage).ToList();
         }
 
-        public UserPersonalInfo GetPersonalInfo(string userID)
+        /// <summary>
+        /// This method retrieves user's personal information
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>User personal information</returns>
+        public UserPersonalInfo GetPersonalInfo(string userId)
         {
             var userInfo = (from user in this.context.Users
-                     where user.Id == userID
-                     join district in this.context.Districts on user.District.Id equals district.Id
-                     select new UserPersonalInfo()
-                     {
-                         District = district.Name,
-                         Email = user.Email,
-                         FirstName = user.FirstName,
-                         Surname = user.Surname,
-                         Phone = user.PhoneNumber
-                     }).First();
+                            where user.Id == userId
+                            join district in this.context.Districts on user.District.Id equals district.Id
+                            select new UserPersonalInfo()
+                            {
+                                District = district.Name,
+                                Email = user.Email,
+                                FirstName = user.FirstName,
+                                Surname = user.Surname,
+                                Phone = user.PhoneNumber
+                            }).First();
 
             return userInfo;
         }
 
+        /// <summary>
+        /// This method returns a list of test for which we have saved results
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns> Collection of tests </returns>
         public IEnumerable<Test> GetTestResults(string userId)
         {
-            var x = (from tr in this.context.TestResult
+            return (from tr in this.context.TestResult
                     where tr.User.Id == userId
                     join tests in this.context.Tests on tr.TestDetailedInfo.Id equals tests.Id
                     select new Test()
@@ -80,11 +93,14 @@ namespace EPA.MSSQL.SQLDataAccess
                         Id = tr.Id,
                         Name = tests.Name
                     }).ToList();
-
-            return x;
-
         }
 
+        /// <summary>
+        /// This method returns test results for a specific test and user
+        /// </summary>
+        /// <param name="testId">Selected test</param>
+        /// <param name="userId">User Id</param>
+        /// <returns> Test Results for a selected tests</returns>
         public IEnumerable<DirectionScores> GetTestResult(int testId, string userId)
         {
             var x = (from str in this.context.TestScore
@@ -96,34 +112,44 @@ namespace EPA.MSSQL.SQLDataAccess
                      {
                          GeneralDir = new Common.DTO.GeneralDirection() { Id = gd.Id, Name = gd.Name },
                          Score = str.Score
-                     }
-                     ).ToList();
+                     }).ToList();
 
-            if (x.Count > 0)
+            if (x.Count < 1)
             {
-                return x;
+                throw new ArgumentException(string.Format("No TestResults by Id of {0} were found", testId));
             }
-            else
-            {
-                throw new ArgumentException(String.Format("No TestResults by Id of {0} were found" , testId));
-            }
+
+            return x;
         }
 
-
-        public bool AddSpecialtyToFavorite(string UserId, int specialtyId)
+        /// <summary>
+        /// This method adds selected specialty to favorites
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="specialtyId">Specialty Id </param>
+        /// <returns> Logical flag that represents operation status</returns>
+        public bool AddSpecialtyToFavorite(string userId, int specialtyId)
         {
-
             User_Specialty add = new User_Specialty();
             add.Specialty = this.context.Specialties.Where(x => x.Id == specialtyId).First();
-            add.User = this.context.Users.Where(x => x.Id == UserId).First();
-            //this.context.User_Specialty.Contains(add);
-            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == specialtyId && x.User.Id == UserId).FirstOrDefault();
-            if (rez != null) return false;
+            add.User = this.context.Users.Where(x => x.Id == userId).First();
+            var rez = this.context.User_Specialty.Where(x => x.Specialty.Id == specialtyId && x.User.Id == userId).FirstOrDefault();
+            if (rez != null)
+            {
+                return false;
+            }
+
             this.context.User_Specialty.Add(add);
             this.context.SaveChanges();
             return true;
         }
 
+        /// <summary>
+        /// This method removes specialty from favorites
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="specialtyId">Specialty Id</param>
+        /// <returns> Logical flag that represents operation status</returns>
         public bool RemoveSpecialtyFromFavorite(string userId, int specialtyId)
         {
             User_Specialty remove = this.context.User_Specialty.First(x => x.Specialty.Id == specialtyId && x.User.Id == userId);
@@ -132,11 +158,16 @@ namespace EPA.MSSQL.SQLDataAccess
             return true;
         }
 
-        public Count CountOfFavoriteSpecialtys(string UserID)
+        /// <summary>
+        /// This method retrieves count of favorite specialties
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>Count of favorite specialties</returns>
+        public Count CountOfFavoriteSpecialtys(string userId)
         {
             Count result = new Count();
-            result.AllElements = this.context.User_Specialty.Where(x => x.User.Id == UserID).Count();
-            result.ForOnePage = constValues.Value.CountForPage;
+            result.AllElements = this.context.User_Specialty.Where(x => x.User.Id == userId).Count();
+            result.ForOnePage = this.constValues.Value.CountForPage;
             return result;
         }
     }

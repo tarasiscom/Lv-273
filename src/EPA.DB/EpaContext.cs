@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using EPA.MSSQL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -40,7 +39,7 @@ namespace EPA.MSSQL
 
         public DbSet<TestScore> TestScore { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Answer>().ToTable("Answers");
@@ -60,8 +59,8 @@ namespace EPA.MSSQL
             modelBuilder.Entity<TestScore>().ToTable("TestScore");
 
             /*
-             * Delete coment if need change name in Azure DB 
-             * 
+             * Delete coment if need change name in Azure DB
+             *
              modelBuilder.Entity<User>().ToTable("Users");
 
             modelBuilder.Entity<IdentityRole<string>>().ToTable("Roles");

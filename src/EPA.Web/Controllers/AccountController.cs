@@ -3,17 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using EPA.Common.DTO;
 using System;
 
 namespace EPA.Web.Controllers
 {
     /// <summary>
-    /// API for user creation and sign in
+    /// API for user registration and login related operations
     /// </summary>
     public class AccountController : Controller
     {
@@ -23,16 +20,16 @@ namespace EPA.Web.Controllers
         private readonly IOptions<ConstSettings> constValues;
 
         public AccountController(UserManager<MSSQL.Models.User> userManager, SignInManager<MSSQL.Models.User> signInManager, IMailProvider mailProvider, IOptions<ConstSettings> constValues)
-        {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             this.mailProvider = mailProvider;
             this.signInManager = signInManager;
             this.constValues = constValues;
-        }
+        }
 
         /// <summary>
-        /// Create user
+        /// This method provides registration of a new user
         /// </summary>
         /// <param name="newUser">Full information about new user</param>
         /// <returns>Returns status</returns>
@@ -54,7 +51,7 @@ namespace EPA.Web.Controllers
 
                 var toAddress = new MailAddress(newUser.Email);
                 this.mailProvider.SendMail(toAddress, confirmationLink, newUser.FirstName);
-                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess});
+                return this.Ok(new { Message = this.constValues.Value.RegistrSuccess });
             }
             else
             {
@@ -65,15 +62,15 @@ namespace EPA.Web.Controllers
                     break;
                 }
 
-                return this.BadRequest( new {Message = errorDecription });
+                return this.BadRequest(new { Message = errorDecription });
             }
         }
 
         /// <summary>
-        /// Confirm account when user click on link in email
+        /// This method redirects to personal cabinet when user clicks confim email link.
         /// </summary>
-        /// <param name="userid">User identifier</param>
-        /// <param name="token">Token</param>
+        /// <param name="userid">User identIdifier</param>
+        /// <param name="token">Authorization token</param>
         /// <returns>Returns status</returns>
         [Route("account/confirmEmail")]
         [AllowAnonymous]
@@ -91,6 +88,10 @@ namespace EPA.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// This method checks if user is currently authorized.
+        /// </summary>
+        /// <returns>Logical flag that checks is user authenticated</returns>
         [Route("api/CheckAuth")]
         [HttpGet]
         [AllowAnonymous]
@@ -99,6 +100,10 @@ namespace EPA.Web.Controllers
             return this.User.Identity.IsAuthenticated;
         }
 
+        /// <summary>
+        /// This method logouts user.
+        /// </summary>
+        /// <returns>Redirects to Home Page</returns>
         [Route("account/Logout")]
         [AllowAnonymous]
         public IActionResult Logout()
@@ -107,6 +112,11 @@ namespace EPA.Web.Controllers
             return this.Redirect("/");
         }
 
+        /// <summary>
+        /// This method provides login funcionality for user
+        /// </summary>
+        /// <param name="loginUser">login information about user</param>
+        /// <returns>Returns status</returns>
         [Route("api/login")]
         [HttpPost]
         [AllowAnonymous]
@@ -115,10 +125,12 @@ namespace EPA.Web.Controllers
             MSSQL.Models.User signedUser = this.userManager.FindByEmailAsync(loginUser.Email).GetAwaiter().GetResult();
             if (signedUser != null)
             {
-                var result = this.signInManager.PasswordSignInAsync(signedUser.UserName, 
-                                                                loginUser.Password, 
-                                                                isPersistent: true, 
-                                                                lockoutOnFailure: false).GetAwaiter().GetResult();
+                var result = this.signInManager.PasswordSignInAsync(
+                    signedUser.UserName,
+                    loginUser.Password,
+                    isPersistent: true,
+                    lockoutOnFailure: false).GetAwaiter().GetResult();
+
                 if (result.Succeeded)
                 {
                     return this.Ok(new { Message = "Авторизація пройшла успішно" });
@@ -128,6 +140,11 @@ namespace EPA.Web.Controllers
             return this.BadRequest(new { Message = "Неправильно введений логін або пароль" });
         }
 
+        /// <summary>
+        /// This method changes user's password.
+        /// </summary>
+        /// <param name="passwords">Password information</param>
+        /// <returns>Operation status string</returns>
         [Authorize]
         [HttpPost]
         [Route("api/User/ChangePassword")]
@@ -141,7 +158,7 @@ namespace EPA.Web.Controllers
 
             if (changePasswordStatus.Succeeded)
             {
-               resultMessage = "Ви успішно змінили пароль.";
+                resultMessage = "Ви успішно змінили пароль.";
             }
             else
             {
@@ -151,10 +168,14 @@ namespace EPA.Web.Controllers
             return resultMessage;
         }
 
+        /// <summary>
+        /// This method gives user Id. / Dublicate of UserController method
+        /// </summary>
+        /// <param name="principal">Claim Principal</param>
+        /// <returns>User ID</returns>
         public string GetUserId(ClaimsPrincipal principal)
         {
             return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
-
     }
 }

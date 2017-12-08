@@ -1,17 +1,17 @@
 ﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    /// Represents District information
+    /// This class describes district
     /// </summary>
     public class District
     {
         /// <summary>
-        /// District's Id
+        /// Gets or sets Id of the district
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// District's Name
+        /// Gets or sets name of the district
         /// </summary>
         public string Name { get; set; }
     }

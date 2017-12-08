@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  Describes more detailed information for the tests
+    ///  Describes detailed information for the tests
     /// </summary>
     public class TestInfo : Test
     {
         /// <summary>
-        ///  Description for the test
+        ///  Gets or sets description for the test
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        ///  Approximate amount of time one spends on passing a test
+        ///  Gets or sets approximate amount of time one spends on a test
         /// </summary>
         public int ApproximateTime { get; set; }
 
         /// <summary>
-        ///  Amount of questions in the test
+        ///  Gets or sets an amount of questions that test has
         /// </summary>
         public int QuestionsCount { get; set; }
     }

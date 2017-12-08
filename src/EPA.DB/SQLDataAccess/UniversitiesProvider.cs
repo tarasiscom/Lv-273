@@ -34,10 +34,10 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
         /// <summary>
-        /// This method retrieves Logo of University by column LogoId in the table Universities
+        /// This method retrieves Logo of University
         /// </summary>
-        /// <param name="id">Id from table Logo_Universities</param>
-        /// <returns>logo of University</returns>
+        /// <param name="id">Selected university</param>
+        /// <returns>Logo of university</returns>
         public byte[] GetLogoById(int id)
         {
             return (from i in this.context.Logo_Universities
@@ -47,10 +47,10 @@ namespace EPA.MSSQL.SQLDataAccess
         }
 
         /// <summary>
-        /// Retrieves all universities in current district
+        /// This method retrieves all universities in selected district
         /// </summary>
-        /// <param name="districtId">District Id</param>
-        /// <returns>List of universities</returns>
+        /// <param name="districtId">Selected district</param>
+        /// <returns>Collection of universities</returns>
         public IEnumerable<University> GetAllUniversitiesInDistrict(int districtId)
         {
             return this.context.Universities.Join(

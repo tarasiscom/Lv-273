@@ -27,12 +27,32 @@ namespace EPA.MSSQL.SQLDataAccess
             this.ratingProvider = new RatingProvider(constValues.Value.KoefOfNumApplication);
         }
 
+        /// <summary>
+        ///  This method retrieves collection of all subjects
+        /// </summary>
+        /// <returns>Collection of subjects</returns>
         public IEnumerable<Common.DTO.Subject> GetAllSubjects() => this.context.Subjects.Select(x => x.ToCommon());
 
+        /// <summary>
+        ///  This method retrieves collection of all districts
+        /// </summary>
+        /// <returns>Collection of districts</returns>
         public IEnumerable<Common.DTO.District> GetAllDistricts() => this.context.Districts.Select(x => x.ToCommon());
 
+        /// <summary>
+        /// This method retrieves collection of general directions
+        /// </summary>
+        /// <returns> Collection of general directions </returns>
         public IEnumerable<EPA.Common.DTO.GeneralDirection> GetGeneralDirections() => this.context.GeneralDirections.Select(x => x.ToCommon());
 
+        /// <summary>
+        /// This method retrieves list of specialties based on general direction
+        /// </summary>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="idDirection"> Chosen general direction</param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <param name="page"> Page iterator</param>
+        /// <returns> Collection of Specialties </returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page)
         {
             IEnumerable<EPA.Common.DTO.Specialty> result;
@@ -55,6 +75,13 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// This method decides for whom data is going, authorized or not authorized user
+        /// </summary>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="page"> Page iterator</param>
+        /// <param name="listId"> list of specialty Id's</param>
+        /// <returns> Collection of Specialties </returns>
         public IEnumerable<EPA.Common.DTO.Specialty> SelectSpecialties(string userId, int page, List<int> listId)
         {
             if (userId == string.Empty)
@@ -65,6 +92,14 @@ namespace EPA.MSSQL.SQLDataAccess
             return this.GetSpecialtyForAuthorized(userId, page, listId);
         }
 
+        /// <summary>
+        ///  This method retrieves list of specialties based on subjects
+        /// </summary>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="listSubjects"> List of chosen subjects </param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <param name="page"> Page iterator</param>
+        /// <returns> Collection of Specialties </returns>
         public IEnumerable<EPA.Common.DTO.Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page)
         {
             IEnumerable<EPA.Common.DTO.Specialty> result;
@@ -91,6 +126,12 @@ namespace EPA.MSSQL.SQLDataAccess
             return result;
         }
 
+        /// <summary>
+        /// This method retrieves count of pages for specialties chosed by direction
+        /// </summary>
+        /// <param name="directionId"> Chosen general direction</param>
+        /// <param name="districtId"> Chosen district </param>
+        /// <returns>Count of pages</returns>
         public Count GetCountByDirection(int directionId, int districtId)
         {
             Count result = new Count();
@@ -115,10 +156,16 @@ namespace EPA.MSSQL.SQLDataAccess
                 result.AllElements = count;
             }
 
-            result.ForOnePage = constValues.Value.CountForPage;
+            result.ForOnePage = this.constValues.Value.CountForPage;
             return result;
         }
 
+        /// <summary>
+        /// This method retrieves count of pages for specialties chosed by subjects
+        /// </summary>
+        /// <param name="listSubjects"> List of chosen subjects</param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <returns>Count of pages</returns>
         public Count GetCountBySubjects(List<int> listSubjects, int idDistrict)
         {
             Count result = new Count();
@@ -144,22 +191,22 @@ namespace EPA.MSSQL.SQLDataAccess
                 result.AllElements = count;
             }
 
-            result.ForOnePage = constValues.Value.CountForPage;
+            result.ForOnePage = this.constValues.Value.CountForPage;
             return result;
         }
 
         /// <summary>
-        /// Returns specialties of current university and direction
+        /// This method retrieves specialties for chosen university and direction
         /// </summary>
-        /// <param name="universityId">University Id</param>
-        /// <param name="directionId">Direction Id</param>
-        /// <returns>Collection of universities</returns>
+        /// <param name="universityId">Chosen university</param>
+        /// <param name="directionId">Chosen direction</param>
+        /// <returns>Collection of specialties</returns>
         public IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId)
         {
             IEnumerable<Specialty> need = from s in this.context.Specialties
                                           join u in this.context.Universities on s.University.Id equals u.Id
-                                          where s.University.Id == universityId && s.Direction.GeneralDirection.Id   == directionId
-                                          orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
+                                          where s.University.Id == universityId && s.Direction.GeneralDirection.Id == directionId
+                                          orderby this.ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
                                           select new Specialty()
                                           {
                                               Id = s.Id,
@@ -175,6 +222,12 @@ namespace EPA.MSSQL.SQLDataAccess
             return need;
         }
 
+        /// <summary>
+        /// This method retrieves list of specialties based on list of specialty Id's for unathorized users
+        /// </summary>
+        /// <param name="page"> Page iterator</param>
+        /// <param name="listId"> list of specialty Id's</param>
+        /// <returns> Collection of Specialties </returns>
         private IEnumerable<Common.DTO.Specialty> GetSpecialty(int page, List<int> listId)
         {
             return (from s in this.context.Specialties
@@ -194,12 +247,19 @@ namespace EPA.MSSQL.SQLDataAccess
                     }).Skip(page * this.constValues.Value.CountForPage).Take(this.constValues.Value.CountForPage);
         }
 
+        /// <summary>
+        /// This method retrieves list of specialties based on list of specialty Id's for authorized users
+        /// </summary>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="page"> Page iterator</param>
+        /// <param name="listId"> list of specialty Id's</param>
+        /// <returns> Collection of Specialties </returns>
         private IEnumerable<Common.DTO.Specialty> GetSpecialtyForAuthorized(string userId, int page, List<int> listId)
         {
             return (from s in this.context.Specialties
                     join u in this.context.Universities on s.University.Id equals u.Id
                     where listId.Contains(s.Id)
-                    orderby ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
+                    orderby this.ratingProvider.GetRating(u.Rating, s.NumApplication, s.NumEnrolled) descending
                     select new Common.DTO.Specialty()
                     {
                         Id = s.Id,
@@ -211,10 +271,10 @@ namespace EPA.MSSQL.SQLDataAccess
                         Subjects = (from ss in this.context.Specialty_Subjects
                                     where ss.Specialty.Id == s.Id
                                     select ss.Subject.ToCommon()).ToList(),
-                        isFavorite = (from us in this.context.User_Specialty
+                        IsFavorite = (from us in this.context.User_Specialty
                                       where us.User.Id == userId && us.Specialty.Id == s.Id
                                       select us.Id).Any()
-                    }).Skip(page * constValues.Value.CountForPage).Take(constValues.Value.CountForPage).ToList();
+                    }).Skip(page * this.constValues.Value.CountForPage).Take(this.constValues.Value.CountForPage).ToList();
         }
     }
 }

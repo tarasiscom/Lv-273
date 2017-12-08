@@ -3,24 +3,23 @@
 namespace EPA.Common.DTO
 {
     /// <summary>
-    ///  Represents question to test
+    ///  This class describes question to the test
     /// </summary>
     public class Question
     {
         /// <summary>
-        /// ID of the question
+        /// Gets or sets Id of the question
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Text of the question
+        /// Gets or sets text of the question
         /// </summary>
         public string Text { get; set; }
 
         /// <summary>
-        /// Collection of answers related to this question
+        /// Gets or sets collection of answers related to this question
         /// </summary>
         public List<Answer> Answers { get; set; }
-        
     }
 }

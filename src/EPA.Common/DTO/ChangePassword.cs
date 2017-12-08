@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EPA.Common.DTO
+﻿namespace EPA.Common.DTO
 {
+    /// <summary>
+    /// This class describes password change fields
+    /// </summary>
     public class ChangePassword
     {
         /// <summary>
-        /// Property which contain old user password
+        /// Gets or sets old password
         /// </summary>
         public string OldPassword { get; set; }
 
         /// <summary>
-        /// Property which contain new user password
+        /// Gets or sets new password
         /// </summary>
         public string NewPassword { get; set; }
     }

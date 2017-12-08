@@ -4,60 +4,70 @@ using EPA.Common.DTO;
 namespace EPA.Common.Interfaces
 {
     /// <summary>
-    ///  This interface describes methods for getting Specialty and Direction related data
+    ///  This interface describes methods for getting specialty related data
     /// </summary>
     public interface ISpecialtyProvider
     {
         /// <summary>
-        ///  This method retrives list of all Subjects
+        ///  This method retrieves collection of all subjects
         /// </summary>
-        /// <returns>List of subjects</returns>
+        /// <returns>Collection of subjects</returns>
         IEnumerable<Subject> GetAllSubjects();
 
         /// <summary>
-        ///  This method retrives list of all Districts 
+        ///  This method retrieves collection of all districts
         /// </summary>
-        /// <returns>List of Districts</returns>
+        /// <returns>Collection of districts</returns>
         IEnumerable<District> GetAllDistricts();
 
         /// <summary>
-        /// This method retrives list of general directions
+        /// This method retrieves collection of general directions
         /// </summary>
-        /// <returns> List of general directions </returns>
+        /// <returns> Collection of general directions </returns>
         IEnumerable<GeneralDirection> GetGeneralDirections();
 
         /// <summary>
-        ///  This method retrieves information about specialties 
+        ///  This method retrieves list of specialties based on subjects
         /// </summary>
-        ///  <param name="listOfSubjects"> subjects for the ZNO </param>
-        ///  <returns> List of Specialties </returns>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="listSubjects"> List of chosen subjects </param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <param name="page"> Page iterator</param>
+        /// <returns> Collection of Specialties </returns>
         IEnumerable<Specialty> GetSpecialtyBySubjects(string userId, List<int> listSubjects, int idDistrict, int page);
 
         /// <summary>
-        /// This method retrives list of specialties according to general direction and district
+        /// This method retrieves list of specialties based on general direction
         /// </summary>
-        /// <param name="directionAndDistrictInfo"> Contains id of the general direction, district id, number of page and bumber of elements per page</param>
-        /// <returns> Limited list of specialties and count of all specialties </returns>
+        /// <param name="userId"> User's Id </param>
+        /// <param name="idDirection"> Chosen general direction</param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <param name="page"> Page iterator</param>
+        /// <returns> Collection of Specialties </returns>
         IEnumerable<Specialty> GetSpecialtiesByDirection(string userId, int idDirection, int idDistrict, int page);
 
         /// <summary>
-        /// 
+        /// This method retrieves count of pages for specialties chosed by direction
         /// </summary>
-        /// <returns></returns>
+        /// <param name="directionId"> Chosen general direction</param>
+        /// <param name="districtId"> Chosen district </param>
+        /// <returns>Count of pages</returns>
         Count GetCountByDirection(int directionId, int districtId);
 
         /// <summary>
-        /// 
+        /// This method retrieves count of pages for specialties chosed by subjects
         /// </summary>
-        /// <returns></returns>
+        /// <param name="listSubjects"> List of chosen subjects</param>
+        /// <param name="idDistrict"> Chosen district </param>
+        /// <returns>Count of pages</returns>
         Count GetCountBySubjects(List<int> listSubjects, int idDistrict);
 
         /// <summary>
-        /// Returns specialties of current university and direction
+        /// This method retrieves specialties for chosen university and direction
         /// </summary>
-        /// <param name="universityId">University Id</param>
-        /// <param name="directionId">Direction Id</param>
-        /// <returns>Collection of universities</returns>
+        /// <param name="universityId">Chosen university</param>
+        /// <param name="directionId">Chosen direction</param>
+        /// <returns>Collection of specialties</returns>
         IEnumerable<Specialty> GetSpecialtiesInUniversity(int universityId, int directionId);
     }
 }

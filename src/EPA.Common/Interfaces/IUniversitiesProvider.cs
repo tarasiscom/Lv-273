@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace EPA.Common.Interfaces
 {
     /// <summary>
-    /// Interface that contains methods for getting University and Logo of University related data
+    /// This interface describes methods for getting university related data
     /// </summary>
     public interface IUniversitiesProvider
     {
@@ -15,17 +15,17 @@ namespace EPA.Common.Interfaces
         IEnumerable<University> GetTopUniversities();
 
         /// <summary>
-        /// This method retrieves Logo of University by column LogoId from the table Universities
+        /// This method retrieves Logo of University
         /// </summary>
-        /// <param name="id">Id from table Logo_Universities</param>
-        /// <returns>logo of University</returns>
+        /// <param name="id">Selected university</param>
+        /// <returns>Logo of university</returns>
         byte[] GetLogoById(int id);
 
         /// <summary>
-        /// Retrieves all universities in current district
+        /// This method retrieves all universities in selected district
         /// </summary>
-        /// <param name="district">District Id</param>
-        /// <returns>List of universities</returns>
-        IEnumerable<University> GetAllUniversitiesInDistrict(int district);
+        /// <param name="districtId">Selected district</param>
+        /// <returns>Collection of universities</returns>
+        IEnumerable<University> GetAllUniversitiesInDistrict(int districtId);
     }
 }

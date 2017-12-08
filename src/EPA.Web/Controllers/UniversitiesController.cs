@@ -7,7 +7,7 @@ using System.Linq;
 namespace EPA.Web.Controllers
 {
     /// <summary>
-    ///  API for University draws
+    ///  API for University data draws
     /// </summary>
     public class UniversitiesController : Controller
     {
@@ -32,10 +32,10 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// This method returns image(logo) of University by id
+        /// This method returns image(logo) of specific university
         /// </summary>
-        /// <param name="id">Id of Logo from the table Logo_Universities</param>
-        /// <returns>Logo of University</returns>
+        /// <param name="id">Id of Logo</param>
+        /// <returns>Logo of university</returns>
         [Route("api/Universities/{id:int}/logo")]
         [HttpGet]
         public IActionResult Get(int id)
@@ -45,7 +45,7 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// Retrieves all universities in current district
+        /// Retrieves all universities in specific district
         /// </summary>
         /// <param name="district">District Id</param>
         /// <returns>List of universities</returns>
@@ -56,7 +56,7 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// Returns specialties of current university and direction
+        /// Returns specialties for specific university and direction
         /// </summary>
         /// <param name="universityId">University Id</param>
         /// <param name="directionId">Direction Id</param>

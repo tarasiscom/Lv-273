@@ -8,8 +8,7 @@ namespace EPA.MSSQL.Models
     {
         [Key]
         public int Id { get; set; }
-        
-        // foreign keys
+
         public District District { get; set; }
 
         public int? LogoId { get; set; }

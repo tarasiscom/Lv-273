@@ -6,12 +6,12 @@
     public class Test
     {
         /// <summary>
-        ///  ID of the test
+        ///  Gets or sets Id of the test
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        ///  Name of the test
+        ///  Gets or sets name of the test
         /// </summary>
         public string Name { get; set; }
     }

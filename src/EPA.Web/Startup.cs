@@ -3,7 +3,6 @@ using EPA.Common.Interfaces;
 using EPA.MSSQL;
 using EPA.MSSQL.Models;
 using EPA.MSSQL.SQLDataAccess;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,8 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EPA.Web
@@ -32,6 +29,7 @@ namespace EPA.Web
 
             if (env.IsDevelopment())
             {
+                // setting up user secrets
                 builder.AddUserSecrets<Startup>();
             }
 
@@ -45,6 +43,8 @@ namespace EPA.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // setting up DI with Identity
             services.AddTransient<EpaContext>();
             services.AddTransient<IUserInformationProvider, UserInformationProvider>();
             services.AddTransient<ITestProvider, ProfTestInfoProvider>();
@@ -62,16 +62,17 @@ namespace EPA.Web
                 .AddEntityFrameworkStores<EpaContext>()
                 .AddDefaultTokenProviders();
 
+            // setting up authorization cookies
             services.ConfigureApplicationCookie(options =>
             {
-                // Cookie settings
-                options.CookieName = "Authorization";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.Expiration = System.TimeSpan.FromDays(150);
-                options.LoginPath = "/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-                options.LogoutPath = "/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-                options.AccessDeniedPath = "/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.AccessDeniedPath = "/AccessDenied";
                 options.SlidingExpiration = true;
+
+                // getting rid of 302 redirects
                 options.Events = new CookieAuthenticationEvents()
                 {
                     OnRedirectToLogin = (ctx) =>
@@ -81,7 +82,9 @@ namespace EPA.Web
                             ctx.Response.StatusCode = 401;
                         }
                         else
+                        {
                             ctx.Response.Redirect(ctx.RedirectUri);
+                        }
 
                         return Task.CompletedTask;
                     },
@@ -92,7 +95,10 @@ namespace EPA.Web
                             ctx.Response.StatusCode = 403;
                         }
                         else
+                        {
                             ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+
                         return Task.CompletedTask;
                     }
                 };
@@ -102,6 +108,7 @@ namespace EPA.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // setting up webpack and hot module replacement
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -116,9 +123,11 @@ namespace EPA.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // setting up authorization
             app.UseAuthentication();
-            
             app.UseStaticFiles();
+
+            // setting up routes
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -126,6 +135,7 @@ namespace EPA.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            // setting up no 200 status error page on api calls
             app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             {
                 builder.UseMvc(routes =>
@@ -135,6 +145,8 @@ namespace EPA.Web
                         defaults: new { controller = "Home", action = "Index" });
                 });
             });
+
+            // setting up mapping
             Mapping.Create();
         }
     }

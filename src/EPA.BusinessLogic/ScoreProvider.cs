@@ -14,7 +14,7 @@ namespace EPA.BusinessLogic
             this.testProvider = testProvider;
         }
 
-        public List<DirectionScores> CalculateScores (List<UserAnswer> userAnswers)
+        public List<DirectionScores> CalculateScores(List<UserAnswer> userAnswers)
         {
             if (userAnswers != null)
             {

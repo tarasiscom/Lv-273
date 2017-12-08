@@ -23,9 +23,9 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// This method retrieve Users Favorite Specialties for page
+        /// This method retrieve user's favorite specialties
         /// </summary>
-        /// <param name="page"> Page </param>
+        /// <param name="page">Page iterator</param>
         /// <returns>List of Specialties</returns>
         [Route("api/User/FavoriteSpecialties/{page:int}")]
         [HttpGet]
@@ -36,27 +36,16 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// This Method retrives authorized User Id
-        /// </summary>
-        /// <param name="principal"> This is ClaimPrincipal</param>
-        /// <returns>User Id</returns>
-        private string GetUserId(ClaimsPrincipal principal)
-        {
-            return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-        }
-
-        /// <summary>
-        /// This method retrieves count of users favorite specialties
+        /// This method retrieves count of user's favorite specialties
         /// </summary>
         /// <returns>Count</returns>
-        [Authorize]
         [Route("api/User/GetSpecialtiesCount")]
         public Count GetSpecialtiesCount() => this.userInformationProvider.CountOfFavoriteSpecialtys(this.GetUserId(this.User));
 
         /// <summary>
-        /// This method retrieves Users Personal Information
+        /// This method retrieves user's personal information
         /// </summary>
-        /// <returns> UserPersonalInfo </returns>
+        /// <returns> User personal information </returns>
         [Route("api/User/GetUserPersonalInformation")]
         public UserPersonalInfo GetUserPersonalInfo()
         {
@@ -64,6 +53,10 @@ namespace EPA.Web.Controllers
             return this.userInformationProvider.GetPersonalInfo(userId);
         }
 
+        /// <summary>
+        /// This method returns a list of test for which we have saved results
+        /// </summary>
+        /// <returns> Collection of tests </returns>
         [Route("api/User/GetTestResults")]
         [HttpGet]
         public IEnumerable<Test> GetTestResults()
@@ -72,6 +65,11 @@ namespace EPA.Web.Controllers
             return this.userInformationProvider.GetTestResults(userId);
         }
 
+        /// <summary>
+        /// This method returns test results for a specific test and user
+        /// </summary>
+        /// <param name="id">Selected test</param>
+        /// <returns> Test Results for a selected tests</returns>
         [Route("api/User/GetTestResult/{id:int}")]
         [HttpGet]
         public IEnumerable<DirectionScores> GetTestResult(int id)
@@ -80,6 +78,11 @@ namespace EPA.Web.Controllers
             return this.userInformationProvider.GetTestResult(id, userId);
         }
 
+        /// <summary>
+        /// This method adds selected specialty to favorites
+        /// </summary>
+        /// <param name="id">Specialty Id </param>
+        /// <returns> Logical flag that represents operation status</returns>
         [Route("api/User/AddToFav/{id:int}")]
         [HttpGet]
         public bool AddToFavorite(int id)
@@ -87,11 +90,26 @@ namespace EPA.Web.Controllers
             return this.userInformationProvider.AddSpecialtyToFavorite(this.GetUserId(this.User), id);
         }
 
+        /// <summary>
+        /// This method removes specialty from favorites
+        /// </summary>
+        /// <param name="id">Specialty Id</param>
+        /// <returns> Logical flag that represents operation status</returns>
         [Route("api/User/RemoveFromFav/{id:int}")]
         [HttpGet]
         public bool RemoveFromFavorite(int id)
         {
             return this.userInformationProvider.RemoveSpecialtyFromFavorite(this.GetUserId(this.User), id);
+        }
+
+        /// <summary>
+        /// This method gives user Id.
+        /// </summary>
+        /// <param name="principal">Claim Principal</param>
+        /// <returns>User ID</returns>
+        private string GetUserId(ClaimsPrincipal principal)
+        {
+            return principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
     }
 }

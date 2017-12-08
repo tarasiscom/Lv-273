@@ -1,17 +1,17 @@
 ﻿namespace EPA.Common.DTO
 {
     /// <summary>
-    /// Represent score of direction based on user answers
+    /// This class describes score of direction based on user answers
     /// </summary>
     public class DirectionScores
     {
         /// <summary>
-        ///  Describes general directions 
+        ///  Gets or sets general direction
         /// </summary>
         public GeneralDirection GeneralDir { get; set; }
 
         /// <summary>
-        /// Score of direction
+        /// Gets or sets score for the direction
         /// </summary>
         public int Score { get; set; }
     }
