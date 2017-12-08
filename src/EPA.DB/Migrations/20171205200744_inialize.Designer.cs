@@ -11,8 +11,8 @@ using System;
 namespace EPA.MSSQL.Migrations
 {
     [DbContext(typeof(EpaContext))]
-    [Migration("20171204091648_Try")]
-    partial class Try
+    [Migration("20171205200744_inialize")]
+    partial class inialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,6 +181,44 @@ namespace EPA.MSSQL.Migrations
                     b.ToTable("Tests");
                 });
 
+            modelBuilder.Entity("EPA.MSSQL.Models.TestResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("TestDetailedInfoId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestDetailedInfoId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TestResult");
+                });
+
+            modelBuilder.Entity("EPA.MSSQL.Models.TestScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GeneralDirectionId");
+
+                    b.Property<int>("Score");
+
+                    b.Property<int?>("TestResultId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GeneralDirectionId");
+
+                    b.HasIndex("TestResultId");
+
+                    b.ToTable("TestScore");
+                });
+
             modelBuilder.Entity("EPA.MSSQL.Models.University", b =>
                 {
                     b.Property<int>("Id")
@@ -215,7 +253,7 @@ namespace EPA.MSSQL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int?>("DistrictId");
+                    b.Property<int>("DistrictId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -433,6 +471,29 @@ namespace EPA.MSSQL.Migrations
                         .HasForeignKey("SubjectId");
                 });
 
+            modelBuilder.Entity("EPA.MSSQL.Models.TestResult", b =>
+                {
+                    b.HasOne("EPA.MSSQL.Models.TestDetailedInfo", "TestDetailedInfo")
+                        .WithMany()
+                        .HasForeignKey("TestDetailedInfoId");
+
+                    b.HasOne("EPA.MSSQL.Models.User", "User")
+                        .WithMany("TestResult")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EPA.MSSQL.Models.TestScore", b =>
+                {
+                    b.HasOne("EPA.MSSQL.Models.GeneralDirection", "GeneralDirection")
+                        .WithMany("TestScore")
+                        .HasForeignKey("GeneralDirectionId");
+
+                    b.HasOne("EPA.MSSQL.Models.TestResult", "TestResult")
+                        .WithMany("TestScore")
+                        .HasForeignKey("TestResultId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("EPA.MSSQL.Models.University", b =>
                 {
                     b.HasOne("EPA.MSSQL.Models.District", "District")
@@ -444,7 +505,8 @@ namespace EPA.MSSQL.Migrations
                 {
                     b.HasOne("EPA.MSSQL.Models.District", "District")
                         .WithMany("User")
-                        .HasForeignKey("DistrictId");
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EPA.MSSQL.Models.User_Specialty", b =>
