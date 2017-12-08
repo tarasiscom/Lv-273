@@ -47,11 +47,13 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
         let password = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$");
        
         if (!email.test(this.state.email)) {
-            this.setState({ msg: "Електрнна пошта повинна містити символ @" });
+            this.setState({ msg: "Електронна пошта повинна містити символ @" });
             return;
         }
         if (!password.test(this.state.password)) {
-            this.setState({ msg: "Пароль введено невірно. Пароль повинен  містити цифру, велику і малу латинські літери та мати довжину більше 5 символів" });
+            this.setState({
+                msg: "Пароль введено невірно. Пароль повинен  містити цифру," +
+                     "велику і малу латинські літери та мати довжину більше 5 символів" });
             return;
         }
         else {
@@ -63,11 +65,13 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
         return <div className="registration">
             <div>
                 <div className="input-group">
-                    <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required
+                    <input type="email" name="email" className="form-control"
+                        id="inputEmail" placeholder="Email" required
                         onChange={(event) => this.setState({ email: event.target.value })}></input>
                 </div>
                 <div className="input-group">
-                    <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control" id="inputPassword" placeholder="Пароль" required
+                    <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$" className="form-control"
+                        id="inputPassword" placeholder="Пароль" required
                         onChange={(event) => this.setState({ password: event.target.value })}></input>
                 </div>
                 <div className="form-group userSubmit">

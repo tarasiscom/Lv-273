@@ -1,65 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using Parsing.DataClasses;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 
 namespace Parsing
 {
-    interface IParser
+    public class Parser : IParser
     {
-        void ChangeUrl(string url);
-        HtmlNodeCollection RetreiveNodes(string xPath);
-        HtmlNode RetreiveNode(string xPath);
-        //HtmlNode RetreiveNode(HtmlNode univNode, string xPath);
-        District GetDistrict(int ID, string districtName);
-
-        University GetUniversityInfo(int id, int districtID, string name, string adress, string webSite);
-        //IEnumerable<Faculty> RetreiveFaculties(string url, string xPath);
-        IEnumerable<Speciality> GetSpecialityInfo(IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields);
-
-        string Url { get;  set; }
-        
-    }
-
-    interface IErrorsLog
-    {
-        void StartLog();
-        void EndLog();
-    }
-
-    class Parser :IParser
-    {
-
+        private static int idSpeciality = 1;
+        private static int idDirection = 1;
+        private static int idSubject = 1;
+        private static int idSpecSub = 1;
+        private string district;
+        private HtmlNode universityNode;
+        //private string year = "/2017";
+        private string indexPage;
+        private int universityID = 1;
+        private int districtID = 1;
         private string url;
+        private Dictionary<string, string> nodesXPaths;
+        private HtmlNodeCollection specialitiesNodes;
+        private HtmlNodeCollection universitiesNodes;
+        private HtmlNodeCollection districtNodes;
 
-        public string Url
+        public List<Direction> Directions { get; private set; }
+
+        public List<Speciality> Specialities { get; private set; }
+
+        public List<University> Universities { get; private set; }
+
+        public List<Subject> Subjects { get; private set; }
+
+        public List<SpecSub> SpecSubs { get; private set; }
+
+        public List<District> Districts { get; private set; }
+
+        public Parser(Dictionary<string, string> specFields)
         {
-            get { return url; }
-            set { url = value; }
+            this.nodesXPaths = specFields;
+            indexPage = nodesXPaths["URL"];
+            url = indexPage;
+            this.Directions = new List<Direction>();
+            this.Specialities = new List<Speciality>();
+            this.Universities = new List<University>();
+            this.Subjects = new List<Subject>();
+            this.SpecSubs = new List<SpecSub>();
+            this.Districts = new List<District>();
         }
 
-        HtmlNodeCollection nodes;
-
-        public Parser(string url)
+        private void ChangeUrl(string url)
         {
             this.url = url;
         }
 
-        public void ChangeUrl(string url)
-        {
-            this.url = url; 
-        }
-
-        public District GetDistrict(int ID, string districtName)
-        {
-            return new District(ID, districtName);
-        }
-
-        public string GetDocument()
+        private string GetDocument()
         {
             WebRequest request = WebRequest.Create(url);
             request.Method = "GET";
@@ -76,125 +72,262 @@ namespace Parsing
             }
         }
 
-        public HtmlNodeCollection RetreiveNodes(string xPath)
+        private HtmlNodeCollection RetreiveNodes(string xPath)
+        {
+            HtmlDocument doc = LoadHtmlDocument();
+            return doc.DocumentNode.SelectNodes(xPath);
+        }
+
+        private HtmlNode RetreiveNode(string xPath)
+        {
+            HtmlDocument doc = LoadHtmlDocument();
+            return doc.DocumentNode.SelectSingleNode(xPath);
+        }
+
+        private HtmlDocument LoadHtmlDocument()
         {
             HtmlDocument doc = new HtmlDocument();
-
             doc.LoadHtml(GetDocument());
-            nodes = doc.DocumentNode.SelectNodes(xPath);
-            return nodes;
+            return doc;
         }
- 
 
-        
-        //404 not found
-        public static bool IsAvailable(string url)
+        private bool IsExistDirectionAndSpeciality(HtmlNode node, Dictionary<string, string> specFields)
         {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    return true;
-                }
-            }
-
-            catch (WebException ex)
-            {
-                using (StreamWriter sw = new StreamWriter("errorlog.txt", true) )
-                {
-                    sw.WriteLine(String.Format("date:{0}; time{1}; error:{2} - {3} ",
-                                                DateTime.Now.Date, DateTime.Now.TimeOfDay,  url, (((HttpWebResponse)ex.Response).StatusCode)));
-                    sw.WriteLine();
-                }
+            if ((node.SelectSingleNode(specFields["SpecDirectionNode"]) == null) || (node.SelectSingleNode(specFields["SpecSpecNode"]) == null))
                 return false;
+            return true;
+        }
+
+        private string GetClearNameSpeciality(string nameSpeciality)
+        {
+            int counter = 0;
+            for (int i = 0; i < nameSpeciality.Length; i++)
+            {
+                if (int.TryParse(nameSpeciality[i].ToString(), out int trash) || nameSpeciality[i] == '.')
+                {
+                    counter++;
+                }
+                else
+                {
+                    break;
+                }
             }
+
+            if (counter > 0)
+            {
+                nameSpeciality = nameSpeciality.Remove(0, counter).TrimStart(' ');
+            }
+
+            return nameSpeciality;
         }
 
-        public University GetUniversityInfo(int id, int districtID, string name, string adress, string webSite)
+
+        private bool IsDirectionAlreadyExists(string nameDirection)
         {
-            University university = new University(id, districtID, name, adress, webSite);
-            return university;
+            if (Directions.Exists((direction) => direction.Name == nameDirection))
+                return true;
+            return false;
         }
 
-        public HtmlNode RetreiveNode(string xPath)
+        private string AddSpecialityIfNotExist(int idDirection, int idUniv, string nameSpeciality, string namePrevSpeciality, int applicationsAmount, int enrolledAmount, HtmlNode node)
         {
-            HtmlDocument doc = new HtmlDocument();
-
-            doc.LoadHtml(GetDocument());
-            HtmlNode node = doc.DocumentNode.SelectSingleNode(xPath);
-            return node;
+            if (nameSpeciality != namePrevSpeciality)
+            {
+                Specialities.Add(new Speciality(idSpeciality, idDirection, idUniv, ToUpper(nameSpeciality), applicationsAmount, enrolledAmount));
+                AddSpecSub(node.SelectSingleNode(nodesXPaths["SubjectNode"]).InnerText);
+                idSpeciality++;
+                namePrevSpeciality = nameSpeciality;
+            }
+            return namePrevSpeciality;
         }
 
-        //public HtmlNode RetreiveNode(HtmlNode node, string xPath)
-        //{
-        //    return node.SelectSingleNode(xPath);
-        //}
-
-        public IEnumerable<Speciality> GetSpecialityInfo(IEnumerable<HtmlNode> nodes, Dictionary<string,string> specFields)
+        private void GetInfo(int idDistrict, int idUniv, string district, HtmlNode univNode, IEnumerable<HtmlNode> nodes, Dictionary<string, string> specFields)
         {
-            List<Speciality> specialities = new List<Speciality>();
+            this.nodesXPaths = specFields;
+            string namePrevDirection = string.Empty;
+            string namePrevSpeciality = string.Empty;
+            string nameDirection;
+            string nameSpeciality;
+
+            int applicationsAmount;
+            int enrolledAmount;
+
+            if (!Districts.Exists((dist) => dist.Name == district))
+            {
+                Districts.Add(new District(idDistrict, district));
+            }
+
+            //some universities has other paths to nodes
+            if (univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText.Contains("</td>"))
+            {
+                Universities.Add(new University(idUniv, idDistrict, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText,
+                                                univNode.SelectSingleNode(specFields["UniversitiesAdressNode2"]).InnerText,
+                                                GetSiteWithoutHttp(univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode2"]).InnerText)));
+            }
+            else
+            {
+                Universities.Add(new University(idUniv, idDistrict, univNode.SelectSingleNode(specFields["UniversitiesNamesNode"]).InnerText,
+                                               univNode.SelectSingleNode(specFields["UniversitiesAdressNode"]).InnerText,
+                                               GetSiteWithoutHttp(univNode.SelectSingleNode(specFields["UniversitiesWebSitesNode"]).InnerText)));
+            }
 
             foreach (HtmlNode node in nodes)
             {
-                //some fields on website are empty
-                string name,m1,m2;
-                if (node.SelectSingleNode(specFields["SpecDirectionNodes"]) != null)
-                    name = node.SelectSingleNode(specFields["SpecDirectionNodes"]).InnerText;
-                else
-                    name = "NULL";
-
-                if (node.SelectSingleNode(specFields["SpecSpecNode"]) != null)
-                    m1 = node.SelectSingleNode(specFields["SpecSpecNode"]).InnerText;
-                else
-                    m1 = "NULL";
-
-                if (node.SelectSingleNode(specFields["SpecFacNode"]) == null)
-                    m2 = "NULL";
-                else
-                    m2 = node.SelectSingleNode(specFields["SpecFacNode"]).InnerText;
-
-                specialities.Add(new Speciality()
+                if(!IsPzso(node, specFields) || !IsExistDirectionAndSpeciality(node, specFields))
                 {
-                   Name = name,
-                   AvgPoints = m1,
-                   MinPoints = m2
+                    continue;
                 }
-                    );
-               
- 
+
+                nameSpeciality = GetClearNameSpeciality(node.SelectSingleNode(specFields["SpecSpecNode"]).InnerText);
+                nameDirection = node.SelectSingleNode(specFields["SpecDirectionNode"]).InnerText;
+                if (node.SelectSingleNode(specFields["SpecApplicationsNode"]) != null && node.SelectSingleNode(specFields["SpecEnrolledNode"]) != null)
+                {
+                    applicationsAmount = GetAmount(node.SelectSingleNode(specFields["SpecApplicationsNode"]).InnerText);
+                    enrolledAmount = GetAmount(node.SelectSingleNode(specFields["SpecEnrolledNode"]).InnerText);
+                }
+                else
+                {
+                    applicationsAmount = 0;
+                    enrolledAmount = -1;
+                }
+
+                if (!IsDirectionAlreadyExists(nameDirection))
+                {
+                    Directions.Add(new Direction(idDirection, nameDirection));
+                    namePrevSpeciality = AddSpecialityIfNotExist(idDirection, idUniv, nameSpeciality, namePrevSpeciality, applicationsAmount, enrolledAmount, node);
+                    idDirection++;
+                }
+                else
+                {
+                    namePrevSpeciality = AddSpecialityIfNotExist(Directions.Find((direction) => direction.Name == nameDirection).ID, 
+                                                                 idUniv, nameSpeciality, namePrevSpeciality, applicationsAmount, enrolledAmount, node);
+                }
             }
-             return specialities;           
         }
 
-     
-    }
-
-    class ErrorsLog: IErrorsLog
-    {
-        DateTime start;
-        DateTime end;
-
-        public void StartLog()
+        private string GetSiteWithoutHttp(string site)
         {
-            start = DateTime.Now;
-            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
+            if (site.Contains("http://") || site.Contains("https://"))
+                return site;
+            if (site.Contains("http//"))
+                return site.Replace("http//", "http://");                  
+            if (site.Contains("http:/"))
+                return site.Replace("http:/", "http://");
+            if (site.Contains("http:"))
+                return site.Replace("http:", "http://");
+            //if (int.TryParse(site.TrimStart('(').Remove(1), out int i))
+            //    return site;
+            return site.Insert(0, "http://");
+        }
+
+        private string ToUpper(string name) => name[0].ToString().ToUpper() + name.Remove(0, 1);
+
+        //повна загальна середня освіта
+        private bool IsPzso(HtmlNode node, Dictionary<string, string> specFields)
+        {
+            if (node.SelectSingleNode(specFields["SpecPZSONode"]) != null && node.SelectSingleNode(specFields["SpecPZSONode"]).InnerText == "ПЗСО")
+                return true;
+            return false;
+        }
+
+        private int GetAmount(string amountString)
+        {
+            if (int.TryParse(amountString.Replace("заяв:&nbsp;", "").Replace("зарах.:",""), out int amount))
+                return amount;
+            return -1;
+        }
+
+        private void AddSpecSub(string subjectsList)
+        {
+            string[] subjects = GetSubjects(subjectsList);
+            for (int i = 0; i < subjects.Length; i++)
             {
-                sw.WriteLine(String.Format("Parsing started at . . . date:{0}; time{1};",
-                                            DateTime.Now.Date, DateTime.Now.TimeOfDay));
-                sw.WriteLine();
+                if (subjects[i] != null && subjects[i].StartsWith("бо"))
+                    subjects[i] = subjects[i].Remove(0, 3);
+            }
+
+            for (int i = 0; i < subjects.Length; i++)
+            {
+                if (subjects[i] != null)
+                {
+                    if (!Subjects.Exists((sub) => sub.Name == subjects[i]))
+                    {
+                        Subjects.Add(new Subject(idSubject, subjects[i]));
+                        SpecSubs.Add(new SpecSub(idSpecSub, idSpeciality, idSubject));
+                        idSubject++;
+                    }
+
+                    else
+                    {
+                        SpecSubs.Add(new SpecSub(idSpecSub, idSpeciality, Subjects.Find((sub) => sub.Name == subjects[i]).ID));
+                    }
+                    idSpecSub++;
+                }
             }
         }
 
-        public void EndLog()
+        private string[] GetSubjects(string subjectsHtml)
         {
-            end = DateTime.Now;
-            using (StreamWriter sw = new StreamWriter("errorlog.txt", true))
+            string[] sub = subjectsHtml.Split('(', ')');
+            string[] subNames = new string[sub.Length / 2];
+            for (int i = 0; i < subNames.Length; i++)
             {
-                sw.WriteLine(String.Format("Parsing completed at . . . date:{0}; time{1};",
-                                            end.Date, end.TimeOfDay));
-                //sw.WriteLine("Parsing duration: {0}:{1}:{2}");
+                if(sub[2 * i] != " ")
+                    subNames[i] = sub[2 * i].Remove(0,2);
             }
-        }        
+            return subNames;
+        }
+
+        private void ParseSpecialities()
+        {
+            specialitiesNodes = RetreiveNodes(nodesXPaths["SpecialitiesNodes"]);
+
+            if (specialitiesNodes != null)
+            {
+                GetInfo(districtID, universityID, district, universityNode, specialitiesNodes, nodesXPaths);
+            }
+        }
+
+        private void ParseUniverities()
+        {
+            universitiesNodes = RetreiveNodes(nodesXPaths["UniversitiesTypesNode"]);
+
+            if (universitiesNodes != null)
+            {
+                foreach (HtmlNode univ in universitiesNodes)
+                {
+                    //some university links return 404 code
+                    if (ErrorsLog.IsAvailable(indexPage + "/" + DateTime.Now.Year.ToString() + univ.Attributes["href"].Value.Remove(0, 1)))
+                    {
+                        ChangeUrl(indexPage + "/" + DateTime.Now.Year.ToString() + univ.Attributes["href"].Value.Remove(0, 1));
+                        universityNode = RetreiveNode(nodesXPaths["UniversitiesNode"]);
+                        ParseSpecialities();
+                    }
+                    universityID++;
+                    Console.WriteLine(universityID);
+                }
+            }
+        }
+
+        public string StartParsing()
+        {           
+            districtNodes = RetreiveNodes(nodesXPaths["DistrictsNode"]);
+            foreach (HtmlNode node in districtNodes)
+            {
+                district = node.InnerText;
+                if (district == "Вінницька область")
+                {
+                if (node.InnerText != string.Empty)
+                {
+                    ChangeUrl(indexPage + node.Attributes["href"].Value);
+                    ParseUniverities();
+                    return String.Format("District {0}", district);
+                }
+                }
+                
+                districtID++;
+            }
+            return String.Format("Parsing completed");
+        }
     }
 }

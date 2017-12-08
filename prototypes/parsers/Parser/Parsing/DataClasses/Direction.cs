@@ -1,8 +1,8 @@
 ﻿namespace Parsing.DataClasses
 {
-    public class District
+    public class Direction
     {
-        public District(int id, string name)
+        public Direction(int id, string name)
         {
             this.ID = id;
             this.Name = name;

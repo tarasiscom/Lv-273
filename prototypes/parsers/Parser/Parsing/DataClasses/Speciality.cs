@@ -1,31 +1,27 @@
 ﻿namespace Parsing.DataClasses
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    class Speciality
+    public class Speciality
     {
-        public Speciality()
+        public Speciality(int id, int directionID, int universityID, string name, int applicationsAmount, int enrolledAmount)
         {
- 
+            this.ID = id;
+            this.DirectionID = directionID;
+            this.UniversityID = universityID;
+            this.Name = name;
+            this.ApplicationsAmount = applicationsAmount;
+            this.EnrolledAmount = enrolledAmount;
         }
 
-        public int ID { get; set; }
+        public int ID { get; }
 
-        public int FacultyID { get; set; }
+        public int UniversityID { get; }
 
-        public int DirectionID { get; set; }
+        public int DirectionID { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public string MinPoints { get; set; }
+        public int ApplicationsAmount { get; }
 
-        public string AvgPoints { get; set; }
-
-        public int BudgetPlaces { get; set; }
-
-        public int ContractPlaces { get; set; }
+        public int EnrolledAmount { get;  }
     }
 }
