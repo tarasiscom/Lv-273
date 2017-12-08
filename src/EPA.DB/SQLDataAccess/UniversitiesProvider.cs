@@ -24,7 +24,7 @@ namespace EPA.MSSQL.SQLDataAccess
         /// This method retrieves collection of top universities from database
         /// </summary>
         /// <returns>Collection of top universities</returns>
-        public IEnumerable<Common.DTO.University> GetTopUniversities()
+        public IEnumerable<University> GetTopUniversities()
         {
             IQueryable<University> universities = this.context.Universities.
                 OrderBy(x => x.Rating).

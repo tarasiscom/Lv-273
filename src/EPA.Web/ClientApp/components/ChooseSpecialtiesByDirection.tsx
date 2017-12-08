@@ -140,19 +140,9 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
     }
 
     private renderListSpecialies() {
-        let tabbord;
-
-        if (this.state.count.allElements == 0) {
-            tabbord = <div>
-                <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
-            </div>
-        }
-        else {
-            tabbord = <ListSpecialties specialties={this.state.specialties} />
-        }
-        let pagin;
+        let pagination;
         if (this.state.count.allElements > 10) {
-            pagin = <ReactPaginate
+            pagination = <ReactPaginate
                 previousLabel={"Попередня"}
                 nextLabel={"Наступна"}
                 breakLabel={<a>...</a>}
@@ -160,17 +150,25 @@ export class ChooseSpecialtiesByDirection extends React.Component<RouteComponent
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={this.handlePageClick}
-                containerClassName={"pagination"}                
+                containerClassName={"pagination"}
                 subContainerClassName={"pages pagination"}
                 selected={0}
                 activeClassName={"active"} />
         }
-
+        let itemSpecialty;
+        if (this.state.count.allElements == 0) {
+            itemSpecialty = <div>
+                <h1>По даному запиту нічого не знайдено змініть вибрані галузь або область.</h1>
+            </div>
+        }
+        else {
+            itemSpecialty = <ListSpecialties specialties={this.state.specialties} />
+        }
         return <div className="container">
             <div className="col-md-10 col-md-offset-1">
-                {tabbord}
+                {itemSpecialty}
                 <div className="pageBar">
-                    {pagin}
+                    {pagination}
                 </div>
             </div>
         </div>

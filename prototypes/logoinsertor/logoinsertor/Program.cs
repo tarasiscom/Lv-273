@@ -12,12 +12,12 @@ namespace logoinsertor
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             SqlConnection sqlConnection = new SqlConnection("Server=tcp:epadb.database.windows.net,1433;Initial Catalog=Lv-273.Net.Epa;Persist Security Info=False;User ID=Lv273Net;Password=!netLv273;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-            string input = "D:\\knu.jpg";
+            string input = "F:\\knu.jpg";
             byte[] readText = File.ReadAllBytes(input);
             
             //used stored procedure from database for SqlCommand
-            SqlCommand sqlCommand = new SqlCommand("Logo_Universities_INS", sqlConnection);
-            sqlCommand.CommandType = CommandType.StoredProcedure;
+            SqlCommand sqlCommand = new SqlCommand("INSERT INTO Logo_Universities(Logo) VALUES(@logo)", sqlConnection);
+            //sqlCommand.CommandType = CommandType.StoredProcedure;
             var logoParam = new SqlParameter("logo", SqlDbType.VarBinary);
             logoParam.Value = readText;
             sqlCommand.Parameters.Add(logoParam);

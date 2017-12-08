@@ -21,7 +21,7 @@ namespace EPA.Web.Controllers
         }
 
         /// <summary>
-        /// This mehod retrives list of top universities
+        /// This method retrives list of top universities
         /// </summary>
         /// <returns>List of top universities</returns>
         [Route("api/Universities/getTopUniversities")]
