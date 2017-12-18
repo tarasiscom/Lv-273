@@ -60,7 +60,7 @@ export class Login extends React.Component<RouteComponentProps<{}> & ErrorHandle
     }
 
     render() {
-        return <div className="registration">
+        return <div className="registration pad-for-footer">
             <div>
                 <div className="input-group">
                     <input type="email" name="email" className="form-control" id="inputEmail" placeholder="Email" required

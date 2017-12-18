@@ -89,7 +89,7 @@ export class Registration extends React.Component<RouteComponentProps<{}> & Erro
 
 
     render() {
-        return <div className="registration">
+        return <div className="registration pad-for-footer">
             <div>
                 <div className="input-group">
                     <input type="text" name="lastName" pattern="^([^\u0000-\u007F]|[ -]|[A-Za-z])+$" className="form-control" placeholder="Прізвище" required
