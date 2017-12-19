@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}>
 {
-    
+
     renderSelect() {
         return <div>
             <div className="card col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4  col-xs-8 col-xs-offset-2 pad-for-nav">
@@ -38,7 +38,7 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
     }
     public render() {
         let content = this.renderSelect();
-        return <div className=" col-md-12">
+        return <div className="pad-for-footer col-md-12">
             {content}
         </div>
     }
