@@ -21,7 +21,7 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
                 </div>
 
             </div>
-            <div className="card col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4 col-xs-8 col-xs-offset-2 pad-for-nav">
+            <div className="card col-md-offset-2  col-md-3 col-sm-offset-1 col-sm-4 col-xs-8 col-xs-offset-2 pad-for-nav pad-for-footer">
                 <img className="card-img-top" src="/pictures/bysub.jpg" alt="Card image cap" width="100%" ></img>
                 <div className="card-content">
                     <h4 className="card-title">Пошук cпеціальності за предметами</h4>
@@ -38,7 +38,7 @@ export class ChooseSpecialty extends React.Component<RouteComponentProps<{}>, {}
     }
     public render() {
         let content = this.renderSelect();
-        return <div className="pad-for-footer col-md-12">
+        return <div className="pad-for-footer col-md-12 col-xs-12">
             {content}
         </div>
     }
